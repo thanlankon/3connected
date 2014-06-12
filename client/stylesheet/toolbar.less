@@ -1,0 +1,138 @@
+.form .toolbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 30px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #eee;
+
+  ul, li {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  a, span {
+    display: inline-block;
+
+    font-size: 13px;
+    text-transform: uppercase;
+
+    color: #555;
+    height: 30px;
+    line-height: 30px;
+
+    padding: 0px 10px;
+  }
+
+  li {
+    float: left;
+
+    &.right {
+      float: right;
+    }
+
+    &:hover {
+      background-color: #eee !important;
+    }
+
+    &:active {
+      background-color: #ddd !important;
+    }
+
+    &.disabled {
+      a {
+        color: #ccc;
+
+        cursor: default;
+      }
+
+      &:hover, &:active {
+        background-color: #fff !important;
+      }
+    }
+  }
+
+  li.icon {
+    a, span {
+      padding-left: 30px;
+    }
+
+    background: 8px center no-repeat;
+
+    &.back {
+      width: 30px;
+      height: 30px;
+
+      background-position: center center;
+
+      background-image: url("@{url-img}/common/back.png");
+    }
+
+    &.info {
+      background-image: url("@{url-img}/common/info.png");
+    }
+
+    &.create {
+      background-image: url("@{url-img}/common/create.png");
+    }
+
+    &.view {
+      background-image: url("@{url-img}/common/view.png");
+    }
+
+    &.edit {
+      background-image: url("@{url-img}/common/edit.png");
+    }
+
+    &.delete {
+      background-image: url("@{url-img}/common/delete.png");
+    }
+  }
+}
+
+//.toolbar {
+//  padding: 5px;
+//
+//  .button {
+//    background: 5px center no-repeat;
+//
+//    padding: 0;
+//    margin: 0;
+//
+//    display: inline-block;
+//    border: 1px solid #0068A3;
+//
+//    color: #000;
+//  }
+//
+//  .large {
+//    padding-left: 30px;
+//    padding-right: 7px;
+//
+//    margin-right: 5px;
+//
+//    height: 40px;
+//    line-height: 40px;
+//
+//    background-size: 20px 20px;
+//  }
+//
+//  .icon-add {
+//    background-image: url("/resource/resource/img/icon/toolbar/add-large.png");
+//  }
+//
+//  .icon-edit {
+//    background-image: url("/resource/resource/img/icon/toolbar/edit-large.png");
+//  }
+//
+//  .icon-delete {
+//    background-image: url("/resource/resource/img/icon/toolbar/delete-large.png");
+//  }
+//}

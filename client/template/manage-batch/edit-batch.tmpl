@@ -1,0 +1,26 @@
+<template id="dialog.manage-batch.edit-batch">
+
+  {{dialog.size width="500px" height="200px"}}
+
+  <div class="header">
+    {{lang "batch.edit"}} <b>{{original.batchName}}</b>
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "batch.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="batchName"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

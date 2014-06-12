@@ -1,0 +1,18 @@
+{
+  "name": "3connected",
+  "title": "3connected - Comminucation System for Schools",
+  "description": "Comminucation System for Schools",
+  "homepage": "https://github.com/thanlankon/3connected",
+  "version": "1.0.0",
+  "author": "Group 5 - FUDN Capstone Project",
+  "license": "",
+  "dependencies": {
+    "express": "^4.2.0",
+    "handlebars": "^2.0.0-alpha.2",
+    "minimatch": "^0.3.0",
+    "sequelize": "^1.7.5",
+    "mysql": "^2.3.0",
+    "underscore": "^1.6.0",
+    "body-parser": "^1.3.0"
+  }
+}

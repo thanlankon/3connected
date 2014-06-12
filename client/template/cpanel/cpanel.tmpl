@@ -1,0 +1,53 @@
+<template id="cpanel">
+
+  <div id="cpanel" class="cpanel">
+
+    <div class="header">
+
+      <div class="left-section">
+        <span class="app-logo"></span>
+        <span class="app-name">3connected</span>
+
+        <div class="expander" id="expander">
+          <ul class="navigator" id="navigator">
+            {{partial id="cpanel.workspace-list.all"}}
+          </ul>
+        </div>
+
+        <span class="location" id="location">Quản lý điểm danh</span>
+      </div>
+
+      <div class="right-section">
+        <span class="username">Nguyễn Đức Trọng (TrongNDSE90050)</span>
+        <a href="#" class="sign-out">{{lang "logout"}}</a>
+      </div>
+
+      <span class="title">
+        {{lang 'app.title'}}
+      </span>
+    </div>
+
+    <div id="forms" class="forms">
+    </div>
+
+  </div>
+
+</template>
+
+<template id="cpanel.workspace-list.all">
+
+  <li>
+    <a href="#">Quản lý điểm</a>
+  </li>
+  <li class="devider"></li>
+  <li>
+    <a href="{{url module="manage-student"}}">Quản lý học sinh</a>
+  </li>
+  <li>
+    <a href="#">Quản lý lớp học</a>
+  </li>
+  <li class="devider"></li>
+  <li>
+    <a href="{{url module="manage-batch"}}">Quản lý khóa học</a>
+  </li>
+</template>

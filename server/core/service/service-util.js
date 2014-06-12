@@ -1,0 +1,262 @@
+define('core.service.ServiceUtil', function (module, require) {
+
+  var Util = require('core.util.Util');
+
+  var ServiceUtil = module.exports = {};
+
+  // build find options from query
+  ServiceUtil.buildFindOptions = function (data) {
+
+    var page = null;
+    if (data.pageSize) {
+      page = {
+        size: data.pageSize,
+        index: data.pageIndex || 0
+      };
+    }
+
+    var sort = null;
+    if (data.sortField) {
+      sort = {
+        field: data.sortField,
+        order: data.sortOrder ? data.sortOrder.toUpperCase() : 'ASC'
+      };
+    }
+
+    var filters = data.filters || null;
+
+    var options = {};
+
+    if (page) {
+      options.page = page;
+    }
+
+    if (sort) {
+      options.sort = sort;
+    }
+
+    if (filters) {
+      options.filters = filters;
+    }
+
+    return options;
+
+  };
+
+  // send service response
+  ServiceUtil.sendServiceResponse = function (res, error, message, data) {
+
+    var responeData = {
+      _service: {}
+    };
+
+    if (error) {
+      responeData._service.error = error;
+
+      if (!message) {
+        responeData._service.message = 'error.service.unknown';
+      }
+    }
+
+    if (message) {
+      responeData._service.message = message;
+    }
+
+    responeData.data = data;
+
+    res.send(responeData);
+
+  };
+
+  // findAll method
+  ServiceUtil.doFindAll = function (req, res, Model, findAllConfig) {
+
+    var findOptions = ServiceUtil.buildFindOptions(req.query);
+
+    if (findAllConfig.buildFindOptions) {
+      var buildFindOptions = findAllConfig.buildFindOptions(findOptions);
+
+      if (buildFindOptions) {
+        findOptions = buildFindOptions;
+      }
+    }
+
+    Model.findAll(findOptions, function (error, findResult) {
+      if (error) {
+        var message = 'error.find-all.unknown';
+      } else {
+        var message = null;
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message, findResult);
+    });
+
+  };
+
+  // findOne method
+  ServiceUtil.doFindOne = function (req, res, Model, findOneConfig) {
+
+    var idAttribute = findOneConfig.idAttribute || 'id';
+    var entityId = req.query[idAttribute];
+
+    var findOptions = {
+      id: entityId
+    };
+
+    if (findOneConfig.buildFindOptions) {
+      var buildFindOptions = findOneConfig.buildFindOptions(findOptions);
+
+      if (buildFindOptions) {
+        findOptions = buildFindOptions;
+      }
+    }
+
+    var findMessage = findOneConfig.message || {
+      notFound: 'entity.find.notFound'
+    };
+
+    Model.findOne(findOptions, function (error, findResult, isNotFound) {
+      if (error) {
+        var message = 'error.find-one.unknown';
+      } else {
+        var message = null;
+
+        if (isNotFound === true) {
+          error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+
+          message = findMessage.notFound;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message, findResult);
+    });
+
+  };
+
+  // create method
+  ServiceUtil.doCreate = function (req, res, Model, createConfig) {
+
+    var attributes = createConfig.attributes || undefined;
+    var checkDuplicatedAttributes = createConfig.checkDuplicatedAttributes || undefined;
+    var createMessage = createConfig.message || {
+      duplicated: 'entity.create.duplicated',
+      success: 'entity.create.success'
+    };
+
+    var entityData = attributes ?
+      Util.Object.pick(req.body, attributes) : req.body;
+    var checkDuplicatedData = checkDuplicatedAttributes ?
+      Util.Object.pick(req.body, checkDuplicatedAttributes) : undefined;
+
+    Model.create(entityData, checkDuplicatedData, function (error, createdEntity, isDuplicated) {
+      if (error) {
+        var message = 'error.create.unknown';
+      } else {
+        var message = createMessage.success;
+
+        if (isDuplicated === true) {
+          error = {
+            code: 'ENTITY.DUPLICATE'
+          };
+
+          message = createMessage.duplicated;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message, createdEntity);
+    });
+  };
+
+  // update method
+  ServiceUtil.doUpdate = function (req, res, Model, updateConfig) {
+
+    var idAttribute = updateConfig.idAttribute || 'id';
+
+    var attributes = updateConfig.attributes || undefined;
+    var checkExistanceAttributes = updateConfig.checkExistanceAttributes || undefined;
+    var checkDuplicatedAttributes = updateConfig.checkDuplicatedAttributes || undefined;
+    var updateMessage = updateConfig.message || {
+      notFound: 'entity.update.notFound',
+      success: 'entity.update.success'
+    };
+
+    var entityData = attributes ?
+      Util.Object.pick(req.body, attributes) : req.body;
+    var checkDuplicatedData = checkDuplicatedAttributes ?
+      Util.Object.pick(req.body, checkDuplicatedAttributes) : undefined;
+    var checkExistanceData = checkExistanceAttributes ?
+      Util.Object.pick(req.body, checkExistanceAttributes) : undefined;
+
+    checkDuplicatedData[idAttribute] = {
+      ne: req.body[idAttribute]
+    };
+
+    Model.update(entityData, checkDuplicatedData, checkExistanceData,
+      function (error, updatedEntity, isDuplicated, isNotFound) {
+        if (error) {
+          var message = 'error.update.unknown';
+        } else {
+          var message = updateMessage.success;
+
+          if (isDuplicated === true) {
+            error = {
+              code: 'ENTITY.DUPLICATE'
+            };
+
+            message = updateMessage.duplicated;
+          } else if (isNotFound === true) {
+            error = {
+              code: 'ENTITY.NOT_FOUND'
+            };
+
+            message = updateMessage.notFound;
+          }
+        }
+
+        console.log(message, error);
+
+        ServiceUtil.sendServiceResponse(res, error, message, updatedEntity);
+      });
+  };
+
+  // create method
+  ServiceUtil.doDestroy = function (req, res, Model, destroyConfig) {
+
+    var idAttribute = destroyConfig.idAttribute || 'id';
+    var entityIds = req.body[idAttribute];
+
+    if (!Util.Object.isArray(entityIds)) {
+      entityIds = [entityIds];
+    }
+
+    var destroyMessage = destroyConfig.message || {
+      incomplete: 'entity.destroy.incomplete',
+      success: 'entity.destroy.success'
+    };
+
+    Model.destroy(idAttribute, entityIds, function (error, affectedRows) {
+      if (error) {
+        var message = 'error.destroy.unknown';
+      } else {
+        var message = destroyMessage.success;
+
+        if (affectedRows !== entityIds.length) {
+          error = {
+            code: 'ENTITY.DELETE_INCOMPLETED'
+          };
+
+          message = destroyMessage.incomplete;
+        }
+
+        var data = {
+          destroyedItems: affectedRows
+        };
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message, data);
+    });
+  };
+
+});

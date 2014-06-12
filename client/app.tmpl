@@ -1,0 +1,28 @@
+<html>
+  <head>
+    {{stylesheets}}
+  </head>
+
+  <body>
+
+    <div id="app">
+    </div>
+
+    {{langs '__Langs'}}
+
+    {{scripts}}
+
+    <script type="text/javascript">
+
+      define.main(function(require) {
+
+        var CpanelComponent = require('component.Cpanel');
+
+        var cpanel = CpanelComponent.newInstance('#app');
+
+      });
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,146 @@
+.cpanel {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  position: relative;
+  overflow: hidden;
+
+  .forms {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 40px;
+    bottom: 0px;
+
+    overflow: hidden;
+
+    .form {
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+      display: none;
+
+      position: relative;
+
+      .content {
+        position: absolute;
+
+        left: 0px;
+        right: 0px;
+        top: 31px;
+        bottom: 0px;
+      }
+    }
+  }
+}
+
+.dialog {
+  border: 1px solid #2b579a;
+  box-shadow: 0 0 6px 1px rgba(172, 181, 194, 0.56);
+
+
+  .header {
+    background: #fff;
+
+    padding-top: 15px;
+    padding-left: 20px;
+
+    position: relative;
+
+    font-size: 15px;
+
+    border: none;
+
+    .jqx-icon-close {
+      position: absolute;
+
+      border: 1px solid #fff;
+
+      top: -5px;
+      right: 0px;
+
+      &:hover {
+        border-color: #a3bde3;
+        background-color: #d5e1f2;
+      }
+    }
+  }
+
+  .body {
+    padding-top: 15px;
+    padding-left: 20px;
+    border: none;
+
+    position: relative;
+
+    .top {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 60px;
+    }
+
+    .bottom, .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 60px;
+
+      padding: 20px 20px 0px 20px;
+      box-sizing: border-box;
+
+      .button {
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+
+        padding: 0px 20px;
+        min-width: 30px;
+
+        text-align: center;
+
+        float: right;
+        margin-left: 20px;
+
+        cursor: pointer;
+
+        border: 1px solid #2b579a;
+
+        transition: border-color 0.1s, background-color 0.1s;
+
+        &:hover {
+          background-color: #d5e1f2;
+          color: #000;
+        }
+      }
+
+      .cancel, .left {
+        float: left;
+        margin-right: 20px;
+        margin-left: 0px;
+      }
+
+      .cancel, .light {
+        border-color: #ccc;
+
+        &:hover {
+          border-color: #888;
+          background-color: #fff;
+        }
+      }
+    }
+
+    .content {
+      box-sizing: border-box;
+      padding: 20px;
+    }
+
+    .panel {
+      border: none;
+    }
+  }
+}

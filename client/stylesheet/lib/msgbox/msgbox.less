@@ -1,0 +1,88 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+
+  text-align: center;
+  z-index: 1000000;
+
+  background-color: rgba(255, 255, 255, 0.8);
+
+  visibility: hidden;
+}
+
+.msgbox {
+  border: 1px solid #2b579a;
+  box-shadow: 0 0 6px 1px rgba(172, 181, 194, 0.56);
+
+  padding-bottom: 40px;
+
+  background-color: #fff;
+  display: inline-block;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 250px;
+  max-width: 500px;
+  min-height: 90px;
+  z-index: 2000;
+
+  .content {
+    padding: 30px 20px 30px;
+    word-wrap: break-word;
+    text-align: justify;
+    font-size: 13px;
+
+    color: #555;
+  }
+
+  .buttons {
+    position: absolute;
+    bottom: 0px;
+    padding: 10px 0px;
+
+    width: 100%;
+    height: 25px;
+  }
+
+  .button {
+    display: inline-block;
+    height: 25px;
+    line-height: 23px;
+
+    border: 1px solid #888;
+    background-color: #fff;
+
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+
+    transition: border-color 0.3s;
+}
+
+  .button.cancel {
+    float: left;
+    margin-left: 20px;
+
+    width: 70px;
+    text-align: center;
+  }
+
+  .button.ok {
+    float: right;
+    margin-right: 20px;
+
+    width: 70px;
+    text-align: left;
+    padding-left: 35px;
+    background-image: url('img/check.png');
+    background-repeat: no-repeat;
+    background-position: 10px 8px;
+  }
+}

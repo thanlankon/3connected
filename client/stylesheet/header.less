@@ -1,0 +1,193 @@
+@header-bg: #2b579a;
+
+.cpanel .header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40px;
+
+  background-color: @header-bg;
+
+  div, span, a, ul, li {
+    padding: 0;
+    margin: 0;
+  }
+
+  .left-section {
+    float: left;
+    height: 100%;
+
+    padding: 0px;
+    margin: 0px;
+
+    span {
+      display: inline-block;
+    }
+
+    box-sizing: border-box;
+
+    .app-logo {
+      background: center center no-repeat;
+      background-image: url("@{url-img}/logo/logo.png");
+
+      width: 40px;
+      height: 40px;
+
+      margin-left: 5px;
+
+      float: left;
+    }
+
+    .app-name {
+      color: #eee;
+      text-shadow: 1px 1px 1px @header-bg;
+      font-size: 17px;
+
+      margin-left: 10px;
+      margin-top: 10px;
+
+      height: 20px;
+      line-height: 20px;
+
+      float: left;
+
+      padding-right: 10px;
+      border-right: solid 1px #ddd;
+    }
+
+    .location {
+      margin-left: 5px;
+
+      display: inline-block;
+      font-size: 12px;
+
+      height: 40px;
+      line-height: 40px;
+
+      color: #fff;
+    }
+
+    .expander {
+      display: inline-block;
+
+      width: 30px;
+      height: 40px;
+
+      box-sizing: border-box;
+
+      background: center center no-repeat;
+      background-image: url("@{url-img}/common/expander.png");
+
+      &:hover {
+        background-color: #19478a;
+      }
+
+      &:active, &.active {
+        background-color: #16407e;
+      }
+
+      float: left;
+      position: relative;
+
+
+      // disable select
+      -webkit-user-select: none;
+    }
+
+    ul.navigator {
+      display: none;
+
+      list-style: none;
+      position: absolute;
+      z-index: 10000;
+
+      background: #fff;
+
+      border: 2px solid @header-bg;
+      //box-shadow: 0 0 3px 0px #2b579a;
+      border-top: none;
+
+      min-width: 300px;
+
+      top: 40px;
+      left: 1px;
+
+      a {
+        display: inline-block;
+        box-sizing: border-box;
+
+        color: #666;
+
+        font-size: 12px;
+        line-height: 40px;
+
+        padding-left: 10px;
+
+        width: 100%;
+
+        &:hover {
+          background-color: #eee;
+        }
+      }
+
+      li.devider {
+        border-top: 1px solid @header-bg;
+      }
+    }
+  }
+
+  .title {
+    float: right;
+
+    color: #eee;
+    text-shadow: 1px 1px 1px @header-bg;
+    font-size: 13px;
+
+    margin-right: 20px;
+    line-height: 40px;
+
+    b {
+      text-shadow: 2px 2px 2px @header-bg;
+      font-size: 12px;
+    }
+  }
+
+  .right-section {
+    float: right;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px 15px 0px 15px;
+
+    font-size: 12px;
+
+    background-color: #efefef;
+
+    span, a {
+      display: inline-block;
+      line-height: 16px;
+    }
+
+    .username {
+      padding-right: 15px;
+      border-right: solid 1px #555;
+
+      color: #333;
+    }
+
+    .sign-out {
+      padding-left: 35px;
+
+      color: #333;
+
+      background: 10px center no-repeat;
+      background-image: url("@{url-img}/common/signout.png");
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

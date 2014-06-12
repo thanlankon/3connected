@@ -1,0 +1,16 @@
+app.title = Communication System for Schools - <b>FPT University DaNang</b>
+
+logout = Signout
+profile = Profile
+
+create = Create
+edit = Edit
+update = Update
+
+cancel = Cancel
+
+entity.delete.confirm = Delete {{totalItems}} choosen items?
+
+error.service.unknown = Error during performing action!
+error.create.unknown = Error during creation!
+error.update.unknown = Error during updating!
