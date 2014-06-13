@@ -1,0 +1,21 @@
+term.id = Term Id
+term.name = Term Name
+
+term.create = Create Term
+term.view = View Term Details
+term.edit = Edit Term
+term.delete = Delete Termes
+
+term.name.required = Term Name is required
+
+term.find.notFound = Term is not found
+
+term.create.duplicated = Term <b>{{termName}}</b> already exists.
+term.create.success = Term <b>{{termName}}</b> is created successfully
+
+term.update.notFound = {{.term.find.notFound}}
+term.update.duplicated = {{.term.create.duplicated}}
+term.update.success = Term is updated successfully
+
+term.destroy.incomplete = Error! Deletion is not completed
+term.destroy.success = The Termes is deleted successfully

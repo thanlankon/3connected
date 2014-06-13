@@ -1,0 +1,26 @@
+<template id="dialog.manage-term.create-term">
+
+  {{dialog.size width="500px" height="200px"}}
+
+  <div class="header">
+    {{lang "term.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "term.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="termName"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

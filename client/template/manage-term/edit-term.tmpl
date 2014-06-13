@@ -1,0 +1,26 @@
+<template id="dialog.manage-term.edit-term">
+
+  {{dialog.size width="500px" height="200px"}}
+
+  <div class="header">
+    {{lang "term.edit"}} <b>{{original.termName}}</b>
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "term.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="termName"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

@@ -14,3 +14,7 @@ entity.delete.confirm = Delete {{totalItems}} choosen items?
 error.service.unknown = Error during performing action!
 error.create.unknown = Error during creation!
 error.update.unknown = Error during updating!
+
+
+manage.batch = Manage batches
+manage.term = Manage terms

@@ -1,0 +1,30 @@
+<template id="form.manage-term.list-term">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-role="create-button">
+        <a href="{{url module="manage-term" action="create"}}">{{lang "term.create"}}</a>
+      </li>
+      <li class="icon edit" data-role="edit-button">
+        <a href="{{url module="manage-term" action="edit"}}">{{lang "term.edit"}}</a>
+      </li>
+      <li class="icon delete" data-role="delete-button">
+        <a href="#">{{lang "term.delete"}}</a>
+      </li>
+
+      <li class="icon info right">
+        <a href="#">{{lang "profile"}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-terms" data-role="grid"></div>
+
+  </div>
+
+</template>

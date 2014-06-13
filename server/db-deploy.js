@@ -12,6 +12,7 @@ define('db.Deploy', function (module, require) {
     var queryChainer = Entity.queryChainer();
 
     seedBatch(queryChainer);
+    seedTerm(queryChainer);
 
     queryChainer
       .runSerially()
@@ -38,6 +39,18 @@ define('db.Deploy', function (module, require) {
         .add(
           Batch.create({
             batchName: 'Khóa ' + i + ' C'
+          }))
+    }
+  }
+
+  function seedTerm(queryChainer) {
+    var Term = require('model.entity.Term');
+
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Term.create({
+            termName: 'Spring ' + i
           }))
     }
   }
