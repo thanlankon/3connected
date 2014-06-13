@@ -13,15 +13,14 @@ define.entity('model.entity.Batch', function (entity, DataType, require) {
   };
 
   entity.config = {
-    table: 'Batch',
-    paranoid: true
+    table: 'Batch'
   };
 
   entity.associate = function () {
 
-    //    this.hasMany('model.entity.Class', {
-    //      as: 'classes'
-    //    });
+    this.hasMany('model.entity.Class', {
+      as: 'classes'
+    });
 
   };
 

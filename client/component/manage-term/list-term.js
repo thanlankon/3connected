@@ -1,4 +1,4 @@
-define.form('component.form.manage-term.TermBatch', function (form, require, Util, Lang) {
+define.form('component.form.manage-term.ListTerm', function (form, require, Util, Lang) {
 
   form.urlMap = {
     url: ':module',
@@ -13,54 +13,29 @@ define.form('component.form.manage-term.TermBatch', function (form, require, Uti
 
   form.tmpl = 'form.manage-term.list-term';
 
-  form.formType = form.FormType.FORM;
+  form.formType = form.FormType.Form.LIST;
 
-  form.refreshData = function () {
-    if (this.gridTerms) {
-      this.gridTerms.refreshData();
-    }
-  };
-
-  form.ready = function () {
-
-    var GridComponent = require('component.common.Grid');
-
-    var source = {
-      url: 'api/term/findAll',
-
-      id: 'termId',
-
-      dataFields: [{
-          name: 'termId',
-          type: 'number'
-        },
-        {
-          name: 'termName',
-          type: 'string'
-      }]
-    };
+  // grid config
+  form.gridConfig = function () {
 
     var gridColumns = [{
-        text: Lang.get('term.id'),
-        dataField: 'termId',
+      text: Lang.get('term.id'),
+      dataField: 'termId',
 
-        cellsAlign: 'right',
-        filterType: 'textbox',
+      cellsAlign: 'right',
+      filterType: 'textbox',
 
-        width: 150,
-      },
-      {
-        text: Lang.get('term.name'),
-        dataField: 'termName',
+      width: 150,
+    }, {
+      text: Lang.get('term.name'),
+      dataField: 'termName',
     }];
 
-    this.gridTerms = new GridComponent(this.element.find('#grid-terms'), {
-      source: source,
-      grid: {
-        columns: gridColumns,
-        multiSelection: true
-      }
-    });
+    var gridConfig = {
+      columns: gridColumns
+    };
+
+    return gridConfig;
 
   };
 

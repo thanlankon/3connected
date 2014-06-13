@@ -16,6 +16,8 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   component.showForm = function (params) {
     this.element.find('.content .error').remove();
 
+    this.resizeComponents();
+
     if (this.refreshData) {
       this.refreshData(params)
     }
@@ -43,7 +45,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
         var entity = serviceResponse.getData();
 
-        entity.original = Util.Object.clone(entity);
+        entity.originalData = Util.Object.clone(entity);
 
         this.data.attr(entity);
 
@@ -87,7 +89,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       this.size = Util.Object.extend(this.size || {}, sizeElement.data());
     }
 
-    this.initProxy();
+    //    this.initProxy();
 
     // setup dialog
     this.initDialog();
@@ -123,7 +125,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       this.element.find('.panel').jqxPanel({
         sizeMode: 'fixed',
         autoUpdate: true,
-        scrollBarSize: 12
+        scrollBarSize: 5
       });
 
       this.on();
@@ -145,6 +147,20 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       width: '100%',
       height: '100%',
     });
+
+    this.resizeComponents();
+  };
+
+  component.resizeComponents = function () {
+    //    console.log(this.element.find('.content [data-component-role=combobox]').size());
+    //
+    //    this.element.find('.content [data-component-role=combobox]')
+    //      .jqxComboBox({
+    //        width: '0px'
+    //      })
+    //      .jqxComboBox({
+    //        width: '100%'
+    //      });
   };
 
   component.validateData = function () {
@@ -161,6 +177,8 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
     // remove all available error messages
     this.element.find('.content .error').remove();
+
+    this.resizeComponents();
 
     if (validate.isValid) {
       // submit data to server
@@ -186,22 +204,29 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
       this.element.find('.panel').jqxPanel('scrollTo', 0, parentElement.position().top - 30);
 
-      errorElement.on('click', function () {
-        errorElement.fadeOut(100, function () {
+      this.resizeComponents();
+
+      errorElement.on('click', this.proxy(function () {
+        errorElement.fadeOut(100, this.proxy(function () {
           errorElement.remove();
-        });
-      });
+
+          this.resizeComponents();
+        }));
+      }));
     }
   };
 
   component.submitData = function () {
     var entity = this.data.attr();
 
-    entity = Util.Object.omit(entity, 'original');
+    entity = Util.Object.omit(entity, ['originalData', 'componentSettings']);
 
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.ServiceProxy.create(entity, this.proxy(createDone));
-    } else if (this.formType == this.FormType.Dialog.EDIT) {
+    } else if (
+      this.formType == this.FormType.Dialog.VIEW ||
+      this.formType == this.FormType.Dialog.EDIT
+    ) {
       this.ServiceProxy.update(entity, this.proxy(updateDone));
     }
 
@@ -216,7 +241,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
         this.hideForm();
       }
     }
-  }
+  };
 
   component.events['{window} resize'] = function (element, event) {
     this.resizeDialog();

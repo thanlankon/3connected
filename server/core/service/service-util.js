@@ -79,6 +79,8 @@ define('core.service.ServiceUtil', function (module, require) {
       if (buildFindOptions) {
         findOptions = buildFindOptions;
       }
+
+      doIncludes(findOptions);
     }
 
     Model.findAll(findOptions, function (error, findResult) {
@@ -90,6 +92,16 @@ define('core.service.ServiceUtil', function (module, require) {
 
       ServiceUtil.sendServiceResponse(res, error, message, findResult);
     });
+
+    function doIncludes(findOptions) {
+      if (findOptions.include) {
+        for (var i = 0, len = findOptions.include.length; i < len; i++) {
+          findOptions.include[i].model = findOptions.include[i].model.Entity;
+
+          doIncludes(findOptions.include[i]);
+        }
+      }
+    }
 
   };
 

@@ -8,15 +8,19 @@ define.form = function (id, definer) {
     component.FormType = {
       FORM: 1,
       DIALOG: 2,
+      Form: {
+        LIST: 11
+      },
       Dialog: {
-        CREATE: 3,
-        EDIT: 4
+        VIEW: 21,
+        CREATE: 22,
+        EDIT: 23
       }
     };
 
     definer(component, require, Util, Lang);
 
-    if (component.formType == component.FormType.FORM) {
+    if (component.formType == component.FormType.FORM || component.formType == component.FormType.Form.LIST) {
       component.base = 'component.Form';
 
       component.isDialog = component.static.isDialog = false;
@@ -27,11 +31,11 @@ define.form = function (id, definer) {
     }
 
     // require proxy
-    if (component.proxyMap) {
-      component.initProxy = function () {
-        this.ServiceProxy = require(this.proxyMap.proxy);
-      }
-    }
+    //    if (component.proxyMap) {
+    //      component.initProxy = function () {
+    //        this.ServiceProxy = require(this.proxyMap.proxy);
+    //      }
+    //    }
 
     if (!component.urlMap) return;
 

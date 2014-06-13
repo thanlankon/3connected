@@ -1,4 +1,4 @@
-define('core.view.helpers.InputComponentHelper', function (module, require) {
+define('core.view.helpers.component.InputHelper', function (module, require) {
 
   var View = require('core.view.View');
   var jQuery = require('lib.jQuery');
@@ -14,15 +14,13 @@ define('core.view.helpers.InputComponentHelper', function (module, require) {
     var data = this;
 
     return function (element) {
+
       element = jQuery(element);
 
-      var input = jQuery('<input />').attr('data-attribute', attribute).appendTo(element);
-
-      data.bind('change', function (ev, attr, how, newVal, oldVal) {
-        if (attr == attribute) {
-          input.val(newVal);
-        }
-      });
+      var input = jQuery('<input />')
+        .attr('data-attribute', attribute)
+        .attr('data-component-role', 'input')
+        .appendTo(element);
 
       var inputOptions = {
         width: '100%',
@@ -33,9 +31,18 @@ define('core.view.helpers.InputComponentHelper', function (module, require) {
 
       input.jqxInput(inputOptions);
 
+      // tracking changes of input
       input.on('change', function () {
         data.attr(attribute, input.val());
       });
+
+      // tracking changes of data
+      data.bind('change', function (ev, attr, how, newVal, oldVal) {
+        if (attr == attribute) {
+          input.val(newVal);
+        }
+      });
+
     };
 
   }

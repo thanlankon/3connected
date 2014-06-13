@@ -8,9 +8,7 @@ define.form('component.dialog.manage-term.EditTerm', function (form, require, Ut
     }
   };
 
-  form.proxyMap = {
-    proxy: 'proxy.Term'
-  };
+  form.ServiceProxy = require('proxy.Term');
 
   form.formType = form.FormType.Dialog.EDIT;
 

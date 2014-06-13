@@ -14,6 +14,8 @@ define('db.Deploy', function (module, require) {
     seedBatch(queryChainer);
     seedTerm(queryChainer);
 
+    seedClass(queryChainer);
+
     queryChainer
       .runSerially()
       .success(function () {
@@ -58,15 +60,19 @@ define('db.Deploy', function (module, require) {
   function seedClass(queryChainer) {
     var Class = require('model.entity.Class');
 
-    queryChainer
-      .add(
-        Class.create({
-          className: 'SE0601'
-        }))
-      .add(
-        Class.create({
-          className: 'PC910'
-        }))
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Class.create({
+            className: 'SE' + i,
+            batchId: 1
+          }))
+        .add(
+          Class.create({
+            className: 'PC' + i,
+            batchId: 2
+          }))
+    }
   }
 
   function deploySchema(callback) {

@@ -12,6 +12,11 @@ define.component('component.Form', function (component, require, Util, Lang) {
     if (this.refreshData) {
       this.refreshData(data)
     }
+
+    // for form list
+    if (this.formType == this.FormType.Form.LIST) {
+      this.refreshGrid();
+    }
   };
 
   component.hideForm = function () {
@@ -25,9 +30,16 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
     this.element = formElement;
 
-    this.initProxy();
+    //    this.initProxy();
 
     this.initForm();
+
+    // for form list
+    if (this.formType == this.FormType.Form.LIST) {
+      if (this.initGrid) {
+        this.initGrid();
+      }
+    }
   };
 
   component.initForm = function () {};
@@ -72,11 +84,31 @@ define.component('component.Form', function (component, require, Util, Lang) {
     }
 
     function destroyDone(serviceResponse) {
-      var grid = this.element.find('[data-role=grid]').data('grid-component');
-      grid.refreshData();
-      grid.clearSelection();
+      this.refreshGrid();
     }
   };
 
+  component.initGrid = function () {
+
+    var GridComponent = require('component.common.Grid');
+
+    var gridConfig = this.gridConfig;
+
+    if (Util.Object.isFunction(this.gridConfig)) {
+      gridConfig = this.gridConfig();
+    }
+
+    this.grid = new GridComponent(this.element.find('[data-role=grid]'), {
+      ServiceProxy: this.ServiceProxy,
+      grid: gridConfig
+    });
+
+  };
+
+  component.refreshGrid = function () {
+    if (this.grid) {
+      this.grid.refreshData();
+    }
+  }
 
 });

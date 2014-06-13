@@ -1,6 +1,6 @@
 define.entity('model.entity.Student', function (entity, DataType, require) {
 
-  entity.id = {
+  entity.studentId = {
     type: DataType.INTEGER,
     autoIncrement: true,
     primaryKey: true
@@ -22,13 +22,11 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
     allowNull: false,
 
     references: 'Class',
-    referencesKey: 'id'
+    referencesKey: 'classId'
   };
 
   entity.config = {
-    table: 'Student',
-
-    paranoid: true
+    table: 'Student'
   };
 
   entity.associate = function () {

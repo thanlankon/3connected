@@ -1,6 +1,6 @@
 define.entity('model.entity.Class', function (entity, DataType, require) {
 
-  entity.id = {
+  entity.classId = {
     type: DataType.INTEGER,
     autoIncrement: true,
     primaryKey: true
@@ -11,13 +11,22 @@ define.entity('model.entity.Class', function (entity, DataType, require) {
     allowNull: false
   };
 
+  entity.batchId = {
+    type: DataType.INTEGER,
+    allowNull: false,
+
+    // reference to Batch
+    references: 'Batch',
+    referencesKey: 'batchId'
+  };
+
   entity.config = {
     table: 'Class'
   }
 
   entity.associate = function () {
-    this.hasMany('model.entity.Student', {
-      as: 'students'
+    this.belongsTo('model.entity.Batch', {
+      as: 'batch'
     });
   }
 

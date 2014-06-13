@@ -45,6 +45,8 @@ define('core.proxy.Proxy', function (module, require) {
   }
 
   ProxyMethod.prototype.doRequest = function (requestData, callback) {
+    console.log('do request', requestData);
+
     jQuery.ajax({
       type: this.httpMethod,
       url: this.url,
@@ -61,7 +63,9 @@ define('core.proxy.Proxy', function (module, require) {
   };
 
   // global ajax error handler
-  jQuery(document).ajaxError(function () {
+  jQuery(document).ajaxError(function (error) {
+    console.log(error);
+
     alert('ajax error');
   });
 

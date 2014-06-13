@@ -1,0 +1,33 @@
+<template id="dialog.manage-class.create-class">
+
+  {{dialog.size width="500px" height="255px"}}
+
+  <div class="header">
+    {{lang "class.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "class.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="className"}}
+    </div>
+
+    <div class="label">
+      {{lang "class.batch"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="batchId" settings="componentSettings.batch"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

@@ -18,3 +18,4 @@ error.update.unknown = Error during updating!
 
 manage.batch = Manage batches
 manage.term = Manage terms
+manage.class = Manage classes

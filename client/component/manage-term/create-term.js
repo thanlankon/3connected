@@ -8,9 +8,7 @@ define.form('component.dialog.manage-term.CreateTerm', function (form, require, 
     }
   };
 
-  form.proxyMap = {
-    proxy: 'proxy.Term'
-  };
+  form.ServiceProxy = require('proxy.Term');
 
   form.formType = form.FormType.Dialog.CREATE;
 
@@ -36,13 +34,5 @@ define.form('component.dialog.manage-term.CreateTerm', function (form, require, 
   form.ready = function () {
     // init form components and bind events
   };
-
-  //  form.refreshData = function () {
-  //    // refresh data each time form is displayed
-  //
-  //    this.data.attr({
-  //      batchName: null
-  //    });
-  //  }
 
 });

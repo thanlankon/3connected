@@ -10,7 +10,7 @@ define('core.model.ModelUtil', function (module, require) {
     var page = options.page;
     var sort = options.sort;
     var attributes = options.attributes;
-    var includes = options.includes;
+    var include = options.include;
 
     var findOptions = {};
 
@@ -43,7 +43,7 @@ define('core.model.ModelUtil', function (module, require) {
       }
     }
 
-    findOptions.include = includes;
+    findOptions.include = include;
 
     Entity.findAndCountAll(findOptions)
       .success(function (result) {

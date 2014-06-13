@@ -13,54 +13,29 @@ define.form('component.form.manage-batch.ListBatch', function (form, require, Ut
 
   form.tmpl = 'form.manage-batch.list-batch';
 
-  form.formType = form.FormType.FORM;
+  form.formType = form.FormType.Form.LIST;
 
-  form.refreshData = function () {
-    if (this.gridBatches) {
-      this.gridBatches.refreshData();
-    }
-  };
-
-  form.ready = function () {
-
-    var GridComponent = require('component.common.Grid');
-
-    var source = {
-      url: 'api/batch/findAll',
-
-      id: 'batchId',
-
-      dataFields: [{
-          name: 'batchId',
-          type: 'number'
-        },
-        {
-          name: 'batchName',
-          type: 'string'
-      }]
-    };
+  // grid config
+  form.gridConfig = function () {
 
     var gridColumns = [{
-        text: Lang.get('batch.id'),
-        dataField: 'batchId',
+      text: Lang.get('batch.id'),
+      dataField: 'batchId',
 
-        cellsAlign: 'right',
-        filterType: 'textbox',
+      cellsAlign: 'right',
+      filterType: 'textbox',
 
-        width: 150,
-      },
-      {
-        text: Lang.get('batch.name'),
-        dataField: 'batchName',
+      width: 150,
+    }, {
+      text: Lang.get('batch.name'),
+      dataField: 'batchName',
     }];
 
-    this.gridBatches = new GridComponent(this.element.find('#grid-batches'), {
-      source: source,
-      grid: {
-        columns: gridColumns,
-        multiSelection: true
-      }
-    });
+    var gridConfig = {
+      columns: gridColumns
+    };
+
+    return gridConfig;
 
   };
 

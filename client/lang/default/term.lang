@@ -18,4 +18,4 @@ term.update.duplicated = {{.term.create.duplicated}}
 term.update.success = Term is updated successfully
 
 term.destroy.incomplete = Error! Deletion is not completed
-term.destroy.success = The Termes is deleted successfully
+term.destroy.success = The Terms is deleted successfully

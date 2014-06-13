@@ -13,6 +13,10 @@ define('core.proxy.ServiceResponseUtil', function (module, require) {
       MsgBox.alert(lang);
     }
 
+    if (serviceResponse.hasError()) {
+      console.log(serviceResponse.getError());
+    }
+
   }
 
 });

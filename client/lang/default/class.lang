@@ -1,0 +1,23 @@
+class.id = Class Id
+class.name = Class Name
+class.batch = Class Batch
+
+class.create = Create Class
+class.view = View Class Details
+class.edit = Edit Class
+class.delete = Delete Classes
+
+class.name.required = Class Name is required
+class.batch.required = Class Batch is required
+
+class.find.notFound = Class is not found
+
+class.create.duplicated = Class <b>{{className}}</b> already exists.
+class.create.success = Class <b>{{className}}</b> is created successfully
+
+class.update.notFound = {{.class.find.notFound}}
+class.update.duplicated = {{.class.create.duplicated}}
+class.update.success = Class is updated successfully
+
+class.destroy.incomplete = Error! Deletion is not completed
+class.destroy.success = The Classes is deleted successfully

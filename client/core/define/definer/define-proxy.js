@@ -24,6 +24,12 @@ define.proxy = function (id, definer) {
         return;
       }
 
+      if (key === 'EntityMap') {
+        Proxy.EntityMap = value;
+
+        return;
+      }
+
       var httpMethod = value.slice(0, value.indexOf(' '));
       var url = value.slice(value.indexOf(' ') + 1);
 
@@ -32,6 +38,9 @@ define.proxy = function (id, definer) {
       Proxy[key] = function (data, callback) {
         proxyMethod.doRequest(data, callback);
       };
+
+      Proxy[key].url = proxyMethod.url;
+      Proxy[key].httpMethod = proxyMethod.httpMethod;
     });
 
   });

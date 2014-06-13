@@ -8,9 +8,7 @@ define.form('component.dialog.manage-batch.EditBatch', function (form, require, 
     }
   };
 
-  form.proxyMap = {
-    proxy: 'proxy.Batch'
-  };
+  form.ServiceProxy = require('proxy.Batch');
 
   form.formType = form.FormType.Dialog.EDIT;
 

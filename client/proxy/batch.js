@@ -1,13 +1,27 @@
-define.proxy('proxy.Batch', function (model, require) {
+define.proxy('proxy.Batch', function (proxy, require) {
 
-  model.entityId = 'batchId';
+  proxy.entityId = 'batchId';
 
-  model.findOne = 'GET api/batch/findOne';
+  proxy.findAll = 'GET api/batch/findAll';
 
-  model.create = 'POST api/batch/create';
+  proxy.findOne = 'GET api/batch/findOne';
 
-  model.update = 'POST api/batch/update';
+  proxy.create = 'POST api/batch/create';
 
-  model.destroy = 'POST api/batch/destroy';
+  proxy.update = 'POST api/batch/update';
+
+  proxy.destroy = 'POST api/batch/destroy';
+
+  // batch entity map
+  proxy.EntityMap = [
+    {
+      name: 'batchId',
+      type: 'number'
+    },
+    {
+      name: 'batchName',
+      type: 'string'
+    }
+  ];
 
 });

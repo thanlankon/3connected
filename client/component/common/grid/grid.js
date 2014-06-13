@@ -22,13 +22,31 @@ define.component('component.common.Grid', function (component, require, Util, La
       this.updateDeleteButton(null);
     }
 
-    var source = options.source;
+    var ServiceProxy = options.ServiceProxy;
+
+    var source = {};
 
     // date type
     source.dataType = 'json';
 
+    // service url
+    source.url = ServiceProxy.findAll.url;
+
+    // http method
+    source.type = ServiceProxy.findAll.httpMethod;
+
     // root element
-    source.root = 'data>items';
+    source.root = 'data.items';
+
+    // id attribute
+    source.id = ServiceProxy.entityId;
+
+    // data fields
+    source.dataFields = ServiceProxy.EntityMap;
+
+    // source mapping char
+    source.mapChar = '.';
+    source.mapchar = '.';
 
     // auto update sort
     source.sort = this.proxy(function () {
@@ -103,7 +121,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       filterable: true,
       showFilterRow: true,
       // selection
-      selectionMode: options.grid.multiSelection ? 'checkbox' : 'singlerow',
+      selectionMode: options.grid.singleSelection ? 'checkbox' : 'singlerow',
       enableHover: false,
       // size
       width: '100%',

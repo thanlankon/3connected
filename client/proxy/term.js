@@ -1,13 +1,27 @@
-define.proxy('proxy.Term', function (model, require) {
+define.proxy('proxy.Term', function (proxy, require) {
 
-  model.entityId = 'termId';
+  proxy.entityId = 'termId';
 
-  model.findOne = 'GET api/term/findOne';
+  proxy.findAll = 'GET api/term/findAll';
 
-  model.create = 'POST api/term/create';
+  proxy.findOne = 'GET api/term/findOne';
 
-  model.update = 'POST api/term/update';
+  proxy.create = 'POST api/term/create';
 
-  model.destroy = 'POST api/term/destroy';
+  proxy.update = 'POST api/term/update';
+
+  proxy.destroy = 'POST api/term/destroy';
+
+  // term entity map
+  proxy.EntityMap = [
+    {
+      name: 'termId',
+      type: 'number'
+    },
+    {
+      name: 'termName',
+      type: 'string'
+    }
+  ];
 
 });
