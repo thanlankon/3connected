@@ -14,8 +14,6 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   };
 
   component.showForm = function (params) {
-    this.element.jqxWindow('open');
-
     this.element.find('.content .error').remove();
 
     if (this.refreshData) {
@@ -26,6 +24,8 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   component.refreshData = function (params) {
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.initData();
+
+      this.element.jqxWindow('open');
 
       return;
     }
@@ -39,17 +39,23 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       this.ServiceProxy.findOne(findOptions, this.proxy(findOneDone));
 
       function findOneDone(serviceResponse) {
+        if (serviceResponse.hasError()) return;
+
         var entity = serviceResponse.getData();
 
         entity.original = Util.Object.clone(entity);
 
         this.data.attr(entity);
+
+        this.element.jqxWindow('open');
       }
     };
   };
 
   component.hideForm = function () {
-    this.element.jqxWindow('close');
+    if (this.element.jqxWindow('isOpen')) {
+      this.element.jqxWindow('close');
+    }
   };
 
   component.initView = function (view) {

@@ -41,11 +41,6 @@ define.component = function (id, definer) {
       staticMembers.tmpl = component.tmpl;
     }
 
-    // component is dialog
-    if (component.isDialog) {
-      staticMembers.isDialog = component.isDialog;
-    }
-
     // auto inheritance for setup method
     if (component.setup) {
       staticMembers.setup = function () {

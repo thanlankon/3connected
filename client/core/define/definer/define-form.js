@@ -18,10 +18,12 @@ define.form = function (id, definer) {
 
     if (component.formType == component.FormType.FORM) {
       component.base = 'component.Form';
+
+      component.isDialog = component.static.isDialog = false;
     } else {
       component.base = 'component.Dialog';
 
-      component.isDialog = true;
+      component.isDialog = component.static.isDialog = true;
     }
 
     // require proxy

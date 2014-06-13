@@ -17,6 +17,7 @@ define.component('component.Cpanel', function (component, require) {
   };
 
   component.ready = function () {
+    this.static.cpanelElement = this.element;
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
@@ -69,6 +70,7 @@ define.component('component.Cpanel', function (component, require) {
 
         if (isMatched) {
           this.static.switchForm(formUrlMap.formId);
+          this.static.updateNavigator();
 
           break;
         }
@@ -81,6 +83,8 @@ define.component('component.Cpanel', function (component, require) {
     var activeFormId = this.static.activeFormId;
 
     if (!formId || activeFormId == formId) return;
+
+    this.static.activeFormId = formId;
 
     var Form = require(formId);
 
@@ -109,6 +113,22 @@ define.component('component.Cpanel', function (component, require) {
     } else {
       Form.getInstance().showForm(formData);
     }
+  };
+
+  component.static.updateNavigator = function () {
+    var module = Route.attr('module');
+    var moduleName = '';
+
+    this.static.cpanelElement.find('#navigator a').each(function () {
+      var a = $(this);
+
+      if (a.attr('href') && a.attr('href').substr(2, module.length) == module) {
+        moduleName = a.text();
+        return false;
+      }
+    });
+
+    this.static.cpanelElement.find('#location').text(moduleName);
   };
 
 });

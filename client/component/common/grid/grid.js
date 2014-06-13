@@ -175,6 +175,10 @@ define.component('component.common.Grid', function (component, require, Util, La
   component.clearSelection = function () {
     this.element.jqxGrid('clearselection');
 
+    if (this.lastSelectedRow) {
+      this.lastSelectedRow.removeClass('selected');
+    }
+
     this.updateEditButton(null);
     this.updateDeleteButton(null);
   };
