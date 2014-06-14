@@ -1,18 +1,18 @@
-define.form('component.dialog.manage-class.CreateClass', function (form, require, Util, Lang) {
+define.form('component.dialog.manage-class.EditClass', function (form, require, Util, Lang) {
 
   form.urlMap = {
-    url: ':module/:action',
+    url: ':module/:action/:id',
     data: {
       module: 'manage-class',
-      action: 'create'
+      action: 'edit'
     }
   };
 
   form.ServiceProxy = require('proxy.Class');
 
-  form.formType = form.FormType.Dialog.CREATE;
+  form.formType = form.FormType.Dialog.EDIT;
 
-  form.tmpl = 'dialog.manage-class.create-class';
+  form.tmpl = 'dialog.manage-class.edit-class';
 
   form.validateRules = [{
     attribute: 'className',
@@ -21,10 +21,10 @@ define.form('component.dialog.manage-class.CreateClass', function (form, require
       message: 'class.name.required',
     }]
   }, {
-    attribute: 'batchId',
+    attribute: 'classId',
     rules: [{
       rule: 'required',
-      message: 'class.batch.required',
+      message: 'class.id.required',
     }]
   }];
 
@@ -43,6 +43,7 @@ define.form('component.dialog.manage-class.CreateClass', function (form, require
     };
 
     var data = {
+      classId: null,
       className: null,
       batchId: null,
 

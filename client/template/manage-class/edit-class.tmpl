@@ -1,0 +1,33 @@
+<template id="dialog.manage-class.edit-class">
+
+  {{dialog.size width="500px" height="255px"}}
+
+  <div class="header">
+    {{lang "class.edit"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "class.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="className"}}
+    </div>
+
+    <div class="label">
+      {{lang "class.batch"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="batchId"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-role="submit-button">{{lang "edit"}}</span>
+
+    <span type="button" class="button cancel" data-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

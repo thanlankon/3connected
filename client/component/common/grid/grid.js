@@ -121,7 +121,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       filterable: true,
       showFilterRow: true,
       // selection
-      selectionMode: options.grid.singleSelection ? 'checkbox' : 'singlerow',
+      selectionMode: options.grid.singleSelection ? 'singlerow' : 'checkbox',
       enableHover: false,
       // size
       width: '100%',
@@ -188,10 +188,16 @@ define.component('component.common.Grid', function (component, require, Util, La
 
   component.refreshData = function () {
     this.element.jqxGrid('updatebounddata');
+
+    this.clearSelection();
   };
 
   component.clearSelection = function () {
-    this.element.jqxGrid('clearselection');
+    var selectedIndexes = this.element.jqxGrid('getselectedrowindexes');
+
+    if (selectedIndexes.length) {
+      this.element.jqxGrid('clearselection');
+    }
 
     if (this.lastSelectedRow) {
       this.lastSelectedRow.removeClass('selected');
