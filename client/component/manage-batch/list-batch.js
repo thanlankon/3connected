@@ -7,9 +7,7 @@ define.form('component.form.manage-batch.ListBatch', function (form, require, Ut
     }
   };
 
-  form.proxyMap = {
-    proxy: 'proxy.Batch'
-  };
+  form.ServiceProxy = require('proxy.Batch');
 
   form.tmpl = 'form.manage-batch.list-batch';
 

@@ -7,9 +7,7 @@ define.form('component.form.manage-term.ListTerm', function (form, require, Util
     }
   };
 
-  form.proxyMap = {
-    proxy: 'proxy.Term'
-  };
+  form.ServiceProxy = require('proxy.Term');
 
   form.tmpl = 'form.manage-term.list-term';
 

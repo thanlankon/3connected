@@ -9,13 +9,12 @@ define('core.view.helpers.component.ComboboxHelper', function (module, require) 
   function comboboxComponentHelper(options) {
 
     var attribute = options.hash.attribute;
-    var settings = options.hash.settings;
 
-    options.hash = Util.Object.omit(options.hash, ['attribute', 'settings']);
+    options.hash = Util.Object.omit(options.hash, ['attribute']);
 
     var data = this;
 
-    settings = data.attr(settings);
+    settings = data.attr('componentSettings.' + attribute);
 
     return function (element) {
 

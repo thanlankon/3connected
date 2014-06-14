@@ -32,10 +32,10 @@ define.form('component.dialog.manage-class.CreateClass', function (form, require
     // init form data
 
     var componentSettings = {
-      batch: {
+      batchId: {
         ServiceProxy: require('proxy.Batch'),
         combobox: {
-          singleSelection: true,
+          multiSelection: true,
           valueMember: 'batchId',
           displayMember: 'batchName'
         }
