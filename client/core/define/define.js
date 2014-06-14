@@ -36,3 +36,13 @@ define('lib.Moment', function (module, require, libs) {
 define('lib.Numeral', function (module, require, libs) {
   module.exports = libs.Numeral;
 });
+
+define('lib.ExcelBuilder', function (module, require, libs) {
+  module.exports = libs.ExcelBuilder;
+});
+
+define('lib.FileSaver', function (module, require, libs) {
+  module.exports = {
+    saveAs: libs.FileSaver
+  };
+});

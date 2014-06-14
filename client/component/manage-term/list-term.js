@@ -13,6 +13,8 @@ define.form('component.form.manage-term.ListTerm', function (form, require, Util
 
   form.formType = form.FormType.Form.LIST;
 
+  form.exportConfig = require('export.Term');
+
   // grid config
   form.gridConfig = function () {
 

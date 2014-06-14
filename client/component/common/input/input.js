@@ -22,7 +22,7 @@ define.component('component.common.Input', function (component, require, Util, L
 
     // tracking changes of input
     input.on('change', function () {
-      componentData.attr(dataAttribute, input.val());
+      componentData.attr(dataAttribute, input.val().trim());
     });
 
     // tracking changes of data

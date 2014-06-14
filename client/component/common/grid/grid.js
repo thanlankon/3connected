@@ -8,14 +8,14 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     var formElement = this.element.closest('.form');
 
-    var editButton = formElement.find('.toolbar [data-role=edit-button]');
+    var editButton = formElement.find('.toolbar [data-component-role=edit-button]');
     if (editButton.size()) {
       this.toolbar.editButton = editButton;
 
       this.updateEditButton(null);
     }
 
-    var deleteButton = formElement.find('.toolbar [data-role=delete-button]');
+    var deleteButton = formElement.find('.toolbar [data-component-role=delete-button]');
     if (deleteButton.size()) {
       this.toolbar.deleteButton = deleteButton;
 
@@ -102,6 +102,14 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     var gridOptions = options.grid;
 
+    // allow all columns to be hidden
+    for (var i = 0, len = gridOptions.columns.length; i < len; i++) {
+      gridOptions.columns[i].hideable = true;
+      gridOptions.columns[i].resizable = true;
+    }
+
+    this.gridColumns = gridOptions.columns;
+
     this.element.data('grid-component', this);
 
     this.element.jqxGrid({
@@ -109,7 +117,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       source: dataAdapter,
       // paging
       pageable: true,
-      pageSize: 10,
+      pageSize: 50,
       pagerMode: 'simple',
       virtualMode: true,
       renderGridRows: function (params) {
@@ -130,6 +138,8 @@ define.component('component.common.Grid', function (component, require, Util, La
       scrollMode: 'logical',
       // columns
       columns: gridOptions.columns,
+      // resize
+      //      columnsResize: true,
       // other
       showEmptyRow: false,
       // toolbar
@@ -196,7 +206,7 @@ define.component('component.common.Grid', function (component, require, Util, La
     var selectedIndexes = this.element.jqxGrid('getselectedrowindexes');
 
     if (selectedIndexes.length) {
-      this.element.jqxGrid('clearselection');
+      this.element.jqxGrid('clearSelection');
     }
 
     if (this.lastSelectedRow) {
@@ -251,6 +261,26 @@ define.component('component.common.Grid', function (component, require, Util, La
         deleteButton.addClass('disabled');
       }
     }
+  };
+
+  component.hideColumn = function (column) {
+    this.element.jqxGrid('hideColumn', column);
+  };
+
+  component.showColumn = function (column) {
+    this.element.jqxGrid('showColumn', column);
+  };
+
+  component.setPageSize = function (pageSize) {
+    pageSize = ~~pageSize;
+
+    if (pageSize == 0) {
+      pageSize = 10000;
+    }
+
+    this.element.jqxGrid({
+      pageSize: pageSize
+    });
   };
 
 });

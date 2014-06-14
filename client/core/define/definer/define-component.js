@@ -13,30 +13,30 @@ define.component = function (id, definer) {
 
     definer(component, require, Util, Lang, jQuery);
 
-    var basecomponent = require(component.base || 'core.component.Component');
+    var baseComponent = require(component.base || 'core.component.Component');
 
     // singleton
-    if (component.singleton) {
-      component.static.newInstance = function () {
-        if (!this.static._instance) {
-          this.static._instance = this._super.apply(this, arguments);
-        }
-
-        return this.static._instance;
-      };
-
-      component.static.hasInstance = function () {
-        return !!this.static._instance;
-      };
-
-      component.static.getInstance = function () {
-        return this.static._instance;
-      };
-
-      component.static.destroyInstance = function () {
-        return this.static._instance = null;
-      };
-    }
+    //    if (component.singleton) {
+    //      component.static.newInstance = function () {
+    //        if (!this.static._instance) {
+    //          this.static._instance = this._super.apply(this, arguments);
+    //        }
+    //
+    //        return this.static._instance;
+    //      };
+    //
+    //      component.static.hasInstance = function () {
+    //        return !!this.static._instance;
+    //      };
+    //
+    //      component.static.getInstance = function () {
+    //        return this.static._instance;
+    //      };
+    //
+    //      component.static.destroyInstance = function () {
+    //        return this.static._instance = null;
+    //      };
+    //    }
 
     var staticMembers = component.static;
 
@@ -46,37 +46,46 @@ define.component = function (id, definer) {
     }
 
     // auto inheritance for setup method
-    if (component.setup) {
-      staticMembers.setup = function () {
-        this._super.apply(this, arguments);
+    //    if (component.setup) {
+    //      staticMembers.setup = function () {
+    //        this._super.apply(this, arguments);
+    //
+    //        component.setup.apply(this, arguments);
+    //      };
+    //    }
 
-        component.setup.apply(this, arguments);
-      };
-    }
-
-    var instanceMembers = Util.Object.omit(component, ['isDialog', 'tmpl', 'setup', 'static', 'events', 'init']);
+    var instanceMembers = Util.Object.omit(component, ['isDialog', 'tmpl', 'setup', 'static', 'events' /*, 'init'*/ ]);
 
     // auto inheritance for init method
-    if (component.init) {
-      instanceMembers.init = function () {
-        this._super.apply(this, arguments);
-
-        component.init.apply(this, arguments);
-      };
-    }
+    //    if (component.init) {
+    //      instanceMembers.init = function () {
+    //        this._super.apply(this, arguments);
+    //
+    //        component.init.apply(this, arguments);
+    //      };
+    //    }
 
     // auto inheritance for ready method
-    if (component.ready) {
-      instanceMembers.ready = function () {
-        this._super.apply(this, arguments);
+    //    if (component.ready) {
+    //      instanceMembers.ready = function () {
+    //        this._super.apply(this, arguments);
+    //
+    //        component.ready.apply(this, arguments);
+    //      };
+    //    }
 
-        component.ready.apply(this, arguments);
-      };
-    }
+    // auto inheritance for initData method
+    //    if (component.initData) {
+    //      instanceMembers.initData = function () {
+    //        this._super.apply(this, arguments);
+    //
+    //        component.initData.apply(this, arguments);
+    //      };
+    //    }
 
     Util.Object.extend(instanceMembers, component.events);
 
-    module.exports = basecomponent.extend(id, staticMembers, instanceMembers);
+    module.exports = baseComponent.extend(id, staticMembers, instanceMembers);
 
   });
 

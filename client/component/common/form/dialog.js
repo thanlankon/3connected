@@ -4,7 +4,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   var Util = require('core.util.Util');
   var Validator = require('core.validator.Validator');
 
-  component.singleton = true;
+  //  component.singleton = true;
 
   component.defaultSize = {
     height: '90%',
@@ -256,11 +256,11 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     this.resizeDialog();
   };
 
-  component.events['[data-role=cancel-button] click'] = function () {
+  component.events['[data-component-role=cancel-button] click'] = function () {
     this.element.jqxWindow('close');
   };
 
-  component.events['[data-role=submit-button] click'] = function () {
+  component.events['[data-component-role=submit-button] click'] = function () {
     this.submitForm();
   };
 

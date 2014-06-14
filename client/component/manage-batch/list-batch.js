@@ -13,6 +13,8 @@ define.form('component.form.manage-batch.ListBatch', function (form, require, Ut
 
   form.formType = form.FormType.Form.LIST;
 
+  form.exportConfig = require('export.Batch');
+
   // grid config
   form.gridConfig = function () {
 

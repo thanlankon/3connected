@@ -42,14 +42,4 @@ define.form('component.dialog.manage-batch.EditBatch', function (form, require, 
     // init form components and bind events
   };
 
-  //  form.refreshData = function (params) {
-  //    // refresh data each time form is displayed
-  //
-  //    console.log(params);
-  //
-  //    this.data.attr({
-  //      batchName: null
-  //    });
-  //  }
-
 });

@@ -13,6 +13,8 @@ define.form('component.form.manage-class.ListClass', function (form, require, Ut
 
   form.formType = form.FormType.Form.LIST;
 
+  form.exportConfig = require('export.Class');
+
   // grid config
   form.gridConfig = function () {
 
@@ -24,6 +26,7 @@ define.form('component.form.manage-class.ListClass', function (form, require, Ut
         filterType: 'textbox',
 
         width: 150,
+        hidden: false
       },
       {
         text: Lang.get('class.name'),
@@ -32,7 +35,6 @@ define.form('component.form.manage-class.ListClass', function (form, require, Ut
       {
         text: Lang.get('batch.name'),
         dataField: 'batchName',
-        width: 300,
     }];
 
     var gridConfig = {

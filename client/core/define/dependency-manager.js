@@ -5,6 +5,9 @@ Dependency = {
     Underscore: _,
     Moment: moment,
     Numeral: numeral,
+
+    ExcelBuilder: ExcelBuilder,
+    FileSaver: saveAs
   },
 
   modules: {},

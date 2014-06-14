@@ -4,7 +4,7 @@ define.component('component.Form', function (component, require, Util, Lang) {
   var Route = require('core.route.Route');
   var MsgBox = require('component.common.MsgBox');
 
-  component.singleton = true;
+  //  component.singleton = true;
 
   component.showForm = function (data) {
     this.element.show();
@@ -42,9 +42,13 @@ define.component('component.Form', function (component, require, Util, Lang) {
     }
   };
 
+  component.beforeInitView = function (element, options) {
+    this.data.attr('form', this);
+  };
+
   component.initForm = function () {};
 
-  component.events['[data-role=edit-button] click'] = function (element, event) {
+  component.events['[data-component-role=edit-button] click'] = function (element, event) {
     event.preventDefault();
 
     if (element.hasClass('disabled')) {
@@ -63,7 +67,7 @@ define.component('component.Form', function (component, require, Util, Lang) {
     Route.attr(params);
   };
 
-  component.events['[data-role=delete-button] click'] = function (element, event) {
+  component.events['[data-component-role=delete-button] click'] = function (element, event) {
     event.preventDefault();
 
     if (element.hasClass('disabled')) {
@@ -88,21 +92,44 @@ define.component('component.Form', function (component, require, Util, Lang) {
     }
   };
 
+  component.events['[data-component-role=export-button] click'] = function (element, event) {
+    event.preventDefault();
+
+    var GridExport = require('component.export.grid.GridExport');
+
+    GridExport.exportToExcel(this.grid, this.exportConfig);
+  }
+
   component.initGrid = function () {
 
     var GridComponent = require('component.common.Grid');
 
-    var gridConfig = this.gridConfig;
+    var getGridConfig = this.getGridConfig();
 
-    if (Util.Object.isFunction(this.gridConfig)) {
-      gridConfig = this.gridConfig();
-    }
-
-    this.grid = new GridComponent(this.element.find('[data-role=grid]'), {
+    this.grid = new GridComponent(this.element.find('[data-component-role=grid]'), {
       ServiceProxy: this.ServiceProxy,
-      grid: gridConfig
+      grid: getGridConfig
     });
 
+    // update grid columns chooser
+    var columnsChooser = this.element.find('.toolbar [data-component-role=grid-columns-choooser]');
+
+    if (columnsChooser.size()) {
+      var gridColumnsChooser = columnsChooser.data('GridColumnsChooser');
+
+      gridColumnsChooser.updateSelectedColumns(getGridConfig.columns);
+    }
+
+  };
+
+  component.getGridConfig = function () {
+    if (Util.Object.isFunction(this.gridConfig)) {
+      gridConfig = this.gridConfig();
+
+      this.gridConfig = gridConfig;
+    }
+
+    return this.gridConfig;
   };
 
   component.refreshGrid = function () {

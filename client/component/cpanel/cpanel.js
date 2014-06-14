@@ -5,7 +5,7 @@ define.component('component.Cpanel', function (component, require) {
   var jQuery = require('lib.jQuery');
 
   // singleton
-  component.singleton = true;
+  //  component.singleton = true;
 
   // cpanel template
   component.tmpl = 'cpanel';
@@ -91,7 +91,7 @@ define.component('component.Cpanel', function (component, require) {
     if (!Form.isDialog) {
       if (activeFormId) {
         var ActiveForm = require(activeFormId);
-        var activeForm = ActiveForm.getInstance();
+        var activeForm = ActiveForm.formInstance;
 
         activeForm.hideForm();
       }
@@ -99,9 +99,9 @@ define.component('component.Cpanel', function (component, require) {
 
     var formData = Route.attr();
 
-    if (!Form.hasInstance()) {
+    if (!Form.formInstance) {
       // this form is auto displayed when created
-      Form.newInstance(this.static.formContainer);
+      Form.formInstance = new Form(this.static.formContainer);
 
       //      Form.newInstance(this.static.formContainer, {
       //        on: {
@@ -111,7 +111,7 @@ define.component('component.Cpanel', function (component, require) {
       //        }
       //      });
     } else {
-      Form.getInstance().showForm(formData);
+      Form.formInstance.showForm(formData);
     }
   };
 

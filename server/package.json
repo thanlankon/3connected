@@ -4,7 +4,7 @@
   "description": "Comminucation System for Schools",
   "homepage": "https://github.com/thanlankon/3connected",
   "version": "1.0.0",
-  "author": "Group 5 - FUDN Capstone Project",
+  "author": "Group 6 - FUDN Capstone Project",
   "license": "",
   "dependencies": {
     "express": "^4.2.0",

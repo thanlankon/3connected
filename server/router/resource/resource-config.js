@@ -51,6 +51,8 @@ define('resource.Config', function (module, require) {
       'proxy/**',
       // app - components
       'component/**',
+      // app - export configs
+      'export/**',
       // app - routes
       'routes.js'
     ]

@@ -22,10 +22,12 @@ define('core.component.Component', function (module, require) {
     }
 
   }, {
-    data: new Can.Map(),
+    data: null,
 
     init: function (element, options) {
       this._super.apply(this, arguments);
+
+      this.data = new Can.Map();
 
       this.static = this.constructor;
 
@@ -35,6 +37,10 @@ define('core.component.Component', function (module, require) {
 
       if (this.initComponent) {
         this.initComponent(element, options);
+      }
+
+      if (this.beforeInitView) {
+        this.beforeInitView(element, options);
       }
 
       if (this.static.tmpl) {
@@ -56,6 +62,8 @@ define('core.component.Component', function (module, require) {
     },
 
     ready: function () {},
+
+    initData: function () {},
 
     view: function (callback) {
       if (!(this.data instanceof Map)) {

@@ -1,20 +1,36 @@
+# app
+
 app.title = Communication System for Schools - <b>FPT University DaNang</b>
+
+# general
 
 logout = Signout
 profile = Profile
+
+# action
 
 create = Create
 edit = Edit
 update = Update
 
+# button
+
 cancel = Cancel
+import = Import
+export = Export
+
+# entity
 
 entity.delete.confirm = Delete {{totalItems}} choosen items?
+
+# error
 
 error.service.unknown = Error during performing action!
 error.create.unknown = Error during creation!
 error.update.unknown = Error during updating!
+error.destroy.unknown = Error during deleting!
 
+# manage
 
 manage.batch = Manage batches
 manage.term = Manage terms

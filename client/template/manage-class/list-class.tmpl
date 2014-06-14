@@ -5,25 +5,31 @@
       <li class="icon back">
       </li>
 
-      <li class="icon create" data-role="create-button">
+      <li class="icon create" data-component-role="create-button">
         <a href="{{url module="manage-class" action="create"}}">{{lang "class.create"}}</a>
       </li>
-      <li class="icon edit" data-role="edit-button">
+      <li class="icon edit" data-component-role="edit-button">
         <a href="{{url module="manage-class" action="edit"}}">{{lang "class.edit"}}</a>
       </li>
-      <li class="icon delete" data-role="delete-button">
+      <li class="icon delete" data-component-role="delete-button">
         <a href="#">{{lang "class.delete"}}</a>
       </li>
 
-      <li class="icon info right">
-        <a href="#">{{lang "profile"}}</a>
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
       </li>
     </ul>
   </div>
 
   <div class="content">
 
-    <div id="grid-classes" data-role="grid"></div>
+    <div id="grid-classes" data-component-role="grid"></div>
 
   </div>
 
