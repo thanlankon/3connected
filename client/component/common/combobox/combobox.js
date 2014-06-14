@@ -11,9 +11,10 @@ define.component('component.common.Combobox', function (component, require, Util
 
     var settings = componentData.attr(settingsAttribute);
 
-    var combobox = jQuery('<div />')
+    var combobox = this.combobox = jQuery('<div />')
       .attr('data-attribute', dataAttribute)
       .attr('data-component-role', 'combobox')
+      .data('ComboBoxComponent', this)
       .appendTo(element);
 
     var comboboxOptions = {
@@ -26,7 +27,7 @@ define.component('component.common.Combobox', function (component, require, Util
     var ServiceProxy = settings.ServiceProxy;
 
     // combobox source
-    var source = {
+    var source = this.source = {
       dataType: 'json',
 
       // service url
@@ -71,6 +72,18 @@ define.component('component.common.Combobox', function (component, require, Util
       trackingChange.combobox = false;
     });
 
+    // tracking changes of reloading source
+    combobox.on('bindingComplete', function (event) {
+      trackingChange.data = true;
+
+      var value = componentData.attr(dataAttribute);
+
+      var item = combobox.jqxComboBox('getItemByValue', value);
+      combobox.jqxComboBox('selectItem', item);
+
+      trackingChange.data = false;
+    });
+
     // tracking changes of data
     componentData.bind('change', function (event, attr, how, newVal, oldVal) {
 
@@ -105,6 +118,10 @@ define.component('component.common.Combobox', function (component, require, Util
 
     });
 
+  };
+
+  component.refreshData = function () {
+    refreshSource(this.combobox, this.source);
   };
 
   function refreshSource(combobox, source) {

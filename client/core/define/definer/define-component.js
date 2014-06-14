@@ -32,6 +32,10 @@ define.component = function (id, definer) {
       component.static.getInstance = function () {
         return this.static._instance;
       };
+
+      component.static.destroyInstance = function () {
+        return this.static._instance = null;
+      };
     }
 
     var staticMembers = component.static;

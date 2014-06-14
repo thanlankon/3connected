@@ -24,6 +24,15 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   };
 
   component.refreshData = function (params) {
+    // refresh comboboxes source
+    this.element.find('[data-component-role=combobox]').each(function () {
+      var combobox = $(this).data('ComboBoxComponent');
+
+      if (combobox) {
+        combobox.refreshData();
+      }
+    });
+
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.initData();
 
