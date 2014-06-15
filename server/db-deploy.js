@@ -12,6 +12,7 @@ define('db.Deploy', function (module, require) {
     var queryChainer = Entity.queryChainer();
 
     seedBatch(queryChainer);
+    seedMajor(queryChainer);
     seedTerm(queryChainer);
 
     seedClass(queryChainer);
@@ -57,6 +58,18 @@ define('db.Deploy', function (module, require) {
     }
   }
 
+  function seedMajor(queryChainer) {
+    var Major = require('model.entity.Major');
+
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Major.create({
+            majorName: 'Major ' + i
+          }))
+    }
+  }
+
   function seedClass(queryChainer) {
     var Class = require('model.entity.Class');
 
@@ -65,12 +78,14 @@ define('db.Deploy', function (module, require) {
         .add(
           Class.create({
             className: 'SE' + i,
-            batchId: 1
+            batchId: 1,
+            majorId: 1
           }))
         .add(
           Class.create({
             className: 'PC' + i,
-            batchId: 2
+            batchId: 2,
+            majorId: 1
           }))
     }
   }

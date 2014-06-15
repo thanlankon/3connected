@@ -37,14 +37,21 @@ define.form('component.dialog.manage-class.CreateClass', function (form, require
         combobox: {
           valueMember: 'batchId',
           displayMember: 'batchName'
-        },
-        filterConditions: null
+        }
+      },
+      majorId: {
+        ServiceProxy: require('proxy.Major'),
+        combobox: {
+          valueMember: 'majorId',
+          displayMember: 'majorName'
+        }
       }
     };
 
     var data = {
       className: null,
       batchId: null,
+      majorId: null,
 
       componentSettings: componentSettings
     };

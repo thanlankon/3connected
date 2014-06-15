@@ -1,6 +1,7 @@
 class.id = Class Id
 class.name = Class Name
 class.batch = Class Batch
+class.major = Class Major
 
 class.create = Create Class
 class.view = View Class Details

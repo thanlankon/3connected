@@ -1,0 +1,26 @@
+<template id="dialog.manage-major.create-major">
+
+  {{dialog.size width="500px" height="200px"}}
+
+  <div class="header">
+    {{lang "major.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "major.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="majorName"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

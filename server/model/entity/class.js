@@ -20,6 +20,15 @@ define.entity('model.entity.Class', function (entity, DataType, require) {
     referencesKey: 'batchId'
   };
 
+  entity.majorId = {
+    type: DataType.INTEGER,
+    allowNull: false,
+
+    // reference to Major
+    references: 'Major',
+    referencesKey: 'majorId'
+  };
+
   entity.config = {
     table: 'Class'
   }
@@ -27,6 +36,10 @@ define.entity('model.entity.Class', function (entity, DataType, require) {
   entity.associate = function () {
     this.belongsTo('model.entity.Batch', {
       as: 'batch'
+    });
+
+    this.belongsTo('model.entity.Major', {
+      as: 'major'
     });
   }
 

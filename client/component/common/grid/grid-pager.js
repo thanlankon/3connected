@@ -24,7 +24,7 @@ define.component('component.common.GridPager', function (component, require, Uti
 
     numberInput.jqxNumberInput(numberInputOptions);
 
-    numberInput.on('change', function (event) {
+    numberInput.on('valuechanged', function (event) {
       var value = event.args.value;
 
       form.grid.setPageSize(value);

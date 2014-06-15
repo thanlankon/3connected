@@ -1,7 +1,6 @@
 define.service('service.Term', function (service, require, ServiceUtil, Util) {
 
   var TermModel = require('model.Term');
-  var Util = require('core.util.Util');
 
   service.map = {
     url: '/term'

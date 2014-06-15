@@ -37,8 +37,14 @@ define.form('component.dialog.manage-class.EditClass', function (form, require, 
         combobox: {
           valueMember: 'batchId',
           displayMember: 'batchName'
-        },
-        filterConditions: null
+        }
+      },
+      majorId: {
+        ServiceProxy: require('proxy.Major'),
+        combobox: {
+          valueMember: 'majorId',
+          displayMember: 'majorName'
+        }
       }
     };
 
@@ -46,6 +52,7 @@ define.form('component.dialog.manage-class.EditClass', function (form, require, 
       classId: null,
       className: null,
       batchId: null,
+      majorId: null,
 
       componentSettings: componentSettings
     };

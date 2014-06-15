@@ -1,7 +1,6 @@
 define.service('service.Batch', function (service, require, ServiceUtil, Util) {
 
   var BatchModel = require('model.Batch');
-  var Util = require('core.util.Util');
 
   service.map = {
     url: '/batch'

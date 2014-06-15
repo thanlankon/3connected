@@ -2,7 +2,7 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
 
   var ClassModel = require('model.Class');
   var BatchModel = require('model.Batch');
-  var Util = require('core.util.Util');
+  var MajorModel = require('model.Major');
 
   service.map = {
     url: '/class'
@@ -18,6 +18,9 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
         findOptions.include = [{
           model: BatchModel,
           as: 'batch'
+        }, {
+          model: MajorModel,
+          as: 'major'
         }];
       }
     },
@@ -29,7 +32,7 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
     },
 
     create: {
-      attributes: ['className', 'batchId'],
+      attributes: ['className', 'batchId', 'majorId'],
       checkDuplicatedAttributes: ['className'],
       message: {
         duplicated: 'class.create.duplicated',
@@ -38,7 +41,7 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
     },
 
     update: {
-      attributes: ['className', 'batchId'],
+      attributes: ['className', 'batchId', 'majorId'],
       checkExistanceAttributes: ['classId'],
       checkDuplicatedAttributes: ['className'],
       message: {

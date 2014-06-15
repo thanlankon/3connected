@@ -1,0 +1,36 @@
+<template id="form.manage-major.list-major">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-major" action="create"}}">{{lang "major.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button">
+        <a href="{{url module="manage-major" action="edit"}}">{{lang "major.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button">
+        <a href="#">{{lang "major.delete"}}</a>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-majors" data-component-role="grid"></div>
+
+  </div>
+
+</template>

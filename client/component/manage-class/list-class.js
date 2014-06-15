@@ -35,6 +35,10 @@ define.form('component.form.manage-class.ListClass', function (form, require, Ut
       {
         text: Lang.get('batch.name'),
         dataField: 'batchName',
+      },
+      {
+        text: Lang.get('major.name'),
+        dataField: 'majorName',
     }];
 
     var gridConfig = {

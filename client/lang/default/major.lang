@@ -1,0 +1,21 @@
+major.id = Major Id
+major.name = Major Name
+
+major.create = Create Major
+major.view = View Major Details
+major.edit = Edit Major
+major.delete = Delete Majors
+
+major.name.required = Major Name is required
+
+major.find.notFound = Major is not found
+
+major.create.duplicated = Major <b>{{majorName}}</b> already exists.
+major.create.success = Major <b>{{majorName}}</b> is created successfully
+
+major.update.notFound = {{.major.find.notFound}}
+major.update.duplicated = {{.major.create.duplicated}}
+major.update.success = Major is updated successfully
+
+major.destroy.incomplete = Error! Deletion is not completed
+major.destroy.success = The Majors is deleted successfully

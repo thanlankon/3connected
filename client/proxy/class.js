@@ -30,6 +30,15 @@ define.proxy('proxy.Class', function (proxy, require) {
       name: 'batchName',
       type: 'string',
       map: 'batch.batchName'
+    },
+    {
+      name: 'majorId',
+      type: 'int'
+    },
+    {
+      name: 'majorName',
+      type: 'string',
+      map: 'major.majorName'
     }
   ];
 

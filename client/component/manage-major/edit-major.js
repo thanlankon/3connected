@@ -1,37 +1,37 @@
-define.form('component.dialog.manage-batch.EditBatch', function (form, require, Util, Lang) {
+define.form('component.dialog.manage-major.EditMajor', function (form, require, Util, Lang) {
 
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
-      module: 'manage-batch',
+      module: 'manage-major',
       action: 'edit'
     }
   };
 
-  form.ServiceProxy = require('proxy.Batch');
+  form.ServiceProxy = require('proxy.Major');
 
   form.formType = form.FormType.Dialog.EDIT;
 
-  form.tmpl = 'dialog.manage-batch.edit-batch';
+  form.tmpl = 'dialog.manage-major.edit-major';
 
   form.validateRules = [{
-    attribute: 'batchName',
+    attribute: 'majorName',
     rules: [{
       rule: 'required',
-      message: 'batch.name.required',
+      message: 'major.name.required',
     }]
   }, {
-    attribute: 'batchId',
+    attribute: 'majorId',
     rules: [{
       rule: 'required',
-      message: 'batch.id.required',
+      message: 'major.id.required',
     }]
   }];
 
   form.initData = function () {
     // init form data
     var data = {
-      batchName: null
+      majorName: null
     };
 
     this.data.attr(data);

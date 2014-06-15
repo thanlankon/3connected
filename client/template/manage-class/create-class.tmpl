@@ -1,6 +1,6 @@
 <template id="dialog.manage-class.create-class">
 
-  {{dialog.size width="500px" height="255px"}}
+  {{dialog.size width="500px" height="315px"}}
 
   <div class="header">
     {{lang "class.create"}}
@@ -20,6 +20,13 @@
     </div>
     <div class="data input">
       {{component.combobox attribute="batchId"}}
+    </div>
+
+    <div class="label">
+      {{lang "class.major"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="majorId"}}
     </div>
 
   </div>

@@ -33,5 +33,6 @@ error.destroy.unknown = Error during deleting!
 # manage
 
 manage.batch = Manage batches
+manage.major = Manage majors
 manage.term = Manage terms
 manage.class = Manage classes

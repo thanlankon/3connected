@@ -15,6 +15,9 @@ define('export.Class', function (module, require) {
       },
       batchName: {
         width: 50
+      },
+      majorName: {
+        width: 50
       }
 
     }
