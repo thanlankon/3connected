@@ -40,6 +40,8 @@ define.component('component.Form', function (component, require, Util, Lang) {
         this.initGrid();
       }
     }
+
+    this.on();
   };
 
   component.beforeInitView = function (element, options) {
