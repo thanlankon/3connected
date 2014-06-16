@@ -33,7 +33,7 @@ define.form('component.form.manage-subject.ListSubject', function (form, require
       cellsAlign: 'right',
       filterType: 'textbox',
 
-      width: 20,
+      width: 100,
     }, {
       text: Lang.get('subject.subjectCode'),
       dataField: 'subjectCode',

@@ -3,7 +3,9 @@
 subject = Subject
 
 subject.subjectId = Subject Id
+subject.subjectCode = Subject code
 subject.subjectName = Subject name
+subject.numberOfCredits = Number of Credits
 
 # button
 

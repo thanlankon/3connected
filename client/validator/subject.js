@@ -61,9 +61,6 @@ define('validator.rule.Subject', function (module, require) {
       {
         // subjectId is required
         rule: 'required'
-      },
-      {
-        rule: 'positiveInteger'
       }
      ]
   };
