@@ -1,0 +1,36 @@
+<template id="form.manage-subject.list-subject">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-subject" action="create"}}">{{lang "subject.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button">
+        <a href="{{url module="manage-subject" action="edit"}}">{{lang "subject.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button">
+        <a href="#">{{lang "subject.delete"}}</a>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-subjectes" data-component-role="grid"></div>
+
+  </div>
+
+</template>

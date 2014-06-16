@@ -1,0 +1,40 @@
+<template id="dialog.manage-subject.create-subject">
+
+  {{dialog.size width="500px" height="200px"}}
+
+  <div class="header">
+    {{lang "subject.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "subject.subjectCode"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="subjectCode"}}
+    </div>
+    
+    <div class="label">
+      {{lang "subject.subjectName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="subjectName"}}
+    </div>
+    
+    <div class="label">
+      {{lang "subject.numberOfCredits"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="numberOfCredits"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

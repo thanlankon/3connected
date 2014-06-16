@@ -1,0 +1,13 @@
+# attribute name
+
+subject = Subject
+
+subject.subjectId = Subject Id
+subject.subjectName = Subject name
+
+# button
+
+subject.create = Create subject
+subject.view = View subject details
+subject.edit = Edit subject
+subject.delete = Delete subjectes
