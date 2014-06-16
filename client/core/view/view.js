@@ -29,7 +29,7 @@ define('core.view.View', function (module, require) {
 
   // tag maps
   Util.Object.extend(Can.view.elements.tagMap, {
-    'div': 'div'
+    //    'div': 'div'
   });
 
   module.exports = View;

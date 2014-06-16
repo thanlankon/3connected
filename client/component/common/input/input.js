@@ -9,7 +9,18 @@ define.component('component.common.Input', function (component, require, Util, L
     var input = jQuery('<input />')
       .attr('data-attribute', dataAttribute)
       .attr('data-component-role', 'input')
-      .appendTo(element);
+      .appendTo(element.parent());
+
+    element.remove();
+
+    // update bound attributes
+    var boundAttributes = componentData.attr('boundAttributes') || [];
+    if (boundAttributes.indexOf(dataAttribute) == -1) {
+      boundAttributes.push(dataAttribute);
+      componentData.attr({
+        boundAttributes: boundAttributes
+      });
+    }
 
     var inputOptions = {
       width: '100%',

@@ -19,20 +19,42 @@ cancel = Cancel
 import = Import
 export = Export
 
-# entity
-
-entity.delete.confirm = Delete {{totalItems}} choosen items?
-
-# error
-
-error.service.unknown = Error during performing action!
-error.create.unknown = Error during creation!
-error.update.unknown = Error during updating!
-error.destroy.unknown = Error during deleting!
-
 # manage
 
 manage.batch = Manage batches
 manage.major = Manage majors
 manage.term = Manage terms
 manage.class = Manage classes
+
+# entity
+
+entity.findOne.notFound = {{entityName}} not found
+
+entity.create.duplicated = {{entityName}} <b>{{displayAttribute}}</b> already exists
+entity.create.success = {{entityName}} <b>{{displayAttribute}}</b> is created successfully
+
+entity.update.notFound = {{.entity.findOne.notFound}}
+entity.update.duplicated = {{.entity.create.duplicated}}
+entity.update.success = {{entityName}} <b>{{displayAttribute}}</b> is updated successfully
+
+entity.create.success = {{entityName}} <b>{{displayAttribute}}</b> is created successfully
+
+entity.destroy.incomplete = Error! Deletion is not completed
+entity.destroy.success = The {{entityName!string!plural+lowerAll}} is deleted successfully
+
+entity.destroy.confirm = Delete {{totalItems}} choosen items?
+
+# error
+
+error.service.unknown = Error during performing action!
+error.findAll.unknown = Error during finding entities!
+error.findOne.unknown = Error during finding entity!
+error.create.unknown = Error during creation!
+error.update.unknown = Error during updating!
+error.destroy.unknown = Error during deleting!
+
+# validate
+
+validate.required = {{attributeName}} is required
+validate.positiveInteger = {{attributeName}} must be a positive integer
+validate.maxLength = {{attributeName}} is allowed maximum {{maxLength}} characters

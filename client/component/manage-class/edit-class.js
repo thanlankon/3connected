@@ -48,16 +48,18 @@ define.form('component.dialog.manage-class.EditClass', function (form, require, 
       }
     };
 
-    var data = {
-      classId: null,
-      className: null,
-      batchId: null,
-      majorId: null,
+    //    var data = {
+    //      classId: null,
+    //      className: null,
+    //      batchId: null,
+    //      majorId: null,
+    //
+    //      componentSettings: componentSettings
+    //    };
 
+    this.data.attr({
       componentSettings: componentSettings
-    };
-
-    this.data.attr(data);
+    });
   };
 
   form.ready = function () {

@@ -1,6 +1,7 @@
 define('core.validator.Validator', function (module, require) {
 
   var Util = require('core.util.Util');
+  var Lang = require('core.lang.Lang');
 
   module.exports = {
     validate: validate
@@ -10,7 +11,7 @@ define('core.validator.Validator', function (module, require) {
     for (var i = 0, len = rules.length; i < len; i++) {
       var rule = rules[i];
 
-      var validate = validateAttribute(rule.attribute, data[rule.attribute], rule.rules, data);
+      var validate = validateAttribute(rule.attribute, rule.attributeName, data[rule.attribute], rule.rules, data);
 
       if (!validate.isValid) {
         return validate;
@@ -22,7 +23,7 @@ define('core.validator.Validator', function (module, require) {
     };
   }
 
-  function validateAttribute(attribute, value, rules, data) {
+  function validateAttribute(attribute, attributeName, value, rules, data) {
     var validate = {
       isValid: true,
       attribute: attribute,
@@ -40,32 +41,41 @@ define('core.validator.Validator', function (module, require) {
       }
       // required
       else if (rule.rule == 'required') {
-        validator = requiredValidator
+        validator = 'core.validator.Required';
+      }
+      // maxLength
+      else if (rule.rule == 'maxLength') {
+        validator = 'core.validator.MaxLength';
+      }
+      // integer
+      else if (rule.rule == 'integer') {
+        validator = 'core.validator.Integer';
+      }
+      // positiveInteger - integer > 0
+      else if (rule.rule == 'positiveInteger') {
+        validator = 'core.validator.PositiveInteger';
       }
 
-      if (!validator(attribute, value, data)) {
+      validator = require(validator);
+
+      if (!validator(attribute, value, rule.ruleData, rules, data)) {
         validate.isValid = false;
-        validate.message = rule.message;
+
+        validate.message = rule.message || 'validate.' + rule.rule;
+
+        validate.messageData = {
+          attribute: attribute,
+          attributeName: attributeName ? Lang.get(attributeName) : null,
+          value: value,
+        };
+
+        Util.Object.extend(validate.messageData, rule.ruleData);
 
         break;
       }
     }
 
     return validate;
-  }
-
-  function requiredValidator(attribute, value, data) {
-    var isValid = false;
-
-    if (Util.Object.isNumber(value)) {
-      isValid = true;
-    } else if (Util.Object.isString(value)) {
-      isValid = value.trim().length > 0;
-    } else {
-      isValid = !!value;
-    }
-
-    return isValid;
   }
 
 });

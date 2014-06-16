@@ -78,7 +78,7 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
     var entityIds = element.data('entityIds');
 
-    MsgBox.confirm(Lang.get('entity.delete.confirm', {
+    MsgBox.confirm(Lang.get('entity.destroy.confirm', {
       'totalItems': entityIds.length
     }), this.proxy(doDestroy));
 

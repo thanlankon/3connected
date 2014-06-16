@@ -10,7 +10,13 @@ define.component('component.Cpanel', function (component, require) {
   // cpanel template
   component.tmpl = 'cpanel';
 
-  component.initData = function () {};
+  component.initData = function () {
+    this.data.attr({
+      user: {
+        username: 'TrongND'
+      }
+    });
+  };
 
   component.initView = function (view) {
     this.element.html(view);

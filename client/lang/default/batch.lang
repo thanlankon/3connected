@@ -1,21 +1,13 @@
-batch.id = Batch Id
-batch.name = Batch Name
+# attribute name
 
-batch.create = Create Batch
-batch.view = View Batch Details
-batch.edit = Edit Batch
-batch.delete = Delete Batches
+batch = Batch
 
-batch.name.required = Batch Name is required
+batch.batchId = Batch Id
+batch.batchName = Batch name
 
-batch.find.notFound = Batch is not found
+# button
 
-batch.create.duplicated = Batch <b>{{batchName}}</b> already exists.
-batch.create.success = Batch <b>{{batchName}}</b> is created successfully
-
-batch.update.notFound = {{.batch.find.notFound}}
-batch.update.duplicated = {{.batch.create.duplicated}}
-batch.update.success = Batch is updated successfully
-
-batch.destroy.incomplete = Error! Deletion is not completed
-batch.destroy.success = The Batches is deleted successfully
+batch.create = Create batch
+batch.view = View batch details
+batch.edit = Edit batch
+batch.delete = Delete batches

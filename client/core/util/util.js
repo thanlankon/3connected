@@ -25,7 +25,18 @@ define('core.util.Util', function (module, require) {
     isString: Underscore.isString,
     isArray: Underscore.isArray,
     isDate: Underscore.isDate,
-    isFunction: Underscore.isFunction
+    isFunction: Underscore.isFunction,
+    isObject: Underscore.isObject,
+
+    isInteger: function (object) {
+      // check for type is Number
+      if (!Util.Object.isNumber(object)) return false;
+
+      // check for integer
+      var isInteger = !isNaN(object) && parseInt(Number(object)) === object;
+
+      return isInteger;
+    }
   };
 
   Util.String = {
@@ -48,6 +59,44 @@ define('core.util.Util', function (module, require) {
     },
     upperAll: function (str) {
       return str.toUpperCase();
+    },
+
+    plural: function (str) {
+      if (str.slice(-1).toLowerCase() === 'f') {
+        return str.slice(0, -1) + 'ves';
+      }
+      if (str.slice(-2).toLowerCase() === 'fe') {
+        return str.slice(0, -2) + 'ves';
+      }
+      if (str.slice(-2).toLowerCase() === 'ff') {
+        return str.slice(0, -2) + 'ves';
+      }
+      if (str.slice(-1).toLowerCase() === 'o') {
+        return str + 'es';
+      }
+      if (str.slice(-1).toLowerCase() === 'y') {
+        return str.slice(0, -1) + 'ies';
+      }
+      if (str.slice(-1).toLowerCase() === 'z') {
+        return str.slice(0, -1) + 'zes';
+      }
+      if (str.slice(-1).toLowerCase() === 'z') {
+        return str + 'zes';
+      }
+      if (str.slice(-2).toLowerCase() === 'ch') {
+        return str + 'es';
+      }
+      if (str.slice(-2).toLowerCase() === 'sh') {
+        return str + 'es';
+      }
+      if (str.slice(-1).toLowerCase() === 's') {
+        return str + 'es';
+      }
+      if (str.slice(-1).toLowerCase() === 'x') {
+        return str + 'es';
+      }
+
+      return str + 's';
     }
   }
 

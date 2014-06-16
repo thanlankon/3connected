@@ -3,6 +3,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   var jQuery = require('lib.jQuery');
   var Util = require('core.util.Util');
   var Validator = require('core.validator.Validator');
+  var MsgBox = require('component.common.MsgBox');
 
   //  component.singleton = true;
 
@@ -36,6 +37,14 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.initData();
 
+      // reset bound attributes
+      var boundAttributes = this.data.attr('boundAttributes');
+      if (boundAttributes) {
+        for (var i = 0, len = boundAttributes.length; i < len; i++) {
+          this.data.attr(boundAttributes[i], null);
+        }
+      }
+
       this.element.jqxWindow('open');
 
       return;
@@ -56,6 +65,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
         entity.originalData = Util.Object.clone(entity);
 
+        __data = this.data;
         this.data.attr(entity);
 
         this.element.jqxWindow('open');
@@ -176,6 +186,15 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     var data = this.data;
     var rules = this.validateRules;
 
+    if (this.formType == this.FormType.Dialog.CREATE) {
+      rules = rules.create;
+    } else if (this.formType == this.FormType.Dialog.EDIT) {
+      rules = rules.update;
+    } else {
+      // skip validate for other types of form
+      return true;
+    }
+
     var validate = Validator.validate(data, rules);
 
     return validate;
@@ -201,39 +220,48 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     } else {
       // show validate error
 
-      var errorElement = jQuery('<span />').addClass('error');
+      var message = Lang.get(validate.message, validate.messageData);
 
-      errorElement.text(Lang.get(validate.message));
+      var parentElement = this.element.find('.content [data-attribute="' + validate.attribute + '"]').parent();
 
-      var parentElement = this.element.find('.content [data-attribute="' + validate.attribute + '"]').parent().parent();
+      if (parentElement.size()) {
+        // visible attribute
 
-      parentElement.find('.error').remove();
+        var errorElement = jQuery('<span />').addClass('error');
 
-      parentElement.append(errorElement);
+        errorElement.text(message);
 
-      this.element.find('.panel').jqxPanel('scrollTo', 0, parentElement.position().top - 30);
+        parentElement.find('.error').remove();
 
-      this.resizeComponents();
+        parentElement.append(errorElement);
 
-      errorElement.on('click', this.proxy(function () {
-        errorElement.fadeOut(100, this.proxy(function () {
-          errorElement.remove();
+        this.element.find('.panel').jqxPanel('scrollTo', 0, parentElement.position().top - 30);
 
-          this.resizeComponents();
+        this.resizeComponents();
+
+        errorElement.on('click', this.proxy(function () {
+          errorElement.fadeOut(100, this.proxy(function () {
+            errorElement.remove();
+
+            this.resizeComponents();
+          }));
         }));
-      }));
+      } else {
+        // hidden attribute
+
+        MsgBox.alert(message);
+      }
     }
   };
 
   component.submitData = function () {
     var entity = this.data.attr();
 
-    entity = Util.Object.omit(entity, ['originalData', 'componentSettings']);
+    entity = Util.Object.omit(entity, ['originalData', 'boundAttributes', 'componentSettings']);
 
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.ServiceProxy.create(entity, this.proxy(createDone));
     } else if (
-      this.formType == this.FormType.Dialog.VIEW ||
       this.formType == this.FormType.Dialog.EDIT
     ) {
       this.ServiceProxy.update(entity, this.proxy(updateDone));

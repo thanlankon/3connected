@@ -1,24 +1,15 @@
+# attribute name
+
+class = Class
+
 class.id = Class Id
-class.name = Class Name
-class.batch = Class Batch
-class.major = Class Major
+class.name = Class name
+class.batch = Class batch
+class.major = Class major
 
-class.create = Create Class
-class.view = View Class Details
-class.edit = Edit Class
-class.delete = Delete Classes
+# button
 
-class.name.required = Class Name is required
-class.batch.required = Class Batch is required
-
-class.find.notFound = Class is not found
-
-class.create.duplicated = Class <b>{{className}}</b> already exists.
-class.create.success = Class <b>{{className}}</b> is created successfully
-
-class.update.notFound = {{.class.find.notFound}}
-class.update.duplicated = {{.class.create.duplicated}}
-class.update.success = Class is updated successfully
-
-class.destroy.incomplete = Error! Deletion is not completed
-class.destroy.success = The Classes is deleted successfully
+class.create = Create class
+class.view = View class details
+class.edit = Edit class
+class.delete = Delete classes

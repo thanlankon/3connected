@@ -15,7 +15,9 @@ define.component('component.common.Combobox', function (component, require, Util
       .attr('data-attribute', dataAttribute)
       .attr('data-component-role', 'combobox')
       .data('ComboBoxComponent', this)
-      .appendTo(element);
+      .appendTo(element.parent());
+
+    element.remove();
 
     var comboboxOptions = {
       width: '100%',

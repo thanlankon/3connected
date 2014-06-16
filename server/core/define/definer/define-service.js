@@ -30,7 +30,7 @@ define.service = function (id, definer) {
     if (isMethodAllowed(methodConfig, 'findAll')) {
       // add service findAll method
 
-      var findAllConfig = methodConfig.findAll;
+      var findAllConfig = methodConfig.findAll || {};
 
       service.findAll = function (req, res) {
         ServiceUtil.doFindAll(req, res, serviceModel, findAllConfig);
@@ -40,10 +40,11 @@ define.service = function (id, definer) {
     }
 
     if (isMethodAllowed(methodConfig, 'findOne')) {
-      // add service findAll method
+      // add service findOne method
 
-      var findOneConfig = methodConfig.findOne;
+      var findOneConfig = methodConfig.findOne || {};
       findOneConfig.idAttribute = methodConfig.idAttribute;
+      findOneConfig.messageData = methodConfig.message;
 
       service.findOne = function (req, res) {
         ServiceUtil.doFindOne(req, res, serviceModel, findOneConfig);
@@ -55,7 +56,8 @@ define.service = function (id, definer) {
     if (isMethodAllowed(methodConfig, 'create')) {
       // add service create method
 
-      var createConfig = methodConfig.create;
+      var createConfig = methodConfig.create || {};
+      createConfig.messageData = methodConfig.message;
 
       service.create = function (req, res) {
         ServiceUtil.doCreate(req, res, serviceModel, createConfig);
@@ -67,8 +69,9 @@ define.service = function (id, definer) {
     if (isMethodAllowed(methodConfig, 'update')) {
       // add service update method
 
-      var updateConfig = methodConfig.update;
+      var updateConfig = methodConfig.update || {};
       updateConfig.idAttribute = methodConfig.idAttribute;
+      updateConfig.messageData = methodConfig.message;
 
       service.update = function (req, res) {
         ServiceUtil.doUpdate(req, res, serviceModel, updateConfig);
@@ -80,8 +83,9 @@ define.service = function (id, definer) {
     if (isMethodAllowed(methodConfig, 'destroy')) {
       // add service destroy method
 
-      var destroyConfig = methodConfig.destroy;
+      var destroyConfig = methodConfig.destroy || {};
       destroyConfig.idAttribute = methodConfig.idAttribute;
+      destroyConfig.messageData = methodConfig.message;
 
       service.destroy = function (req, res) {
         ServiceUtil.doDestroy(req, res, serviceModel, destroyConfig);

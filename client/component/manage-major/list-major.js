@@ -19,7 +19,7 @@ define.form('component.form.manage-major.ListMajor', function (form, require, Ut
   form.gridConfig = function () {
 
     var gridColumns = [{
-      text: Lang.get('major.id'),
+      text: Lang.get('major.majorId'),
       dataField: 'majorId',
 
       cellsAlign: 'right',
@@ -27,7 +27,7 @@ define.form('component.form.manage-major.ListMajor', function (form, require, Ut
 
       width: 150
     }, {
-      text: Lang.get('major.name'),
+      text: Lang.get('major.majorName'),
       dataField: 'majorName',
     }];
 

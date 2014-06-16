@@ -470,8 +470,14 @@ define('core.lang.Engine', function (module, require) {
 
     // format to string - using Util.String
     if (force && force.toLowerCase() === 'string' || format) {
+      format = format.split('+');
       token = '' + token;
-      return Util.String[format] ? Util.String[format](token) : token;
+
+      for (var i = 0, len = format.length; i < len; i++) {
+        token = Util.String[format[i]] ? Util.String[format[i]](token) : token;
+      }
+
+      return token;
     }
 
     return token;

@@ -1,3 +1,4 @@
-student.add=Thêm sinh viên
-student.edit=Sửa sinh viên
-student.delete=Xóa sinh viên
+# attribute name
+
+student.studentId = Student Id
+student.studentName = Student name

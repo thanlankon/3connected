@@ -85,7 +85,7 @@ define('core.service.ServiceUtil', function (module, require) {
 
     Model.findAll(findOptions, function (error, findResult) {
       if (error) {
-        var message = 'error.find-all.unknown';
+        var message = 'error.findAll.unknown';
       } else {
         var message = null;
       }
@@ -124,12 +124,12 @@ define('core.service.ServiceUtil', function (module, require) {
     }
 
     var findMessage = findOneConfig.message || {
-      notFound: 'entity.find.notFound'
+      notFound: 'entity.findOne.notFound'
     };
 
     Model.findOne(findOptions, function (error, findResult, isNotFound) {
       if (error) {
-        var message = 'error.find-one.unknown';
+        var message = 'error.findOne.unknown';
       } else {
         var message = null;
 
@@ -138,7 +138,10 @@ define('core.service.ServiceUtil', function (module, require) {
             code: 'ENTITY.NOT_FOUND'
           };
 
-          message = findMessage.notFound;
+          message = {
+            messageId: findMessage.notFound,
+            messageData: findOneConfig.messageData
+          };
         }
       }
 
@@ -166,15 +169,21 @@ define('core.service.ServiceUtil', function (module, require) {
       if (error) {
         var message = 'error.create.unknown';
       } else {
-        var message = createMessage.success;
+        var message = {
+          messageId: createMessage.success
+        };
 
         if (isDuplicated === true) {
           error = {
             code: 'ENTITY.DUPLICATE'
           };
 
-          message = createMessage.duplicated;
+          message = {
+            messageId: createMessage.duplicated
+          };
         }
+
+        message.messageData = createConfig.messageData;
       }
 
       ServiceUtil.sendServiceResponse(res, error, message, createdEntity);
@@ -191,6 +200,7 @@ define('core.service.ServiceUtil', function (module, require) {
     var checkDuplicatedAttributes = updateConfig.checkDuplicatedAttributes || undefined;
     var updateMessage = updateConfig.message || {
       notFound: 'entity.update.notFound',
+      duplicated: 'entity.update.duplicated',
       success: 'entity.update.success'
     };
 
@@ -210,24 +220,32 @@ define('core.service.ServiceUtil', function (module, require) {
         if (error) {
           var message = 'error.update.unknown';
         } else {
-          var message = updateMessage.success;
+          var message = {
+            messageId: updateMessage.success
+          };
 
           if (isDuplicated === true) {
             error = {
               code: 'ENTITY.DUPLICATE'
             };
 
-            message = updateMessage.duplicated;
+            message = {
+              messageId: updateMessage.duplicated
+            };
           } else if (isNotFound === true) {
             error = {
               code: 'ENTITY.NOT_FOUND'
             };
 
-            message = updateMessage.notFound;
+            message = {
+              messageId: updateMessage.notFound
+            };
           }
+
+          message.messageData = updateConfig.messageData;
         }
 
-        console.log(message, error);
+        console.log('update', message);
 
         ServiceUtil.sendServiceResponse(res, error, message, updatedEntity);
       });
@@ -252,19 +270,25 @@ define('core.service.ServiceUtil', function (module, require) {
       if (error) {
         var message = 'error.destroy.unknown';
       } else {
-        var message = destroyMessage.success;
+        var message = {
+          messageId: destroyMessage.success
+        };
 
         if (affectedRows !== entityIds.length) {
           error = {
             code: 'ENTITY.DELETE_INCOMPLETED'
           };
 
-          message = destroyMessage.incomplete;
+          message = {
+            messageId: destroyMessage.incomplete
+          };
         }
 
         var data = {
           destroyedItems: affectedRows
         };
+
+        message.messageData = destroyConfig.messageData;
       }
 
       ServiceUtil.sendServiceResponse(res, error, message, data);

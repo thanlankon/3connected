@@ -40,6 +40,12 @@
   font-size: 15px;
   border: none;
 }
+.dialog .header div:first-child {
+  width: 90%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .dialog .header .jqx-icon-close {
   position: absolute;
   border: 1px solid #fff;

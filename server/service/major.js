@@ -11,46 +11,20 @@ define.service('service.Major', function (service, require, ServiceUtil, Util) {
   service.methodConfig = {
     idAttribute: 'majorId',
 
-    findAll: {
-      buildFindOptions: function (findOptions) {
-        //        findOptions.include = [{
-        //          model: require('model.Class'),
-        //          as: 'classes'
-        //        }];
-      }
-    },
-
-    findOne: {
-      message: {
-        notFound: 'major.find.notFound'
-      }
+    message: {
+      entityName: 'major',
+      displayAttribute: 'majorName'
     },
 
     create: {
       attributes: ['majorName'],
-      checkDuplicatedAttributes: ['majorName'],
-      message: {
-        duplicated: 'major.create.duplicated',
-        success: 'major.create.success',
-      }
+      checkDuplicatedAttributes: ['majorName']
     },
 
     update: {
       attributes: ['majorName'],
       checkExistanceAttributes: ['majorId'],
-      checkDuplicatedAttributes: ['majorName'],
-      message: {
-        duplicated: 'major.update.duplicated',
-        notFound: 'major.update.notFound',
-        success: 'major.update.success',
-      }
-    },
-
-    destroy: {
-      message: {
-        incomplete: 'major.destroy.incomplete',
-        success: 'major.destroy.success',
-      }
+      checkDuplicatedAttributes: ['majorName']
     }
   }
 

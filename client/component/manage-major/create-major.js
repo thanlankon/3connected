@@ -1,5 +1,8 @@
 define.form('component.dialog.manage-major.CreateMajor', function (form, require, Util, Lang) {
 
+  // map the form to the url
+  // the form is displayed when the url is matched
+  // url: #!manage-major/create
   form.urlMap = {
     url: ':module/:action',
     data: {
@@ -8,32 +11,16 @@ define.form('component.dialog.manage-major.CreateMajor', function (form, require
     }
   };
 
-  form.ServiceProxy = require('proxy.Major');
-
-  form.formType = form.FormType.Dialog.CREATE;
-
+  // the template that used by the form
   form.tmpl = 'dialog.manage-major.create-major';
 
-  form.validateRules = [{
-    attribute: 'majorName',
-    rules: [{
-      rule: 'required',
-      message: 'major.name.required',
-    }]
-  }];
+  // the form type is Dialog.CREATE
+  form.formType = form.FormType.Dialog.CREATE;
 
-  form.initData = function () {
-    // init form data
+  // the proxy that used by the form
+  // proxy.create method will be used
+  form.ServiceProxy = require('proxy.Major');
 
-    var data = {
-      majorName: null
-    };
-
-    this.data.attr(data);
-  };
-
-  form.ready = function () {
-    // init form components and bind events
-  };
-
+  // the validation rules used by form
+  form.validateRules = require('validator.rule.Major');
 });

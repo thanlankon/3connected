@@ -1,26 +1,26 @@
-define.form('component.form.manage-class.ListClass', function (form, require, Util, Lang) {
+define.form('component.form.manage-student.ListStudent', function (form, require, Util, Lang) {
 
   form.urlMap = {
     url: ':module',
     data: {
-      module: 'manage-class'
+      module: 'manage-student'
     }
   };
 
-  form.ServiceProxy = require('proxy.Class');
+  //  form.ServiceProxy = require('proxy.Student');
 
-  form.tmpl = 'form.manage-class.list-class';
+  form.tmpl = 'form.manage-student.list-student';
 
   form.formType = form.FormType.Form.LIST;
 
-  form.exportConfig = require('export.Class');
+  //  form.exportConfig = require('export.Student');
 
   // grid config
   form.gridConfig = function () {
 
     var gridColumns = [{
-        text: Lang.get('class.id'),
-        dataField: 'classId',
+        text: Lang.get('student.id'),
+        dataField: 'studentId',
 
         cellsAlign: 'right',
         filterType: 'textbox',
@@ -29,15 +29,15 @@ define.form('component.form.manage-class.ListClass', function (form, require, Ut
         hidden: false
       },
       {
-        text: Lang.get('class.name'),
-        dataField: 'className',
+        text: Lang.get('student.name'),
+        dataField: 'studentName',
       },
       {
         text: Lang.get('batch.batchName'),
         dataField: 'batchName',
       },
       {
-        text: Lang.get('major.majorName'),
+        text: Lang.get('major.name'),
         dataField: 'majorName',
     }];
 
