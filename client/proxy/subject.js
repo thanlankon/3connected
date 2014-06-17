@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Subject proxy
+ * Creator         : VyBD
+ * Created date    : 2014/16/06
+ */
 define.proxy('proxy.Subject', function (proxy, require) {
 
   proxy.entityId = 'subjectId';

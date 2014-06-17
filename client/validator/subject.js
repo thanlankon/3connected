@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Subject validator
+ * Creator         : VyBD
+ * Created date    : 2014/16/06
+ */
+
 define('validator.rule.Subject', function (module, require) {
 
   var ruleSubjectId = {

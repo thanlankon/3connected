@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Subject export configuration
+ * Creator         : VyBD
+ * Created date    : 2014/16/06
+ */
 define('export.Subject', function (module, require) {
 
   module.exports = {

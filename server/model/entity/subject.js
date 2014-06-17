@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Subject entity
+ * Creator         : VyBD
+ * Created date    : 2014/16/06
+ */
 define.entity('model.entity.Subject', function (entity, DataType, require) {
 
   entity.subjectId = {

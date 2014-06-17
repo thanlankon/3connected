@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Subject service
+ * Creator         : VyBD
+ * Created date    : 2014/16/06
+ */
 define.service('service.Subject', function (service, require, ServiceUtil, Util) {
 
   var SubjectModel = require('model.Subject');
