@@ -17,4 +17,4 @@ subject.numberOfCredits = Number of Credits
 subject.create = Create subject
 subject.view = View subject details
 subject.edit = Edit subject
-subject.delete = Delete subjectes
+subject.delete = Delete subjects
