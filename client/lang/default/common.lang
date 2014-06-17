@@ -26,6 +26,7 @@ manage.major = Manage majors
 manage.term = Manage terms
 manage.class = Manage classes
 manage.subject = Manage subjects
+manage.department = Manage departments
 
 # entity
 

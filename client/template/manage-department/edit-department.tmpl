@@ -1,0 +1,27 @@
+<!--ThanhVMSE90059-->
+<template id="dialog.manage-department.edit-department">
+
+  {{dialog.size width="500px" height="200px"}}
+
+  <div class="header">
+    {{lang "department.edit"}} <b>{{originalData.departmentName}}</b>
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "department.name"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="departmentName"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>
