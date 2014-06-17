@@ -36,7 +36,7 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
   };
 
   entity.dateOfBirth = {
-    type: DataType.DATE,
+    type: 'DATE',
     allowNull: false
   };
 
@@ -50,7 +50,6 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
     allowNull: true
   };
 
-
   entity.config = {
     table: 'Student'
   };
@@ -60,5 +59,7 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
       as: 'class'
     });
   };
+
+  console.log('DATE TYPE', typeof DataType.DATE, DataType.DATE);
 
 });

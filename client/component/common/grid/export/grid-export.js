@@ -26,6 +26,11 @@ define('component.export.grid.GridExport', function (module, require) {
     }
 
     var gridRows = grid.jqxGrid('getdisplayrows');
+
+    var Moment = require('lib.Moment');
+    var Gender = require('enum.Gender');
+    var Lang = require('core.lang.Lang');
+
     for (var i = 0, len = gridRows.length; i < len; i++) {
       var row = gridRows[i];
 
@@ -33,8 +38,28 @@ define('component.export.grid.GridExport', function (module, require) {
 
       for (var j = 0, fieldLen = gridData.fields.length; j < fieldLen; j++) {
         var fieldName = gridData.fields[j].name;
+        var fieldValue = row[fieldName];
 
-        item[fieldName] = row[fieldName];
+        // for datetime
+        if (['dateOfBirth'].indexOf(fieldName) != -1) {
+          fieldValue = Moment(fieldValue).format('DD/MM/YYYY');
+        }
+        // for gender
+        else if (['gender'].indexOf(fieldName) != -1) {
+          switch (fieldValue) {
+          case Gender.UNKNOWN:
+            fieldValue = Lang.get('gender.unknown');
+            break;
+          case Gender.MALE:
+            fieldValue = Lang.get('gender.male');
+            break;
+          case Gender.FEMALE:
+            fieldValue = Lang.get('gender.female');
+            break;
+          }
+        }
+
+        item[fieldName] = fieldValue;
       }
 
       gridData.items.push(item);

@@ -1,4 +1,18 @@
 # attribute name
 
 student.studentId = Student Id
-student.studentName = Student name
+student.studentCode = Student code
+student.firstName = {{.firstName}}
+student.lastName = {{.lastName}}
+student.className = {{.class}}
+student.gender = {{.gender}}
+student.dateOfBirth = {{.dateOfBirth}}
+student.address = {{.address}}
+student.email = {{.email}}
+
+# button
+
+student.create = Create student
+student.view = View student details
+student.edit = Edit student
+student.delete = Delete students

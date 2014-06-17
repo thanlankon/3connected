@@ -17,6 +17,8 @@ define('db.Deploy', function (module, require) {
 
     seedClass(queryChainer);
 
+    seedStudent(queryChainer);
+
     queryChainer
       .runSerially()
       .success(function () {
@@ -86,6 +88,37 @@ define('db.Deploy', function (module, require) {
             className: 'PC' + i,
             batchId: 2,
             majorId: 1
+          }))
+    }
+  }
+
+  function seedStudent(queryChainer) {
+    var Student = require('model.entity.Student');
+    var Moment = require('lib.Moment');
+
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Student.create({
+            studentCode: 'SE01' + i,
+            firstName: 'Firstname ' + i,
+            lastName: 'LastName ' + i,
+            classId: 1,
+            gender: 1,
+            dateOfBirth: Moment.utc([1992, 9, 27]).toDate(),
+            address: 'Address ' + i,
+            email: 'Email.' + i + '@local.host'
+          }))
+        .add(
+          Student.create({
+            studentCode: 'SE02' + i,
+            firstName: 'Firstname ' + i,
+            lastName: 'LastName ' + i,
+            classId: 1,
+            gender: 1,
+            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            address: 'Address ' + i,
+            email: 'Email.' + i + '@local.host'
           }))
     }
   }

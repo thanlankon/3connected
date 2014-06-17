@@ -47,3 +47,7 @@ define('lib.Underscore', function (module, require, libs) {
 define('lib.MiniMatch', function (module, require, libs) {
   module.exports = libs.MiniMatch;
 });
+
+define('lib.Moment', function (module, require, libs) {
+  module.exports = libs.Moment;
+});

@@ -1,0 +1,39 @@
+<template id="form.manage-student.list-student">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-student" action="create"}}">{{lang "student.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button">
+        <a href="{{url module="manage-student" action="edit"}}">{{lang "student.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button">
+        <a href="#">{{lang "student.delete"}}</a>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+      <li class="right component">
+        {{component.gridClearFilter}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-students" data-component-role="grid"></div>
+
+  </div>
+
+</template>

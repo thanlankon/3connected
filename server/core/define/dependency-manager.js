@@ -12,6 +12,7 @@ Dependency = {
 
     Underscore: require('underscore'),
     MiniMatch: require('minimatch'),
+    Moment: require('moment'),
   },
 
   modules: {},

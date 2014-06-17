@@ -88,9 +88,28 @@ define.component('component.common.Grid', function (component, require, Util, La
           data.filters = [];
 
           for (var i = 0, len = originalData.filterscount; i < len; i++) {
+            var dataField = originalData['filterdatafield' + i];
+            var dataValue = originalData['filtervalue' + i];
+
+            if (['gender'].indexOf(dataField) != -1) {
+              var Gender = require('enum.Gender');
+
+              switch (dataValue) {
+              case Lang.get('gender.unknown'):
+                dataValue = Gender.UNKNOWN;
+                break;
+              case Lang.get('gender.male'):
+                dataValue = Gender.MALE;
+                break;
+              case Lang.get('gender.female'):
+                dataValue = Gender.FEMALE;
+                break;
+              }
+            }
+
             data.filters.push({
-              field: originalData['filterdatafield' + i],
-              value: originalData['filtervalue' + i],
+              field: dataField,
+              value: dataValue,
             });
           }
         }
@@ -104,8 +123,64 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     // allow all columns to be hidden
     for (var i = 0, len = gridOptions.columns.length; i < len; i++) {
-      gridOptions.columns[i].hideable = true;
-      gridOptions.columns[i].resizable = true;
+      var gridColumn = gridOptions.columns[i];
+
+      gridColumn.hideable = true;
+      gridColumn.resizable = true;
+
+      // for datetime
+      if (['dateOfBirth'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.cellsFormat = 'dd/MM/yyyy';
+      }
+
+      // for gender
+      if (['gender'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.width = '100px';
+
+        gridColumn.filterType = 'list';
+
+        gridColumn.createFilterWidget = function (column, columnElement, widget) {
+          var source = [
+            Lang.get('gender.all'),
+            Lang.get('gender.male'),
+            Lang.get('gender.female'),
+            Lang.get('gender.unknown')
+          ];
+
+          widget.jqxDropDownList({
+            source: source,
+            dropDownWidth: '90px'
+          });
+        };
+
+        gridColumn.cellsRenderer = function (row, columnField, value, defaultHtml, columnProperties) {
+          var Gender = require('enum.Gender');
+
+          var genderText = null;
+
+          switch (value) {
+          case Gender.UNKNOWN:
+            genderText = Lang.get('gender.unknown');
+            break;
+          case Gender.MALE:
+            genderText = Lang.get('gender.male');
+            break;
+          case Gender.FEMALE:
+            genderText = Lang.get('gender.female');
+            break;
+          }
+
+          var elmHtml = jQuery(defaultHtml).text(genderText);
+          var elmWrapper = jQuery('<div />');
+
+          var genderHtml = elmWrapper.append(elmHtml).html();
+
+          elmHtml.remove();
+          elmWrapper.remove();
+
+          return genderHtml;
+        }
+      }
     }
 
     this.gridColumns = gridOptions.columns;

@@ -7,39 +7,70 @@ define.form('component.form.manage-student.ListStudent', function (form, require
     }
   };
 
-  //  form.ServiceProxy = require('proxy.Student');
+  form.ServiceProxy = require('proxy.Student');
 
   form.tmpl = 'form.manage-student.list-student';
 
   form.formType = form.FormType.Form.LIST;
 
-  //  form.exportConfig = require('export.Student');
+  form.exportConfig = require('export.Student');
 
   // grid config
   form.gridConfig = function () {
 
     var gridColumns = [{
-        text: Lang.get('student.id'),
+        text: Lang.get('student.studentId'),
         dataField: 'studentId',
 
         cellsAlign: 'right',
         filterType: 'textbox',
 
-        width: 150,
+        width: '100px',
         hidden: false
       },
       {
-        text: Lang.get('student.name'),
-        dataField: 'studentName',
+        text: Lang.get('student.studentCode'),
+        dataField: 'studentCode',
+
+        width: '150px',
       },
       {
-        text: Lang.get('batch.batchName'),
-        dataField: 'batchName',
+        text: Lang.get('student.firstName'),
+        dataField: 'firstName',
       },
       {
-        text: Lang.get('major.name'),
-        dataField: 'majorName',
-    }];
+        text: Lang.get('student.lastName'),
+        dataField: 'lastName',
+      },
+      {
+        text: Lang.get('student.className'),
+        dataField: 'className',
+      },
+      {
+        text: Lang.get('student.gender'),
+        dataField: 'gender',
+      },
+      {
+        text: Lang.get('student.dateOfBirth'),
+        dataField: 'dateOfBirth',
+
+        width: '130px'
+      },
+      {
+        text: Lang.get('student.address'),
+        dataField: 'address',
+
+        width: '200px',
+        hidden: true
+      },
+      {
+        text: Lang.get('student.email'),
+        dataField: 'email',
+
+        width: '200px',
+        hidden: true
+      }
+    ];
 
     var gridConfig = {
       columns: gridColumns
