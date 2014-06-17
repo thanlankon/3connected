@@ -1,0 +1,17 @@
+# System          : 3connected
+# Component       : Subject version version lang
+# Creator         : VyBD
+# Created date    : 2014/17/06
+
+# attribute name
+
+subjectVersion = Subject version
+
+subjectVersion.subjectVersionId = Subject version Id
+subjectVersion.description = Description
+# button
+
+subjectVersion.create = Create Subject Version
+subjectVersion.view = View Subject Version details
+subjectVersion.edit = Edit Subject Version
+subjectVersion.delete = Delete Subject Versions

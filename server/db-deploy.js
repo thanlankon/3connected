@@ -17,6 +17,9 @@ define('db.Deploy', function (module, require) {
 
     seedClass(queryChainer);
 
+    seedSubject(queryChainer);
+    seedSubjectVersion(queryChainer);
+
     queryChainer
       .runSerially()
       .success(function () {
@@ -88,6 +91,31 @@ define('db.Deploy', function (module, require) {
             majorId: 1
           }))
     }
+  }
+
+  function seedSubject(queryChainer) {
+    var Subject = require('model.entity.Subject');
+
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Subject.create({
+            subjectCode: 'SJC' + i,
+            subjectName: 'Subject name ' + i,
+            numberOfCredits: i
+          }))
+    }
+  }
+
+  function seedSubjectVersion(queryChainer) {
+    var SubjectVersion = require('model.entity.SubjectVersion');
+
+      queryChainer
+        .add(
+          SubjectVersion.create({
+            subjectId: 1,
+            description: 'Test subject version'
+          }))
   }
 
   function deploySchema(callback) {

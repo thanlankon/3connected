@@ -32,12 +32,12 @@ define.entity('model.entity.Subject', function (entity, DataType, require) {
     table: 'Subject'
   };
 
-//  entity.associate = function () {
-//
-//    this.hasMany('model.entity.SubjectVersion', {
-//      as: 'subjectVersions'
-//    });
-//
-//  };
+  entity.associate = function () {
+
+    this.hasMany('model.entity.SubjectVersion', {
+      as: 'subjectVersions'
+    });
+
+  };
 
 });

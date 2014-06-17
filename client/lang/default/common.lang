@@ -27,6 +27,7 @@ manage.term = Manage terms
 manage.class = Manage classes
 manage.subject = Manage subjects
 manage.department = Manage departments
+manage.subjectVersion = Manage subject versions
 
 # entity
 
