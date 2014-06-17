@@ -50,7 +50,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       return;
     }
 
-    if (this.formType == this.FormType.Dialog.EDIT && this.ServiceProxy) {
+    if ((this.formType == this.FormType.Dialog.EDIT || this.formType == this.FormType.Dialog.VIEW) && this.ServiceProxy) {
       var id = params.id;
 
       var findOptions = {};
