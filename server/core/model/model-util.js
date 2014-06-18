@@ -20,9 +20,7 @@ define('core.model.ModelUtil', function (module, require) {
     }
 
     if (sort) {
-      findOptions.order = [
-        [sort.field, sort.order]
-      ];
+      findOptions.order = buildSort(sort);
     }
 
     if (attributes) {
@@ -52,6 +50,16 @@ define('core.model.ModelUtil', function (module, require) {
       .error(function (error) {
         callback(error);
       });
+
+    function buildSort(sort) {
+      var tableName = Entity.tableName;
+
+      sort.field = buildColumnName(sort.field, tableName);
+
+      var sort = sort.field + ' ' + sort.order;
+
+      return sort
+    }
 
     function buildFilters(filters) {
       var tableName = Entity.tableName;

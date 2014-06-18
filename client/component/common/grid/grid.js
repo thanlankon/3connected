@@ -81,6 +81,15 @@ define.component('component.common.Grid', function (component, require, Util, La
 
         if (originalData.sortdatafield) {
           data.sortField = originalData.sortdatafield;
+
+          // check if dataField is mapped
+          for (var j = 0, dataFieldLen = source.dataFields.length; j < dataFieldLen; j++) {
+            if (source.dataFields[j].name == data.sortField && source.dataFields[j].map) {
+              data.sortField = source.dataFields[j].map;
+              break;
+            }
+          }
+
           data.sortOrder = originalData.sortorder || 'ASC';
         }
 
