@@ -23,6 +23,8 @@ define('db.Deploy', function (module, require) {
     seedSubject(queryChainer);
     seedSubjectVersion(queryChainer);
 
+    seedCourse(queryChainer);
+
     queryChainer
       .runSerially()
       .success(function () {
@@ -161,6 +163,21 @@ define('db.Deploy', function (module, require) {
         SubjectVersion.create({
           subjectId: 1,
           description: 'Test subject version'
+        }))
+  }
+
+  function seedCourse(queryChainer) {
+    var Course = require('model.entity.Course');
+
+    queryChainer
+      .add(
+        Course.create({
+          subjectVersionId: 1,
+          termId: 1,
+          majorId: 1,
+          classId: 1,
+          courseName: 'abc',
+          numberOfCredits: 1
         }))
   }
 

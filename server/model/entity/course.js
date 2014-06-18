@@ -25,7 +25,7 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
 
   entity.numberOfCredits = {
     type: DataType.INTEGER,
-    allowNull: true
+    allowNull: false
   }
 
   entity.lectureId = {
@@ -44,11 +44,6 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
   }
 
   entity.majorId = {
-    type: DataType.INTEGER,
-    allowNull: false
-  }
-
-  entity.subjectId = {
     type: DataType.INTEGER,
     allowNull: false
   }
@@ -72,10 +67,6 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
 
     this.belongsTo('model.entity.Major', {
       as: 'major'
-    });
-
-    this.belongsTo('model.entity.Subject', {
-      as: 'subject'
     });
 
     this.belongsTo('model.entity.SubjectVersion', {

@@ -42,25 +42,22 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
     findAll: {
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
-          model: SubjectModel,
-          as: 'subject'
-            }, {
           model: SubjectVersionModel,
-          as: 'subjectVersion'
-            }, {
+          as: 'subjectVersion',
+          include: [{
+            model: SubjectModel,
+            as: 'subject'
+          }]
+        }, {
           model: ClassModel,
           as: 'class'
-          }, {
+        }, {
           model: TermModel,
           as: 'term'
-          }, {
+        }, {
           model: MajorModel,
           as: 'major'
-          }]
-        //          , {
-        //          model: LectureModel,
-        //          as: 'lecture'
-        //          }]
+        }];
       }
     }
   }

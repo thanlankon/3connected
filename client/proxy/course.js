@@ -27,6 +27,9 @@ define.proxy('proxy.Course', function (proxy, require) {
       name: 'courseName',
       type: 'string'
     }, {
+      name: 'numberOfCredits',
+      type: 'string'
+    }, {
       name: 'className',
       type: 'string',
       map: 'class.className'
@@ -41,7 +44,7 @@ define.proxy('proxy.Course', function (proxy, require) {
     }, {
       name: 'subjectName',
       type: 'string',
-      map: 'subject.subjectName'
+      map: 'subjectVersion.subject.subjectName'
     }, {
       name: 'description',
       type: 'string',

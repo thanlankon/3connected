@@ -5,10 +5,11 @@
 
 # attribute name
 
-course = Subject version
+course = Course
 
 course.courseId = Course Id
 course.courseName = Course name
+course.numberOfCredits = Number of credits
 # button
 
 course.create = Create Course
