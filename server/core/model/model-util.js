@@ -1,6 +1,7 @@
 define('core.model.ModelUtil', function (module, require) {
 
   var Util = require('core.util.Util');
+  var ConvertUtil = require('core.util.ConvertUtil');
 
   var ModelUtil = module.exports = {};
 
@@ -20,7 +21,7 @@ define('core.model.ModelUtil', function (module, require) {
     }
 
     if (sort) {
-      findOptions.order = buildSort(sort);
+      findOptions.order = buildSort(sort, Entity.tableName);
     }
 
     if (attributes) {
@@ -32,7 +33,7 @@ define('core.model.ModelUtil', function (module, require) {
     }
 
     if (options.filters) {
-      findOptions.where = buildFilters(options.filters);
+      findOptions.where = buildFilters(options.filters, Entity.tableName);
     }
 
     findOptions.include = include;
@@ -50,81 +51,6 @@ define('core.model.ModelUtil', function (module, require) {
       .error(function (error) {
         callback(error);
       });
-
-    function buildSort(sort) {
-      var tableName = Entity.tableName;
-
-      sort.field = buildColumnName(sort.field, tableName);
-
-      var sort = sort.field + ' ' + sort.order;
-
-      return sort
-    }
-
-    function buildFilters(filters) {
-      var tableName = Entity.tableName;
-
-      var whereSql = [];
-      var whereData = [];
-
-      for (var i = 0, len = filters.length; i < len; i++) {
-        var filter = filters[i];
-
-        if (!filter.field || !filter.value) continue;
-
-        var columnName = buildColumnName(filter.field, tableName);
-
-        // convert to search datetime
-        if (['dateOfBirth'].indexOf(filter.field) != -1) {
-          filter.value = convertToSearchDateTime(filter.value);
-        }
-
-        if (['gender'].indexOf(filter.field) != -1) {
-          // find exact
-          whereSql.push(columnName + ' = ?');
-          whereData.push(filter.value);
-        } else {
-          // find like
-          whereSql.push(columnName + ' LIKE ?');
-          whereData.push('%' + filter.value + '%');
-        }
-      }
-
-      var where = [whereSql.join(' AND ')].concat(whereData);
-
-      console.log(where);
-      return where;
-    }
-
-    function buildColumnName(columnName, tableName) {
-      var columnNameTokens = columnName.split('.');
-
-      columnName = [];
-
-      if (columnNameTokens.length == 1) {
-        columnNameTokens = [tableName].concat(columnNameTokens);
-      } else {
-        columnNameTokens = [columnNameTokens.slice(0, -1).join('.')].concat(columnNameTokens.slice(-1));
-      }
-
-      for (var i = 0, len = columnNameTokens.length; i < len; i++) {
-        columnName.push('`' + columnNameTokens[i] + '`');
-      }
-
-      return columnName.join('.');
-    }
-
-    function convertToSearchDateTime(date) {
-      if (date.indexOf('/') == -1) return date;
-
-      var dateParts = date.split('/');
-
-      if (dateParts.length == 2) {
-        return dateParts[1].trim() + '%-%' + dateParts[0].trim()
-      } else {
-        return dateParts[2].trim() + '%-%' + dateParts[1].trim() + '%-%' + dateParts[0].trim()
-      }
-    }
 
   };
 
@@ -146,6 +72,8 @@ define('core.model.ModelUtil', function (module, require) {
 
   // create method
   ModelUtil.create = function (Entity, entityData, checkDuplicatedData, callback) {
+
+    prepareEntity(entityData);
 
     // check if no checkDuplicatedData passed
     if (Util.Object.isFunction(checkDuplicatedData)) {
@@ -183,6 +111,8 @@ define('core.model.ModelUtil', function (module, require) {
 
   // update method
   ModelUtil.update = function (Entity, entityData, checkDuplicatedData, checkExistanceData, callback) {
+
+    prepareEntity(entityData);
 
     // check if no checkDuplicatedData passed
     //    if (Util.Object.isFunction(checkExistanceData)) {
@@ -247,5 +177,87 @@ define('core.model.ModelUtil', function (module, require) {
       });
 
   };
+
+  // helper methods
+
+  function prepareEntity(entity) {
+
+    Util.Collection.each(entity, function (value, key) {
+      if (['dateOfBirth'].indexOf(key) != -1) {
+        entity[key] = ConvertUtil.DateTime.toMySqlDate(value);
+      }
+    });
+
+  }
+
+  function buildSort(sort, tableName) {
+    sort.field = buildColumnName(sort.field, tableName);
+
+    var sort = sort.field + ' ' + sort.order;
+
+    return sort
+  }
+
+  function buildFilters(filters, tableName) {
+    var whereSql = [];
+    var whereData = [];
+
+    for (var i = 0, len = filters.length; i < len; i++) {
+      var filter = filters[i];
+
+      if (!filter.field || !filter.value) continue;
+
+      var columnName = buildColumnName(filter.field, tableName);
+
+      // convert to search datetime
+      if (['dateOfBirth'].indexOf(filter.field) != -1) {
+        filter.value = convertToSearchDateTime(filter.value);
+      }
+
+      if (['gender'].indexOf(filter.field) != -1) {
+        // find exact
+        whereSql.push(columnName + ' = ?');
+        whereData.push(filter.value);
+      } else {
+        // find like
+        whereSql.push(columnName + ' LIKE ?');
+        whereData.push('%' + filter.value + '%');
+      }
+    }
+
+    var where = [whereSql.join(' AND ')].concat(whereData);
+
+    return where;
+  }
+
+  function buildColumnName(columnName, tableName) {
+    var columnNameTokens = columnName.split('.');
+
+    columnName = [];
+
+    if (columnNameTokens.length == 1) {
+      columnNameTokens = [tableName].concat(columnNameTokens);
+    } else {
+      columnNameTokens = [columnNameTokens.slice(0, -1).join('.')].concat(columnNameTokens.slice(-1));
+    }
+
+    for (var i = 0, len = columnNameTokens.length; i < len; i++) {
+      columnName.push('`' + columnNameTokens[i] + '`');
+    }
+
+    return columnName.join('.');
+  }
+
+  function convertToSearchDateTime(date) {
+    if (date.indexOf('/') == -1) return date;
+
+    var dateParts = date.split('/');
+
+    if (dateParts.length == 2) {
+      return dateParts[1].trim() + '%-%' + dateParts[0].trim()
+    } else {
+      return dateParts[2].trim() + '%-%' + dateParts[1].trim() + '%-%' + dateParts[0].trim()
+    }
+  }
 
 });

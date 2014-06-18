@@ -27,7 +27,7 @@ define('component.export.grid.GridExport', function (module, require) {
 
     var gridRows = grid.jqxGrid('getdisplayrows');
 
-    var Moment = require('lib.Moment');
+    var ConvertUtil = require('core.util.ConvertUtil');
     var Gender = require('enum.Gender');
     var Lang = require('core.lang.Lang');
 
@@ -42,21 +42,11 @@ define('component.export.grid.GridExport', function (module, require) {
 
         // for datetime
         if (['dateOfBirth'].indexOf(fieldName) != -1) {
-          fieldValue = Moment(fieldValue).format('DD/MM/YYYY');
+          fieldValue = ConvertUtil.DateTime.format(fieldValue);
         }
         // for gender
         else if (['gender'].indexOf(fieldName) != -1) {
-          switch (fieldValue) {
-          case Gender.UNKNOWN:
-            fieldValue = Lang.get('gender.unknown');
-            break;
-          case Gender.MALE:
-            fieldValue = Lang.get('gender.male');
-            break;
-          case Gender.FEMALE:
-            fieldValue = Lang.get('gender.female');
-            break;
-          }
+          fieldValue = ConvertUtil.Gender.toString(fieldValue);
         }
 
         item[fieldName] = fieldValue;
@@ -151,9 +141,9 @@ define('component.export.grid.GridExport', function (module, require) {
   }
 
   function getFileName(fileName) {
-    var Moment = require('lib.Moment');
+    var ConvertUtil = require('core.util.ConvertUtil');
 
-    return Moment().format('[' + fileName + '] - YYYY-MM-DD HH[h]mm[m]ss[s][.xlsx]');
+    return ConvertUtil.Export.getExportFileName(fileName);
   }
 
   function base64toBlob(base64Data, contentType) {

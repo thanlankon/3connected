@@ -17,6 +17,7 @@ var DependencyConfig = {
       'core/define/definer/*',
 
       'config/**',
+      'constant/**',
       'model/**',
       'service/**',
       'router/api/**',
