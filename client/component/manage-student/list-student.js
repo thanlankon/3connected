@@ -47,6 +47,14 @@ define.form('component.form.manage-student.ListStudent', function (form, require
         dataField: 'className',
       },
       {
+        text: Lang.get('student.batchName'),
+        dataField: 'batchName',
+      },
+      {
+        text: Lang.get('student.majorName'),
+        dataField: 'majorName',
+      },
+      {
         text: Lang.get('student.gender'),
         dataField: 'gender',
       },

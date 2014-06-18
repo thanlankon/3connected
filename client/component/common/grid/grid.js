@@ -107,6 +107,14 @@ define.component('component.common.Grid', function (component, require, Util, La
               }
             }
 
+            // check if dataField is mapped
+            for (var j = 0, dataFieldLen = source.dataFields.length; j < dataFieldLen; j++) {
+              if (source.dataFields[j].name == dataField && source.dataFields[j].map) {
+                dataField = source.dataFields[j].map;
+                break;
+              }
+            }
+
             data.filters.push({
               field: dataField,
               value: dataValue,

@@ -34,26 +34,7 @@ define('core.model.ModelUtil', function (module, require) {
     }
 
     if (options.filters) {
-      findOptions.where = {};
-
-      for (var i = 0, len = options.filters.length; i < len; i++) {
-        var filter = options.filters[i];
-
-        // convert to search datetime
-        if (['dateOfBirth'].indexOf(filter.field) != -1) {
-          filter.value = Util.Convert.toSearchDateTime(filter.value);
-        }
-
-        if (['gender'].indexOf(filter.field) != -1) {
-          // find exact
-          findOptions.where[filter.field] = filter.value;
-        } else {
-          // find like
-          findOptions.where[filter.field] = {
-            like: '%' + filter.value + '%'
-          }
-        }
-      }
+      findOptions.where = buildFilters(options.filters);
     }
 
     findOptions.include = include;
@@ -71,6 +52,71 @@ define('core.model.ModelUtil', function (module, require) {
       .error(function (error) {
         callback(error);
       });
+
+    function buildFilters(filters) {
+      var tableName = Entity.tableName;
+
+      var whereSql = [];
+      var whereData = [];
+
+      for (var i = 0, len = filters.length; i < len; i++) {
+        var filter = filters[i];
+
+        if (!filter.field || !filter.value) continue;
+
+        var columnName = buildColumnName(filter.field, tableName);
+
+        // convert to search datetime
+        if (['dateOfBirth'].indexOf(filter.field) != -1) {
+          filter.value = convertToSearchDateTime(filter.value);
+        }
+
+        if (['gender'].indexOf(filter.field) != -1) {
+          // find exact
+          whereSql.push(columnName + ' = ?');
+          whereData.push(filter.value);
+        } else {
+          // find like
+          whereSql.push(columnName + ' LIKE ?');
+          whereData.push('%' + filter.value + '%');
+        }
+      }
+
+      var where = [whereSql.join(' AND ')].concat(whereData);
+
+      console.log(where);
+      return where;
+    }
+
+    function buildColumnName(columnName, tableName) {
+      var columnNameTokens = columnName.split('.');
+
+      columnName = [];
+
+      if (columnNameTokens.length == 1) {
+        columnNameTokens = [tableName].concat(columnNameTokens);
+      } else {
+        columnNameTokens = [columnNameTokens.slice(0, -1).join('.')].concat(columnNameTokens.slice(-1));
+      }
+
+      for (var i = 0, len = columnNameTokens.length; i < len; i++) {
+        columnName.push('`' + columnNameTokens[i] + '`');
+      }
+
+      return columnName.join('.');
+    }
+
+    function convertToSearchDateTime(date) {
+      if (date.indexOf('/') == -1) return date;
+
+      var dateParts = date.split('/');
+
+      if (dateParts.length == 2) {
+        return dateParts[1].trim() + '%-%' + dateParts[0].trim()
+      } else {
+        return dateParts[2].trim() + '%-%' + dateParts[1].trim() + '%-%' + dateParts[0].trim()
+      }
+    }
 
   };
 

@@ -60,6 +60,4 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
     });
   };
 
-  console.log('DATE TYPE', typeof DataType.DATE, DataType.DATE);
-
 });

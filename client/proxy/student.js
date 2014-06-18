@@ -55,6 +55,15 @@ define.proxy('proxy.Student', function (proxy, require) {
       type: 'string',
       map: 'class.className'
     },
+    {
+      name: 'batchName',
+      type: 'string',
+      map: 'class.batch.batchName'
+    }, {
+      name: 'majorName',
+      type: 'string',
+      map: 'class.major.majorName'
+    }
 
   ];
 

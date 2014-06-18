@@ -2,6 +2,8 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
 
   var StudentModel = require('model.Student');
   var ClassModel = require('model.Class');
+  var BatchModel = require('model.Batch');
+  var MajorModel = require('model.Major');
 
   service.map = {
     url: '/student'
@@ -21,7 +23,14 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
           model: ClassModel,
-          as: 'class'
+          as: 'class',
+          include: [{
+            model: BatchModel,
+            as: 'batch'
+          }, {
+            model: MajorModel,
+            as: 'major'
+          }]
         }];
       }
     },

@@ -55,18 +55,4 @@ define('core.util.Util', function (module, require) {
     return Util.Object.isFunction(value) ? value() : value;
   };
 
-  Util.Convert = {
-    toSearchDateTime: function (date) {
-      if (date.indexOf('/') == -1) return date;
-
-      var dateParts = date.split('/');
-
-      if (dateParts.length == 2) {
-        return dateParts[1].trim() + '%-%' + dateParts[0].trim()
-      } else {
-        return dateParts[2].trim() + '%-%' + dateParts[1].trim() + '%-%' + dateParts[0].trim()
-      }
-    }
-  };
-
 });
