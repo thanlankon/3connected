@@ -23,4 +23,25 @@ define.form('component.dialog.manage-student.CreateStudent', function (form, req
 
   // the validation rules used by form
   form.validateRules = require('validator.rule.Student');
+
+  // init form data
+  form.initData = function () {
+
+    var componentSettings = {
+      classId: {
+        ServiceProxy: require('proxy.Class'),
+        combobox: {
+          valueMember: 'classId',
+          displayMember: 'className'
+        }
+      }
+    };
+
+    var data = {
+      componentSettings: componentSettings
+    };
+
+    this.data.attr(data);
+  };
+
 });

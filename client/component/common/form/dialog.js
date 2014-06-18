@@ -255,18 +255,19 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   };
 
   component.submitData = function () {
-    var entity = this.data.attr();
+    var formData = this.data;
+    var entity = formData.attr();
 
     entity = Util.Object.omit(entity, ['originalData', 'boundAttributes', 'componentSettings']);
 
     var omitAttributes = [];
     Util.Collection.each(entity, function (value, key) {
-      if (this.data.attr('componentSettings.' + key + '.skipDataSubmission')) {
+      if (formData.attr('componentSettings.' + key + '.skipDataSubmission')) {
         omitAttributes.push(key);
       }
     });
 
-    entity = Util.Object.omit(entity, obmitAttributes);
+    entity = Util.Object.omit(entity, omitAttributes);
 
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.ServiceProxy.create(entity, this.proxy(createDone));
