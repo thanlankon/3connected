@@ -1,4 +1,5 @@
 //ThanhVMSE90059
+//UayLUSE90014
 define.proxy('proxy.Department', function (proxy, require) {
 
   proxy.entityId = 'departmentId';
