@@ -16,7 +16,7 @@ define('export.Subject', function (module, require) {
       subjectId: {
         width: 10
       },
-      subjecCode: {
+      subjectCode: {
         width: 20
       },
       subjectName: {
