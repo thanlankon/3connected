@@ -55,9 +55,9 @@ define('core.model.ModelUtil', function (module, require) {
   };
 
   ModelUtil.findOne = function (Entity, options, callback) {
-    if (options.id) {
-      options = options.id;
-    }
+    //    if (options.id) {
+    //      options = options.id;
+    //    }
 
     Entity.find(options)
       .success(function (result) {

@@ -111,8 +111,11 @@ define('core.service.ServiceUtil', function (module, require) {
     var idAttribute = findOneConfig.idAttribute || 'id';
     var entityId = req.query[idAttribute];
 
+    var whereCondition = {};
+    whereCondition[idAttribute] = entityId;
+
     var findOptions = {
-      id: entityId
+      where: whereCondition
     };
 
     if (findOneConfig.buildFindOptions) {
@@ -121,6 +124,8 @@ define('core.service.ServiceUtil', function (module, require) {
       if (buildFindOptions) {
         findOptions = buildFindOptions;
       }
+
+      doIncludes(findOptions);
     }
 
     var findMessage = findOneConfig.message || {
