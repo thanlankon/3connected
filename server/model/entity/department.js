@@ -1,4 +1,3 @@
-//ThanhVMSE90059
 define.entity('model.entity.Department', function (entity, DataType, require) {
 
   entity.departmentId = {
@@ -16,5 +15,6 @@ define.entity('model.entity.Department', function (entity, DataType, require) {
   entity.config = {
     table: 'Department'
   };
+
 
 });
