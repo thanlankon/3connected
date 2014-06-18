@@ -93,16 +93,6 @@ define('core.service.ServiceUtil', function (module, require) {
       ServiceUtil.sendServiceResponse(res, error, message, findResult);
     });
 
-    function doIncludes(findOptions) {
-      if (findOptions.include) {
-        for (var i = 0, len = findOptions.include.length; i < len; i++) {
-          findOptions.include[i].model = findOptions.include[i].model.Entity;
-
-          doIncludes(findOptions.include[i]);
-        }
-      }
-    }
-
   };
 
   // findOne method
@@ -299,5 +289,17 @@ define('core.service.ServiceUtil', function (module, require) {
       ServiceUtil.sendServiceResponse(res, error, message, data);
     });
   };
+
+  // helper methods
+
+  function doIncludes(findOptions) {
+    if (findOptions.include) {
+      for (var i = 0, len = findOptions.include.length; i < len; i++) {
+        findOptions.include[i].model = findOptions.include[i].model.Entity;
+
+        doIncludes(findOptions.include[i]);
+      }
+    }
+  }
 
 });

@@ -39,6 +39,28 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
       checkDuplicatedAttributes: ['courseName']
     },
 
+    findOne: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: SubjectVersionModel,
+          as: 'subjectVersion',
+          include: [{
+            model: SubjectModel,
+            as: 'subject'
+          }]
+        }, {
+          model: ClassModel,
+          as: 'class'
+        }, {
+          model: TermModel,
+          as: 'term'
+        }, {
+          model: MajorModel,
+          as: 'major'
+        }];
+      }
+    },
+
     findAll: {
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
