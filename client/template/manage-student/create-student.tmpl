@@ -1,17 +1,75 @@
-<template id="dialog.create-student">
+<template id="dialog.manage-student.create-student">
+
+  {{dialog.size width="500px" height="620px"}}
 
   <div class="header">
-    {{lang "student.add"}}
+    {{lang "student.create"}}
   </div>
 
   <div class="content">
-    {{value}}
+
+    <div class="label">
+      {{lang "student.studentCode"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="studentCode"}}
+    </div>
+
+     <div class="label">
+      {{lang "student.firstName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="firstName"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.lastName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="lastName"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.classId"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="classId"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.gender"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="gender"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.dateOfBirth"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="dateOfBirth"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.address"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="address"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.email"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="email"}}
+    </div>
+
   </div>
 
   <div class="footer">
-    <span type="button" class="button ok" id="buttonOk">OK</span>
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
 
-    <span type="button" class="button cancel" id="buttonCancel">Cancel</span>
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
   </div>
 
 </template>

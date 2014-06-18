@@ -3,15 +3,14 @@ define('validator.rule.Student', function (module, require) {
   var ruleStudentId = {
     // validate for studentId
     attribute: 'studentId',
+    attributeName: 'student.studentId',
     rules: [
       {
         // studentId is required
-        rule: 'required',
-        message: 'student.studentId.required',
+        rule: 'required'
       },
       {
-        rule: 'positiveInteger',
-        message: 'student.studentId.positiveInteger',
+        rule: 'positiveInteger'
       }
      ]
   };
@@ -19,20 +18,19 @@ define('validator.rule.Student', function (module, require) {
   var ruleStudentCode = {
     // validate for studentCode
     attribute: 'studentCode',
+    attributeName: 'student.studentCode',
     rules: [
       {
         // studentCode is required
-        rule: 'required',
-        message: 'student.studentCode.required',
-        },
+        rule: 'required'
+      },
       {
         // studentCode max len is 20
         rule: 'maxLength',
         ruleData: {
           maxLength: 20
-        },
-        message: 'student.studentCode.maxLength',
         }
+      }
      ]
   };
 
@@ -43,16 +41,14 @@ define('validator.rule.Student', function (module, require) {
     rules: [
       {
         // firstName is required
-        rule: 'required',
-        message: 'student.firstName.required',
+        rule: 'required'
       },
       {
         // firstName max length is 50
         rule: 'maxLength',
         ruleData: {
           maxLength: 50
-        },
-        message: 'student.firstName.maxLength',
+        }
       }
      ]
   };
@@ -60,19 +56,33 @@ define('validator.rule.Student', function (module, require) {
   var ruleLastName = {
     // validate for lastName
     attribute: 'lastName',
+    attributeName: 'student.lastName',
     rules: [
       {
         // lastName is required
-        rule: 'required',
-        message: 'student.lastName.required',
+        rule: 'required'
       },
       {
-        // firstName max length is 100
+        // lastName max length is 100
         rule: 'maxLength',
         ruleData: {
-          maxLength: 50
-        },
-        message: 'student.lastName.maxLength',
+          maxLength: 100
+        }
+      }
+     ]
+  };
+
+  var ruleClassId = {
+    // validate for classId
+    attribute: 'classId',
+    attributeName: 'student.classId',
+    rules: [
+      {
+        // classId is required
+        rule: 'required'
+      },
+      {
+        rule: 'positiveInteger'
       }
      ]
   };

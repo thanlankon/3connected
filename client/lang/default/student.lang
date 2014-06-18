@@ -4,6 +4,7 @@ student.studentId = Student Id
 student.studentCode = Student code
 student.firstName = {{.firstName}}
 student.lastName = {{.lastName}}
+student.classId = {{.class}}
 student.className = {{.class}}
 student.batchName = {{.batch}}
 student.majorName = {{.major}}
