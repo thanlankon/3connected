@@ -16,4 +16,9 @@ define.entity('model.entity.Term', function (entity, DataType, require) {
     table: 'Term'
   };
 
+  entity.associate = function () {
+    this.hasMany('model.entity.Course', {
+      as: 'courses'
+    });
+  }
 });

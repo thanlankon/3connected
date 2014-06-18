@@ -1,0 +1,17 @@
+# System          : 3connected
+# Component       : Course lang
+# Creator         : VyBD
+# Created date    : 2014/17/06
+
+# attribute name
+
+course = Subject version
+
+course.courseId = Course Id
+course.courseName = Course name
+# button
+
+course.create = Create Course
+course.view = View Course details
+course.edit = Edit Course
+course.delete = Delete Courses

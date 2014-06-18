@@ -38,6 +38,10 @@ define.entity('model.entity.Subject', function (entity, DataType, require) {
       as: 'subjectVersions'
     });
 
+    this.hasMany('model.entity.Course', {
+        as: 'courses'
+    });
+
   };
 
 });

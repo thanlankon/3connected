@@ -34,6 +34,10 @@ define.entity('model.entity.Class', function (entity, DataType, require) {
   }
 
   entity.associate = function () {
+    this.hasMany('model.entity.Course', {
+      as: 'courses'
+    });
+
     this.belongsTo('model.entity.Batch', {
       as: 'batch'
     });

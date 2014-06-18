@@ -1,0 +1,68 @@
+<!--
+System          : 3connected
+Component       : Create course template
+Creator         : VyBD
+Created date    : 2014/16/06
+-->
+
+<template id="dialog.manage-course.create-course">
+
+  {{dialog.size width="500px" height="500px"}}
+
+  <div class="header">
+    {{lang "course.create"}}
+  </div>
+
+  <div class="content">
+
+   <div class="label">
+      {{lang "course.courseName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="courseName"}}
+    </div>
+
+    <div class="label">
+      {{lang "major.majorName"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="majorId"}}
+    </div>
+
+    <div class="label">
+      {{lang "term.termName"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="termId"}}
+    </div>
+
+    <div class="label">
+      {{lang "class.name"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="classId"}}
+    </div>
+
+     <div class="label">
+      {{lang "subject.subjectName"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="subjectId"}}
+    </div>
+
+    <div class="label">
+      {{lang "subjectVersion.description"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="subjectVersionId"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

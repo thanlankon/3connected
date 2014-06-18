@@ -20,6 +20,10 @@ define.entity('model.entity.Major', function (entity, DataType, require) {
     this.hasMany('model.entity.Class', {
       as: 'classes'
     });
+
+    this.hasMany('model.entity.Course', {
+      as: 'courses'
+    });
   };
 
 });
