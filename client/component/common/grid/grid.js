@@ -2,6 +2,8 @@ define.component('component.common.Grid', function (component, require, Util, La
 
   component.initComponent = function (element, options) {
 
+    var DateTimeConstant = require('constant.DateTime');
+
     this.toolbar = {};
 
     this.lastSelectedRow = null;
@@ -147,7 +149,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
       // for datetime
       if (['dateOfBirth'].indexOf(gridColumn.dataField) != -1) {
-        gridColumn.cellsFormat = 'dd/MM/yyyy';
+        gridColumn.cellsFormat = DateTimeConstant.WidgetFormat.DATE;
       }
 
       // for gender

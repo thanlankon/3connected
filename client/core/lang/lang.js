@@ -1,11 +1,12 @@
 define('core.lang.Lang', function (module, require) {
 
   var LangEngine = require('core.lang.Engine');
+  var DateTime = require('constant.DateTime');
 
   var Lang = {};
 
   var dfFormat = {
-    date: 'DD/MM/YYYY'
+    date: DateTime.Format.DATE
   };
 
   Lang.get = function (id, data) {
