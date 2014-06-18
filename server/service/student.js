@@ -27,12 +27,24 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
     },
 
     create: {
-      attributes: ['studentName'],
+      attributes: [
+        'studentId',
+        'studentCode',
+        'firstName',
+        'lastName',
+        'dateOfBirth',
+      ],
       checkDuplicatedAttributes: ['studentName']
     },
 
     update: {
-      attributes: ['studentName'],
+      attributes: [
+        'studentId',
+        'studentCode',
+        'firstName',
+        'lastName',
+        'dateOfBirth',
+      ],
       checkExistanceAttributes: ['studentId'],
       checkDuplicatedAttributes: ['studentName']
     }

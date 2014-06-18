@@ -37,8 +37,21 @@ define('core.model.ModelUtil', function (module, require) {
       findOptions.where = {};
 
       for (var i = 0, len = options.filters.length; i < len; i++) {
-        findOptions.where[options.filters[i].field] = {
-          like: '%' + options.filters[i].value + '%'
+        var filter = options.filters[i];
+
+        // convert to search datetime
+        if (['dateOfBirth'].indexOf(filter.field) != -1) {
+          filter.value = Util.Convert.toSearchDateTime(filter.value);
+        }
+
+        if (['gender'].indexOf(filter.field) != -1) {
+          // find exact
+          findOptions.where[filter.field] = filter.value;
+        } else {
+          // find like
+          findOptions.where[filter.field] = {
+            like: '%' + filter.value + '%'
+          }
         }
       }
     }

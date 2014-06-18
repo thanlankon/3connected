@@ -99,7 +99,7 @@ define('db.Deploy', function (module, require) {
     var Student = require('model.entity.Student');
     var Moment = require('lib.Moment');
 
-    for (var i = 1; i <= 10; i++) {
+    for (var i = 1; i <= 50; i++) {
       queryChainer
         .add(
           Student.create({
@@ -118,7 +118,18 @@ define('db.Deploy', function (module, require) {
             firstName: 'Firstname ' + i,
             lastName: 'LastName ' + i,
             classId: 1,
-            gender: 1,
+            gender: 2,
+            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            address: 'Address ' + i,
+            email: 'Email.' + i + '@local.host'
+          }))
+        .add(
+          Student.create({
+            studentCode: 'SE03' + i,
+            firstName: 'Firstname ' + i,
+            lastName: 'LastName ' + i,
+            classId: 1,
+            gender: 0,
             dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
