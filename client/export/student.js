@@ -22,6 +22,12 @@ define('export.Student', function (module, require) {
       className: {
         width: 10
       },
+      batchName: {
+        width: 15
+      },
+      majorName: {
+        width: 15
+      },
       gender: {
         width: 10
       },

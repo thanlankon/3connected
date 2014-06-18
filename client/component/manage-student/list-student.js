@@ -45,14 +45,20 @@ define.form('component.form.manage-student.ListStudent', function (form, require
       {
         text: Lang.get('student.className'),
         dataField: 'className',
+
+        width: '100px',
       },
       {
         text: Lang.get('student.batchName'),
         dataField: 'batchName',
+
+        width: '150px',
       },
       {
         text: Lang.get('student.majorName'),
         dataField: 'majorName',
+
+        width: '150px',
       },
       {
         text: Lang.get('student.gender'),
