@@ -8,6 +8,10 @@ define.component('component.common.Combobox', function (component, require, Util
 
     var settingsAttribute = 'componentSettings.' + dataAttribute;
     var filtersAttribute = 'componentSettings.' + dataAttribute + '.filterConditions';
+    var filterByAttribute = 'componentSettings.' + dataAttribute + '.filterByAttributes';
+
+    var filterByAttributes = componentData.attr(filterByAttribute);
+    this.filterByAttributes = filterByAttributes = filterByAttributes ? filterByAttributes.attr() : [];
 
     var settings = componentData.attr(settingsAttribute);
 
@@ -56,7 +60,11 @@ define.component('component.common.Combobox', function (component, require, Util
     // build filters data
     buildFilters(source, componentData, filtersAttribute);
 
-    comboboxOptions.source = createDataAdapter(source);
+    if (Util.Object.isEmpty(filterByAttributes)) {
+      comboboxOptions.source = createDataAdapter(source);
+    } else {
+      comboboxOptions.disabled = true;
+    }
     comboboxOptions.valueMember = settings.combobox.valueMember;
     comboboxOptions.displayMember = settings.combobox.displayMember;
     comboboxOptions.searchMode = 'containsignorecase';
@@ -112,10 +120,28 @@ define.component('component.common.Combobox', function (component, require, Util
     // tracking changes of filters
     componentData.bind('change', function (ev, attr, how, newVal, oldVal) {
 
+      // filter conditions
       if (attr == filtersAttribute) {
         buildFilters(source, componentData, filtersAttribute);
 
         refreshSource(combobox, source);
+      }
+
+      // filter attributes
+      if (filterByAttributes.indexOf(attr) != -1) {
+        var filterConditions = {};
+        filterConditions[attr] = newVal;
+
+        if (!newVal) {
+          combobox.jqxComboBox({
+            disabled: true
+          });
+        } else {
+          combobox.jqxComboBox({
+            disabled: false
+          });
+          this.attr(filtersAttribute, filterConditions);
+        }
       }
 
     });
@@ -123,6 +149,10 @@ define.component('component.common.Combobox', function (component, require, Util
   };
 
   component.refreshData = function () {
+    if (!Util.Object.isEmpty(this.filterByAttributes)) {
+      this.source.data = null;
+    }
+
     refreshSource(this.combobox, this.source);
   };
 
@@ -139,7 +169,6 @@ define.component('component.common.Combobox', function (component, require, Util
   }
 
   function buildFilters(source, data, filtersAttribute) {
-
     source.data = source.data || {};
 
     var filtersData = data.attr(filtersAttribute);

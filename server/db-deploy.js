@@ -1,6 +1,7 @@
 define('db.Deploy', function (module, require) {
 
   var Entity = require('core.model.Entity');
+  var Util = require('core.util.Util');
 
   module.exports = deployDb;
 
@@ -70,7 +71,8 @@ define('db.Deploy', function (module, require) {
       queryChainer
         .add(
           Major.create({
-            majorName: 'Major ' + i
+            majorName: 'Major ' + i,
+            batchId: i
           }))
     }
   }

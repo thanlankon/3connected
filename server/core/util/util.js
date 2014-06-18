@@ -28,6 +28,8 @@ define('core.util.Util', function (module, require) {
     isFunction: Underscore.isFunction
   };
 
+  Util.random = Underscore.random;
+
   Util.String = {
     lowerOne: function (str, index) {
       if (index) {

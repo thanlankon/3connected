@@ -27,6 +27,7 @@ define('core.util.Util', function (module, require) {
     isDate: Underscore.isDate,
     isFunction: Underscore.isFunction,
     isObject: Underscore.isObject,
+    isEmpty: Underscore.isEmpty,
 
     isInteger: function (object) {
       // check for type is Number
