@@ -1,0 +1,56 @@
+<template id="dialog.manage-gradeCategory.create-gradeCategory">
+
+  {{dialog.size width="500px" height="430px"}}
+
+  <div class="header">
+    {{lang "gradeCategory.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "subject.subjectId"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="subjectId"}}
+    </div>
+
+
+    <div class="label">
+      {{lang "subjectVersion.subjectVersionId"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="subjectVersionId"}}
+    </div>
+
+    <div class="label">
+      {{lang "gradeCategory.gradeCategoryCode"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="gradeCategoryCode"}}
+    </div>
+
+     <div class="label">
+      {{lang "gradeCategory.gradeCategoryName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="gradeCategoryName"}}
+    </div>
+    
+    
+    <div class="label">
+      {{lang "gradeCategory.weight"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="weight"}}
+    </div>
+    
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

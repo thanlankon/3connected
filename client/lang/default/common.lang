@@ -49,6 +49,7 @@ manage.subject = Manage subjects
 manage.department = Manage departments
 manage.student = Manage students
 manage.subjectVersion = Manage subject versions
+manage.gradeCategory = Manage grade category
 
 # entity
 

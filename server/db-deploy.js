@@ -22,6 +22,7 @@ define('db.Deploy', function (module, require) {
 
     seedSubject(queryChainer);
     seedSubjectVersion(queryChainer);
+    seedGradeCategory(queryChainer);
 
     seedCourse(queryChainer);
 
@@ -164,7 +165,27 @@ define('db.Deploy', function (module, require) {
           subjectId: 1,
           description: 'Test subject version'
         }))
+    queryChainer
+      .add(
+        SubjectVersion.create({
+          subjectId: 3,
+          description: 'Test subject version 2'
+        }))
   }
+
+  function seedGradeCategory(queryChainer) {
+    var GradeCategory = require('model.entity.GradeCategory');
+
+//    queryChainer
+//      .add(
+//        GradeCategory.create({
+//          subjectVersionId: 1,
+//          gradeCategoryCode: 'PR',
+//          gradeCategoryName: 'Progress test 1',
+//          weight: 20
+//        }))
+  }
+
 
   function seedCourse(queryChainer) {
     var Course = require('model.entity.Course');
