@@ -32,7 +32,7 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
         text: Lang.get('course.numberOfCredits'),
         dataField: 'numberOfCredits',
       }, {
-        text: Lang.get('class.name'), //text: Lang.get('class.className');
+        text: Lang.get('class.className'),
         dataField: 'className',
       }, {
         text: Lang.get('term.termName'),

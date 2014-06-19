@@ -10,9 +10,12 @@ course = Course
 course.courseId = Course Id
 course.courseName = Course name
 course.numberOfCredits = Number of credits
+
 # button
 
 course.create = Create Course
 course.view = View Course details
 course.edit = Edit Course
 course.delete = Delete Courses
+
+course.schedule = Schedule
