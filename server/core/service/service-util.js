@@ -211,9 +211,11 @@ define('core.service.ServiceUtil', function (module, require) {
     var checkExistanceData = checkExistanceAttributes ?
       Util.Object.pick(req.body, checkExistanceAttributes) : undefined;
 
-    checkDuplicatedData[idAttribute] = {
-      ne: req.body[idAttribute]
-    };
+    if (checkDuplicatedData) {
+      checkDuplicatedData[idAttribute] = {
+        ne: req.body[idAttribute]
+      };
+    }
 
     Model.update(entityData, checkDuplicatedData, checkExistanceData,
       function (error, updatedEntity, isDuplicated, isNotFound) {
