@@ -19,7 +19,7 @@ define.form('component.form.manage-term.ListTerm', function (form, require, Util
   form.gridConfig = function () {
 
     var gridColumns = [{
-      text: Lang.get('term.id'),
+      text: Lang.get('term.termId'),
       dataField: 'termId',
 
       cellsAlign: 'right',
@@ -27,7 +27,7 @@ define.form('component.form.manage-term.ListTerm', function (form, require, Util
 
       width: 150,
     }, {
-      text: Lang.get('term.name'),
+      text: Lang.get('term.termName'),
       dataField: 'termName',
     }];
 
