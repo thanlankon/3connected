@@ -1,9 +1,9 @@
-<template id="dialog.manage-student.create-student">
+<template id="dialog.manage-student.edit-student">
 
   {{dialog.size width="500px" height="620px"}}
 
   <div class="header">
-    {{lang "student.create"}}
+    {{lang "student.edit"}} <b>{{originalData.studentCode}}</b> ({{originalData.lastName}} {{originalData.firstName}})
   </div>
 
   <div class="content">
@@ -12,7 +12,7 @@
       {{lang "student.studentCode"}}:
     </div>
     <div class="data input">
-      {{component.input attribute="studentCode"}}
+      {{component.input attribute="studentCode" disabled="true"}}
     </div>
 
      <div class="label">
@@ -67,7 +67,7 @@
   </div>
 
   <div class="footer">
-    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "update"}}</span>
 
     <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
   </div>

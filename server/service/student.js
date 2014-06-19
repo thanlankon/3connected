@@ -52,7 +52,6 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
     update: {
       attributes: [
         'studentId',
-        'studentCode',
         'firstName',
         'lastName',
         'gender',

@@ -59,12 +59,17 @@ define.component('component.common.DateInput', function (component, require, Uti
 
     // tracking changes of data
     componentData.bind('change', function (ev, attr, how, newVal, oldVal) {
-      if (trackingChange.dateInput) return;
+      if (trackingChange.dateInput || trackingChange.data) return;
 
       trackingChange.data = true;
 
       if (attr == dataAttribute) {
         dateInput.jqxDateTimeInput('setDate', newVal);
+
+        if (ConvertUtil.DateTime.isDate(newVal)) {
+          var dateString = ConvertUtil.DateTime.formatDate(newVal);
+          componentData.attr(dataAttribute, dateString);
+        }
       }
 
       trackingChange.data = false;

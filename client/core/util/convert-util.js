@@ -27,6 +27,10 @@ define('core.util.ConvertUtil', function (module, require) {
     },
     formatCurrentDate: function (format) {
       return Moment().format(DateTimeConstant.Format.DATE);
+    },
+
+    isDate: function (date, format) {
+      return Moment(date, format).isValid();
     }
   };
 
