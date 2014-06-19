@@ -8,10 +8,10 @@
       <li class="icon create" data-component-role="create-button">
         <a href="{{url module="manage-term" action="create"}}">{{lang "term.create"}}</a>
       </li>
-      <li class="icon edit" data-component-role="edit-button">
+      <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
         <a href="{{url module="manage-term" action="edit"}}">{{lang "term.edit"}}</a>
       </li>
-      <li class="icon delete" data-component-role="delete-button">
+      <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
         <a href="#">{{lang "term.delete"}}</a>
       </li>
 
