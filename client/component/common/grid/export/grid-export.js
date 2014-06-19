@@ -28,11 +28,11 @@ define('component.export.grid.GridExport', function (module, require) {
     var gridRows = grid.jqxGrid('getdisplayrows');
 
     var ConvertUtil = require('core.util.ConvertUtil');
-    var Gender = require('enum.Gender');
-    var Lang = require('core.lang.Lang');
 
     for (var i = 0, len = gridRows.length; i < len; i++) {
       var row = gridRows[i];
+
+      if (!row) continue;
 
       var item = {};
 
@@ -42,7 +42,7 @@ define('component.export.grid.GridExport', function (module, require) {
 
         // for datetime
         if (['dateOfBirth'].indexOf(fieldName) != -1) {
-          fieldValue = ConvertUtil.DateTime.format(fieldValue);
+          fieldValue = ConvertUtil.DateTime.formatDate(fieldValue);
         }
         // for gender
         else if (['gender'].indexOf(fieldName) != -1) {
