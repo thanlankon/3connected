@@ -21,11 +21,11 @@ define('validator.rule.GradeCategory', function (module, require) {
     attributeName: 'gradeCategory.gradeCategoryCode',
     rules: [
       {
-        // gradeCategoryCode is required
+        // grade-categoryCode is required
         rule: 'required'
       },
       {
-        // gradeCategoryCode max len is 20
+        // grade-categoryCode max len is 20
         rule: 'maxLength',
         ruleData: {
           maxLength: 20
@@ -100,7 +100,7 @@ define('validator.rule.GradeCategory', function (module, require) {
 
   var ruleCreateGradeCategory = [
     ruleSubjectId,
-    ruleSubjectVersionId ,
+    ruleSubjectVersionId,
     ruleGradeCategoryCode,
     ruleGradeCategoryName,
     ruleGradeCategoryName,

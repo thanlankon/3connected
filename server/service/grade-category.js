@@ -32,12 +32,26 @@ define.service('service.GradeCategory', function (service, require, ServiceUtil,
     },
 
     create: {
-      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'gradeCategoryName','weight']
+      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'gradeCategoryName', 'weight']
     },
 
     update: {
-      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'gradeCategoryName','weight']
+      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'gradeCategoryName', 'weight'],
+      checkExistanceAttributes: ['gradeCategoryId']
+    },
+
+    findOne: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: SubjectVersionModel,
+          as: 'subjectVersion',
+          include: [{
+            model: SubjectModel,
+            as: 'subject'
+          }]
+        }];
+      }
     }
-  }
+  };
 
 });

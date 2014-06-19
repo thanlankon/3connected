@@ -6,13 +6,17 @@
       </li>
 
       <li class="icon create" data-component-role="create-button">
-        <a href="{{url module="manage-gradeCategory" action="create"}}">{{lang "gradeCategory.create"}}</a>
+        <a href="{{url module="manage-grade-category" action="create"}}">{{lang "gradeCategory.create"}}</a>
       </li>
-      <li class="icon edit" data-component-role="edit-button">
-        <a href="{{url module="manage-gradeCategory" action="edit"}}">{{lang "gradeCategory.edit"}}</a>
+      <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
+        <a href="{{url module="manage-grade-category" action="edit"}}">{{lang "gradeCategory.edit"}}</a>
       </li>
-      <li class="icon delete" data-component-role="delete-button">
+      <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
         <a href="#">{{lang "gradeCategory.delete"}}</a>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
       </li>
 
       <li class="right component">
