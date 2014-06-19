@@ -16,5 +16,10 @@ define.entity('model.entity.Department', function (entity, DataType, require) {
     table: 'Department'
   };
 
+entity.associate = function () {
+   this.hasMany('model.entity.Staff', {
+      as: 'staffs'
+    });
+}
 
 });
