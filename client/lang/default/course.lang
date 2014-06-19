@@ -10,6 +10,7 @@ course = Course
 course.courseId = Course Id
 course.courseName = Course name
 course.numberOfCredits = Number of credits
+course.manageStudent = Manage student
 
 # button
 

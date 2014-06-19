@@ -117,7 +117,7 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
   };
 
   // the template that used by the form
-  form.tmpl = 'form.manage-class.class-student';
+  form.tmpl = 'form.manage-course-student.edit-course-student';
 
   // the form type is FORM
   form.formType = form.FormType.FORM;
@@ -131,9 +131,10 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
     });
 
     var gridStudentsConfig = this.getGridConfig().gridStudents;
-    var gridClassStudentsConfig = this.getGridConfig().gridClassStudents;
+    var gridCourseStudentsConfig = this.getGridConfig().gridCourseStudents;
 
     var StudentProxy = require('proxy.Student');
+    var CourseStudentProxy = require('proxy.CourseStudent');
 
     var GridComponent = require('component.common.Grid');
 
@@ -142,9 +143,9 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
       grid: gridStudentsConfig
     });
 
-    this.gridClassStudents = new GridComponent(this.element.find('#grid-class-students'), {
-      ServiceProxy: StudentProxy,
-      grid: gridClassStudentsConfig
+    this.gridCourseStudents = new GridComponent(this.element.find('#grid-course-students'), {
+      ServiceProxy: CourseStudentProxy,
+      grid: gridCourseStudentsConfig
     });
 
     // handle click for Add Students button
@@ -153,7 +154,7 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
 
       var studentIds = this.gridStudents.getSelectedIds();
 
-      MsgBox.confirm(Lang.get('class.addStudents.confirm', {
+      MsgBox.confirm(Lang.get('course.addStudents.confirm', {
         'totalItems': studentIds.length
       }), this.proxy(doAddStudents));
     }));
@@ -162,9 +163,9 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
     this.element.find('#button-remove-students').click(this.proxy(function () {
       var MsgBox = require('component.common.MsgBox');
 
-      var studentIds = this.gridClassStudents.getSelectedIds();
+      var studentIds = this.gridCourseStudents.getSelectedIds();
 
-      MsgBox.confirm(Lang.get('class.removeStudents.confirm', {
+      MsgBox.confirm(Lang.get('course.removeStudents.confirm', {
         'totalItems': studentIds.length
       }), this.proxy(doRemoveStudents));
     }));
@@ -179,38 +180,44 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
 
       if (!studentIds.length) return;
 
-      var classId = this.data.attr('classId');
+      var courseId = this.data.attr('courseId');
 
-      var data = {
-        classId: classId,
-        studentIds: studentIds
-      };
+      var CourseStudentProxy = require('proxy.CourseStudent');
 
-      var ClassProxy = require('proxy.Class');
+      studentIds.forEach(function (item) {
+        console.log(item);
+        var data = {
+          courseId: courseId,
+          studentId: item
+        };
 
-      ClassProxy.addStudents(data, this.proxy(refreshGridData));
+        CourseStudentProxy.create(data);
+      });
+
+
     }
 
     function doRemoveStudents() {
-      var studentIds = this.gridClassStudents.getSelectedIds();
+      var courseStudentIds = this.gridCourseStudents.getSelectedIds();
 
-      if (!studentIds.length) return;
+      if (!courseStudentIds.length) return;
 
-      var classId = this.data.attr('classId');
+      var courseId = this.data.attr('courseId');
+      var CourseStudentProxy = require('proxy.CourseStudent');
+      courseStudentIds.forEach(function (item) {
+        console.log(item);
+        console.log(courseId);
+        var data = {
+          courseStudentId: item
+        };
 
-      var data = {
-        classId: classId,
-        studentIds: studentIds
-      };
-
-      var ClassProxy = require('proxy.Class');
-
-      ClassProxy.removeStudents(data, this.proxy(refreshGridData));
+        CourseStudentProxy.destroy(data);
+      });
     }
 
     function refreshGridData() {
       this.gridStudents.refreshData();
-      this.gridClassStudents.refreshData();
+      this.gridCourseStudents.refreshData();
     }
 
     function toggleSplitterOrientation() {
@@ -244,23 +251,23 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
   };
 
   form.refreshData = function (data) {
-    var classId = data.id;
+    var courseId = data.id;
 
-    var ClassProxy = require('proxy.Class');
+    var CourseProxy = require('proxy.Course');
 
-    ClassProxy.findOne({
-      classId: classId
+    CourseProxy.findOne({
+      courseId: courseId
     }, this.proxy(findOneDone));
 
     function findOneDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
-      var classInfo = serviceResponse.getData();
+      var courseInfo = serviceResponse.getData();
 
-      this.data.attr(classInfo);
+      this.data.attr(courseInfo);
 
-      this.gridStudents.setExcludeConditions('classId', classInfo.classId);
-      this.gridClassStudents.setFilterConditions('classId', classInfo.classId);
+      //this.gridStudents.setExcludeConditions('classId', classInfo.classId);
+      this.gridCourseStudents.setFilterConditions('courseId', courseInfo.courseId);
     }
   }
 
