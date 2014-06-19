@@ -17,9 +17,10 @@ define('db.Deploy', function (module, require) {
     seedTerm(queryChainer);
 
     seedClass(queryChainer);
+    seedDepartment(queryChainer);
 
     seedStudent(queryChainer);
-
+    seedStaff(queryChainer);
     seedSubject(queryChainer);
     seedSubjectVersion(queryChainer);
     seedGradeCategory(queryChainer);
@@ -80,6 +81,19 @@ define('db.Deploy', function (module, require) {
     }
   }
 
+function seedDepartment(queryChainer) {
+    var Department = require('model.entity.Department');
+
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Department.create({
+            departmentId: i,
+            departmentName: 'Department ' + i
+          }))
+    }
+  }
+
   function seedClass(queryChainer) {
     var Class = require('model.entity.Class');
 
@@ -100,7 +114,8 @@ define('db.Deploy', function (module, require) {
     }
   }
 
-  function seedStudent(queryChainer) {
+
+    function seedStudent(queryChainer) {
     var Student = require('model.entity.Student');
     var Moment = require('lib.Moment');
 
@@ -142,7 +157,7 @@ define('db.Deploy', function (module, require) {
     }
   }
 
-  function seedSubject(queryChainer) {
+   function seedSubject(queryChainer) {
     var Subject = require('model.entity.Subject');
 
     for (var i = 1; i <= 10; i++) {
@@ -155,6 +170,46 @@ define('db.Deploy', function (module, require) {
           }))
     }
   }
+
+    function seedStaff(queryChainer) {
+    var Staff = require('model.entity.Staff');
+    var Moment = require('lib.Moment');
+
+    for (var i = 1; i <= 50; i++) {
+      queryChainer
+        .add(
+          Staff.create({
+            firstName: 'Firstname ' + i,
+            lastName: 'LastName ' + i,
+            departmentId: 1,
+            gender: 1,
+            dateOfBirth: Moment.utc([1992, 9, 27]).toDate(),
+            address: 'Address ' + i,
+            email: 'Email.' + i + '@local.host'
+          }))
+        .add(
+          Staff.create({
+            firstName: 'Firstname ' + i,
+            lastName: 'LastName ' + i,
+            departmentId: 2,
+            gender: 2,
+            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            address: 'Address ' + i,
+            email: 'Email.' + i + '@local.host'
+          }))
+        .add(
+          Staff.create({
+            firstName: 'Firstname ' + i,
+            lastName: 'LastName ' + i,
+            departmentId: 3,
+            gender: 0,
+            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            address: 'Address ' + i,
+            email: 'Email.' + i + '@local.host'
+          }))
+    }
+  }
+
 
   function seedSubjectVersion(queryChainer) {
     var SubjectVersion = require('model.entity.SubjectVersion');
@@ -176,14 +231,14 @@ define('db.Deploy', function (module, require) {
   function seedGradeCategory(queryChainer) {
     var GradeCategory = require('model.entity.GradeCategory');
 
-    queryChainer
-      .add(
-        GradeCategory.create({
-          subjectVersionId: 1,
-          gradeCategoryCode: 'PR',
-          gradeCategoryName: 'Progress test 1',
-          weight: 20
-        }))
+//    queryChainer
+//      .add(
+//        GradeCategory.create({
+//          subjectVersionId: 1,
+//          gradeCategoryCode: 'PR',
+//          gradeCategoryName: 'Progress test 1',
+//          weight: 20
+//        }))
   }
 
 

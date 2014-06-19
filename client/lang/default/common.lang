@@ -51,6 +51,7 @@ manage.course = Manage courses
 manage.subject = Manage subjects
 manage.department = Manage departments
 manage.student = Manage students
+manage.staff = Manage Staff
 manage.subjectVersion = Manage subject versions
 manage.gradeCategory = Manage grade category
 

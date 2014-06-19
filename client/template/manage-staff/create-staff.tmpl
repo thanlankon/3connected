@@ -1,0 +1,68 @@
+<template id="dialog.manage-staff.create-staff">
+
+  {{dialog.size width="500px" height="620px"}}
+
+  <div class="header">
+    {{lang "staff.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "staff.firstName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="firstName"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.lastName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="lastName"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.departmentId"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="departmentId"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.gender"}}:
+    </div>
+    <div class="data input">
+      {{component.genderDropDownList attribute="gender"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.dateOfBirth"}}:
+    </div>
+    <div class="data input">
+      {{component.dateInput attribute="dateOfBirth"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.address"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="address"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.email"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="email"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>
