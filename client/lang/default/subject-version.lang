@@ -9,6 +9,7 @@ subjectVersion = Subject version
 
 subjectVersion.subjectVersionId = Subject version Id
 subjectVersion.description = Description
+subjectVersion.subjectVersion = Subject version
 # button
 
 subjectVersion.create = Create Subject Version

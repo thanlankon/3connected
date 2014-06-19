@@ -12,7 +12,7 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
   form.urlMap = {
     url: ':module',
     data: {
-      module: 'manage-gradeCategory'
+      module: 'manage-grade-category'
     }
   };
 

@@ -24,6 +24,8 @@ define.component('component.common.Combobox', function (component, require, Util
     element.remove();
 
     var comboboxOptions = {
+      enableBrowserBoundsDetection: true,
+
       width: '100%',
       height: '30px'
     };

@@ -6,7 +6,7 @@ define.form('component.dialog.manage-gradeCategory.GradeCategory', function (for
   form.urlMap = {
     url: ':module/:action',
     data: {
-      module: 'manage-gradeCategory',
+      module: 'manage-grade-category',
       action: 'create'
     }
   };
@@ -34,12 +34,14 @@ define.form('component.dialog.manage-gradeCategory.GradeCategory', function (for
           valueMember: 'subjectId',
           displayMember: 'subjectName'
         }
-      },subjectVersionId: {
+      },
+      subjectVersionId: {
         ServiceProxy: require('proxy.SubjectVersion'),
         combobox: {
           valueMember: 'subjectVersionId',
           displayMember: 'description'
-        }
+        },
+        filterByAttributes: ['subjectId']
       }
     };
 

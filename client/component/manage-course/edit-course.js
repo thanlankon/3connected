@@ -68,6 +68,18 @@ define.form('component.dialog.manage-course.EditCourse', function (form, require
 
     this.data.attr(data);
 
+    this.data.bind('change', this.proxy(function (ev, attr, how, newVal, oldVal) {
+      if (attr == 'subjectVersionId') {
+        var subjectId = this.data.attr('subjectVersion.subjectId');
+
+        if (this.data.attr('subjectId') != subjectId) {
+          this.data.attr({
+            subjectId: subjectId
+          });
+        }
+      }
+    }));
+
   }
 
   form.validateRules = require('validator.rule.Course');

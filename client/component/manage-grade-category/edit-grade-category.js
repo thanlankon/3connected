@@ -6,7 +6,7 @@ define.form('component.dialog.manage-gradeCategory.EditGradeCategory', function 
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
-      module: 'manage-gradeCategory',
+      module: 'manage-grade-category',
       action: 'edit'
     }
   };
@@ -24,7 +24,7 @@ define.form('component.dialog.manage-gradeCategory.EditGradeCategory', function 
   // the validation rules used by form
   form.validateRules = require('validator.rule.GradeCategory');
 
-    // init form data
+  // init form data
   form.initData = function () {
 
     var componentSettings = {
@@ -34,12 +34,14 @@ define.form('component.dialog.manage-gradeCategory.EditGradeCategory', function 
           valueMember: 'subjectId',
           displayMember: 'subjectName'
         }
-      },subjectVersionId: {
+      },
+      subjectVersionId: {
         ServiceProxy: require('proxy.SubjectVersion'),
         combobox: {
           valueMember: 'subjectVersionId',
           displayMember: 'description'
-        }
+        },
+        filterByAttributes: ['subjectId']
       }
     };
 
@@ -48,6 +50,20 @@ define.form('component.dialog.manage-gradeCategory.EditGradeCategory', function 
     };
 
     this.data.attr(data);
+
+    this.data.bind('change', this.proxy(function (ev, attr, how, newVal, oldVal) {
+      if (attr == 'subjectVersionId') {
+        var subjectId = this.data.attr('subjectVersion.subjectId');
+
+        if (this.data.attr('subjectId') != subjectId) {
+          this.data.attr({
+            subjectId: subjectId
+          });
+        }
+      }
+    }));
+
+
   };
 
 });

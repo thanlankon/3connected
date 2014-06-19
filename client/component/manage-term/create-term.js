@@ -1,5 +1,8 @@
 define.form('component.dialog.manage-term.CreateTerm', function (form, require, Util, Lang) {
 
+  // map the form to the url
+  // the form is displayed when the url is matched
+  // url: #!manage-term/create
   form.urlMap = {
     url: ':module/:action',
     data: {
@@ -8,31 +11,16 @@ define.form('component.dialog.manage-term.CreateTerm', function (form, require, 
     }
   };
 
-  form.ServiceProxy = require('proxy.Term');
-
-  form.formType = form.FormType.Dialog.CREATE;
-
+  // the template that used by the form
   form.tmpl = 'dialog.manage-term.create-term';
 
-  form.validateRules = [{
-    attribute: 'termName',
-    rules: [{
-      rule: 'required',
-      message: 'term.name.required',
-    }]
-  }];
+  // the form type is Dialog.CREATE
+  form.formType = form.FormType.Dialog.CREATE;
 
-  form.initData = function () {
-    // init form data
-    var data = {
-      termName: null
-    };
+  // the proxy that used by the form
+  // proxy.create method will be used
+  form.ServiceProxy = require('proxy.Term');
 
-    this.data.attr(data);
-  };
-
-  form.ready = function () {
-    // init form components and bind events
-  };
-
+  // the validation rules used by form
+  form.validateRules = require('validator.rule.Term');
 });
