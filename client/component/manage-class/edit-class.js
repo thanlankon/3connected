@@ -1,5 +1,8 @@
 define.form('component.dialog.manage-class.EditClass', function (form, require, Util, Lang) {
 
+  // map the form to the url
+  // the form is displayed when the url is matched
+  // url: #!manage-class/edit/:id
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
@@ -8,28 +11,21 @@ define.form('component.dialog.manage-class.EditClass', function (form, require, 
     }
   };
 
-  form.ServiceProxy = require('proxy.Class');
-
-  form.formType = form.FormType.Dialog.EDIT;
-
+  // the template that used by the form
   form.tmpl = 'dialog.manage-class.edit-class';
 
-  form.validateRules = [{
-    attribute: 'className',
-    rules: [{
-      rule: 'required',
-      message: 'class.name.required',
-    }]
-  }, {
-    attribute: 'classId',
-    rules: [{
-      rule: 'required',
-      message: 'class.id.required',
-    }]
-  }];
+  // the form type is Dialog.EDIT
+  form.formType = form.FormType.Dialog.EDIT;
 
+  // the proxy that used by the form
+  // proxy.findOne & proxy.update methods will be used
+  form.ServiceProxy = require('proxy.Class');
+
+  // the validation rules used by form
+  form.validateRules = require('validator.rule.Class');
+
+  // init form data
   form.initData = function () {
-    // init form data
 
     var componentSettings = {
       batchId: {
@@ -48,22 +44,11 @@ define.form('component.dialog.manage-class.EditClass', function (form, require, 
       }
     };
 
-    //    var data = {
-    //      classId: null,
-    //      className: null,
-    //      batchId: null,
-    //      majorId: null,
-    //
-    //      componentSettings: componentSettings
-    //    };
-
-    this.data.attr({
+    var data = {
       componentSettings: componentSettings
-    });
-  };
+    };
 
-  form.ready = function () {
-    // init form components and bind events
+    this.data.attr(data);
   };
 
 });

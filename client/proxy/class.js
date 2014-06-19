@@ -12,6 +12,11 @@ define.proxy('proxy.Class', function (proxy, require) {
 
   proxy.destroy = 'POST api/class/destroy';
 
+  // for clas students
+  proxy.addStudents = 'POST api/class/addStudents';
+
+  proxy.removeStudents = 'POST api/class/removeStudents';
+
   // class entity map
   proxy.EntityMap = [
     {

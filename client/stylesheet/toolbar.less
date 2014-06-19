@@ -43,7 +43,7 @@
     }
   }
 
-  li.icon {
+  li {
     a, span {
       display: inline-block;
 
@@ -57,6 +57,29 @@
       padding: 0px 10px;
     }
 
+    b {
+      font-size: 12px;
+      text-shadow: 1px 1px 1px #eee;
+    }
+  }
+
+  li.divider {
+    margin-top: 5px;
+    height: 20px;
+    width: 1px;
+    background: #888;
+
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  li.text {
+    a, span {
+      text-transform: none;
+    }
+  }
+
+  li.icon {
     &:hover {
       background-color: #eee !important;
     }

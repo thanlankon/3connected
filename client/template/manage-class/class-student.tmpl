@@ -1,0 +1,38 @@
+<template id="form.manage-class.class-student">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-class"}}"></a>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'class'}}: <b>{{className}}</b></span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon create">
+        <span id="button-add-students">{{lang "class.manageStudent.add"}}</span>
+      </li>
+      <li class="icon delete">
+        <span id="button-remove-students">{{lang "class.manageStudent.remove"}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="splitter">
+      <div>
+        <div id="grid-students"></div>
+      </div>
+      <div>
+        <div id="grid-class-students"></div>
+      </div>
+    </div>
+
+  </div>
+
+</template>

@@ -1,6 +1,6 @@
 define.form = function (id, definer) {
 
-  define.component(id, function (component, require, Util, Lang) {
+  define.component(id, function (component, require, Util, Lang, jQuery) {
 
     var Route = require('core.route.Route');
     var Cpanelcomponent = require('component.Cpanel');
@@ -18,7 +18,7 @@ define.form = function (id, definer) {
       }
     };
 
-    definer(component, require, Util, Lang);
+    definer(component, require, Util, Lang, jQuery);
 
     if (component.formType == component.FormType.FORM || component.formType == component.FormType.Form.LIST) {
       component.base = 'component.Form';

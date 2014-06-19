@@ -10,23 +10,24 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     var formElement = this.element.closest('.form');
 
-    var editButton = formElement.find('.toolbar [data-component-role=edit-button]');
-    if (editButton.size()) {
-      this.toolbar.editButton = editButton;
+    var dependsEntityFocusedElements = formElement.find('.toolbar [data-depends-entity=focused]');
+    if (dependsEntityFocusedElements.size()) {
+      this.toolbar.dependsEntityFocusedElements = dependsEntityFocusedElements;
 
-      this.updateEditButton(null);
+      this.updateDependsEntityFocusedElements(null);
     }
 
-    var deleteButton = formElement.find('.toolbar [data-component-role=delete-button]');
-    if (deleteButton.size()) {
-      this.toolbar.deleteButton = deleteButton;
+    var dependsEntitySelectedElements = formElement.find('.toolbar [data-depends-entity=selected]');
+    if (dependsEntitySelectedElements.size()) {
+      this.toolbar.dependsEntitySelectedElements = dependsEntitySelectedElements;
 
-      this.updateDeleteButton(null);
+      this.updateDependsEntitySelectedElements(null);
     }
 
     var ServiceProxy = options.ServiceProxy;
 
     var source = {};
+    this.source = source;
 
     // date type
     source.dataType = 'json';
@@ -131,6 +132,28 @@ define.component('component.common.Grid', function (component, require, Util, La
               value: dataValue,
             });
           }
+        }
+
+        if (this.filterConditions) {
+          if (!data.filters) data.filters = [];
+
+          Util.Collection.each(this.filterConditions, function (value, key) {
+            data.filters.push({
+              field: key,
+              value: value,
+            });
+          });
+        }
+
+        if (this.excludeConditions) {
+          if (!data.excludeFilters) data.excludeFilters = [];
+
+          Util.Collection.each(this.excludeConditions, function (value, key) {
+            data.excludeFilters.push({
+              field: key,
+              value: value,
+            });
+          });
         }
 
         return data;
@@ -256,7 +279,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
       var entityId = row[source.id];
 
-      this.updateEditButton(entityId);
+      this.updateDependsEntityFocusedElements(entityId);
     }));
 
     this.element.on('rowSelect rowUnselect', this.proxy(function (event) {
@@ -268,7 +291,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       }
 
       if (rowIndexes.length == 0) {
-        this.updateDeleteButton(null);
+        this.updateDependsEntitySelectedElements(null);
         return;
       }
 
@@ -279,7 +302,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
         var entityId = row[source.id];
 
-        this.updateDeleteButton(entityId);
+        this.updateDependsEntitySelectedElements(entityId);
       }
     }));
 
@@ -307,52 +330,64 @@ define.component('component.common.Grid', function (component, require, Util, La
       this.lastSelectedRow.removeClass('selected');
     }
 
-    this.updateEditButton(null);
-    this.updateDeleteButton(null);
+    this.updateDependsEntityFocusedElements(null);
+    this.updateDependsEntitySelectedElements(null);
   };
 
-  component.updateEditButton = function (entityId) {
-    var editButton = this.toolbar.editButton;
+  component.updateDependsEntityFocusedElements = function (entityId) {
+    var dependsEntityFocusedElements = this.toolbar.dependsEntityFocusedElements;
 
-    if (!editButton) return;
+    if (!dependsEntityFocusedElements) return;
 
-    if (entityId === null) {
-      editButton.data('entityId', '');
+    dependsEntityFocusedElements.each(this.proxy(updateElements));
 
-      editButton.addClass('disabled');
-    } else {
-      editButton.data('entityId', entityId);
+    function updateElements(index, element) {
+      element = $(element);
 
-      editButton.removeClass('disabled');
+      if (entityId === null) {
+        element.data('entityId', '');
+
+        element.addClass('disabled');
+      } else {
+        element.data('entityId', entityId);
+
+        element.removeClass('disabled');
+      }
     }
   };
 
-  component.updateDeleteButton = function (entityId) {
-    var deleteButton = this.toolbar.deleteButton;
+  component.updateDependsEntitySelectedElements = function (entityId) {
+    var dependsEntitySelectedElements = this.toolbar.dependsEntitySelectedElements;
 
-    if (!deleteButton) return;
+    if (!dependsEntitySelectedElements) return;
 
-    if (entityId === null) {
-      deleteButton.data('entityIds', []);
+    dependsEntitySelectedElements.each(this.proxy(updateElements));
 
-      deleteButton.addClass('disabled');
-    } else {
-      var entityIds = deleteButton.data('entityIds');
+    function updateElements(index, element) {
+      element = $(element);
 
-      var index = entityIds.indexOf(entityId);
+      if (entityId === null) {
+        element.data('entityIds', []);
 
-      if (index == -1) {
-        entityIds.push(entityId);
+        element.addClass('disabled');
       } else {
-        entityIds.splice(index, 1);
-      }
+        var entityIds = element.data('entityIds');
 
-      deleteButton.data('entityId', entityIds);
+        var index = entityIds.indexOf(entityId);
 
-      if (entityIds.length) {
-        deleteButton.removeClass('disabled');
-      } else {
-        deleteButton.addClass('disabled');
+        if (index == -1) {
+          entityIds.push(entityId);
+        } else {
+          entityIds.splice(index, 1);
+        }
+
+        element.data('entityId', entityIds);
+
+        if (entityIds.length) {
+          element.removeClass('disabled');
+        } else {
+          element.addClass('disabled');
+        }
       }
     }
   };
@@ -375,6 +410,44 @@ define.component('component.common.Grid', function (component, require, Util, La
     this.element.jqxGrid({
       pageSize: pageSize
     });
+  };
+
+  component.setFilterConditions = function (key, value) {
+    if (!this.filterConditions) {
+      this.filterConditions = {};
+    }
+
+    this.filterConditions[key] = value;
+
+    this.refreshData();
+  };
+
+  component.setExcludeConditions = function (key, value) {
+    if (!this.excludeConditions) {
+      this.excludeConditions = {};
+    }
+
+    this.excludeConditions[key] = value;
+
+    this.refreshData();
+  };
+
+  component.getSelectedIds = function () {
+    var selectedIndexes = this.element.jqxGrid('getSelectedRowIndexes');
+
+    var selectedIds = [];
+
+    var entityId = this.source.id;
+
+    for (var i = 0, len = selectedIndexes.length; i < len; i++) {
+      var rowData = this.element.jqxGrid('getRowData', selectedIndexes[i]);
+
+      if (!rowData || !rowData[entityId]) continue;
+
+      selectedIds.push(rowData[entityId]);
+    }
+
+    return selectedIds;
   };
 
 });

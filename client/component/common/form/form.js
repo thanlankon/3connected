@@ -50,7 +50,7 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
   component.initForm = function () {};
 
-  component.events['[data-component-role=edit-button] click'] = function (element, event) {
+  component.events['[data-depends-entity=focused] click'] = function (element, event) {
     event.preventDefault();
 
     if (element.hasClass('disabled')) {

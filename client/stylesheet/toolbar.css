@@ -35,8 +35,8 @@
   padding: 0 !important;
   margin: 0 !important;
 }
-.form .toolbar li.icon a,
-.form .toolbar li.icon span {
+.form .toolbar li a,
+.form .toolbar li span {
   display: inline-block;
   font-size: 13px;
   text-transform: uppercase;
@@ -44,6 +44,22 @@
   height: 30px;
   line-height: 30px;
   padding: 0px 10px;
+}
+.form .toolbar li b {
+  font-size: 12px;
+  text-shadow: 1px 1px 1px #eee;
+}
+.form .toolbar li.divider {
+  margin-top: 5px;
+  height: 20px;
+  width: 1px;
+  background: #888;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.form .toolbar li.text a,
+.form .toolbar li.text span {
+  text-transform: none;
 }
 .form .toolbar li.icon:hover {
   background-color: #eee !important;

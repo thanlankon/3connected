@@ -63,6 +63,6 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
       checkExistanceAttributes: ['studentId'],
       checkDuplicatedAttributes: ['studentCode']
     }
-  }
+  };
 
 });
