@@ -26,14 +26,14 @@ define.component('component.common.GenderDropDownList', function (component, req
 
     var genderData = [
       {
-        value: Gender.UNKNOWN,
-        text: Lang.get('gender.unknown')
-      }, {
         value: Gender.MALE,
         text: Lang.get('gender.male')
       }, {
         value: Gender.FEMALE,
         text: Lang.get('gender.female')
+      }, {
+        value: Gender.UNKNOWN,
+        text: Lang.get('gender.unknown')
       }
     ];
 

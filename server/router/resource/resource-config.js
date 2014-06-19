@@ -34,11 +34,9 @@ define('resource.Config', function (module, require) {
         'lib/jqwidgets/*',
         */
         'lib/jqwidgets/jqx-all.js',
+        'lib/jqwidgets/*',
         // lib - canjs
         'lib/can/*',
-        // lib - foundation
-        'lib/foundation/foundation.js',
-        'lib/foundation/*',
         // lib - others
         'lib/**',
         // core - dependency manager
