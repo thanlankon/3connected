@@ -36,6 +36,7 @@ update = Update
 # button
 
 cancel = Cancel
+close = Close
 import = Import
 export = Export
 changeOrientation= Change orientation

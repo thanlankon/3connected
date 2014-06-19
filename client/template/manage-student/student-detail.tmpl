@@ -1,0 +1,59 @@
+<template id="dialog.manage-student.student-detail">
+
+  {{dialog.size width="500px" height="440px"}}
+
+  <div class="header">
+    {{lang "student.detail"}}
+  </div>
+
+  <div class="content information">
+
+    <table>
+      <tr>
+        <td>{{lang "student.studentCode"}}:</td>
+        <td>{{studentCode}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.firstName"}}:</td>
+        <td>{{firstName}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.lastName"}}:</td>
+        <td>{{lastName}}</td>
+      </tr>
+      <tr>
+         <td>{{lang "student.class"}}:</td>
+        <td>{{class.className}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.batch"}}:</td>
+        <td>{{class.batch.batchName}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.major"}}:</td>
+        <td>{{class.major.majorName}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.gender"}}:</td>
+        <td>{{text.gender gender}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.dateOfBirth"}}:</td>
+        <td>{{text.date dateOfBirth}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.address"}}:</td>
+        <td>{{address}}</td>
+      </tr>
+      <tr>
+        <td>{{lang "student.email"}}:</td>
+        <td>{{email}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="cancel-button">{{lang "close"}}</span>
+  </div>
+
+</template>

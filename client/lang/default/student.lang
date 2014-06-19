@@ -4,18 +4,23 @@ student.studentId = Student Id
 student.studentCode = Student code
 student.firstName = {{.firstName}}
 student.lastName = {{.lastName}}
+student.class = {{.class}}
 student.classId = {{.class}}
 student.className = {{.class}}
+student.batch = {{.batch}}
 student.batchName = {{.batch}}
+student.major = {{.major}}
 student.majorName = {{.major}}
 student.gender = {{.gender}}
 student.dateOfBirth = {{.dateOfBirth}}
 student.address = {{.address}}
 student.email = {{.email}}
 
-# button
+# controls
 
 student.create = Create student
 student.view = View student details
 student.edit = Edit student
 student.delete = Delete students
+
+student.detail = Student information

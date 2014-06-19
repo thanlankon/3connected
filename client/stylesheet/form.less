@@ -1,7 +1,55 @@
 .dialog .content {
 
+  &.information {
+    padding-top: 20px;
+
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+
+      width: 100%;
+    }
+
+    td {
+      padding: 5px;
+      font-size: 15px;
+      color: #555;
+    }
+
+    tr:nth-child(odd) td {
+      background: #eee;
+    };
+
+    td:nth-child(1) {
+      width: 30%;
+      white-space: nowrap;
+    }
+
+    td:nth-child(2) {
+      color: #000;
+      padding-left: 15px;
+    }
+  }
+
   span {
     width: 100%;
+  }
+
+  .text {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+
+    font-size: 15px;
+
+    b {
+      display: inline-block;
+      margin-left: 10px;
+      width: 60%;
+      float: right;
+
+      text-shadow: 1px 1px 1px #fff;
+    }
   }
 
   .label {
