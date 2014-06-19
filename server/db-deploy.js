@@ -17,9 +17,10 @@ define('db.Deploy', function (module, require) {
     seedTerm(queryChainer);
 
     seedClass(queryChainer);
+    seedDepartment(queryChainer);
 
     seedStudent(queryChainer);
-
+    seedStaff(queryChainer);
     seedSubject(queryChainer);
     seedSubjectVersion(queryChainer);
     seedGradeCategory(queryChainer);
@@ -76,6 +77,19 @@ define('db.Deploy', function (module, require) {
           Major.create({
             majorName: 'Major ' + i,
             batchId: i
+          }))
+    }
+  }
+
+function seedDepartment(queryChainer) {
+    var Department = require('model.entity.Department');
+
+    for (var i = 1; i <= 10; i++) {
+      queryChainer
+        .add(
+          Department.create({
+            departmentId: i,
+            departmentName: 'Department ' + i
           }))
     }
   }
@@ -143,7 +157,7 @@ define('db.Deploy', function (module, require) {
     }
   }
 
-  function seedSubject(queryChainer) {
+   function seedSubject(queryChainer) {
     var Subject = require('model.entity.Subject');
 
     for (var i = 1; i <= 10; i++) {

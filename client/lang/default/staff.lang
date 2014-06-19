@@ -1,8 +1,10 @@
 # attribute name
 
+staff = Staff
 staff.staffId = Staff Id
 staff.firstName = {{.firstName}}
 staff.lastName = {{.lastName}}
+staff.department = {{.department}}
 staff.departmentId = {{.department}}
 staff.departmentName = {{.department}}
 staff.gender = {{.gender}}

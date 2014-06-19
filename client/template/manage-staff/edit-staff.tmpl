@@ -1,14 +1,14 @@
-<template id="dialog.manage-staff.create-staff">
+<template id="dialog.manage-staff.edit-staff">
 
   {{dialog.size width="500px" height="620px"}}
 
   <div class="header">
-    {{lang "staff.create"}}
+    {{lang "staff.edit"}}
   </div>
 
   <div class="content">
 
-    <div class="label">
+     <div class="label">
       {{lang "staff.firstName"}}:
     </div>
     <div class="data input">
@@ -23,7 +23,7 @@
     </div>
 
     <div class="label">
-      {{lang "staff.departmentId"}}:
+      {{lang "staff.department"}}:
     </div>
     <div class="data input">
       {{component.combobox attribute="departmentId"}}
@@ -60,7 +60,7 @@
   </div>
 
   <div class="footer">
-    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+    <span type="button" class="button ok" data-component-role="submit-button" >{{lang "update"}}</span>
 
     <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
   </div>

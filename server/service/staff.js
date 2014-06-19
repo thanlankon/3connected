@@ -1,19 +1,20 @@
 define.service('service.Staff', function (service, require, ServiceUtil, Util) {
 
   var StaffModel = require('model.Staff');
-  var ClassModel = require('model.Class');
   var DepartmentModel = require('model.Department');
 
   service.map = {
     url: '/staff'
   };
 
+  service.Model = StaffModel;
+
   service.methodConfig = {
     idAttribute: 'staffId',
 
     message: {
       entityName: 'staff',
-      displayAttribute: 'staffName'
+      displayAttribute: 'firstName'
     },
 
       findAll: {
@@ -35,8 +36,7 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
         'address',
         'email',
         'departmentId'
-      ],
-      checkDuplicatedAttributes: ['firstName']
+      ]
     },
 
     update: {
@@ -50,8 +50,7 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
         'email',
         'departmentId'
       ],
-      checkExistanceAttributes: ['staffId'],
-      checkDuplicatedAttributes: ['firstName']
+      checkExistanceAttributes: ['staffId']
     }
   }
 

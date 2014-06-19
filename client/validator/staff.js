@@ -59,7 +59,7 @@ define('validator.rule.Staff', function (module, require) {
     attributeName: 'staff.departmentId',
     rules: [
       {
-        // classId is required
+        // departmentId is required
         rule: 'required'
       },
       {
