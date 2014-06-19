@@ -1,0 +1,21 @@
+# System          : 3connected
+# Component       : Grade category version lang
+# Creator         : UayLU
+# Created date    : 2014/18/06
+
+# attribute name
+
+gradeCategory = Grade category
+
+gradeCategory.gradeCategoryId = Grade catetory Id
+gradeCategory.gradeCategoryCode = Grade category code
+gradeCategory.gradeCategoryName = Grade category Name
+gradeCategory.weight = Weight
+gradeCategory.subjectName = Subject name
+gradeCategory.description = Subject version
+# button
+
+gradeCategory.create = Create grade catetory
+gradeCategory.view = View grade catetory details
+gradeCategory.edit = Edit grade catetory
+gradeCategory.delete = Delete grade catetory

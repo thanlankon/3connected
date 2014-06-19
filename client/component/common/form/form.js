@@ -41,6 +41,9 @@ define.component('component.Form', function (component, require, Util, Lang) {
       }
     }
 
+    // update grid columns chooser
+    this.updateGridColumnsChooser();
+
     this.on();
   };
 
@@ -50,7 +53,7 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
   component.initForm = function () {};
 
-  component.events['[data-component-role=edit-button] click'] = function (element, event) {
+  component.events['[data-depends-entity=focused] click'] = function (element, event) {
     event.preventDefault();
 
     if (element.hasClass('disabled')) {
@@ -106,32 +109,36 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
     var GridComponent = require('component.common.Grid');
 
-    var getGridConfig = this.getGridConfig();
+    var gridConfig = this.getGridConfig();
 
     this.grid = new GridComponent(this.element.find('[data-component-role=grid]'), {
       ServiceProxy: this.ServiceProxy,
-      grid: getGridConfig
+      grid: gridConfig
     });
-
-    // update grid columns chooser
-    var columnsChooser = this.element.find('.toolbar [data-component-role=grid-columns-choooser]');
-
-    if (columnsChooser.size()) {
-      var gridColumnsChooser = columnsChooser.data('GridColumnsChooser');
-
-      gridColumnsChooser.updateSelectedColumns(getGridConfig.columns);
-    }
 
   };
 
-  component.getGridConfig = function () {
-    if (Util.Object.isFunction(this.gridConfig)) {
-      gridConfig = this.gridConfig();
+  component.updateGridColumnsChooser = function () {
+    var columnsChoosers = this.element.find('.toolbar [data-component-role=grid-columns-choooser]');
+
+    columnsChoosers.each(function (index, element) {
+      var columnsChooser = jQuery(element);
+
+      var gridColumnsChooser = columnsChooser.data('GridColumnsChooser');
+
+      gridColumnsChooser.updateSelectedColumns();
+    });
+  };
+
+  component.getGridConfig = function (grid) {
+    var gridConfig = this.gridConfig;
+    if (Util.Object.isFunction(gridConfig)) {
+      gridConfig = gridConfig();
 
       this.gridConfig = gridConfig;
     }
 
-    return this.gridConfig;
+    return grid ? this.gridConfig[grid] : this.gridConfig;
   };
 
   component.refreshGrid = function () {

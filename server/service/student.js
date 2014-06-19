@@ -35,6 +35,22 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
       }
     },
 
+    findOne: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: ClassModel,
+          as: 'class',
+          include: [{
+            model: BatchModel,
+            as: 'batch'
+          }, {
+            model: MajorModel,
+            as: 'major'
+          }]
+        }];
+      }
+    },
+
     create: {
       attributes: [
         'studentCode',
@@ -52,7 +68,6 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
     update: {
       attributes: [
         'studentId',
-        'studentCode',
         'firstName',
         'lastName',
         'gender',
@@ -64,6 +79,6 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
       checkExistanceAttributes: ['studentId'],
       checkDuplicatedAttributes: ['studentCode']
     }
-  }
+  };
 
 });

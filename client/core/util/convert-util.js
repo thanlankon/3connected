@@ -1,7 +1,9 @@
 define('core.util.ConvertUtil', function (module, require) {
 
   var Moment = require('lib.Moment');
+  var Gender = require('enum.Gender');
   var DateTimeConstant = require('constant.DateTime');
+  var Lang = require('core.lang.Lang');
 
   var Util = require('core.util.Util');
 
@@ -25,6 +27,10 @@ define('core.util.ConvertUtil', function (module, require) {
     },
     formatCurrentDate: function (format) {
       return Moment().format(DateTimeConstant.Format.DATE);
+    },
+
+    isDate: function (date, format) {
+      return Moment(date, format).isValid();
     }
   };
 

@@ -1,5 +1,7 @@
 define('validator.rule.Student', function (module, require) {
 
+  var Gender = require('enum.Gender');
+
   var ruleStudentId = {
     // validate for studentId
     attribute: 'studentId',
@@ -78,11 +80,25 @@ define('validator.rule.Student', function (module, require) {
     attributeName: 'student.classId',
     rules: [
       {
+        rule: 'positiveInteger'
+      }
+     ]
+  };
+
+  var ruleGender = {
+    // validate for gender
+    attribute: 'gender',
+    attributeName: 'student.classId',
+    rules: [
+      {
         // classId is required
         rule: 'required'
       },
       {
-        rule: 'positiveInteger'
+        rule: 'in',
+        ruleData: {
+          items: [Gender.UNKNOWN, Gender.MALE, Gender.FEMALE]
+        }
       }
      ]
   };

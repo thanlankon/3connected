@@ -43,7 +43,7 @@
     }
   }
 
-  li.icon {
+  li.icon, li.text {
     a, span {
       display: inline-block;
 
@@ -57,6 +57,29 @@
       padding: 0px 10px;
     }
 
+    b {
+      font-size: 12px;
+      text-shadow: 1px 1px 1px #eee;
+    }
+  }
+
+  li.divider {
+    margin-top: 5px;
+    height: 20px;
+    width: 1px;
+    background: #888;
+
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  li.text {
+    a, span {
+      text-transform: none;
+    }
+  }
+
+  li.icon {
     &:hover {
       background-color: #eee !important;
     }
@@ -119,45 +142,9 @@
     &.export {
       background-image: url("@{url-img}/common/export.png");
     }
+
+    &.orientation {
+      background-image: url("@{url-img}/common/orientation.png");
+    }
   }
 }
-
-//.toolbar {
-//  padding: 5px;
-//
-//  .button {
-//    background: 5px center no-repeat;
-//
-//    padding: 0;
-//    margin: 0;
-//
-//    display: inline-block;
-//    border: 1px solid #0068A3;
-//
-//    color: #000;
-//  }
-//
-//  .large {
-//    padding-left: 30px;
-//    padding-right: 7px;
-//
-//    margin-right: 5px;
-//
-//    height: 40px;
-//    line-height: 40px;
-//
-//    background-size: 20px 20px;
-//  }
-//
-//  .icon-add {
-//    background-image: url("/resource/resource/img/icon/toolbar/add-large.png");
-//  }
-//
-//  .icon-edit {
-//    background-image: url("/resource/resource/img/icon/toolbar/edit-large.png");
-//  }
-//
-//  .icon-delete {
-//    background-image: url("/resource/resource/img/icon/toolbar/delete-large.png");
-//  }
-//}

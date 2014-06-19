@@ -24,6 +24,7 @@ define('core.service.ServiceUtil', function (module, require) {
     }
 
     var filters = data.filters || null;
+    var excludeFilters = data.excludeFilters || null;
 
     var options = {};
 
@@ -37,6 +38,10 @@ define('core.service.ServiceUtil', function (module, require) {
 
     if (filters) {
       options.filters = filters;
+    }
+
+    if (excludeFilters) {
+      options.excludeFilters = excludeFilters;
     }
 
     return options;
@@ -62,7 +67,7 @@ define('core.service.ServiceUtil', function (module, require) {
       responeData._service.message = message;
     }
 
-    responeData.data = data;
+    responeData.data = data || {};
 
     res.send(responeData);
 
@@ -206,9 +211,11 @@ define('core.service.ServiceUtil', function (module, require) {
     var checkExistanceData = checkExistanceAttributes ?
       Util.Object.pick(req.body, checkExistanceAttributes) : undefined;
 
-    checkDuplicatedData[idAttribute] = {
-      ne: req.body[idAttribute]
-    };
+    if (checkDuplicatedData) {
+      checkDuplicatedData[idAttribute] = {
+        ne: req.body[idAttribute]
+      };
+    }
 
     Model.update(entityData, checkDuplicatedData, checkExistanceData,
       function (error, updatedEntity, isDuplicated, isNotFound) {

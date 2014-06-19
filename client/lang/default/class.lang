@@ -2,10 +2,12 @@
 
 class = Class
 
-class.id = Class Id
-class.name = Class name
-class.batch = Class batch
-class.major = Class major
+class.classId = Class Id
+class.className = Class name
+class.batchId = {{.batch}}
+class.batchName = {{.batch.batchName}}
+class.majorId = {{.major}}
+class.majorName = {{.major.majorName}}
 
 # button
 
@@ -13,3 +15,20 @@ class.create = Create class
 class.view = View class details
 class.edit = Edit class
 class.delete = Delete classes
+class.manageStudent = Manage students
+class.manageStudent.add = Add students
+class.manageStudent.remove = Remove students
+
+# message
+
+class.addStudents.confirm = Add {{totalItems}} selected students to class.<br>This action will remove the selected students from the old class?
+
+class.removeStudents.confirm = Remove {{totalItems}} selected students from class?
+
+class.addStudents.error = Error during adding students
+class.addStudents.incomplete = Adding students is not completed
+class.addStudents.success = The students is added to class successfully
+
+class.removeStudents.error = Error during removing students
+class.removeStudents.incomplete = Removing students is not completed
+class.removeStudents.success = The students is removed from class successfully

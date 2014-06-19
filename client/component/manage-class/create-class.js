@@ -1,5 +1,8 @@
 define.form('component.dialog.manage-class.CreateClass', function (form, require, Util, Lang) {
 
+  // map the form to the url
+  // the form is displayed when the url is matched
+  // url: #!manage-class/create
   form.urlMap = {
     url: ':module/:action',
     data: {
@@ -8,28 +11,21 @@ define.form('component.dialog.manage-class.CreateClass', function (form, require
     }
   };
 
-  form.ServiceProxy = require('proxy.Class');
-
-  form.formType = form.FormType.Dialog.CREATE;
-
+  // the template that used by the form
   form.tmpl = 'dialog.manage-class.create-class';
 
-  form.validateRules = [{
-    attribute: 'className',
-    rules: [{
-      rule: 'required',
-      message: 'class.name.required',
-    }]
-  }, {
-    attribute: 'batchId',
-    rules: [{
-      rule: 'required',
-      message: 'class.batch.required',
-    }]
-  }];
+  // the form type is Dialog.CREATE
+  form.formType = form.FormType.Dialog.CREATE;
 
+  // the proxy that used by the form
+  // proxy.create method will be used
+  form.ServiceProxy = require('proxy.Class');
+
+  // the validation rules used by form
+  form.validateRules = require('validator.rule.Class');
+
+  // init form data
   form.initData = function () {
-    // init form data
 
     var componentSettings = {
       batchId: {
@@ -49,18 +45,10 @@ define.form('component.dialog.manage-class.CreateClass', function (form, require
     };
 
     var data = {
-      className: null,
-      batchId: null,
-      majorId: null,
-
       componentSettings: componentSettings
     };
 
     this.data.attr(data);
-  };
-
-  form.ready = function () {
-    // init form components and bind events
   };
 
 });

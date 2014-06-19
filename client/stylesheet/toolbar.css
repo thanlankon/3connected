@@ -36,7 +36,9 @@
   margin: 0 !important;
 }
 .form .toolbar li.icon a,
-.form .toolbar li.icon span {
+.form .toolbar li.text a,
+.form .toolbar li.icon span,
+.form .toolbar li.text span {
   display: inline-block;
   font-size: 13px;
   text-transform: uppercase;
@@ -44,6 +46,23 @@
   height: 30px;
   line-height: 30px;
   padding: 0px 10px;
+}
+.form .toolbar li.icon b,
+.form .toolbar li.text b {
+  font-size: 12px;
+  text-shadow: 1px 1px 1px #eee;
+}
+.form .toolbar li.divider {
+  margin-top: 5px;
+  height: 20px;
+  width: 1px;
+  background: #888;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.form .toolbar li.text a,
+.form .toolbar li.text span {
+  text-transform: none;
 }
 .form .toolbar li.icon:hover {
   background-color: #eee !important;
@@ -90,4 +109,7 @@
 }
 .form .toolbar li.icon.export {
   background-image: url("/resource/resource/img/common/export.png");
+}
+.form .toolbar li.icon.orientation {
+  background-image: url("/resource/resource/img/common/orientation.png");
 }

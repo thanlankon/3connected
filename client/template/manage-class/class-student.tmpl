@@ -1,0 +1,74 @@
+<template id="form.manage-class.class-student">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-class"}}"></a>
+      </li>
+
+      <li class="text">
+        <span>Manage class's students</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'class'}}: <b>{{className}}</b></span>
+      </li>
+
+      <li class="right icon orientation">
+        <span id="button-change-orientation">{{lang 'changeOrientation'}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="splitter">
+      <div>
+        <div class="toolbar">
+          <ul>
+            <li class="icon create">
+              <span id="button-add-students">{{lang "class.manageStudent.add"}}</span>
+            </li>
+
+            <li class="right component">
+              {{component.gridColumnsChooser grid="gridStudents"}}
+            </li>
+            <li class="right component">
+              {{component.gridPager grid="gridStudents"}}
+            </li>
+          </ul>
+        </div>
+        <div style="position: absolute; top: 31px; bottom: 0px; left: 0; right: 0">
+          <div id="grid-students"></div>
+        </div>
+      </div>
+      <div>
+        <div class="toolbar">
+          <ul>
+            <li class="icon delete">
+              <span id="button-remove-students">{{lang "class.manageStudent.remove"}}</span>
+            </li>
+
+            <li class="icon export right" data-component-role="export-button">
+              <span>{{lang "export"}}</span>
+            </li>
+            <li class="right component">
+              {{component.gridColumnsChooser grid="gridClassStudents"}}
+            </li>
+            <li class="right component">
+              {{component.gridPager grid="gridClassStudents"}}
+            </li>
+          </ul>
+        </div>
+        <div style="position: absolute; top: 31px; bottom: 0px; left: 0; right: 0">
+          <div id="grid-class-students"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</template>

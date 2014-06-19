@@ -11,10 +11,12 @@ define('core.view.helpers.component.GridColumnsChooserHelper', function (module,
   function gridColumnsChooserHelper(options) {
 
     var componentData = this;
+    var componentAttributes = Util.Object.omit(options.hash, ['attribute']);
 
     return function (element) {
       new GridColumnsChooser(element, {
-        componentData: componentData
+        componentData: componentData,
+        componentAttributes: componentAttributes
       });
     }
 

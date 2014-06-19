@@ -1,0 +1,75 @@
+<template id="dialog.manage-student.edit-student">
+
+  {{dialog.size width="500px" height="620px"}}
+
+  <div class="header">
+    {{lang "student.edit"}} <b>{{originalData.studentCode}}</b> ({{originalData.lastName}} {{originalData.firstName}})
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "student.studentCode"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="studentCode" disabled="true"}}
+    </div>
+
+     <div class="label">
+      {{lang "student.firstName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="firstName"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.lastName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="lastName"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.class"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="classId"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.gender"}}:
+    </div>
+    <div class="data input">
+      {{component.genderDropDownList attribute="gender"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.dateOfBirth"}}:
+    </div>
+    <div class="data input">
+      {{component.dateInput attribute="dateOfBirth"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.address"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="address"}}
+    </div>
+
+    <div class="label">
+      {{lang "student.email"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="email"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

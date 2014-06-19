@@ -32,8 +32,8 @@ define('core.model.ModelUtil', function (module, require) {
       findOptions.attributes = options.attributes;
     }
 
-    if (options.filters) {
-      findOptions.where = buildFilters(options.filters, Entity.tableName);
+    if (options.filters || options.excludeFilters) {
+      findOptions.where = buildFilters(options.filters, options.excludeFilters, Entity.tableName);
     }
 
     findOptions.include = include;
@@ -198,32 +198,55 @@ define('core.model.ModelUtil', function (module, require) {
     return sort
   }
 
-  function buildFilters(filters, tableName) {
+  function buildFilters(filters, excludeFilters, tableName) {
     var whereSql = [];
     var whereData = [];
 
-    for (var i = 0, len = filters.length; i < len; i++) {
-      var filter = filters[i];
+    if (filters) {
+      for (var i = 0, len = filters.length; i < len; i++) {
+        var filter = filters[i];
 
-      if (!filter.field || !filter.value) continue;
+        if (!filter.field || !filter.value) continue;
 
-      var columnName = buildColumnName(filter.field, tableName);
+        var columnName = buildColumnName(filter.field, tableName);
 
-      // convert to search datetime
-      if (['dateOfBirth'].indexOf(filter.field) != -1) {
-        filter.value = convertToSearchDateTime(filter.value);
-      }
+        // convert to search datetime
+        if (['dateOfBirth'].indexOf(filter.field) != -1) {
+          filter.value = convertToSearchDateTime(filter.value);
+        }
 
-      if (['gender'].indexOf(filter.field) != -1) {
-        // find exact
-        whereSql.push(columnName + ' = ?');
-        whereData.push(filter.value);
-      } else {
-        // find like
-        whereSql.push(columnName + ' LIKE ?');
-        whereData.push('%' + filter.value + '%');
+        if (['gender'].indexOf(filter.field) != -1) {
+          // find exact
+          whereSql.push(columnName + ' = ?');
+          whereData.push(filter.value);
+        } else {
+          // find like
+          whereSql.push(columnName + ' LIKE ?');
+          whereData.push('%' + filter.value + '%');
+        }
       }
     }
+
+    if (excludeFilters) {
+      for (var i = 0, len = excludeFilters.length; i < len; i++) {
+        var filter = excludeFilters[i];
+
+        if (!filter.field || !filter.value) continue;
+
+        var columnName = buildColumnName(filter.field, tableName);
+
+        // convert to search datetime
+        if (['dateOfBirth'].indexOf(filter.field) != -1) {
+          filter.value = convertToSearchDateTime(filter.value);
+        }
+
+        // find exact for all exclude filters
+        whereSql.push('(' + columnName + ' IS NULL OR ' + columnName + ' != ?)');
+        whereData.push(filter.value);
+      }
+    }
+
+    console.log('whereSqlwhereSqlwhereSql', whereSql);
 
     var where = [whereSql.join(' AND ')].concat(whereData);
 
