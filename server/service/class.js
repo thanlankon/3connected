@@ -56,11 +56,53 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
   // for class students
 
   service.addStudents = function (req, res) {
-    ServiceUtil.sendServiceResponse(res, null, 'class', null);
+    var classId = req.body.classId;
+    var studentIds = req.body.studentIds;
+
+    ClassModel.addStudents(classId, studentIds, function (error, affectedRows) {
+      var message;
+
+      if (error) {
+        message = 'class.addStudents.error';
+      } else {
+        if (affectedRows !== studentIds.length) {
+          error = {
+            code: 'ENTITY.CLASS.ADD_STUDENT_INCOMPLETED'
+          };
+
+          message = 'class.addStudents.incomplete';
+        } else {
+          message = 'class.addStudents.success';
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message);
+    });
   };
 
   service.removeStudents = function (req, res) {
-    ServiceUtil.sendServiceResponse(res, null, 'student', null);
+    var classId = req.body.classId;
+    var studentIds = req.body.studentIds;
+
+    ClassModel.removeStudents(classId, studentIds, function (error, affectedRows) {
+      var message;
+
+      if (error) {
+        message = 'class.removeStudents.error';
+      } else {
+        if (affectedRows !== studentIds.length) {
+          error = {
+            code: 'ENTITY.CLASS.REMOVE_STUDENT_INCOMPLETED'
+          };
+
+          message = 'class.removeStudents.incomplete';
+        } else {
+          message = 'class.removeStudents.success';
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message);
+    });
   };
 
 });

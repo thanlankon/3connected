@@ -67,7 +67,7 @@ define('core.service.ServiceUtil', function (module, require) {
       responeData._service.message = message;
     }
 
-    responeData.data = data;
+    responeData.data = data || {};
 
     res.send(responeData);
 

@@ -241,7 +241,7 @@ define('core.model.ModelUtil', function (module, require) {
         }
 
         // find exact for all exclude filters
-        whereSql.push(columnName + ' != ?');
+        whereSql.push('(' + columnName + ' IS NULL OR ' + columnName + ' != ?)');
         whereData.push(filter.value);
       }
     }

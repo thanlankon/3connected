@@ -24,7 +24,7 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
 
   entity.classId = {
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
 
     references: 'Class',
     referencesKey: 'classId'

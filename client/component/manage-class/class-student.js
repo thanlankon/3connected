@@ -11,6 +11,111 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
     }
   };
 
+  form.gridConfig = function () {
+
+    // grid students
+    var gridStudentsColumns = [{
+        text: Lang.get('student.studentId'),
+        dataField: 'studentId',
+
+        width: '150px'
+      }, {
+        text: Lang.get('student.studentCode'),
+        dataField: 'studentCode',
+
+        width: '150px'
+      },
+      {
+        text: Lang.get('student.firstName'),
+        dataField: 'firstName'
+      },
+      {
+        text: Lang.get('student.lastName'),
+        dataField: 'lastName'
+      },
+      {
+        text: Lang.get('student.className'),
+        dataField: 'className',
+
+        width: '100px'
+      },
+      {
+        text: Lang.get('student.batchName'),
+        dataField: 'batchName',
+
+        width: '120px'
+      },
+      {
+        text: Lang.get('student.majorName'),
+        dataField: 'majorName',
+
+        width: '120px'
+      },
+      {
+        text: Lang.get('student.gender'),
+        dataField: 'gender'
+      },
+      {
+        text: Lang.get('student.dateOfBirth'),
+        dataField: 'dateOfBirth'
+      }
+    ];
+
+    // grid class students
+    var gridClassStudentsColumns = [{
+        text: Lang.get('student.studentId'),
+        dataField: 'studentId',
+
+        width: '150px'
+      }, {
+        text: Lang.get('student.studentCode'),
+        dataField: 'studentCode',
+
+        width: '150px'
+      },
+      {
+        text: Lang.get('student.firstName'),
+        dataField: 'firstName'
+      },
+      {
+        text: Lang.get('student.lastName'),
+        dataField: 'lastName'
+      },
+      {
+        text: Lang.get('student.batchName'),
+        dataField: 'batchName',
+
+        width: '120px'
+      },
+      {
+        text: Lang.get('student.majorName'),
+        dataField: 'majorName',
+
+        width: '120px'
+      },
+      {
+        text: Lang.get('student.gender'),
+        dataField: 'gender'
+      },
+      {
+        text: Lang.get('student.dateOfBirth'),
+        dataField: 'dateOfBirth'
+      }
+    ];
+
+    var gridConfig = {
+      gridStudents: {
+        columns: gridStudentsColumns
+      },
+      gridClassStudents: {
+        columns: gridClassStudentsColumns
+      }
+    };
+
+    return gridConfig;
+
+  };
+
   // the template that used by the form
   form.tmpl = 'form.manage-class.class-student';
 
@@ -22,103 +127,11 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
 
     splitter.jqxSplitter({
       width: '100%',
-      height: '100%',
-      panels: [{
-        size: '60%'
-      }]
+      height: '100%'
     });
 
-
-    var gridStudentsColumns = [{
-        text: Lang.get('student.studentId'),
-        dataField: 'studentId',
-
-        width: '150px',
-      }, {
-        text: Lang.get('student.studentCode'),
-        dataField: 'studentCode',
-
-        width: '150px',
-      },
-      {
-        text: Lang.get('student.firstName'),
-        dataField: 'firstName',
-
-        width: '150px',
-      },
-      {
-        text: Lang.get('student.lastName'),
-        dataField: 'lastName',
-
-        width: '200px',
-      },
-      {
-        text: Lang.get('student.className'),
-        dataField: 'className',
-
-        width: '100px',
-      },
-      {
-        text: Lang.get('student.batchName'),
-        dataField: 'batchName',
-
-        width: '120px',
-      },
-      {
-        text: Lang.get('student.majorName'),
-        dataField: 'majorName',
-
-        width: '120px',
-      },
-      {
-        text: Lang.get('student.gender'),
-        dataField: 'gender',
-      },
-      {
-        text: Lang.get('student.dateOfBirth'),
-        dataField: 'dateOfBirth',
-
-        width: '100px'
-      }
-    ];
-
-    var gridClassStudentsColumns = [{
-        text: Lang.get('student.studentCode'),
-        dataField: 'studentCode',
-
-        width: '150px',
-      },
-      {
-        text: Lang.get('student.firstName'),
-        dataField: 'firstName',
-
-        width: '150px',
-      },
-      {
-        text: Lang.get('student.lastName'),
-        dataField: 'lastName',
-
-        width: '200px',
-      },
-      {
-        text: Lang.get('student.gender'),
-        dataField: 'gender',
-      },
-      {
-        text: Lang.get('student.dateOfBirth'),
-        dataField: 'dateOfBirth',
-
-        width: '100px'
-      }
-    ];
-
-    var gridStudentsConfig = {
-      columns: gridStudentsColumns
-    };
-
-    var gridClassStudentsConfig = {
-      columns: gridClassStudentsColumns
-    };
+    var gridStudentsConfig = this.getGridConfig().gridStudents;
+    var gridClassStudentsConfig = this.getGridConfig().gridClassStudents;
 
     var StudentProxy = require('proxy.Student');
 
@@ -135,10 +148,31 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
     });
 
     // handle click for Add Students button
-    this.element.find('#button-add-students').click(this.proxy(doAddStudents));
+    this.element.find('#button-add-students').click(this.proxy(function () {
+      var MsgBox = require('component.common.MsgBox');
+
+      var studentIds = this.gridStudents.getSelectedIds();
+
+      MsgBox.confirm(Lang.get('class.addStudents.confirm', {
+        'totalItems': studentIds.length
+      }), this.proxy(doAddStudents));
+    }));
 
     // handle click for Remove Students button
-    this.element.find('#button-remove-students').click(this.proxy(doRemoveStudents));
+    this.element.find('#button-remove-students').click(this.proxy(function () {
+      var MsgBox = require('component.common.MsgBox');
+
+      var studentIds = this.gridClassStudents.getSelectedIds();
+
+      MsgBox.confirm(Lang.get('class.removeStudents.confirm', {
+        'totalItems': studentIds.length
+      }), this.proxy(doRemoveStudents));
+    }));
+
+    // handle click for Change direction button
+    this.element.find('#button-change-orientation').click(this.proxy(toggleSplitterOrientation));
+
+    toggleSplitterOrientation();
 
     function doAddStudents() {
       var studentIds = this.gridStudents.getSelectedIds();
@@ -177,6 +211,34 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
     function refreshGridData() {
       this.gridStudents.refreshData();
       this.gridClassStudents.refreshData();
+    }
+
+    function toggleSplitterOrientation() {
+
+      var orientation = splitter.jqxSplitter('orientation');
+
+      if (orientation == 'vertical') {
+        splitter.jqxSplitter({
+          orientation: 'horizontal',
+          panels: [{
+            size: '50%'
+          }, {
+            size: '50%'
+          }]
+        });
+      } else {
+        splitter.jqxSplitter({
+          orientation: 'vertical',
+          panels: [{
+            size: '60%'
+          }, {
+            size: '40%'
+          }]
+        });
+      }
+
+      $(window).trigger('resize');
+
     }
 
   };

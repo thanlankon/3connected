@@ -11,10 +11,12 @@ define('core.view.helpers.component.GridPagerHelper', function (module, require)
   function gridPagerHelper(options) {
 
     var componentData = this;
+    var componentAttributes = Util.Object.omit(options.hash, ['attribute']);
 
     return function (element) {
       new GridPager(element, {
-        componentData: componentData
+        componentData: componentData,
+        componentAttributes: componentAttributes
       });
     }
 

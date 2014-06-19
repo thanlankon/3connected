@@ -5,12 +5,23 @@ define.component('component.common.GridColumnsChooser', function (component, req
     var componentData = options.componentData;
     var form = componentData.attr('form');
 
+    var grid = options.componentAttributes.grid;
+
+    var gridConfig = form.getGridConfig();
+
+    var columns;
+    if (grid) {
+      columns = gridConfig[grid].columns;
+    } else {
+      grid = 'grid';
+      columns = gridConfig.columns;
+    }
+    this.columns = columns;
+
     var dropDownList = this.dropDownList = jQuery('<div />')
       .attr('data-component-role', 'grid-columns-choooser')
       .data('GridColumnsChooser', this)
       .appendTo(element);
-
-    var columns = form.getGridConfig().columns;
 
     var sourceData = [];
     for (var i = 0, len = columns.length; i < len; i++) {
@@ -38,8 +49,10 @@ define.component('component.common.GridColumnsChooser', function (component, req
       displayMember: 'columnText',
       valueMember: 'columnName',
       checkboxes: true,
+
       width: '150px',
       height: '22px',
+      enableBrowserBoundsDetection: true
     };
 
     //    if (sourceData.length > 2) {
@@ -54,22 +67,22 @@ define.component('component.common.GridColumnsChooser', function (component, req
 
     // tracking changes of dropdownlist
     dropDownList.on('checkChange', function (event) {
-      if (!form.grid || !event || !event.args || !event.args.item) return;
+      if (!form[grid] || !event || !event.args || !event.args.item) return;
 
       var item = event.args.item;
 
       if (item.checked) {
-        form.grid.showColumn(item.value);
+        form[grid].showColumn(item.value);
       } else {
-        form.grid.hideColumn(item.value);
+        form[grid].hideColumn(item.value);
       }
     });
 
   };
 
-  component.updateSelectedColumns = function (columns) {
-    for (var i = 0, len = columns.length; i < len; i++) {
-      if (!columns[i].hidden) {
+  component.updateSelectedColumns = function () {
+    for (var i = 0, len = this.columns.length; i < len; i++) {
+      if (!this.columns[i].hidden) {
         this.dropDownList.jqxDropDownList('checkIndex', i);
       }
     }

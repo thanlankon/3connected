@@ -172,6 +172,8 @@ define.component('component.common.Grid', function (component, require, Util, La
 
       // for datetime
       if (['dateOfBirth'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.width = '100px';
+
         gridColumn.cellsFormat = DateTimeConstant.WidgetFormat.DATE;
       }
 
@@ -196,6 +198,8 @@ define.component('component.common.Grid', function (component, require, Util, La
         };
 
         gridColumn.cellsRenderer = function (row, columnField, value, defaultHtml, columnProperties) {
+          if (columnProperties.hidden) return;
+
           var Gender = require('enum.Gender');
 
           var genderText = null;
@@ -227,7 +231,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     this.gridColumns = gridOptions.columns;
 
-    this.element.data('grid-component', this);
+    this.element.data('GridComponent', this);
 
     this.element.jqxGrid({
       // source

@@ -38,6 +38,7 @@ update = Update
 cancel = Cancel
 import = Import
 export = Export
+changeOrientation= Change orientation
 
 # manage
 

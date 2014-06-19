@@ -2,6 +2,8 @@ define.component('component.common.GridPager', function (component, require, Uti
 
   component.initComponent = function (element, options) {
 
+    var grid = options.componentAttributes.grid || 'grid';
+
     var componentData = options.componentData;
     var form = componentData.attr('form');
 
@@ -27,7 +29,7 @@ define.component('component.common.GridPager', function (component, require, Uti
     numberInput.on('valuechanged', function (event) {
       var value = event.args.value;
 
-      form.grid.setPageSize(value);
+      form[grid].setPageSize(value);
     });
 
   };

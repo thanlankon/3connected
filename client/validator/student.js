@@ -80,10 +80,6 @@ define('validator.rule.Student', function (module, require) {
     attributeName: 'student.classId',
     rules: [
       {
-        // classId is required
-        rule: 'required'
-      },
-      {
         rule: 'positiveInteger'
       }
      ]
