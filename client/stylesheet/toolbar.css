@@ -107,6 +107,9 @@
 .form .toolbar li.icon.delete {
   background-image: url("/resource/resource/img/common/delete.png");
 }
+.form .toolbar li.icon.list {
+  background-image: url("/resource/resource/img/common/list.png");
+}
 .form .toolbar li.icon.export {
   background-image: url("/resource/resource/img/common/export.png");
 }
