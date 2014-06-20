@@ -16,6 +16,7 @@ firstName = First name
 lastName = Last name
 address = Address
 email = Email
+date = Date
 
 all = All
 unknown = Unknown
