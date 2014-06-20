@@ -13,6 +13,8 @@ define.component('component.Form', function (component, require, Util, Lang) {
       this.refreshData(data)
     }
 
+    this.element.trigger('visible');
+
     // for form list
     if (this.formType == this.FormType.Form.LIST) {
       this.refreshGrid();
@@ -21,6 +23,8 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
   component.hideForm = function () {
     this.element.hide();
+
+    this.element.trigger('hidden');
   };
 
   component.initView = function (view) {
@@ -29,8 +33,6 @@ define.component('component.Form', function (component, require, Util, Lang) {
     this.element.append(formElement);
 
     this.element = formElement;
-
-    //    this.initProxy();
 
     this.initForm();
 

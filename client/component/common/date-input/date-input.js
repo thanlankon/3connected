@@ -14,6 +14,8 @@ define.component('component.common.DateInput', function (component, require, Uti
       .attr('data-component-role', 'dateInput')
       .appendTo(element.parent());
 
+    //    var isToolbarComponent = element.closest('.toolbar').size() > 0;
+
     element.remove();
 
     // update bound attributes

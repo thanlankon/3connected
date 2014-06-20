@@ -37,7 +37,7 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
     function findOneDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
-      console.log(serviceResponse);
+      this.data.attr(serviceResponse.getData());
     }
   }
 

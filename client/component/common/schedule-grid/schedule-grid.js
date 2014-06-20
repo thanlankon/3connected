@@ -10,9 +10,20 @@ define.component('component.common.ScheduleGrid', function (component, require, 
         text: Lang.get('schedule.date'),
         dataField: 'date',
 
-        cellsFormat: DateTimeConstant.WidgetFormat.DATE,
+        cellsFormat: DateTimeConstant.WidgetFormat.DAY_OF_WEEK,
         filterType: 'date',
-        editable: false
+        editable: false,
+        cellClassName: function (row, dataField, value, rowData) {
+          var dayOfWeek = value.getDay();
+
+          var cellClass = 'schedule-date';
+
+          if (dayOfWeek === 6 || dayOfWeek == 0) {
+            cellClass += ' schedule-weekend';
+          }
+
+          return cellClass;
+        }
       }];
 
       for (var i = 1; i <= 9; i++) {
@@ -23,7 +34,13 @@ define.component('component.common.ScheduleGrid', function (component, require, 
           width: '100px',
           filterType: 'bool',
           columnType: 'checkbox',
-          //          threeStateCheckbox: false
+          align: 'center',
+          threeStateCheckbox: false,
+          cellClassName: function (row, dataField, value, rowData) {
+            if (value === true) {
+              return 'schedule-slot-selected';
+            }
+          }
         });
       }
 
@@ -56,6 +73,19 @@ define.component('component.common.ScheduleGrid', function (component, require, 
   }
 
   component.initComponent = function (element, options) {
+    var formElement = this.element.closest('.form');
+
+    formElement.on('visible', this.proxy(this.initGrid));
+  }
+
+  component.initGrid = function () {
+
+    // check for init grid only once
+    if (this.isGridInitialized) {
+      return;
+    } else {
+      this.isGridInitialized = true;
+    }
 
     var source = this.generateSource();
 
@@ -64,34 +94,27 @@ define.component('component.common.ScheduleGrid', function (component, require, 
       columns: this.getGridColumns(),
 
       pageable: false,
-      sortable: true,
+      sortable: false,
       filterable: true,
       showFilterRow: true,
       editable: true,
-      selectionmode: 'singlecell',
       editmode: 'click',
 
       width: '100%',
-      height: '100%'
+      height: '100%',
+      scrollbarSize: 12,
+      scrollMode: 'logical'
     });
 
-    this.refreshData();
-    //    this.resizeGrid();
-    //
-    //    $(window).resize(this.proxy(function () {
-    //      this.resizeGrid();
-    //    }));
-  };
 
-  component.resizeGrid = function () {
-    var parent = this.element.closest('.content');
+    this.element.on('cellClick', this.proxy(function (event) {
+      if (!event || !event.args || event.args.datafield == 'date') return;
 
-    var size = {
-      width: parent.width(),
-      height: parent.height()
-    };
+      var args = event.args;
 
-    this.element.jqxGrid(size);
+      this.element.jqxGrid('setCellValue', args.rowindex, args.datafield, !args.value);
+    }));
+
   };
 
   component.refreshData = function () {
@@ -106,10 +129,12 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
     var sourceData = [];
 
+    var Moment = require('lib.Moment');
+
     // generate data
     for (var i = 1; i <= 100; i++) {
       var item = {
-        date: new Date()
+        date: Moment().add('days', i)
       };
 
       for (var j = 1; j <= 9; j++) {

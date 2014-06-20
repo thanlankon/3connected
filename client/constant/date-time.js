@@ -8,7 +8,8 @@ define('constant.DateTime', function (module, require) {
     },
 
     WidgetFormat: {
-      DATE: 'dd/MM/yyyy'
+      DATE: 'dd/MM/yyyy',
+      DAY_OF_WEEK: 'dd/MM/yyyy (dddd)'
     }
   };
 

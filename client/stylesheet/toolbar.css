@@ -37,18 +37,20 @@
 }
 .form .toolbar li.icon a,
 .form .toolbar li.text a,
+.form .toolbar li.button a,
 .form .toolbar li.icon span,
-.form .toolbar li.text span {
+.form .toolbar li.text span,
+.form .toolbar li.button span {
   display: inline-block;
   font-size: 13px;
-  text-transform: uppercase;
   color: #555;
   height: 30px;
   line-height: 30px;
   padding: 0px 10px;
 }
 .form .toolbar li.icon b,
-.form .toolbar li.text b {
+.form .toolbar li.text b,
+.form .toolbar li.button b {
   font-size: 12px;
   text-shadow: 1px 1px 1px #eee;
 }
@@ -64,18 +66,41 @@
 .form .toolbar li.text span {
   text-transform: none;
 }
-.form .toolbar li.icon:hover {
+.form .toolbar li.button {
+  margin: 0px 10px;
+}
+.form .toolbar li.button a,
+.form .toolbar li.button span {
+  line-height: 22px;
+  margin-top: 3px;
+  border: 1px solid #ccc;
+  padding: 0px 8px;
+  height: 22px;
+  cursor: pointer;
+  background: #fbfbfb;
+}
+.form .toolbar li.icon:hover,
+.form .toolbar li.button span:hover,
+.form .toolbar li.button a:hover {
   background-color: #eee !important;
 }
-.form .toolbar li.icon:active {
+.form .toolbar li.icon:active,
+.form .toolbar li.button span:active,
+.form .toolbar li.button a:active {
   background-color: #ddd !important;
 }
-.form .toolbar li.icon.disabled a {
+.form .toolbar li.icon.disabled a,
+.form .toolbar li.button span.disabled a,
+.form .toolbar li.button a.disabled a {
   color: #ccc;
   cursor: default;
 }
 .form .toolbar li.icon.disabled:hover,
-.form .toolbar li.icon.disabled:active {
+.form .toolbar li.button span.disabled:hover,
+.form .toolbar li.button a.disabled:hover,
+.form .toolbar li.icon.disabled:active,
+.form .toolbar li.button span.disabled:active,
+.form .toolbar li.button a.disabled:active {
   background-color: #fff !important;
 }
 .form .toolbar li.icon {
