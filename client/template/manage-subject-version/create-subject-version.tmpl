@@ -1,0 +1,35 @@
+<!--ThanhVM-->
+<template id="dialog.manage-subjectVersion.create-subjectVersion">
+
+  {{dialog.size width="500px" height="250px"}}
+
+  <div class="header">
+    {{lang "subjectVersion.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "subject.subjectName"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="subjectId"}}
+    </div>
+
+
+    <div class="label">
+      {{lang "subjectVersion.description"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="description"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>
