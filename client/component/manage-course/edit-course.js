@@ -52,7 +52,8 @@ define.form('component.dialog.manage-course.EditCourse', function (form, require
         combobox: {
           valueMember: 'subjectVersionId',
           displayMember: 'description'
-        }
+        },
+        filterByAttributes: ['subjectId']
       } //,
       //      lectureId: {
       //        ServiceProxy: require('proxy.Lecture'),
