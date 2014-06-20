@@ -15,13 +15,14 @@ define.entity('model.entity.SubjectVersion', function (entity, DataType, require
 
   entity.subjectId = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    unique: 'subjectVersionUnique'
   };
 
   entity.description = {
     type: DataType.STRING(50),
     allowNull: false,
-    unique: true
+    unique: 'subjectVersionUnique'
   };
 
   entity.config = {
@@ -35,7 +36,7 @@ define.entity('model.entity.SubjectVersion', function (entity, DataType, require
     });
 
     this.hasMany('model.entity.Course', {
-        as: 'courses'
+      as: 'courses'
     });
 
   };

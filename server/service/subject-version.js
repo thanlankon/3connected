@@ -6,49 +6,51 @@
  */
 define.service('service.SubjectVersion', function (service, require, ServiceUtil, Util) {
 
-    var SubjectVersionModel = require('model.SubjectVersion');
-    var SubjectModel = require('model.Subject');
+  var SubjectVersionModel = require('model.SubjectVersion');
+  var SubjectModel = require('model.Subject');
 
-    service.map = {
-        url: '/subjectVersion'
-    };
+  service.map = {
+    url: '/subjectVersion'
+  };
 
-    service.Model = SubjectVersionModel;
+  service.Model = SubjectVersionModel;
 
-    service.methodConfig = {
-        idAttribute: 'subjectVersionId',
+  service.methodConfig = {
+    idAttribute: 'subjectVersionId',
 
-        message: {
-            entityName: 'subjectVersion',
-            displayAttribute: 'description'
-        },
+    message: {
+      entityName: 'subjectVersion',
+      displayAttribute: 'description'
+    },
 
-        findAll: {
-            buildFindOptions: function (findOptions) {
-                findOptions.include = [{
-                    model: SubjectModel,
-                    as: 'subject'
+    findAll: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: SubjectModel,
+          as: 'subject'
         }];
-            }
-        },
+      }
+    },
 
-        create: {
-            attributes: ['subjectVersionId', 'subjectId', 'description']
-        },
+    create: {
+      attributes: ['subjectId', 'description'],
+      checkDuplicatedAttributes: ['subjectId', 'description']
+    },
 
-        update: {
-            attributes: ['subjectVersionId', 'subjectId', 'description'],
-            checkExistanceAttributes: ['gradeCategoryId']
-        },
+    update: {
+      attributes: ['subjectId', 'description'],
+      checkDuplicatedAttributes: ['subjectId', 'description'],
+      checkExistanceAttributes: ['subjectVersionId']
+    },
 
-        findOne: {
-            buildFindOptions: function (findOptions) {
-                findOptions.include = [{
-                    model: SubjectModel,
-                    as: 'subject'
-                 }];
-            }
-        }
+    findOne: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: SubjectModel,
+          as: 'subject'
+         }];
+      }
     }
+  };
 
 });
