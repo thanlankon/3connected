@@ -93,6 +93,13 @@ define.component('component.common.Combobox', function (component, require, Util
       var item = combobox.jqxComboBox('getItemByValue', value);
       combobox.jqxComboBox('selectItem', item);
 
+      var items = combobox.jqxComboBox('getItems');
+      var autoDropDownHeight = !items || items.length <= 10;
+
+      combobox.jqxComboBox({
+        autoDropDownHeight: autoDropDownHeight
+      });
+
       trackingChange.data = false;
     });
 
