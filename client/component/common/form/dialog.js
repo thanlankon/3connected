@@ -45,6 +45,10 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
         }
       }
 
+      if (this.clearData) {
+        this.clearData();
+      }
+
       this.element.jqxWindow('open');
 
       return;
@@ -65,8 +69,11 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
         entity.originalData = Util.Object.clone(entity);
 
-        __data = this.data;
         this.data.attr(entity);
+
+        if (this.reloadData) {
+          this.reloadData();
+        }
 
         this.element.jqxWindow('open');
       }
