@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Department entity
+ * Creator         : ThanhVM
+ * Created date    : 2014/16/06
+ */
+
 define.entity('model.entity.Department', function (entity, DataType, require) {
 
   entity.departmentId = {
@@ -16,5 +23,10 @@ define.entity('model.entity.Department', function (entity, DataType, require) {
     table: 'Department'
   };
 
+entity.associate = function () {
+   this.hasMany('model.entity.Staff', {
+      as: 'staffs'
+    });
+}
 
 });

@@ -11,41 +11,20 @@ define.service('service.Term', function (service, require, ServiceUtil, Util) {
   service.methodConfig = {
     idAttribute: 'termId',
 
-    findAll: {
-      //      disabled: true
-    },
-
-    findOne: {
-      message: {
-        notFound: 'term.find.notFound'
-      }
+    message: {
+      entityName: 'term',
+      displayAttribute: 'termName'
     },
 
     create: {
       attributes: ['termName'],
-      checkDuplicatedAttributes: ['termName'],
-      message: {
-        duplicated: 'term.create.duplicated',
-        success: 'term.create.success',
-      }
+      checkDuplicatedAttributes: ['termName']
     },
 
     update: {
       attributes: ['termName'],
       checkExistanceAttributes: ['termId'],
-      checkDuplicatedAttributes: ['termName'],
-      message: {
-        duplicated: 'term.update.duplicated',
-        notFound: 'term.update.notFound',
-        success: 'term.update.success',
-      }
-    },
-
-    destroy: {
-      message: {
-        incomplete: 'term.destroy.incomplete',
-        success: 'term.destroy.success',
-      }
+      checkDuplicatedAttributes: ['termName']
     }
   }
 

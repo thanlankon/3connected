@@ -1,0 +1,6 @@
+
+
+#message
+course.addStudents.confirm = Add {{totalItems}} selected students to course.
+course.removeStudents.confirm = Remove {{totalItems}} selected students from course?
+courseStudent = Student add to course

@@ -1,0 +1,39 @@
+<template id="form.manage-staff.list-staff">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-staff" action="create"}}">{{lang "staff.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
+        <a href="{{url module="manage-staff" action="edit"}}">{{lang "staff.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
+        <a href="#">{{lang "staff.delete"}}</a>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+      <li class="right component">
+        {{component.gridClearFilter}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-staffs" data-component-role="grid"></div>
+
+  </div>
+
+</template>

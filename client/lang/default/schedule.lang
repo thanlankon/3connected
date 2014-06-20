@@ -1,0 +1,11 @@
+schedule.date = {{.date}}
+
+schedule.slot1 = Slot 1
+schedule.slot2 = Slot 2
+schedule.slot3 = Slot 3
+schedule.slot4 = Slot 4
+schedule.slot5 = Slot 5
+schedule.slot6 = Slot 6
+schedule.slot7 = Slot 7
+schedule.slot8 = Slot 8
+schedule.slot9 = Slot 9

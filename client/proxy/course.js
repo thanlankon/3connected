@@ -1,6 +1,6 @@
 /*
  * System          : 3connected
- * Component       : Subject version proxy
+ * Component       : Subject course proxy
  * Creator         : VyBD
  * Created date    : 2014/16/06
  */

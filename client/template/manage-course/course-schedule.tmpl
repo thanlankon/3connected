@@ -1,0 +1,27 @@
+<template id="form.manage-course.course-schedule">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-course"}}"></a>
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-course" action="create"}}">{{lang "course.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
+        <a href="{{url module="manage-course" action="edit"}}">{{lang "course.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
+        <a href="#">{{lang "course.delete"}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-course-schedule"></div>
+
+  </div>
+
+</template>

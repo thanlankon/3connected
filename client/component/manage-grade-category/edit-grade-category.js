@@ -51,19 +51,19 @@ define.form('component.dialog.manage-gradeCategory.EditGradeCategory', function 
 
     this.data.attr(data);
 
-    this.data.bind('change', this.proxy(function (ev, attr, how, newVal, oldVal) {
-      if (attr == 'subjectVersionId') {
-        var subjectId = this.data.attr('subjectVersion.subjectId');
-
-        if (this.data.attr('subjectId') != subjectId) {
-          this.data.attr({
-            subjectId: subjectId
-          });
-        }
-      }
-    }));
-
-
   };
+
+  form.reloadData = function () {
+
+    // set subjectId when reload
+    var subjectId = this.data.attr('subjectVersion.subjectId');
+
+    if (this.data.attr('subjectId') != subjectId) {
+      this.data.attr({
+        subjectId: subjectId
+      });
+    }
+
+  }
 
 });

@@ -1,0 +1,20 @@
+# attribute name
+
+staff = Staff
+staff.staffId = Staff Id
+staff.firstName = {{.firstName}}
+staff.lastName = {{.lastName}}
+staff.department = {{.department}}
+staff.departmentId = {{.department}}
+staff.departmentName = {{.department}}
+staff.gender = {{.gender}}
+staff.dateOfBirth = {{.dateOfBirth}}
+staff.address = {{.address}}
+staff.email = {{.email}}
+
+# button
+
+staff.create = Create staff
+staff.view = View staff details
+staff.edit = Edit staff
+staff.delete = Delete staffs

@@ -1,5 +1,8 @@
 define.form('component.dialog.manage-term.EditTerm', function (form, require, Util, Lang) {
 
+  // map the form to the url
+  // the form is displayed when the url is matched
+  // url: #!manage-term/edit/:id
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
@@ -8,37 +11,16 @@ define.form('component.dialog.manage-term.EditTerm', function (form, require, Ut
     }
   };
 
-  form.ServiceProxy = require('proxy.Term');
-
-  form.formType = form.FormType.Dialog.EDIT;
-
+  // the template that used by the form
   form.tmpl = 'dialog.manage-term.edit-term';
 
-  form.validateRules = [{
-    attribute: 'termName',
-    rules: [{
-      rule: 'required',
-      message: 'term.name.required',
-    }]
-  }, {
-    attribute: 'termId',
-    rules: [{
-      rule: 'required',
-      message: 'term.id.required',
-    }]
-  }];
+  // the form type is Dialog.EDIT
+  form.formType = form.FormType.Dialog.EDIT;
 
-  form.initData = function () {
-    // init form data
-    var data = {
-      termName: null
-    };
+  // the proxy that used by the form
+  // proxy.findOne & proxy.update methods will be used
+  form.ServiceProxy = require('proxy.Term');
 
-    this.data.attr(data);
-  };
-
-  form.ready = function () {
-    // init form components and bind events
-  };
-
+  // the validation rules used by form
+  form.validateRules = require('validator.rule.Term');
 });

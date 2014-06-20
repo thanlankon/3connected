@@ -1,4 +1,11 @@
-<template id="form.manage-course.list-course">
+ <!--
+System          : 3connected
+Component       : Create course template
+Creator         : VyBD
+Modifier        :ThanhVM
+Created date    : 2014/16/06
+-->
+  <template id="form.manage-course.list-course">
 
   <div class="toolbar">
     <ul>
@@ -16,6 +23,9 @@
       </li>
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="schedule"}}">{{lang "course.schedule"}}</a>
+      </li>
+            <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="manage-course-student" action="course-student"}}">{{lang "course.manageStudent"}}</a>
       </li>
 
       <li class="right component">
