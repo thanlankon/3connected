@@ -1,0 +1,35 @@
+<template id="dialog.manage-subjectVersion.edit-subjectVersion">
+
+  {{dialog.size width="500px" height="250px"}}
+
+  <div class="header">
+    {{lang "subjectVersion.edit"}} <b>{{originalData.description}}</b>
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "subject.subjectName"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="subjectId"}}
+    </div>
+
+
+    <div class="label">
+      {{lang "subjectVersion.description"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="description"}}
+    </div>
+
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>
