@@ -14,6 +14,7 @@ define.form('component.dialog.manage-course.EditCourse', function (form, require
 
   form.tmpl = 'dialog.manage-course.edit-course';
 
+  form.validateRules = require('validator.rule.Course');
 
   form.initData = function () {
     var componentSettings = {
@@ -68,19 +69,19 @@ define.form('component.dialog.manage-course.EditCourse', function (form, require
 
     this.data.attr(data);
 
-    this.data.bind('change', this.proxy(function (ev, attr, how, newVal, oldVal) {
-      if (attr == 'subjectVersionId') {
-        var subjectId = this.data.attr('subjectVersion.subjectId');
+  };
 
-        if (this.data.attr('subjectId') != subjectId) {
-          this.data.attr({
-            subjectId: subjectId
-          });
-        }
-      }
-    }));
+  form.reloadData = function () {
 
-  }
+    // set subjectId when reload
+    var subjectId = this.data.attr('subjectVersion.subjectId');
 
-  form.validateRules = require('validator.rule.Course');
+    if (this.data.attr('subjectId') != subjectId) {
+      this.data.attr({
+        subjectId: subjectId
+      });
+    }
+
+  };
+
 });
