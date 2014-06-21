@@ -29,6 +29,10 @@ define('core.util.ConvertUtil', function (module, require) {
       return Moment().format(DateTimeConstant.Format.DATE);
     },
 
+    parseDate: function (date) {
+      return Moment(date, DateTimeConstant.Format.DATE).toDate();
+    },
+
     isDate: function (date, format) {
       return Moment(date, format).isValid();
     }

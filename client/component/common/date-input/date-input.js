@@ -28,6 +28,7 @@ define.component('component.common.DateInput', function (component, require, Uti
     }
 
     var dateInputOptions = {
+      value: null,
       formatString: DateTimeConstant.WidgetFormat.DATE,
       enableBrowserBoundsDetection: true,
 

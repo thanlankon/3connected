@@ -16,4 +16,7 @@ schedule.endDate = End date
 # button
 
 schedule.view = View
-schedule.updateChanges = Update changes
+schedule.refresh = Refresh
+schedule.editSchedule = Edit schedule
+schedule.updateChanges = Update
+schedule.rejectChanges = Cancel

@@ -6,7 +6,8 @@
 .jqx-grid-metro [role="row"]:hover [role="gridcell"] {
   background: #fcfcfc;
 }
-.jqx-grid-metro [role="row"]:hover [role="gridcell"].jqx-grid-cleared-cell-metro {
+.jqx-grid-metro [role="row"]:hover [role="gridcell"].jqx-grid-cleared-cell-metro,
+.jqx-grid-metro [role="row"]:hover [role="gridcell"].jqx-grid-empty-cell-metro {
   background: #fff;
 }
 .jqx-grid-metro [role="row"].selected [role="gridcell"] {

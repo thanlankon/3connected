@@ -14,35 +14,48 @@
       </li>
 
       <li class="text">
-        <span>{{lang 'course'}}: <b>{{courseName}}</b></span>
+        <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
       </li>
 
       <li class="divider">
       </li>
 
-      <li class="text">
-        <span>{{lang 'schedule.startDate'}}:</span>
-      </li>
-      <li class="component">
-        {{component.dateInput attribute="startDate" width="100px" height="22px"}}
+      <li class="icon view">
+        <span>{{lang 'schedule.refresh'}}</span>
       </li>
 
-      <li class="text">
-        <span>{{lang 'schedule.endDate'}}:</span>
-      </li>
-      <li class="component">
-        {{component.dateInput attribute="endDate" width="100px" height="22px"}}
+      <li class="divider" data-component-group="view">
       </li>
 
-      <li class="button">
-        <span>{{lang 'schedule.view'}}</span>
+      <li class="icon edit" id="button-edit-schedule" data-component-group="view">
+        <span>{{lang 'schedule.editSchedule'}}</span>
       </li>
 
-      <li class="divider">
+      <li class="divider" data-component-group="edit">
       </li>
 
-      <li class="icon edit">
+      <li class="component" data-component-group="edit">
+        {{component.dateInput attribute="schedule.startDate" width="100px" height="22px"}}
+      </li>
+      <li class="text" data-component-group="edit">
+        <span>-</span>
+      </li>
+      <li class="component" data-component-group="edit">
+        {{component.dateInput attribute="schedule.endDate" width="100px" height="22px"}}
+      </li>
+
+      <li class="button" data-component-group="edit">
+        <span id="button-view-schedule">{{lang 'schedule.view'}}</span>
+      </li>
+
+      <li class="divider" data-component-group="edit">
+      </li>
+
+      <li class="icon edit" id="button-update-schedule" data-component-group="edit">
         <span>{{lang 'schedule.updateChanges'}}</span>
+      </li>
+      <li class="icon delete" id="button-reject-changes" data-component-group="edit">
+        <span>{{lang 'schedule.rejectChanges'}}</span>
       </li>
 
     </ul>
