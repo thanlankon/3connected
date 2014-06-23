@@ -6,6 +6,7 @@ define('core.proxy.Proxy', function (module, require) {
   var ServiceResponseUtil = require('core.proxy.ServiceResponseUtil');
 
   module.exports = {
+    //    ProxyUtil: ProxyUtil,
     ProxyMethod: ProxyMethod,
     ServiceResponse: ServiceResponse
   };
@@ -47,19 +48,26 @@ define('core.proxy.Proxy', function (module, require) {
   ProxyMethod.prototype.doRequest = function (requestData, callback) {
     console.log('do request', requestData);
 
-    jQuery.ajax({
+    var ajax = jQuery.ajax({
       type: this.httpMethod,
       url: this.url,
       data: requestData
-    }).done(function (responseData) {
-      var serviceResponse = new ServiceResponse(responseData);
-
-      ServiceResponseUtil.handleServiceResponse(serviceResponse);
-
-      if (callback) {
-        callback(serviceResponse);
-      }
     });
+
+    if (callback) {
+      ajax.done(function (responseData) {
+        var serviceResponse = new ServiceResponse(responseData);
+
+        ServiceResponseUtil.handleServiceResponse(serviceResponse);
+
+        if (callback) {
+          callback(serviceResponse);
+        }
+      });
+    } else {
+      return ajax;
+    }
+
   };
 
   // global ajax error handler
@@ -69,5 +77,27 @@ define('core.proxy.Proxy', function (module, require) {
     alert('ajax error');
   });
 
+  //  var ProxyUtil = {
+  //    async: function () {
+  //      var args = Util.Collection.toArray(arguments);
+  //      var ajax = args.slice(0, -1);
+  //      var callback = args.slice(-1);
+  //
+  //      jQuery.when
+  //        .apply(null, ajax)
+  //        .done(function () {
+  //          var responses = Util.Collection.toArray(arguments);
+  //
+  //          for (var i = 0, len = responses.length; i < len; i++) {
+  //            var serviceResponse = new ServiceResponse(responses[i]);
+  //            ServiceResponseUtil.handleServiceResponse(serviceResponse);
+  //
+  //            responses[i] = serviceResponse;
+  //          }
+  //
+  //          callback.apply(null, responses);
+  //        });
+  //    }
+  //  };
 
 });

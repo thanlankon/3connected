@@ -36,7 +36,7 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
   };
 
   entity.dateOfBirth = {
-    type: 'DATE',
+    type: DataType.DATE,
     allowNull: false
   };
 

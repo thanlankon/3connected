@@ -21,3 +21,7 @@ course.edit = Edit Course
 course.delete = Delete Courses
 
 course.schedule = Schedule
+
+# schedule
+
+course.updateSchedule.success = The schedule of the course is updated successfully

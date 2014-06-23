@@ -30,6 +30,7 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
 
     // bind event handlers to elements
     this.element.find('#button-view-schedule').click(this.proxy(this.viewSchedule));
+    this.element.find('#button-refresh-schedule').click(this.proxy(this.refreshSchedule));
     this.element.find('#button-update-schedule').click(this.proxy(this.updateSchedule));
 
     this.element.find('#button-reject-changes').click(this.proxy(this.switchToViewMode));
@@ -48,11 +49,13 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
     function findOneDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
-      var Moment = require('lib.Moment');
+      var ConvertUtil = require('core.util.ConvertUtil');
+
+      var course = serviceResponse.getData();
 
       this.data.attr({
         // course info
-        course: serviceResponse.getData(),
+        course: course,
         // schedule
         schedule: {
           startDate: null,
@@ -60,12 +63,36 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
         }
       });
 
-      this.data.attr({
-        schedule: {
-          startDate: Moment().toDate(),
-          endDate: Moment().add('days', 10).toDate()
-        }
-      });
+      var schedules = course.schedules;
+
+      if (schedules && schedules.length) {
+        // find start date and end date of the schedule
+
+        var startDate = Util.Collection.min(schedules, function (schedule) {
+          var date = ConvertUtil.DateTime.parseDate(schedule.date);
+          return date;
+        });
+        startDate = startDate.date;
+
+        var endDate = Util.Collection.max(schedules, function (schedule) {
+          var date = ConvertUtil.DateTime.parseDate(schedule.date);
+          return date;
+        });
+        endDate = endDate.date;
+
+        console.log(startDate, endDate);
+
+        this.data.attr({
+          schedule: {
+            startDate: startDate,
+            endDate: endDate
+          }
+        });
+
+        this.gridSchedule.refreshData(startDate, endDate, schedules);
+
+      }
+
     }
   };
 
@@ -75,21 +102,27 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
     var startDate = this.data.attr('schedule.startDate');
     var endDate = this.data.attr('schedule.endDate');
 
-    // startDate and endDate are string, convert them to Date
-    if (startDate) {
-      startDate = ConvertUtil.DateTime.parseDate(startDate);
-    }
-    if (endDate) {
-      endDate = ConvertUtil.DateTime.parseDate(endDate);
-    }
-
     this.gridSchedule.refreshData(startDate, endDate);
   };
 
   form.updateSchedule = function () {
     var scheduleData = this.gridSchedule.getScheduleData();
 
-    console.log(scheduleData);
+    // check if data has been changed
+    if (!scheduleData.addedItems.length && !scheduleData.removedItems.length) return;
+
+    // set courseId of the schedule
+    scheduleData.courseId = this.data.attr('course.courseId');
+
+    var CourseProxy = require('proxy.Course');
+
+    CourseProxy.updateSchedule(scheduleData, this.proxy(updateScheduleDone));
+
+    function updateScheduleDone(serviceResponse) {
+      if (!serviceResponse.hasError()) {
+        this.refreshSchedule();
+      }
+    }
   };
 
   form.switchToViewMode = function () {
@@ -101,7 +134,15 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
 
     // disable grid editable
     this.gridSchedule.setEditable(false);
+
+    this.refreshSchedule();
   };
+
+  form.refreshSchedule = function () {
+    this.refreshData({
+      id: this.data.attr('course.courseId')
+    });
+  }
 
   form.switchToEditMode = function () {
     // hide all edit component

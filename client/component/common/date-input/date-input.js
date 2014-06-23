@@ -67,12 +67,14 @@ define.component('component.common.DateInput', function (component, require, Uti
       trackingChange.data = true;
 
       if (attr == dataAttribute) {
-        dateInput.jqxDateTimeInput('setDate', newVal);
+        var date = ConvertUtil.DateTime.parseDate(newVal);
 
-        if (ConvertUtil.DateTime.isDate(newVal)) {
-          var dateString = ConvertUtil.DateTime.formatDate(newVal);
-          componentData.attr(dataAttribute, dateString);
-        }
+        dateInput.jqxDateTimeInput('setDate', date);
+
+        //        if (ConvertUtil.DateTime.isDate(newVal)) {
+        //          var dateString = ConvertUtil.DateTime.formatDate(newVal);
+        //          componentData.attr(dataAttribute, dateString);
+        //        }
       }
 
       trackingChange.data = false;

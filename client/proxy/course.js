@@ -2,8 +2,11 @@
  * System          : 3connected
  * Component       : Subject course proxy
  * Creator         : VyBD
- * Created date    : 2014/16/06
+ * Modifier        : TrongND
+ * Created date    : 2014/06/16
+ * Modified date   : 2014/06/22
  */
+
 define.proxy('proxy.Course', function (proxy, require) {
 
   proxy.entityId = 'courseId';
@@ -17,6 +20,9 @@ define.proxy('proxy.Course', function (proxy, require) {
   proxy.update = 'POST api/course/update';
 
   proxy.destroy = 'POST api/course/destroy';
+
+  // update schedule
+  proxy.updateSchedule = 'POST api/course/updateSchedule';
 
   // course entity map
   proxy.EntityMap = [

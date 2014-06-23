@@ -14,7 +14,9 @@ define.component('component.common.ScheduleGrid', function (component, require, 
         filterType: 'textbox',
         editable: false,
         cellClassName: function (row, dataField, value, rowData) {
-          var dayOfWeek = value.getDay();
+          var ConvertUtil = require('core.util.ConvertUtil');
+
+          var dayOfWeek = ConvertUtil.DateTime.parseDayOfWeek(value).getDay();
 
           var cellClass = 'schedule-date';
 
@@ -57,7 +59,7 @@ define.component('component.common.ScheduleGrid', function (component, require, 
     if (!this.gridDataFields) {
       var getGridDataFields = [{
         name: 'date',
-        type: 'date'
+        type: 'string'
       }];
 
       for (var i = 1; i <= 9; i++) {
@@ -96,8 +98,8 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
       pageable: false,
       sortable: false,
-      filterable: false,
-      showFilterRow: false,
+      filterable: true,
+      showFilterRow: true,
       editable: false,
 
       width: '100%',
@@ -106,13 +108,19 @@ define.component('component.common.ScheduleGrid', function (component, require, 
       scrollMode: 'logical'
     });
 
+    this.element.jqxGrid('removesort');
+
     this.element.on('cellClick', this.proxy(this.processDataChange));
 
   };
 
   component.refreshData = function (startDate, endDate, originalData) {
 
-    var source = this.generateSource(startDate, endDate, originalData);
+    if (originalData) {
+      this.originalData = originalData;
+    }
+
+    var source = this.generateSource(startDate, endDate, this.originalData);
 
     this.element.jqxGrid({
       source: source
@@ -121,31 +129,46 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
   component.generateSource = function (startDate, endDate, originalData) {
 
+    var ConvertUtil = require('core.util.ConvertUtil');
+
     // reset schedule data
     this.scheduleData = {};
+
+    originalData = originalData || [];
+
+    for (var i = 0, len = originalData.length; i < len; i++) {
+      var schedule = originalData[i];
+
+      if (!this.scheduleData[schedule.date]) {
+        this.scheduleData[schedule.date] = {};
+      }
+
+      this.scheduleData[schedule.date]['slot' + schedule.slot] = 'UNCHANGED';
+    }
 
     var sourceData = [];
 
     // generate source data
-    if (startDate && endDate && startDate <= endDate) {
+    if (startDate && endDate && ConvertUtil.DateTime.compare(startDate, endDate) <= 0) {
 
       var Moment = require('lib.Moment');
 
-      startDate = Moment(startDate);
-      endDate = Moment(endDate);
+      while (ConvertUtil.DateTime.compare(startDate, endDate) <= 0) {
+        var dayOfWeek = ConvertUtil.DateTime.convertDateToDayOfWeek(startDate);
 
-      while (startDate.valueOf() <= endDate.valueOf()) {
         var item = {
-          date: new Date(startDate.valueOf())
+          date: dayOfWeek
         };
 
         for (var j = 1; j <= 9; j++) {
-          item['slot' + j] = false;
+          var selected = !!(this.scheduleData[startDate] && this.scheduleData[startDate]['slot' + j]);
+
+          item['slot' + j] = selected;
         }
 
         sourceData.push(item);
 
-        startDate = startDate.add('days', 1);
+        startDate = ConvertUtil.DateTime.addDays(startDate, 1);
       }
 
     }
@@ -180,7 +203,9 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
     var dateCell = this.element.jqxGrid('getcell', args.rowindex, 'date');
 
-    var date = ConvertUtil.DateTime.formatDate(dateCell.value);
+    var date = dateCell.value;
+    date = ConvertUtil.DateTime.convertDayOfWeekToDate(date);
+
     var slot = args.datafield;
 
     var value = args.value;
@@ -224,8 +249,8 @@ define.component('component.common.ScheduleGrid', function (component, require, 
   component.getScheduleData = function () {
 
     var scheduleData = {
-      added: [],
-      removed: []
+      addedItems: [],
+      removedItems: []
     };
 
     Util.Collection.each(this.scheduleData, function (slots, date) {
@@ -235,12 +260,12 @@ define.component('component.common.ScheduleGrid', function (component, require, 
         var slot = +slot.slice(-1);
 
         if (status == 'ADDED') {
-          scheduleData.added.push({
+          scheduleData.addedItems.push({
             date: date,
             slot: slot
           });
         } else if (status == 'DELETED') {
-          scheduleData.removed.push({
+          scheduleData.removedItems.push({
             date: date,
             slot: slot
           });
