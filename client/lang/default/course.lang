@@ -25,3 +25,5 @@ course.schedule = Schedule
 # schedule
 
 course.updateSchedule.success = The schedule of the course is updated successfully
+course.updateSchedule.error.addScheduleSlots = Error during adding course's schedule slots
+course.updateSchedule.error.removeScheduleSlots = Error during removing course's schedule slots

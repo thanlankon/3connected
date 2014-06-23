@@ -2,8 +2,11 @@
  * System          : 3connected
  * Component       : Course model
  * Creator         : VyBD
- * Created date    : 2014/17/06
+ * Modifier        : TrongND
+ * Created date    : 2014/06/17
+ * Modified date   : 2014/06/23
  */
+
 define.model('model.Course', function (model, ModelUtil, require) {
 
   var Course = require('model.entity.Course');
@@ -12,8 +15,6 @@ define.model('model.Course', function (model, ModelUtil, require) {
   model.Entity = Course;
 
   model.addScheduleSlots = function (courseId, slots, callback) {
-
-    var ConvertUtil = require('core.util.ConvertUtil');
 
     var scheduleItems = [];
 
@@ -32,6 +33,22 @@ define.model('model.Course', function (model, ModelUtil, require) {
     Schedule.bulkCreate(scheduleItems)
       .success(function () {
         callback(null, scheduleItems)
+      })
+      .error(function (error) {
+        callback(error);
+      });
+
+  };
+
+  model.removeScheduleSlots = function (scheduleIds, callback) {
+
+    var findConditions = {
+      scheduleId: scheduleIds
+    };
+
+    Schedule.destroy(findConditions)
+      .success(function (affectedRows) {
+        callback(null, affectedRows);
       })
       .error(function (error) {
         callback(error);

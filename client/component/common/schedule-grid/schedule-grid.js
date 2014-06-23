@@ -133,6 +133,7 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
     // reset schedule data
     this.scheduleData = {};
+    this.scheduleIds = {};
 
     originalData = originalData || [];
 
@@ -141,9 +142,11 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
       if (!this.scheduleData[schedule.date]) {
         this.scheduleData[schedule.date] = {};
+        this.scheduleIds[schedule.date] = {};
       }
 
       this.scheduleData[schedule.date]['slot' + schedule.slot] = 'UNCHANGED';
+      this.scheduleIds[schedule.date]['slot' + schedule.slot] = schedule.scheduleId;
     }
 
     var sourceData = [];
@@ -253,21 +256,24 @@ define.component('component.common.ScheduleGrid', function (component, require, 
       removedItems: []
     };
 
+    var scheduleIds = this.scheduleIds;
+
     Util.Collection.each(this.scheduleData, function (slots, date) {
       Util.Collection.each(slots, function (status, slot) {
 
         // convert slot from name to slot number
-        var slot = +slot.slice(-1);
+        var slotNumber = +slot.slice(-1);
 
         if (status == 'ADDED') {
           scheduleData.addedItems.push({
             date: date,
-            slot: slot
+            slot: slotNumber
           });
         } else if (status == 'DELETED') {
           scheduleData.removedItems.push({
+            scheduleId: scheduleIds[date][slot],
             date: date,
-            slot: slot
+            slot: slotNumber
           });
         }
 

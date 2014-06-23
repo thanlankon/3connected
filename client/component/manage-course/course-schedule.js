@@ -80,8 +80,6 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
         });
         endDate = endDate.date;
 
-        console.log(startDate, endDate);
-
         this.data.attr({
           schedule: {
             startDate: startDate,
@@ -91,6 +89,8 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
 
         this.gridSchedule.refreshData(startDate, endDate, schedules);
 
+      } else {
+        this.gridSchedule.refreshData();
       }
 
     }

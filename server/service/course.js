@@ -119,7 +119,22 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
 
     }
 
-    if (!serviceResponse.error && removedItems && removedItems.length) {}
+    if (!serviceResponse.error && removedItems && removedItems.length) {
+
+      var scheduleIds = [];
+
+      for (var i = 0, len = removedItems.length; i < len; i++) {
+        scheduleIds.push(removedItems[i].scheduleId);
+      }
+
+      CourseModel.removeScheduleSlots(scheduleIds, function (error, affectedRows) {
+        if (error) {
+          serviceResponse.message = 'course.updateSchedule.error.removeScheduleSlots';
+          serviceResponse.error = error;
+        }
+      });
+
+    }
 
     if (!serviceResponse.error) {
       serviceResponse.message = 'course.updateSchedule.success';

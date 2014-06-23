@@ -33,13 +33,13 @@ define.entity = function (id, definer) {
       if (value.type == DataType.DATE) {
         value.get = function () {
           var date = this.getDataValue(key);
-          console.log(id, key, date, ConvertUtil.DateTime.formatDate(date));
+          //          console.log(id, key, date, ConvertUtil.DateTime.formatDate(date));
           return ConvertUtil.DateTime.formatDate(date);
         };
 
         value.set = function (value) {
           var date = ConvertUtil.DateTime.toMySqlDate(value);
-          console.log(id, key, value, date);
+          //          console.log(id, key, value, date);
           return this.setDataValue(key, date);
         };
       }
