@@ -182,11 +182,11 @@ define('core.model.ModelUtil', function (module, require) {
 
   function prepareEntity(entity) {
 
-    Util.Collection.each(entity, function (value, key) {
-      if (['dateOfBirth'].indexOf(key) != -1) {
-        entity[key] = ConvertUtil.DateTime.toMySqlDate(value);
-      }
-    });
+    //    Util.Collection.each(entity, function (value, key) {
+    //      if (['dateOfBirth'].indexOf(key) != -1) {
+    //        entity[key] = ConvertUtil.DateTime.toMySqlDate(value);
+    //      }
+    //    });
 
   }
 
@@ -245,8 +245,6 @@ define('core.model.ModelUtil', function (module, require) {
         whereData.push(filter.value);
       }
     }
-
-    console.log('whereSqlwhereSqlwhereSql', whereSql);
 
     var where = [whereSql.join(' AND ')].concat(whereData);
 

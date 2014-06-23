@@ -10,9 +10,22 @@ define.component('component.common.ScheduleGrid', function (component, require, 
         text: Lang.get('schedule.date'),
         dataField: 'date',
 
-        cellsFormat: DateTimeConstant.WidgetFormat.DATE,
-        filterType: 'date',
-        editable: false
+        cellsFormat: DateTimeConstant.WidgetFormat.DAY_OF_WEEK,
+        filterType: 'textbox',
+        editable: false,
+        cellClassName: function (row, dataField, value, rowData) {
+          var ConvertUtil = require('core.util.ConvertUtil');
+
+          var dayOfWeek = ConvertUtil.DateTime.parseDayOfWeek(value).getDay();
+
+          var cellClass = 'schedule-date';
+
+          if (dayOfWeek === 6 || dayOfWeek == 0) {
+            cellClass += ' schedule-weekend';
+          }
+
+          return cellClass;
+        }
       }];
 
       for (var i = 1; i <= 9; i++) {
@@ -20,10 +33,17 @@ define.component('component.common.ScheduleGrid', function (component, require, 
           text: Lang.get('schedule.slot' + i),
           dataField: 'slot' + i,
 
+          editable: true,
           width: '100px',
           filterType: 'bool',
           columnType: 'checkbox',
-          //          threeStateCheckbox: false
+          align: 'center',
+          threeStateCheckbox: false,
+          cellClassName: function (row, dataField, value, rowData) {
+            if (value === true) {
+              return 'schedule-slot-selected';
+            }
+          }
         });
       }
 
@@ -39,7 +59,7 @@ define.component('component.common.ScheduleGrid', function (component, require, 
     if (!this.gridDataFields) {
       var getGridDataFields = [{
         name: 'date',
-        type: 'date'
+        type: 'string'
       }];
 
       for (var i = 1; i <= 9; i++) {
@@ -56,6 +76,19 @@ define.component('component.common.ScheduleGrid', function (component, require, 
   }
 
   component.initComponent = function (element, options) {
+    var formElement = this.element.closest('.form');
+
+    formElement.on('visible', this.proxy(this.initGrid));
+  }
+
+  component.initGrid = function () {
+
+    // check for init grid only once
+    if (this.isGridInitialized) {
+      return;
+    } else {
+      this.isGridInitialized = true;
+    }
 
     var source = this.generateSource();
 
@@ -64,59 +97,80 @@ define.component('component.common.ScheduleGrid', function (component, require, 
       columns: this.getGridColumns(),
 
       pageable: false,
-      sortable: true,
+      sortable: false,
       filterable: true,
       showFilterRow: true,
-      editable: true,
-      selectionmode: 'singlecell',
-      editmode: 'click',
+      editable: false,
 
       width: '100%',
-      height: '100%'
+      height: '100%',
+      scrollbarSize: 12,
+      scrollMode: 'logical'
     });
 
-    this.refreshData();
-    //    this.resizeGrid();
-    //
-    //    $(window).resize(this.proxy(function () {
-    //      this.resizeGrid();
-    //    }));
+    this.element.jqxGrid('removesort');
+
+    this.element.on('cellClick', this.proxy(this.processDataChange));
+
   };
 
-  component.resizeGrid = function () {
-    var parent = this.element.closest('.content');
+  component.refreshData = function (startDate, endDate, originalData) {
 
-    var size = {
-      width: parent.width(),
-      height: parent.height()
-    };
+    if (originalData) {
+      this.originalData = originalData;
+    }
 
-    this.element.jqxGrid(size);
-  };
-
-  component.refreshData = function () {
-    var source = this.generateSource();
+    var source = this.generateSource(startDate, endDate, this.originalData);
 
     this.element.jqxGrid({
       source: source
     });
   }
 
-  component.generateSource = function (startDate, endDate, data) {
+  component.generateSource = function (startDate, endDate, originalData) {
+
+    var ConvertUtil = require('core.util.ConvertUtil');
+
+    // reset schedule data
+    this.scheduleData = {};
+
+    originalData = originalData || [];
+
+    for (var i = 0, len = originalData.length; i < len; i++) {
+      var schedule = originalData[i];
+
+      if (!this.scheduleData[schedule.date]) {
+        this.scheduleData[schedule.date] = {};
+      }
+
+      this.scheduleData[schedule.date]['slot' + schedule.slot] = 'UNCHANGED';
+    }
 
     var sourceData = [];
 
-    // generate data
-    for (var i = 1; i <= 100; i++) {
-      var item = {
-        date: new Date()
-      };
+    // generate source data
+    if (startDate && endDate && ConvertUtil.DateTime.compare(startDate, endDate) <= 0) {
 
-      for (var j = 1; j <= 9; j++) {
-        item['slot' + j] = (j % 2 == 0);
+      var Moment = require('lib.Moment');
+
+      while (ConvertUtil.DateTime.compare(startDate, endDate) <= 0) {
+        var dayOfWeek = ConvertUtil.DateTime.convertDateToDayOfWeek(startDate);
+
+        var item = {
+          date: dayOfWeek
+        };
+
+        for (var j = 1; j <= 9; j++) {
+          var selected = !!(this.scheduleData[startDate] && this.scheduleData[startDate]['slot' + j]);
+
+          item['slot' + j] = selected;
+        }
+
+        sourceData.push(item);
+
+        startDate = ConvertUtil.DateTime.addDays(startDate, 1);
       }
 
-      sourceData.push(item);
     }
 
     // build source
@@ -133,6 +187,95 @@ define.component('component.common.ScheduleGrid', function (component, require, 
     var dataAdapter = new jQuery.jqx.dataAdapter(source);
 
     return dataAdapter;
+  };
+
+  component.setEditable = function (editable) {
+    this.isGridEditable = editable;
+  };
+
+  component.processDataChange = function (event) {
+
+    var ConvertUtil = require('core.util.ConvertUtil');
+
+    if (!this.isGridEditable || !event || !event.args || event.args.datafield == 'date') return;
+
+    var args = event.args;
+
+    var dateCell = this.element.jqxGrid('getcell', args.rowindex, 'date');
+
+    var date = dateCell.value;
+    date = ConvertUtil.DateTime.convertDayOfWeekToDate(date);
+
+    var slot = args.datafield;
+
+    var value = args.value;
+
+    if (value) {
+      // current value is TRUE -> to be unchecked
+
+      switch (this.scheduleData[date][slot]) {
+      case 'ADDED':
+        this.scheduleData[date][slot] = 'DEATCHED';
+        break;
+      case 'UNCHANGED':
+        this.scheduleData[date][slot] = 'DELETED';
+        break;
+      }
+    } else {
+      // current value is FALSE -> to be checked
+
+      if (!this.scheduleData[date]) {
+        this.scheduleData[date] = {};
+      }
+
+      if (!this.scheduleData[date][slot]) {
+        this.scheduleData[date][slot] = 'ADDED';
+      } else {
+        switch (this.scheduleData[date][slot]) {
+        case 'DELETED':
+          this.scheduleData[date][slot] = 'UNCHANGED';
+          break;
+        case 'DEATCHED':
+          this.scheduleData[date][slot] = 'ADDED';
+          break;
+        }
+      }
+    }
+
+    this.element.jqxGrid('setCellValue', args.rowindex, args.datafield, !args.value);
+
+  };
+
+  component.getScheduleData = function () {
+
+    var scheduleData = {
+      addedItems: [],
+      removedItems: []
+    };
+
+    Util.Collection.each(this.scheduleData, function (slots, date) {
+      Util.Collection.each(slots, function (status, slot) {
+
+        // convert slot from name to slot number
+        var slot = +slot.slice(-1);
+
+        if (status == 'ADDED') {
+          scheduleData.addedItems.push({
+            date: date,
+            slot: slot
+          });
+        } else if (status == 'DELETED') {
+          scheduleData.removedItems.push({
+            date: date,
+            slot: slot
+          });
+        }
+
+      });
+    });
+
+    return scheduleData;
+
   };
 
 });

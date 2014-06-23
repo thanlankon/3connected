@@ -302,7 +302,11 @@ define('core.service.ServiceUtil', function (module, require) {
   function doIncludes(findOptions) {
     if (findOptions.include) {
       for (var i = 0, len = findOptions.include.length; i < len; i++) {
-        findOptions.include[i].model = findOptions.include[i].model.Entity;
+        if (findOptions.include[i].entity) {
+          findOptions.include[i].model = findOptions.include[i].entity;
+        } else {
+          findOptions.include[i].model = findOptions.include[i].model.Entity;
+        }
 
         doIncludes(findOptions.include[i]);
       }

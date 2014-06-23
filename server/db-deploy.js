@@ -33,7 +33,10 @@ define('db.Deploy', function (module, require) {
         console.log('Db data deployed');
 
         callback();
-      });
+      })
+      .error(function (error) {
+        console.log('Db seed error:', error);
+      });;
   };
 
   function seedBatch(queryChainer) {
@@ -81,7 +84,7 @@ define('db.Deploy', function (module, require) {
     }
   }
 
-function seedDepartment(queryChainer) {
+  function seedDepartment(queryChainer) {
     var Department = require('model.entity.Department');
 
     for (var i = 1; i <= 10; i++) {
@@ -114,10 +117,9 @@ function seedDepartment(queryChainer) {
     }
   }
 
-
-    function seedStudent(queryChainer) {
+  function seedStudent(queryChainer) {
     var Student = require('model.entity.Student');
-    var Moment = require('lib.Moment');
+    var ConvertUtil = require('core.util.ConvertUtil');
 
     for (var i = 1; i <= 50; i++) {
       queryChainer
@@ -128,7 +130,7 @@ function seedDepartment(queryChainer) {
             lastName: 'LastName ' + i,
             classId: 1,
             gender: 1,
-            dateOfBirth: Moment.utc([1992, 9, 27]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 9, 27)),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
           }))
@@ -139,7 +141,7 @@ function seedDepartment(queryChainer) {
             lastName: 'LastName ' + i,
             classId: 2,
             gender: 2,
-            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1991, 3, 16)),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
           }))
@@ -150,14 +152,14 @@ function seedDepartment(queryChainer) {
             lastName: 'LastName ' + i,
             classId: 3,
             gender: 0,
-            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1991, 3, 16)),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
           }))
     }
   }
 
-   function seedSubject(queryChainer) {
+  function seedSubject(queryChainer) {
     var Subject = require('model.entity.Subject');
 
     for (var i = 1; i <= 10; i++) {
@@ -171,7 +173,7 @@ function seedDepartment(queryChainer) {
     }
   }
 
-    function seedStaff(queryChainer) {
+  function seedStaff(queryChainer) {
     var Staff = require('model.entity.Staff');
     var Moment = require('lib.Moment');
 
@@ -231,14 +233,14 @@ function seedDepartment(queryChainer) {
   function seedGradeCategory(queryChainer) {
     var GradeCategory = require('model.entity.GradeCategory');
 
-//    queryChainer
-//      .add(
-//        GradeCategory.create({
-//          subjectVersionId: 1,
-//          gradeCategoryCode: 'PR',
-//          gradeCategoryName: 'Progress test 1',
-//          weight: 20
-//        }))
+    //    queryChainer
+    //      .add(
+    //        GradeCategory.create({
+    //          subjectVersionId: 1,
+    //          gradeCategoryCode: 'PR',
+    //          gradeCategoryName: 'Progress test 1',
+    //          weight: 20
+    //        }))
   }
 
 

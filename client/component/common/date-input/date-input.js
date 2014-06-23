@@ -14,6 +14,8 @@ define.component('component.common.DateInput', function (component, require, Uti
       .attr('data-component-role', 'dateInput')
       .appendTo(element.parent());
 
+    //    var isToolbarComponent = element.closest('.toolbar').size() > 0;
+
     element.remove();
 
     // update bound attributes
@@ -26,6 +28,7 @@ define.component('component.common.DateInput', function (component, require, Uti
     }
 
     var dateInputOptions = {
+      value: null,
       formatString: DateTimeConstant.WidgetFormat.DATE,
       enableBrowserBoundsDetection: true,
 
@@ -64,12 +67,14 @@ define.component('component.common.DateInput', function (component, require, Uti
       trackingChange.data = true;
 
       if (attr == dataAttribute) {
-        dateInput.jqxDateTimeInput('setDate', newVal);
+        var date = ConvertUtil.DateTime.parseDate(newVal);
 
-        if (ConvertUtil.DateTime.isDate(newVal)) {
-          var dateString = ConvertUtil.DateTime.formatDate(newVal);
-          componentData.attr(dataAttribute, dateString);
-        }
+        dateInput.jqxDateTimeInput('setDate', date);
+
+        //        if (ConvertUtil.DateTime.isDate(newVal)) {
+        //          var dateString = ConvertUtil.DateTime.formatDate(newVal);
+        //          componentData.attr(dataAttribute, dateString);
+        //        }
       }
 
       trackingChange.data = false;

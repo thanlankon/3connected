@@ -6,13 +6,28 @@
 .jqx-grid-metro [role="row"]:hover [role="gridcell"] {
   background: #fcfcfc;
 }
-.jqx-grid-metro [role="row"]:hover [role="gridcell"].jqx-grid-cleared-cell-metro {
+.jqx-grid-metro [role="row"]:hover [role="gridcell"].jqx-grid-cleared-cell-metro,
+.jqx-grid-metro [role="row"]:hover [role="gridcell"].jqx-grid-empty-cell-metro {
   background: #fff;
 }
 .jqx-grid-metro [role="row"].selected [role="gridcell"] {
   border-color: #19519a;
   color: #fff;
   background-color: #2b579a;
+}
+.jqx-grid-metro .schedule-date {
+  font-weight: bold;
+}
+.jqx-grid-metro .schedule-date div {
+  padding-top: 3px;
+  padding-left: 5px;
+  box-sizing: border-box;
+}
+.jqx-grid-metro .schedule-slot-selected {
+  background: #fafafa !important;
+}
+.jqx-grid-metro .schedule-weekend {
+  color: #fa4444 !important;
 }
 .jqx-fill-state-pressed-metro {
   border-color: #17396d;

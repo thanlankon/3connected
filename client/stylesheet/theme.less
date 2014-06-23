@@ -6,7 +6,7 @@
   [role="row"]:hover [role="gridcell"] {
     background: #fcfcfc;
 
-    &.jqx-grid-cleared-cell-metro {
+    &.jqx-grid-cleared-cell-metro, &.jqx-grid-empty-cell-metro {
       background: #fff;
     }
   }
@@ -15,6 +15,25 @@
     border-color: #19519a;
     color: #fff;
     background-color: #2b579a;
+  }
+
+  // schedule grid
+  .schedule-date {
+    font-weight: bold;
+
+    div {
+      padding-top: 3px;
+      padding-left: 5px;
+      box-sizing: border-box;
+    }
+  }
+
+  .schedule-slot-selected {
+    background: #fafafa !important;
+  }
+
+  .schedule-weekend {
+    color: #fa4444 !important;
   }
 }
 

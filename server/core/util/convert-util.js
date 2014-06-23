@@ -10,6 +10,10 @@ define('core.util.ConvertUtil', function (module, require) {
   ConvertUtil.DateTime = {
     toMySqlDate: function (date) {
       return Moment(date, DateTimeConstant.Format.DATE).format(DateTimeConstant.MySqlFormat.DATE);
+    },
+
+    formatDate: function (date) {
+      return Moment.utc(date).format(DateTimeConstant.Format.DATE);
     }
   };
 

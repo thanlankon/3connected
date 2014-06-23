@@ -33,6 +33,8 @@ gender.female = Female
 create = Create
 edit = Edit
 update = Update
+view = View
+save = Save
 
 # button
 
