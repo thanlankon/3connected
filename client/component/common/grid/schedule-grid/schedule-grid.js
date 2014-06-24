@@ -16,7 +16,8 @@ define.component('component.common.ScheduleGrid', function (component, require, 
         cellClassName: function (row, dataField, value, rowData) {
           var ConvertUtil = require('core.util.ConvertUtil');
 
-          var dayOfWeek = ConvertUtil.DateTime.parseDayOfWeek(value).getDay();
+          // get dayOfWeek as UTC day
+          var dayOfWeek = ConvertUtil.DateTime.parseDayOfWeek(value).getUTCDay();
 
           var cellClass = 'schedule-date';
 

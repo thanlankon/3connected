@@ -68,13 +68,10 @@ define.component('component.common.DateInput', function (component, require, Uti
 
       if (attr == dataAttribute) {
         var date = ConvertUtil.DateTime.parseDate(newVal);
+        // convert to UTC
+        date = ConvertUtil.DateTime.toUTCDate(date);
 
         dateInput.jqxDateTimeInput('setDate', date);
-
-        //        if (ConvertUtil.DateTime.isDate(newVal)) {
-        //          var dateString = ConvertUtil.DateTime.formatDate(newVal);
-        //          componentData.attr(dataAttribute, dateString);
-        //        }
       }
 
       trackingChange.data = false;
