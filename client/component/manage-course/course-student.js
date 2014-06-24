@@ -5,15 +5,15 @@
  * Created date    : 2014/18/06
  */
 
-define.form('component.form.manage-courseStudent.CourseStudent', function (form, require, Util, Lang) {
+define.form('component.form.manage-course.CourseStudent', function (form, require, Util, Lang) {
 
   // map the form to the url
   // the form is displayed when the url is matched
-  // url: #!manage-class
+  // url: #!manage-course/course-student/:id
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
-      module: 'manage-course-student',
+      module: 'manage-course',
       action: 'course-student'
     }
   };
@@ -89,6 +89,12 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
         dataField: 'lastName'
       },
       {
+        text: Lang.get('student.className'),
+        dataField: 'className',
+
+        width: '120px'
+      },
+      {
         text: Lang.get('student.batchName'),
         dataField: 'batchName',
 
@@ -124,7 +130,7 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
   };
 
   // the template that used by the form
-  form.tmpl = 'form.manage-course-student.edit-course-student';
+  form.tmpl = 'form.manage-course.course-student';
 
   // the form type is FORM
   form.formType = form.FormType.FORM;
@@ -190,16 +196,6 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
       var courseId = this.data.attr('courseId');
 
       var CourseStudentProxy = require('proxy.CourseStudent');
-
-      /*      studentIds.forEach(function (item) {
-        console.log(item);
-        var data = {
-          courseId: courseId,
-          studentId: item
-        };
-
-        CourseStudentProxy.create(data);
-      });*/
 
       var data = {
         courseId: courseId,

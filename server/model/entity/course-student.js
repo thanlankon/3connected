@@ -41,6 +41,10 @@ define.entity('model.entity.CourseStudent', function (entity, DataType, require)
       as: 'student'
     });
 
+    this.belongsTo('model.entity.Course', {
+      as: 'course'
+    });
+
   };
 
 });

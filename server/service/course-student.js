@@ -47,7 +47,18 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
           model: StudentModel,
-          as: 'student'
+          as: 'student',
+          include: [{
+            model: ClassModel,
+            as: 'class',
+            include: [{
+              model: BatchModel,
+              as: 'batch'
+            }, {
+              model: MajorModel,
+              as: 'major'
+            }]
+          }]
         }, {
           model: CourseModel,
           as: 'course'
@@ -78,7 +89,7 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
               }, {
               model: MajorModel,
               as: 'major'
-              }]
+            }]
           }]
         }, {
           model: CourseModel,

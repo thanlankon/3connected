@@ -52,7 +52,7 @@ define.proxy('proxy.CourseStudent', function (proxy, require) {
     {
       name: 'className',
       type: 'string',
-      map: 'student.studentId'
+      map: 'student.class.className'
     },
     {
       name: 'batchName',
@@ -82,26 +82,6 @@ define.proxy('proxy.CourseStudent', function (proxy, require) {
       name: 'courseName',
       type: 'string',
       map: 'course.courseName'
-    },
-    {
-      name: 'termName',
-      type: 'string',
-      map: 'course.term.termName'
-    },
-    {
-      name: 'majorName',
-      type: 'string',
-      map: 'course.major.majorName'
-    },
-    {
-      name: 'discription',
-      type: 'string',
-      map: 'course.subjectVersion.description'
-    },
-    {
-      name: 'subjectName',
-      type: 'string',
-      map: 'course.subjectVersion.subject.subjectName'
     }
   ];
 
