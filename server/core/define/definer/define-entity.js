@@ -3,6 +3,7 @@ define.entity = function (id, definer) {
   define(id, function (module, require) {
 
     var Util = require('core.util.Util');
+    var ConvertUtil = require('core.util.ConvertUtil');
     var Entity = require('core.model.Entity');
     var DataType = require('core.model.DataType');
     var EntityContainer = require('core.model.entity.EntityContainer');
@@ -25,19 +26,31 @@ define.entity = function (id, definer) {
     var methods = {};
     var config = {};
 
-    var keys = Util.Object.keys(entity);
+    Util.Collection.each(entity, function (value, key) {
 
-    for (var i = 0, len = keys.length; i < len; i++) {
-      var key = keys[i];
+      if (key === 'config' || key === 'static' || key === 'associate') return;
 
-      if (key === 'config' || key === 'static' || key === 'associate') continue;
+      if (value.type == DataType.DATE) {
+        value.get = function () {
+          var date = this.getDataValue(key);
+          //          console.log(id, key, date, ConvertUtil.DateTime.formatDate(date));
+          return ConvertUtil.DateTime.formatDate(date);
+        };
 
-      if (Util.Object.isFunction(entity[key])) {
-        methods[key] = entity[key];
+        value.set = function (value) {
+          var date = ConvertUtil.DateTime.toMySqlDate(value);
+          //          console.log(id, key, value, date);
+          return this.setDataValue(key, date);
+        };
+      }
+
+      if (Util.Object.isFunction(value)) {
+        methods[key] = value;
       } else {
-        fields[key] = entity[key];
+        fields[key] = value;
       };
-    }
+
+    });
 
     config.instanceMethods = methods;
     config.classMethods = entity.static;

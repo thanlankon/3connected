@@ -9,7 +9,7 @@ gradeCategory = Grade category
 
 gradeCategory.gradeCategoryId = Grade catetory Id
 gradeCategory.gradeCategoryCode = Grade category code
-gradeCategory.gradeCategoryName = Grade category Name
+gradeCategory.gradeCategoryName = Grade category name
 gradeCategory.weight = Weight
 gradeCategory.subjectName = Subject name
 gradeCategory.description = Subject version

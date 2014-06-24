@@ -24,6 +24,7 @@ define.component('component.common.Combobox', function (component, require, Util
     element.remove();
 
     var comboboxOptions = {
+      autoComplete: true,
       enableBrowserBoundsDetection: true,
 
       width: '100%',

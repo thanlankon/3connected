@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Course Student service
+ * Creator         : UayLU
+ * Modifier        :ThanhVM
+ * Created date    : 2014/19/06
+ */
 define.service('service.CourseStudent', function (service, require, ServiceUtil, Util) {
 
   var StudentModel = require('model.Student');

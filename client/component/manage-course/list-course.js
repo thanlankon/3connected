@@ -44,7 +44,7 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
         text: Lang.get('subject.subjectName'),
         dataField: 'subjectName'
       }, {
-        text: Lang.get('subjectVersion.description'),
+        text: Lang.get('course.subjectVersion'),
         dataField: 'description'
       },
  //    {

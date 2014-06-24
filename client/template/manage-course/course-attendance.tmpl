@@ -1,0 +1,47 @@
+<template id="form.manage-course.course-attendance">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-course"}}"></a>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course.manageAttendance'}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="component" data-component-group="edit">
+        {{component.combobox attribute="scheduleId" width="150px" height="22px" localData="true"}}
+      </li>
+
+      <li class="button" data-component-group="edit">
+        <span id="button-view-attendance">{{lang 'schedule.view'}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon edit" id="button-update-attendance">
+        <span>{{lang 'attendance.updateAttendance'}}</span>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-course-attendance"></div>
+
+  </div>
+
+</template>

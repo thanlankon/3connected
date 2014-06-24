@@ -1,7 +1,8 @@
 /*
  * System          : 3connected
  * Component       : Subject version service
- * Creator         : VyBD + ThanhVM
+ * Creator         : VyBD
+ * Modifier        :ThanhVM
  * Created date    : 2014/16/06
  */
 define.service('service.SubjectVersion', function (service, require, ServiceUtil, Util) {

@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Grade category versions component
+ * Creator         : UayLU + ThanhVM
+ * Created date    : 2014/18/06
+ */
+
 define.form('component.form.manage-courseStudent.CourseStudent', function (form, require, Util, Lang) {
 
   // map the form to the url

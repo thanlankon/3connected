@@ -5,6 +5,7 @@ define('core.view.helpers.component.ComboboxHelper', function (module, require) 
   var Util = require('core.util.Util');
 
   var ComboboxComponent = require('component.common.Combobox');
+  var LocalDataComboboxComponent = require('component.common.LocalDataCombobox');
 
   View.registerHelper('component.combobox', comboboxComponentHelper);
 
@@ -12,10 +13,20 @@ define('core.view.helpers.component.ComboboxHelper', function (module, require) 
 
     var componentData = this;
     var dataAttribute = options.hash.attribute;
-    var componentAttributes = Util.Object.omit(options.hash, ['attribute']);
+    var componentAttributes = Util.Object.omit(options.hash, ['attribute', 'localData', 'multipleSelection']);
+
+    var localData = options.hash.localData;
+    var multipleSelection = options.hash.multipleSelection;
+
+    var Combobox
+    if (localData) {
+      Combobox = multipleSelection ? null : LocalDataComboboxComponent;
+    } else {
+      Combobox = multipleSelection ? null : ComboboxComponent;
+    }
 
     return function (element) {
-      new ComboboxComponent(element, {
+      new Combobox(element, {
         componentData: componentData,
         dataAttribute: dataAttribute,
         componentAttributes: componentAttributes

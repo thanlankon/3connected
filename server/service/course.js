@@ -13,9 +13,17 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
   //  var LectureModel = require('model.Lecture');
   var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
+  var Schedule = require('model.entity.Schedule');
 
   service.map = {
-    url: '/course'
+    url: '/course',
+
+    methods: {
+      updateSchedule: {
+        url: '/updateSchedule',
+        httpMethod: 'POST'
+      }
+    }
   };
 
   service.Model = CourseModel;
@@ -57,6 +65,9 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         }, {
           model: MajorModel,
           as: 'major'
+        }, {
+          entity: Schedule,
+          as: 'schedules'
         }];
       }
     },
@@ -82,6 +93,55 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         }];
       }
     }
-  }
+  };
+
+  // schedule
+  service.updateSchedule = function (req, res) {
+
+    var addedItems = req.body.addedItems;
+    var removedItems = req.body.removedItems;
+    var courseId = req.body.courseId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+    // add new slots
+    if (!serviceResponse.error && addedItems && addedItems.length) {
+
+      CourseModel.addScheduleSlots(courseId, addedItems, function (error, addedItems) {
+        if (error) {
+          serviceResponse.message = 'course.updateSchedule.error.addScheduleSlots';
+          serviceResponse.error = error;
+        }
+      });
+
+    }
+
+    if (!serviceResponse.error && removedItems && removedItems.length) {
+
+      var scheduleIds = [];
+
+      for (var i = 0, len = removedItems.length; i < len; i++) {
+        scheduleIds.push(removedItems[i].scheduleId);
+      }
+
+      CourseModel.removeScheduleSlots(scheduleIds, function (error, affectedRows) {
+        if (error) {
+          serviceResponse.message = 'course.updateSchedule.error.removeScheduleSlots';
+          serviceResponse.error = error;
+        }
+      });
+
+    }
+
+    if (!serviceResponse.error) {
+      serviceResponse.message = 'course.updateSchedule.success';
+    };
+
+    ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+
+  };
 
 });

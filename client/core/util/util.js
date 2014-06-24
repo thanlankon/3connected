@@ -6,7 +6,10 @@ define('core.util.Util', function (module, require) {
 
   Util.Collection = {
     each: Underscore.each,
-    toArray: Underscore.toArray
+    toArray: Underscore.toArray,
+
+    min: Underscore.min,
+    max: Underscore.max
   };
 
   Util.Array = {

@@ -11,6 +11,7 @@ course.courseId = Course Id
 course.courseName = Course name
 course.numberOfCredits = Number of credits
 course.manageStudent = Manage student
+course.subjectVersion = Subject version
 
 # button
 
@@ -20,3 +21,52 @@ course.edit = Edit Course
 course.delete = Delete Courses
 
 course.schedule = Schedule
+course.attendance = Attendance
+course.grade = Grade
+
+course.manageSchedule = Manage course's schedule
+course.manageAttendance = Manage course's attendance
+course.manageGrade = Manage course's grade
+
+# message
+
+course.updateSchedule.success = The schedule of the course is updated successfully
+course.updateSchedule.error.addScheduleSlots = Error during adding course's schedule slots
+course.updateSchedule.error.removeScheduleSlots = Error during removing course's schedule slots
+
+# schedule
+
+schedule.date = {{.date}}
+
+schedule.slot1 = Slot 1
+schedule.slot2 = Slot 2
+schedule.slot3 = Slot 3
+schedule.slot4 = Slot 4
+schedule.slot5 = Slot 5
+schedule.slot6 = Slot 6
+schedule.slot7 = Slot 7
+schedule.slot8 = Slot 8
+schedule.slot9 = Slot 9
+
+schedule.startDate = Start date
+schedule.endDate = End date
+
+schedule.view = View
+schedule.refresh = Refresh
+schedule.editSchedule = Edit schedule
+schedule.updateChanges = Update
+schedule.rejectChanges = Cancel
+
+# attendance
+
+attendance.student.studentCode = {{.student.studentCode}}
+attendance.student.firstName = {{.student.firstName}}
+attendance.student.lastName = {{.student.lastName}}
+
+attendance.totalPresents = Total presents
+attendance.totalAbsents = Total absents
+attendance.totalUnattendanced = Total unattendanced
+attendance.present = Present
+attendance.absent = Absent
+
+attendance.updateAttendance = Update

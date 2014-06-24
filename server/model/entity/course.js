@@ -72,6 +72,15 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
     this.belongsTo('model.entity.SubjectVersion', {
       as: 'subjectVersion'
     });
+
+    this.hasMany('model.entity.Schedule', {
+      as: 'schedules'
+    });
+
+    this.hasMany('model.entity.CourseStudent', {
+      as: 'courseStudents'
+    });
+
   };
 
 });

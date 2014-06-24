@@ -9,3 +9,14 @@ schedule.slot6 = Slot 6
 schedule.slot7 = Slot 7
 schedule.slot8 = Slot 8
 schedule.slot9 = Slot 9
+
+schedule.startDate = Start date
+schedule.endDate = End date
+
+# button
+
+schedule.view = View
+schedule.refresh = Refresh
+schedule.editSchedule = Edit schedule
+schedule.updateChanges = Update
+schedule.rejectChanges = Cancel
