@@ -18,15 +18,10 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
   form.formType = form.FormType.FORM;
 
   form.initForm = function () {
-    var gridConfig = this.getGridConfig();
 
     var ScheduleGridComponent = require('component.common.ScheduleGrid');
 
-    this.gridSchedule = new ScheduleGridComponent('#grid-course-schedule');
-
-    // default is view mode
-    //    this.switchToViewMode();
-    this.switchToEditMode();
+    this.gridSchedule = new ScheduleGridComponent(this.element.find('#grid-course-schedule'));
 
     // bind event handlers to elements
     this.element.find('#button-view-schedule').click(this.proxy(this.viewSchedule));
@@ -35,15 +30,66 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
 
     this.element.find('#button-reject-changes').click(this.proxy(this.switchToViewMode));
     this.element.find('#button-edit-schedule').click(this.proxy(this.switchToEditMode));
+
   };
 
   form.refreshData = function (data) {
-    var courseId = data.id;
+
+    this.courseId = data.id;
+
+    this.switchToViewMode();
+
+  };
+
+  form.viewSchedule = function () {
+    var ConvertUtil = require('core.util.ConvertUtil');
+
+    var startDate = this.data.attr('schedule.startDate');
+    var endDate = this.data.attr('schedule.endDate');
+
+    this.gridSchedule.refreshData(startDate, endDate);
+  };
+
+  form.updateSchedule = function () {
+    var scheduleData = this.gridSchedule.getScheduleData();
+
+    // check if data has been changed
+    if (!scheduleData.addedItems.length && !scheduleData.removedItems.length) return;
+
+    // set courseId of the schedule
+    scheduleData.courseId = this.data.attr('course.courseId');
 
     var CourseProxy = require('proxy.Course');
 
+    CourseProxy.updateSchedule(scheduleData, this.proxy(updateScheduleDone));
+
+    function updateScheduleDone(serviceResponse) {
+      if (!serviceResponse.hasError()) {
+        this.refreshSchedule();
+      }
+    }
+  };
+
+  form.switchToViewMode = function () {
+    this.isScheduleEditable = false;
+
+    // hide all edit toolbar component
+    this.element.find('[data-component-group=edit]').hide();
+
+    // show all view toolbar component
+    this.element.find('[data-component-group=view]').show();
+
+    // disable grid editable
+    this.gridSchedule.setEditable(false);
+
+    this.refreshSchedule();
+  };
+
+  form.refreshSchedule = function () {
+    var CourseProxy = require('proxy.Course');
+
     CourseProxy.findOne({
-      courseId: courseId
+      courseId: this.courseId
     }, this.proxy(findOneDone));
 
     function findOneDone(serviceResponse) {
@@ -92,59 +138,13 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
       } else {
         this.gridSchedule.refreshData();
       }
-
     }
+
   };
-
-  form.viewSchedule = function () {
-    var ConvertUtil = require('core.util.ConvertUtil');
-
-    var startDate = this.data.attr('schedule.startDate');
-    var endDate = this.data.attr('schedule.endDate');
-
-    this.gridSchedule.refreshData(startDate, endDate);
-  };
-
-  form.updateSchedule = function () {
-    var scheduleData = this.gridSchedule.getScheduleData();
-
-    // check if data has been changed
-    if (!scheduleData.addedItems.length && !scheduleData.removedItems.length) return;
-
-    // set courseId of the schedule
-    scheduleData.courseId = this.data.attr('course.courseId');
-
-    var CourseProxy = require('proxy.Course');
-
-    CourseProxy.updateSchedule(scheduleData, this.proxy(updateScheduleDone));
-
-    function updateScheduleDone(serviceResponse) {
-      if (!serviceResponse.hasError()) {
-        this.refreshSchedule();
-      }
-    }
-  };
-
-  form.switchToViewMode = function () {
-    // hide all edit toolbar component
-    this.element.find('[data-component-group=edit]').hide();
-
-    // show all view toolbar component
-    this.element.find('[data-component-group=view]').show();
-
-    // disable grid editable
-    this.gridSchedule.setEditable(false);
-
-    this.refreshSchedule();
-  };
-
-  form.refreshSchedule = function () {
-    this.refreshData({
-      id: this.data.attr('course.courseId')
-    });
-  }
 
   form.switchToEditMode = function () {
+    this.isScheduleEditable = true;
+
     // hide all edit component
     this.element.find('[data-component-group=view]').hide();
 

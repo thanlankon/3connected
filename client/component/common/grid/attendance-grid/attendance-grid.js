@@ -1,54 +1,79 @@
-define.component('component.common.ScheduleGrid', function (component, require, Util, Lang, jQuery) {
+define.component('component.common.AttendanceGrid', function (component, require, Util, Lang, jQuery) {
 
-  // grid students
+  // grid columns
   component.getGridColumns = function () {
 
     var DateTimeConstant = require('constant.DateTime');
 
-    if (!this.gridColumns) {
-      var gridColumns = [{
-        text: Lang.get('schedule.date'),
-        dataField: 'date',
+    if (this.gridColumns) return this.gridColumns;
 
-        cellsFormat: DateTimeConstant.WidgetFormat.DAY_OF_WEEK,
-        filterType: 'textbox',
-        editable: false,
-        cellClassName: function (row, dataField, value, rowData) {
-          var ConvertUtil = require('core.util.ConvertUtil');
+    var gridColumns = [{
+      text: Lang.get('attendance.student.studentCode'),
+      dataField: 'student.studentCode',
 
-          var dayOfWeek = ConvertUtil.DateTime.parseDayOfWeek(value).getDay();
+      width: '150px',
 
-          var cellClass = 'schedule-date';
+      filterType: 'textbox',
+      editable: false,
 
-          if (dayOfWeek === 6 || dayOfWeek == 0) {
-            cellClass += ' schedule-weekend';
-          }
-
-          return cellClass;
-        }
-      }];
-
-      for (var i = 1; i <= 9; i++) {
-        gridColumns.push({
-          text: Lang.get('schedule.slot' + i),
-          dataField: 'slot' + i,
-
-          editable: true,
-          width: '100px',
-          filterType: 'bool',
-          columnType: 'checkbox',
-          align: 'center',
-          threeStateCheckbox: false,
-          cellClassName: function (row, dataField, value, rowData) {
-            if (value === true) {
-              return 'schedule-slot-selected';
-            }
-          }
-        });
+      cellClassName: function (row, dataField, value, rowData) {
+        //          return cellClass;
       }
+    }, {
+      text: Lang.get('attendance.student.firstName'),
+      dataField: 'student.firstName',
 
-      this.gridColumns = gridColumns;
-    }
+      filterType: 'textbox',
+      editable: false,
+    }, {
+      text: Lang.get('attendance.student.lastName'),
+      dataField: 'lastName',
+
+      filterType: 'textbox',
+      editable: false,
+    }, {
+      text: Lang.get('attendance.present'),
+      dataField: 'isPresent',
+
+      width: '150px',
+
+      filterType: 'bool',
+      editable: false,
+    }, {
+      text: Lang.get('attendance.absent'),
+      dataField: 'isAbsent',
+
+      width: '150px',
+
+      filterType: 'bool',
+      editable: false,
+    }, {
+      text: Lang.get('attendance.totalPresents'),
+      dataField: 'totalPresents',
+
+      width: '150px',
+
+      filterType: 'textbox',
+      editable: false,
+    }, {
+      text: Lang.get('attendance.totalAbsents'),
+      dataField: 'totalAbsents',
+
+      width: '100px',
+
+      filterType: 'textbox',
+      editable: false,
+    }, {
+      text: Lang.get('attendance.totalUnattendanced'),
+      dataField: 'totalUnattendanced',
+
+      width: '150px',
+
+      filterType: 'textbox',
+      editable: false,
+    }];
+
+    this.gridColumns = gridColumns;
 
     return this.gridColumns;
 
@@ -56,21 +81,32 @@ define.component('component.common.ScheduleGrid', function (component, require, 
 
   component.getGridDataFields = function () {
 
-    if (!this.gridDataFields) {
-      var getGridDataFields = [{
-        name: 'date',
-        type: 'string'
-      }];
+    if (this.gridDataFields) return this.gridDataFields;
 
-      for (var i = 1; i <= 9; i++) {
-        getGridDataFields.push({
-          name: 'slot' + i,
-          type: 'bool'
-        });
-      }
+    var getGridDataFields = [{
+      name: 'studentCode',
+      type: 'string'
+    }, {
+      name: 'studentName',
+      type: 'string'
+    }, {
+      name: 'totalPresents',
+      type: 'number'
+    }, {
+      name: 'totalAbsents',
+      type: 'number'
+    }, {
+      name: 'totalUnattendanced',
+      type: 'number'
+    }, {
+      name: 'isPresent',
+      type: 'bool'
+    }, {
+      name: 'isAbsent',
+      type: 'bool'
+    }];
 
-      this.gridDataFields = getGridDataFields;
-    }
+    this.gridDataFields = getGridDataFields;
 
     return this.gridDataFields;
   }
@@ -79,7 +115,7 @@ define.component('component.common.ScheduleGrid', function (component, require, 
     var formElement = this.element.closest('.form');
 
     formElement.on('visible', this.proxy(this.initGrid));
-  }
+  };
 
   component.initGrid = function () {
 
@@ -125,6 +161,7 @@ define.component('component.common.ScheduleGrid', function (component, require, 
     this.element.jqxGrid({
       source: source
     });
+
   }
 
   component.generateSource = function (startDate, endDate, originalData) {

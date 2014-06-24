@@ -37,6 +37,8 @@
   padding-top: 3px;
   margin-right: 5px;
   margin-left: 5px;
+  /* dropdown list */
+  /* combobox */
 }
 .form .toolbar li.component .jqx-dropdownlist-content-metro {
   padding-top: 3px;
@@ -45,6 +47,16 @@
 .form .toolbar li.component .jqx-dropdownlist-content-metro span {
   padding: 0 !important;
   margin: 0 !important;
+}
+.form .toolbar li.component .jqx-combobox-metro {
+  border-color: #aaa;
+}
+.form .toolbar li.component .jqx-combobox-input {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  box-sizing: border-box !important;
+  font-size: 13px;
+  color: #555;
 }
 .form .toolbar li.icon a,
 .form .toolbar li.text a,
