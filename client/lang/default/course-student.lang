@@ -4,3 +4,12 @@
 course.addStudents.confirm = Add {{totalItems}} selected students to course.
 course.removeStudents.confirm = Remove {{totalItems}} selected students from course?
 courseStudent = Student add to course
+
+
+course.addStudents.error = Error during adding students
+course.addStudents.incomplete = Adding students is not completed
+course.addStudents.success = The students is added to course successfully
+
+course.removeStudents.error = Error during removing students
+course.removeStudents.incomplete = Removing students is not completed
+course.removeStudents.success = The students is removed from course successfully

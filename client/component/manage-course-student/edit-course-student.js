@@ -184,7 +184,7 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
 
       var CourseStudentProxy = require('proxy.CourseStudent');
 
-      studentIds.forEach(function (item) {
+      /*      studentIds.forEach(function (item) {
         console.log(item);
         var data = {
           courseId: courseId,
@@ -192,8 +192,14 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
         };
 
         CourseStudentProxy.create(data);
-      });
+      });*/
 
+      var data = {
+        courseId: courseId,
+        studentIds: studentIds
+      };
+
+      CourseStudentProxy.addStudents(data, this.proxy(refreshGridData));
 
     }
 
@@ -204,15 +210,12 @@ define.form('component.form.manage-courseStudent.CourseStudent', function (form,
 
       var courseId = this.data.attr('courseId');
       var CourseStudentProxy = require('proxy.CourseStudent');
-      courseStudentIds.forEach(function (item) {
-        console.log(item);
-        console.log(courseId);
-        var data = {
-          courseStudentId: item
-        };
 
-        CourseStudentProxy.destroy(data);
-      });
+      var data = {
+        courseStudentIds: courseStudentIds
+      };
+
+      CourseStudentProxy.removeStudents(data, this.proxy(refreshGridData));
     }
 
     function refreshGridData() {

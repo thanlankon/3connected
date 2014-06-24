@@ -5,7 +5,7 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
   var CourseStudentModel = require('model.CourseStudent');
   var SubjectModel = require('model.Subject');
   var SubjectVersionModel = require('model.SubjectVersion');
-  var Term = require('model.Term');
+  var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
   var ClassModel = require('model.Class');
   var BatchModel = require('model.Batch');
@@ -13,7 +13,17 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
 
 
   service.map = {
-    url: '/courseStudent'
+    url: '/courseStudent',
+    methods: {
+      addStudents: {
+        url: '/addStudents',
+        httpMethod: 'POST'
+      },
+      removeStudents: {
+        url: '/removeStudents',
+        httpMethod: 'POST'
+      }
+    }
   };
 
   service.Model = CourseStudentModel;
@@ -82,7 +92,50 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
           }]
         }];
       }
-    }
+    },
+
+  };
+
+  service.addStudents = function (req, res) {
+    var courseId = req.body.courseId;
+    var studentIds = req.body.studentIds;
+    console.log("courseId " + courseId);
+
+    CourseStudentModel.addStudents(courseId, studentIds, function (error) {
+      var message;
+
+      if (error) {
+        message = 'course.addStudents.error';
+      } else {
+        message = 'course.addStudents.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message);
+    });
+  };
+
+  service.removeStudents = function (req, res) {
+    var courseStudentIds = req.body.courseStudentIds;
+
+    CourseStudentModel.removeStudents(courseStudentIds, function (error, affectedRows) {
+      var message;
+
+      if (error) {
+        message = 'course.removeStudents.error';
+      } else {
+        if (affectedRows !== courseStudentIds.length) {
+          error = {
+            code: 'ENTITY.COURSE.REMOVE_STUDENT_INCOMPLETED'
+          };
+
+          message = 'course.removeStudents.incomplete';
+        } else {
+          message = 'course.removeStudents.success';
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, error, message);
+    });
   };
 
 });

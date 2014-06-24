@@ -23,7 +23,7 @@ class.manageStudent.remove = Remove students
 
 class.addStudents.confirm = Add {{totalItems}} selected students to class.<br>This action will remove the selected students from the old class?
 
-class.removeStudents.confirm = Remove {{totalItems}} selected students from class?
+class.removeStudents.confirm =  Remove {{totalItems}} selected students from class?
 
 class.addStudents.error = Error during adding students
 class.addStudents.incomplete = Adding students is not completed
