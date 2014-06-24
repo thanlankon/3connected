@@ -11,7 +11,7 @@ define.main(function (require) {
 
   dbDeploy(function () {
 
-    var port = process.argv[2] || 80;
+    var port = (process.argv[2] && process.argv[2] != 'sync-db') ? process.argv[2] : 80;
 
     app.listen(port);
 

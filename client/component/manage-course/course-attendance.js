@@ -51,13 +51,15 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
   form.refreshData = function (data) {
     this.courseId = data.id;
+
+    this.refreshAttendance();
   };
 
   form.refreshAttendance = function () {
     var CourseProxy = require('proxy.Course');
 
-    CourseProxy.findAttendance({
-      courseId: courseId
+    CourseProxy.findOne({
+      courseId: this.courseId
     }, this.proxy(findOneDone));
 
     function findOneDone(serviceResponse) {
@@ -91,7 +93,7 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
   };
 
   form.viewAttendance = function () {
-    console.log(this.courseId);
+    console.log(this.courseId, this.data.attr('scheduleId'));
   };
 
 });

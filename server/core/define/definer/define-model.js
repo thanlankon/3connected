@@ -11,35 +11,35 @@ define.model = function (id, definer) {
     var modelEntity = model.Entity;
     var methodConfig = model.methodConfig;
 
-    if (isMethodAllowed(methodConfig, 'findOne')) {
+    if (modelEntity && isMethodAllowed(methodConfig, 'findOne')) {
       // add findOne method
       model.findOne = function (options, callback) {
         ModelUtil.findOne(modelEntity, options, callback);
       }
     }
 
-    if (isMethodAllowed(methodConfig, 'findAll')) {
+    if (modelEntity && isMethodAllowed(methodConfig, 'findAll')) {
       // add findAll method
       model.findAll = function (options, callback) {
         ModelUtil.findAllWithOptions(modelEntity, options, callback);
       }
     }
 
-    if (isMethodAllowed(methodConfig, 'create')) {
+    if (modelEntity && isMethodAllowed(methodConfig, 'create')) {
       // add create method
       model.create = function (entityData, checkDupplicatedData, callback) {
         ModelUtil.create(modelEntity, entityData, checkDupplicatedData, callback);
       }
     }
 
-    if (isMethodAllowed(methodConfig, 'update')) {
+    if (modelEntity && isMethodAllowed(methodConfig, 'update')) {
       // add update method
       model.update = function (entityData, checkDupplicatedData, checkExistanceData, callback) {
         ModelUtil.update(modelEntity, entityData, checkDupplicatedData, checkExistanceData, callback);
       }
     }
 
-    if (isMethodAllowed(methodConfig, 'destroy')) {
+    if (modelEntity && isMethodAllowed(methodConfig, 'destroy')) {
       // add destroy method
       model.destroy = function (idAttribute, entityIds, callback) {
         ModelUtil.destroy(modelEntity, idAttribute, entityIds, callback);

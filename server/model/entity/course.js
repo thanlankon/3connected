@@ -76,6 +76,11 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
     this.hasMany('model.entity.Schedule', {
       as: 'schedules'
     });
+
+    this.hasMany('model.entity.CourseStudent', {
+      as: 'courseStudents'
+    });
+
   };
 
 });

@@ -17,14 +17,18 @@ define.entity('model.entity.CourseStudent', function (entity, DataType, require)
     type: DataType.INTEGER,
     allowNull: false,
     references: 'Course',
-    referencesKey: 'courseId'
+    referencesKey: 'courseId',
+
+    unique: 'courseStudent'
   };
 
   entity.studentId = {
     type: DataType.INTEGER,
     allowNull: false,
     references: 'Student',
-    referencesKey: 'studentId'
+    referencesKey: 'studentId',
+
+    unique: 'courseStudent'
   };
 
   entity.config = {
@@ -33,16 +37,9 @@ define.entity('model.entity.CourseStudent', function (entity, DataType, require)
 
   entity.associate = function () {
 
-    this.belongsTo('model.entity.Course', {
-      as: 'course'
-    });
     this.belongsTo('model.entity.Student', {
       as: 'student'
     });
-
-    //    this.hasMany('model.entity.Grade', {
-    //        as: 'grades'
-    //    });
 
   };
 

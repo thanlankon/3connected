@@ -99,9 +99,11 @@ define.service = function (id, definer) {
   });
 
   function isMethodAllowed(methodConfig, methodName) {
-    var disallowed = methodConfig &&
+    var disallowed = !methodConfig || (methodConfig && (
+      methodConfig.disableMethods === true ||
       methodConfig[methodName] &&
-      methodConfig[methodName].disabled === true;
+      methodConfig[methodName].disabled === true
+    ));
 
     return !disallowed;
   }
