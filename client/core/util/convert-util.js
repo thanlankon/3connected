@@ -63,6 +63,12 @@ define('core.util.ConvertUtil', function (module, require) {
       date = Moment(date).add('days', days);
 
       return ConvertUtil.DateTime.formatDate(date);
+    },
+
+    toUTCDate: function (date) {
+      date = date.getTime() + date.getTimezoneOffset() * 60000;
+
+      return new Date(date);
     }
   };
 
