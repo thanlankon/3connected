@@ -93,7 +93,17 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
   };
 
   form.viewAttendance = function () {
-    console.log(this.courseId, this.data.attr('scheduleId'));
+
+    var AttendanceProxy = require('proxy.Attendance');
+
+    AttendanceProxy.getCourseAttendance({
+      courseId: this.courseId
+    }, this.proxy(getCourseAttendanceDone));
+
+    function getCourseAttendanceDone(serviceResponse) {
+      console.log(serviceResponse.getData());
+    }
+
   };
 
 });

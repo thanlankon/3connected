@@ -21,6 +21,7 @@ define.component('component.common.LocalDataCombobox', function (component, requ
     element.remove();
 
     var comboboxOptions = {
+      autoComplete: true,
       enableBrowserBoundsDetection: true,
 
       valueMember: this.settings.combobox.valueMember,
