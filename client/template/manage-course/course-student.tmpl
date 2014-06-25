@@ -3,7 +3,7 @@
   <div class="toolbar">
     <ul>
       <li class="icon back">
-        <a href="{{url module="manage-course-student"}}"></a>
+        <a href="{{url module="manage-course"}}"></a>
       </li>
 
       <li class="text">
@@ -16,6 +16,19 @@
       <li class="text">
         <span>{{lang 'course'}}: <b>{{courseName}}</b></span>
       </li>
+
+      <li class="text">
+        <span>{{lang 'lecture'}}: <b></b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'term'}}: <b>{{term.termName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'major'}}: <b>{{major.majorName}}</b></span>
+      </li>
+
 
       <li class="right icon orientation">
         <span id="button-change-orientation">{{lang 'changeOrientation'}}</span>

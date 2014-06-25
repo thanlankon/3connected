@@ -6,6 +6,10 @@
 # attribute name
 
 course = Course
+lecture = Lecture
+major = Major
+term = Term
+batch = Batch
 
 course.courseId = Course Id
 course.courseName = Course name
