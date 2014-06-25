@@ -9,7 +9,7 @@ define.component('component.common.AttendanceGrid', function (component, require
 
     var gridColumns = [{
       text: Lang.get('attendance.student.studentCode'),
-      dataField: 'student.studentCode',
+      dataField: 'studentCode',
 
       width: '150px',
 
@@ -21,7 +21,7 @@ define.component('component.common.AttendanceGrid', function (component, require
       }
     }, {
       text: Lang.get('attendance.student.firstName'),
-      dataField: 'student.firstName',
+      dataField: 'firstName',
 
       filterType: 'textbox',
       editable: false,
@@ -38,6 +38,7 @@ define.component('component.common.AttendanceGrid', function (component, require
       width: '150px',
 
       filterType: 'bool',
+      columnType: 'checkbox',
       editable: false,
     }, {
       text: Lang.get('attendance.absent'),
@@ -46,6 +47,7 @@ define.component('component.common.AttendanceGrid', function (component, require
       width: '150px',
 
       filterType: 'bool',
+      columnType: 'checkbox',
       editable: false,
     }, {
       text: Lang.get('attendance.totalPresents'),
@@ -59,13 +61,13 @@ define.component('component.common.AttendanceGrid', function (component, require
       text: Lang.get('attendance.totalAbsents'),
       dataField: 'totalAbsents',
 
-      width: '100px',
+      width: '150px',
 
       filterType: 'textbox',
       editable: false,
     }, {
-      text: Lang.get('attendance.totalUnattendanced'),
-      dataField: 'totalUnattendanced',
+      text: Lang.get('attendance.totalUnattended'),
+      dataField: 'totalUnattended',
 
       width: '150px',
 
@@ -84,10 +86,19 @@ define.component('component.common.AttendanceGrid', function (component, require
     if (this.gridDataFields) return this.gridDataFields;
 
     var getGridDataFields = [{
+      name: 'attendanceId',
+      type: 'number'
+    }, {
+      name: 'studentId',
+      type: 'number'
+    }, {
       name: 'studentCode',
       type: 'string'
     }, {
-      name: 'studentName',
+      name: 'firstName',
+      type: 'string'
+    }, {
+      name: 'lastName',
       type: 'string'
     }, {
       name: 'totalPresents',
@@ -96,7 +107,7 @@ define.component('component.common.AttendanceGrid', function (component, require
       name: 'totalAbsents',
       type: 'number'
     }, {
-      name: 'totalUnattendanced',
+      name: 'totalUnattended',
       type: 'number'
     }, {
       name: 'isPresent',
@@ -150,65 +161,80 @@ define.component('component.common.AttendanceGrid', function (component, require
 
   };
 
-  component.refreshData = function (startDate, endDate, originalData) {
+  component.refreshData = function (attendanceData) {
 
-    if (originalData) {
-      this.originalData = originalData;
-    }
-
-    var source = this.generateSource(startDate, endDate, this.originalData);
+    var source = this.generateSource(attendanceData);
 
     this.element.jqxGrid({
       source: source
     });
 
-  }
+  };
 
-  component.generateSource = function (startDate, endDate, originalData) {
+  component.generateSource = function (attendanceData) {
 
-    var ConvertUtil = require('core.util.ConvertUtil');
-
-    // reset schedule data
-    this.scheduleData = {};
-    this.scheduleIds = {};
-
-    originalData = originalData || [];
-
-    for (var i = 0, len = originalData.length; i < len; i++) {
-      var schedule = originalData[i];
-
-      if (!this.scheduleData[schedule.date]) {
-        this.scheduleData[schedule.date] = {};
-        this.scheduleIds[schedule.date] = {};
-      }
-
-      this.scheduleData[schedule.date]['slot' + schedule.slot] = 'UNCHANGED';
-      this.scheduleIds[schedule.date]['slot' + schedule.slot] = schedule.scheduleId;
-    }
+    var Attendance = require('enum.Attendance');
 
     var sourceData = [];
 
-    // generate source data
-    if (startDate && endDate && ConvertUtil.DateTime.compare(startDate, endDate) <= 0) {
+    this.sourceData = sourceData;
 
-      var Moment = require('lib.Moment');
+    // generate attendance data
+    if (attendanceData) {
 
-      while (ConvertUtil.DateTime.compare(startDate, endDate) <= 0) {
-        var dayOfWeek = ConvertUtil.DateTime.convertDateToDayOfWeek(startDate);
+      var students = attendanceData.students || [];
+      var attendances = attendanceData.attendances || [];
+      var hasAnyAttendances = attendances.length > 0;
+
+      var studentAttendances = {};
+      for (var i = 0, len = attendances.length; i < len; i++) {
+        var attendance = attendances[i];
+        studentAttendances[attendance.studentId] = {
+          attendanceId: attendance.attendanceId,
+          status: attendance.status
+        };
+      }
+
+      for (var i = 0, len = students.length; i < len; i++) {
+        var student = students[i];
 
         var item = {
-          date: dayOfWeek
+          studentId: student.studentId,
+          studentCode: student.studentCode,
+          firstName: student.firstName,
+          lastName: student.lastName,
+
+          attendanceId: null,
+          isPresent: true,
+          isAbsent: false,
         };
 
-        for (var j = 1; j <= 9; j++) {
-          var selected = !!(this.scheduleData[startDate] && this.scheduleData[startDate]['slot' + j]);
+        if (hasAnyAttendances) {
+          var attendance = studentAttendances[student.studentId];
+          if (attendance) {
+            item.attendanceId = attendance.attendanceId;
 
-          item['slot' + j] = selected;
+            switch (attendance.status) {
+            case Attendance.PRESENT:
+              item.isPresent = true;
+              item.isAbsent = false;
+              break;
+            case Attendance.ABSENT:
+              item.isPresent = false;
+              item.isAbsent = true;
+              break;
+            default:
+              item.isPresent = false;
+              item.isAbsent = false;
+              break;
+            }
+          } else {
+            item.isPresent = false;
+            item.isAbsent = false;
+          }
         }
 
         sourceData.push(item);
-
-        startDate = ConvertUtil.DateTime.addDays(startDate, 1);
       }
 
     }
@@ -217,11 +243,7 @@ define.component('component.common.AttendanceGrid', function (component, require
     var source = {
       dataType: 'local',
       localData: sourceData,
-      dataFields: this.getGridDataFields(),
-
-      updaterow: function (rowid, rowdata, commit) {
-        commit(true);
-      }
+      dataFields: this.getGridDataFields()
     };
 
     var dataAdapter = new jQuery.jqx.dataAdapter(source);
@@ -235,89 +257,57 @@ define.component('component.common.AttendanceGrid', function (component, require
 
   component.processDataChange = function (event) {
 
-    var ConvertUtil = require('core.util.ConvertUtil');
-
-    if (!this.isGridEditable || !event || !event.args || event.args.datafield == 'date') return;
+    if (!this.isGridEditable || !event || !event.args) return;
 
     var args = event.args;
 
-    var dateCell = this.element.jqxGrid('getcell', args.rowindex, 'date');
+    var isPresent, isAbsent;
 
-    var date = dateCell.value;
-    date = ConvertUtil.DateTime.convertDayOfWeekToDate(date);
-
-    var slot = args.datafield;
-
-    var value = args.value;
-
-    if (value) {
-      // current value is TRUE -> to be unchecked
-
-      switch (this.scheduleData[date][slot]) {
-      case 'ADDED':
-        this.scheduleData[date][slot] = 'DEATCHED';
-        break;
-      case 'UNCHANGED':
-        this.scheduleData[date][slot] = 'DELETED';
-        break;
-      }
+    if (args.datafield == 'isPresent') {
+      isPresent = true;
+      isAbsent = false;
+    } else if (args.datafield == 'isAbsent') {
+      isAbsent = true;
+      isPresent = false;
     } else {
-      // current value is FALSE -> to be checked
-
-      if (!this.scheduleData[date]) {
-        this.scheduleData[date] = {};
-      }
-
-      if (!this.scheduleData[date][slot]) {
-        this.scheduleData[date][slot] = 'ADDED';
-      } else {
-        switch (this.scheduleData[date][slot]) {
-        case 'DELETED':
-          this.scheduleData[date][slot] = 'UNCHANGED';
-          break;
-        case 'DEATCHED':
-          this.scheduleData[date][slot] = 'ADDED';
-          break;
-        }
-      }
+      return;
     }
 
-    this.element.jqxGrid('setCellValue', args.rowindex, args.datafield, !args.value);
+    this.element.jqxGrid('setCellValue', args.rowindex, 'isPresent', isPresent);
+    this.element.jqxGrid('setCellValue', args.rowindex, 'isAbsent', isAbsent);
 
   };
 
-  component.getScheduleData = function () {
+  component.getAttendanceData = function () {
 
-    var scheduleData = {
-      addedItems: [],
-      removedItems: []
-    };
+    var Attendance = require('enum.Attendance');
 
-    var scheduleIds = this.scheduleIds;
+    var attendanceData = [];
 
-    Util.Collection.each(this.scheduleData, function (slots, date) {
-      Util.Collection.each(slots, function (status, slot) {
+    var gridRows = this.element.jqxGrid('getdisplayrows');
 
-        // convert slot from name to slot number
-        var slotNumber = +slot.slice(-1);
+    for (var i = 0, len = gridRows.length; i < len; i++) {
+      var row = gridRows[i];
 
-        if (status == 'ADDED') {
-          scheduleData.addedItems.push({
-            date: date,
-            slot: slotNumber
-          });
-        } else if (status == 'DELETED') {
-          scheduleData.removedItems.push({
-            scheduleId: scheduleIds[date][slot],
-            date: date,
-            slot: slotNumber
-          });
-        }
+      if (!row) continue;
 
-      });
-    });
+      var item = {
+        attendanceId: row.attendanceId,
+        studentId: row.studentId
+      };
 
-    return scheduleData;
+      if (row.isPresent) {
+        item.status = Attendance.PRESENT;
+      } else if (row.isAbsent) {
+        item.status = Attendance.ABSENT;
+      } else {
+        item.status = Attendance.UNATTENDED;
+      }
+
+      attendanceData.push(item);
+    }
+
+    return attendanceData;
 
   };
 

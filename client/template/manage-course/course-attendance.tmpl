@@ -20,19 +20,30 @@
       <li class="divider">
       </li>
 
-      <li class="component" data-component-group="edit">
+      <li class="component">
         {{component.combobox attribute="scheduleId" width="150px" height="22px" localData="true"}}
       </li>
 
-      <li class="button" data-component-group="edit">
-        <span id="button-view-attendance">{{lang 'schedule.view'}}</span>
+      <li class="button">
+        <span id="button-view-attendance">{{lang 'attendance.view'}}</span>
       </li>
 
-      <li class="divider">
+      <li class="divider" data-component-group="view">
       </li>
 
-      <li class="icon edit" id="button-update-attendance">
-        <span>{{lang 'attendance.updateAttendance'}}</span>
+      <li class="icon edit" id="button-edit-attendance" data-component-group="view">
+        <span>{{lang 'attendance.editAttendance'}}</span>
+      </li>
+
+      <li class="divider" data-component-group="edit">
+      </li>
+
+      <li class="icon edit" id="button-update-attendance" data-component-group="edit">
+        <span>{{lang 'attendance.updateChanges'}}</span>
+      </li>
+
+      <li class="icon edit" id="button-reject-changes" data-component-group="edit">
+        <span>{{lang 'attendance.rejectChanges'}}</span>
       </li>
 
     </ul>

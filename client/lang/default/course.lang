@@ -30,9 +30,14 @@ course.manageGrade = Manage course's grade
 
 # message
 
+course.getCourseAttendance.notFound = Course attendance not found
+
 course.updateSchedule.success = The schedule of the course is updated successfully
 course.updateSchedule.error.addScheduleSlots = Error during adding course's schedule slots
 course.updateSchedule.error.removeScheduleSlots = Error during removing course's schedule slots
+
+course.updateCourseAttendance.success = The attendances of the course is updated successfully
+course.updateCourseAttendance.error.unknown = Error during update course's attendances
 
 # schedule
 
@@ -65,8 +70,11 @@ attendance.student.lastName = {{.student.lastName}}
 
 attendance.totalPresents = Total presents
 attendance.totalAbsents = Total absents
-attendance.totalUnattendanced = Total unattendanced
+attendance.totalUnattended = Total Unattended
 attendance.present = Present
 attendance.absent = Absent
 
-attendance.updateAttendance = Update
+attendance.view = View
+attendance.editAttendance = Edit attendance
+attendance.updateChanges = Update
+attendance.rejectChanges = Cancel

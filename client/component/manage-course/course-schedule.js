@@ -70,21 +70,6 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
     }
   };
 
-  form.switchToViewMode = function () {
-    this.isScheduleEditable = false;
-
-    // hide all edit toolbar component
-    this.element.find('[data-component-group=edit]').hide();
-
-    // show all view toolbar component
-    this.element.find('[data-component-group=view]').show();
-
-    // disable grid editable
-    this.gridSchedule.setEditable(false);
-
-    this.refreshSchedule();
-  };
-
   form.refreshSchedule = function () {
     var CourseProxy = require('proxy.Course');
 
@@ -142,16 +127,27 @@ define.form('component.form.manage-course.CourseSchedule', function (form, requi
 
   };
 
-  form.switchToEditMode = function () {
-    this.isScheduleEditable = true;
+  form.switchToViewMode = function () {
+    // hide all edit toolbar component
+    this.element.find('[data-component-group=edit]').hide();
 
+    // show all view toolbar component
+    this.element.find('[data-component-group=view]').show();
+
+    // disable grid editable
+    this.gridSchedule.setEditable(false);
+
+    this.refreshSchedule();
+  };
+
+  form.switchToEditMode = function () {
     // hide all edit component
     this.element.find('[data-component-group=view]').hide();
 
     // show all view toolbar component
     this.element.find('[data-component-group=edit]').show();
 
-    // disable grid editable
+    // enable grid editable
     this.gridSchedule.setEditable(true);
   };
 

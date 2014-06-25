@@ -14,6 +14,10 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       getCourseAttendance: {
         url: '/getCourseAttendance',
         httpMethod: 'GET'
+      },
+      updateCourseAttendance: {
+        url: '/updateCourseAttendance',
+        httpMethod: 'POST'
       }
     }
   };
@@ -28,9 +32,9 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       data: null
     };
 
-    var courseId = req.query.courseId;
+    var scheduleId = req.query.scheduleId;
 
-    AttendanceModel.getCourseAttendance(courseId, function (error, courseAttendance, isNotFound) {
+    AttendanceModel.getCourseAttendance(scheduleId, function (error, courseAttendance, isNotFound) {
       if (error) {
         serviceResponse.message = 'course.getCourseAttendance.error.unknown';
         serviceResponse.error = error;
@@ -43,6 +47,30 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
         } else {
           serviceResponse.data = courseAttendance;
         }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  service.updateCourseAttendance = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var scheduleId = req.body.scheduleId;
+    var attendanceData = req.body.attendanceData;
+
+    AttendanceModel.updateCourseAttendance(scheduleId, attendanceData, function (error) {
+      if (error) {
+        serviceResponse.message = 'course.updateCourseAttendance.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'course.updateCourseAttendance.success';
       }
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);

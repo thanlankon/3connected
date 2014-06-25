@@ -12,7 +12,7 @@ define('component.export.grid.GridExport', function (module, require) {
     var gridData = {
       fields: [],
       items: []
-    }
+    };
 
     for (var i = 1, len = gridColumns.length; i < len; i++) {
       var column = gridColumns[i];
