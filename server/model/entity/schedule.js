@@ -46,6 +46,10 @@ define.entity('model.entity.Schedule', function (entity, DataType, require) {
       as: 'course'
     });
 
+    this.hasMany('model.entity.Attendance', {
+      as: 'attendances'
+    });
+
   };
 
 });

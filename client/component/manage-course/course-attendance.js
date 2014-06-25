@@ -42,24 +42,22 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
     // bind event handlers to elements
     this.element.find('#button-view-attendance').click(this.proxy(this.viewAttendance));
+    this.element.find('#button-update-attendance').click(this.proxy(this.updateAttendance));
 
-    //    this.element.find('#button-update-schedule').click(this.proxy(this.updateSchedule));
-    //
-    //    this.element.find('#button-reject-changes').click(this.proxy(this.switchToViewMode));
-    //    this.element.find('#button-edit-schedule').click(this.proxy(this.switchToEditMode));
+    this.element.find('#button-reject-changes').click(this.proxy(this.switchToViewMode));
+    this.element.find('#button-edit-attendance').click(this.proxy(this.switchToEditMode));
   };
 
   form.refreshData = function (data) {
-    this.courseId = data.id;
+    var courseId = data.id;
 
-    this.refreshAttendance();
-  };
+    this.data.attr('scheduleId', null);
+    this.switchToDisableMode();
 
-  form.refreshAttendance = function () {
     var CourseProxy = require('proxy.Course');
 
     CourseProxy.findOne({
-      courseId: this.courseId
+      courseId: courseId
     }, this.proxy(findOneDone));
 
     function findOneDone(serviceResponse) {
@@ -93,17 +91,112 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
   };
 
   form.viewAttendance = function () {
+    this.switchToViewMode();
+  }
+
+  form.refreshAttendance = function () {
+
+    this.scheduleId = this.data.attr('scheduleId');
+
+    if (!this.scheduleId) return;
 
     var AttendanceProxy = require('proxy.Attendance');
 
-    AttendanceProxy.getCourseAttendance({
-      courseId: this.courseId
-    }, this.proxy(getCourseAttendanceDone));
+    var data = {
+      scheduleId: this.scheduleId,
+    };
+
+    AttendanceProxy.getCourseAttendance(data, this.proxy(getCourseAttendanceDone));
 
     function getCourseAttendanceDone(serviceResponse) {
-      console.log(serviceResponse.getData());
+
+      var attendanceData = serviceResponse.getData();
+
+      console.log(this.isGridMode);
+
+      if (attendanceData.isLocked) {
+        if (this.isGridMode !== 'DISABLED') {
+          this.switchToDisableMode();
+        }
+      } else if (attendanceData.attendances && attendanceData.attendances.length) {
+        if (this.isGridMode !== 'READONLY' && this.isGridMode !== 'EDITABLE') {
+          this.switchToViewMode();
+        }
+      } else {
+        if (this.isGridMode !== 'EDITABLE') {
+          this.switchToEditMode();
+        }
+      }
+
+      this.gridAttendance.refreshData(attendanceData);
+
     }
 
+  };
+
+  form.updateAttendance = function () {
+
+    var scheduleId = this.scheduleId;
+    var attendanceData = this.gridAttendance.getAttendanceData();
+
+    var AttendanceProxy = require('proxy.Attendance');
+
+    var data = {
+      scheduleId: scheduleId,
+      attendanceData: attendanceData
+    };
+
+    AttendanceProxy.updateCourseAttendance(data, this.proxy(updateCourseAttendanceDone));
+
+    function updateCourseAttendanceDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      this.refreshAttendance();
+    }
+  };
+
+  form.switchToDisableMode = function () {
+    this.isGridMode = 'DISABLED';
+
+    // hide all edit toolbar component
+    this.element.find('[data-component-group=edit]').hide();
+
+    // show all view toolbar component
+    this.element.find('[data-component-group=view]').hide();
+
+    // disable grid editable
+    this.gridAttendance.setEditable(false);
+    this.gridAttendance.refreshData();
+  }
+
+  form.switchToViewMode = function () {
+    this.isGridMode = 'READONLY';
+
+    // hide all edit toolbar component
+    this.element.find('[data-component-group=edit]').hide();
+
+    // show all view toolbar component
+    this.element.find('[data-component-group=view]').show();
+
+    // disable grid editable
+    this.gridAttendance.setEditable(false);
+
+    this.refreshAttendance();
+  };
+
+  form.switchToEditMode = function () {
+    this.isGridMode = 'EDITABLE';
+
+    // hide all edit component
+    this.element.find('[data-component-group=view]').hide();
+
+    // show all view toolbar component
+    this.element.find('[data-component-group=edit]').show();
+
+    // enable grid editable
+    this.gridAttendance.setEditable(true);
+
+    this.refreshAttendance();
   };
 
 });

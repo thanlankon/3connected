@@ -75,15 +75,15 @@ define.component('component.common.LocalDataCombobox', function (component, requ
         trackingChange.data = true;
 
         // unselect current selected item
-        var selectedItem = combobox.jqxComboBox('getSelectedItem');
+        var selectedItem = this.combobox.jqxComboBox('getSelectedItem');
         if (selectedItem) {
-          combobox.jqxComboBox('unselectItem', selectedItem);
+          this.combobox.jqxComboBox('unselectItem', selectedItem);
         }
 
         if (newVal) {
-          var item = combobox.jqxComboBox('getItemByValue', newVal);
+          var item = this.combobox.jqxComboBox('getItemByValue', newVal);
 
-          combobox.jqxComboBox('selectItem', item);
+          this.combobox.jqxComboBox('selectItem', item);
         }
 
         trackingChange.data = false;
