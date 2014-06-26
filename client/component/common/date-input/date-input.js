@@ -51,9 +51,9 @@ define.component('component.common.DateInput', function (component, require, Uti
 
       trackingChange.dateInput = true;
 
-      var date = dateInput.jqxDateTimeInput('getDate');
+      var dateString = dateInput.jqxDateTimeInput('getText');
 
-      var dateString = ConvertUtil.DateTime.formatDate(date);
+      console.log(dateString);
 
       componentData.attr(dataAttribute, dateString);
 
@@ -69,9 +69,13 @@ define.component('component.common.DateInput', function (component, require, Uti
       if (attr == dataAttribute) {
         var date = ConvertUtil.DateTime.parseDate(newVal);
         // convert to UTC
-        date = ConvertUtil.DateTime.toUTCDate(date);
+        //        date = ConvertUtil.DateTime.toUTCDate(date);
 
-        dateInput.jqxDateTimeInput('setDate', date);
+        var dateUTC = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+
+        console.log(dateUTC);
+
+        dateInput.jqxDateTimeInput('setDate', dateUTC);
       }
 
       trackingChange.data = false;

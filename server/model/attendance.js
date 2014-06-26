@@ -157,6 +157,8 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
     // convert string of date to date object
     slotStartTime = Moment.utc(slotStartTime, DateTimeConstant.Format.DATE_TIME);
 
+    console.log(date, slot, slotConfig);
+
     // check lock before starting slot
     if (!isLocked && !skipCheckBefore && AttendanceConfig.LOCK_BEFORE_STARTING !== false) {
       var duration = AttendanceConfig.LOCK_BEFORE_STARTING;

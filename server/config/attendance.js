@@ -2,7 +2,7 @@ define('config.Attendance', function (module, require) {
 
   var AttendanceConfig = {
     SLOT_DURATION: 90,
-    LOCK_BEFORE_STARTING: false,
+    LOCK_BEFORE_STARTING: 0,
     LOCK_AFTER_STARTING: false,
     LOCK_AFTER_ENDING: 0,
 
@@ -24,15 +24,15 @@ define('config.Attendance', function (module, require) {
         END: false
       },
       SLOT5: {
-        START: '09:30',
+        START: '15:00',
         END: false
       },
       SLOT6: {
-        START: '09:30',
+        START: '16:00',
         END: false
       },
       SLOT7: {
-        START: '09:30',
+        START: '18:00',
         END: false
       },
       SLOT8: {
