@@ -84,3 +84,11 @@ attendance.view = View
 attendance.editAttendance = Edit attendance
 attendance.updateChanges = Update
 attendance.rejectChanges = Cancel
+
+attendance.dateSlot = {{date}} - slot {{slot}}
+
+attendance.allPresent = Present all
+attendance.allAbsent = Absent all
+
+attendance.totalSlots.total = Total
+attendance.totalSlots.slots = slots

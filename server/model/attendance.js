@@ -1,13 +1,16 @@
 define.model('model.Attendance', function (model, ModelUtil, require) {
 
   var Attendance = require('model.entity.Attendance');
+  var AttendanceHistory = require('model.entity.AttendanceHistory');
   var Student = require('model.entity.Student');
   var Course = require('model.entity.Course');
   var Schedule = require('model.entity.Schedule');
   var CourseStudent = require('model.entity.CourseStudent');
   var Entity = require('core.model.Entity');
 
-  model.getCourseAttendance = function (scheduleId, callback) {
+  var AttendanceStatus = require('enum.Attendance');
+
+  model.getCourseAttendance = function (courseId, scheduleId, callback) {
 
     var queryChainer = Entity.queryChainer();
 
@@ -33,11 +36,24 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
         }]
       }));
 
+    queryChainer.add(Schedule.findAll({
+      where: {
+        courseId: courseId
+      },
+      include: [{
+        model: Attendance,
+        as: 'attendances'
+      }]
+    }));
+
     queryChainer.run()
       .success(function (results) {
         var schedule = results[0];
+        var courseSchedules = results[1];
 
-        if (schedule == null) {
+        var totalSlots = courseSchedules.length;
+
+        if (schedule == null || courseSchedules == null) {
           callback(null, null, true);
 
           return;
@@ -72,11 +88,45 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
           });
         }
 
+        // attendance statistics
+        var statistics = {
+          totalSlots: totalSlots,
+          studentAttendances: {}
+        };
+
+        var studentAttendances = statistics.studentAttendances;
+
+        for (var i = 0, len = students.length; i < len; i++) {
+          var student = students[i];
+
+          studentAttendances[student.studentId] = {
+            totalPresents: 0,
+            totalAbsents: 0
+          };
+        }
+
+        var courseAttendances = schedule.attendances;
+
+        for (var i = 0, scheduleLen = courseSchedules.length; i < scheduleLen; i++) {
+          var scheduleAttendances = courseSchedules[i].attendances;
+          for (var j = 0, attendanceLen = scheduleAttendances.length; j < attendanceLen; j++) {
+            var scheduleAttendance = scheduleAttendances[j];
+            var scheduleAttendance = scheduleAttendances[j];
+
+            if (scheduleAttendance.status == AttendanceStatus.PRESENT) {
+              studentAttendances[scheduleAttendance.studentId].totalPresents += 1
+            } else if (scheduleAttendance.status == AttendanceStatus.ABSENT) {
+              studentAttendances[scheduleAttendance.studentId].totalAbsents += 1
+            }
+          }
+        }
+
         var isLocked = checkIfAttendanceIsLocked(schedule.date, schedule.slot);
 
         var courseAttendanceData = {
           students: students,
           attendances: attendances,
+          statistics: statistics,
           isLocked: isLocked
         };
 
@@ -89,6 +139,11 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
   };
 
   model.updateCourseAttendance = function (scheduleId, attendanceData, callback) {
+
+    if (!attendanceData || !attendanceData.length) {
+      callback(null);
+      return;
+    }
 
     var attendances = [];
 
@@ -105,33 +160,77 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
 
     Entity.transaction(function (transaction) {
 
-      var queryChainer = Entity.queryChainer();
+      var findOrCreateQueryChainer = Entity.queryChainer();
 
       attendances.forEach(function (attendance) {
-        if (attendance.attendanceId) {
-          queryChainer.add(Attendance.update({
-            status: attendance.status
-          }, {
-            attendanceId: attendance.attendanceId
-          }, {
-            transaction: transaction
-          }));
-        } else {
-          queryChainer.add(Attendance.create({
-            studentId: attendance.studentId,
-            scheduleId: attendance.scheduleId,
-            status: attendance.status
-          }, {
-            transaction: transaction
-          }));
-        }
+        findOrCreateQueryChainer.add(Attendance.findOrCreate({
+          attendanceId: attendance.attendanceId
+        }, {
+          studentId: attendance.studentId,
+          scheduleId: attendance.scheduleId,
+          status: attendance.status
+        }));
       });
 
-      queryChainer
+      findOrCreateQueryChainer
         .run()
-        .success(function () {
-          transaction.commit();
-          callback(null);
+        .success(function (results) {
+          var updateAndLogHistoryQueryChainer = Entity.queryChainer();
+
+          results.forEach(function (attendance, index) {
+            var attendanceData = attendances[index];
+
+            if (attendanceData.attendanceId) {
+              // update attendance status and log history
+              // only if status has changed
+              if (attendanceData.status != attendance.status) {
+                var oldValue = attendance.status;
+                var newValue = attendanceData.status;
+
+                // update attendance status
+                updateAndLogHistoryQueryChainer.add(attendance.updateAttributes({
+                  status: newValue
+                }, {
+                  transaction: transaction
+                }));
+
+                // log history
+                updateAndLogHistoryQueryChainer.add(AttendanceHistory.create({
+                  attendanceId: attendance.attendanceId,
+                  lecturerId: null,
+                  oldValue: oldValue,
+                  newValue: newValue
+                }, {
+                  transaction: transaction
+                }));
+              }
+            } else {
+              var oldValue = null;
+              var newValue = attendanceData.status;
+
+              // log history for created attendance
+              updateAndLogHistoryQueryChainer.add(AttendanceHistory.create({
+                attendanceId: attendance.attendanceId,
+                lecturerId: null,
+                oldValue: oldValue,
+                newValue: newValue
+              }, {
+                transaction: transaction
+              }));
+            }
+          });
+
+          updateAndLogHistoryQueryChainer
+            .run()
+            .success(function () {
+              transaction.commit();
+              callback(null);
+            })
+            .error(function (error) {
+              transaction.rollback();
+              callback(error);
+            });
+
         })
         .error(function (errors) {
           transaction.rollback();
@@ -155,7 +254,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
     // get string of date: DD/MM/YYYY HH:mm
     var slotStartTime = date + ' ' + slotConfig.START;
     // convert string of date to date object
-    slotStartTime = Moment.utc(slotStartTime, DateTimeConstant.Format.DATE_TIME);
+    slotStartTime = Moment(slotStartTime, DateTimeConstant.Format.DATE_TIME);
 
     console.log(date, slot, slotConfig);
 

@@ -18,6 +18,8 @@ define.model('model.Course', function (model, ModelUtil, require) {
 
     var scheduleItems = [];
 
+    slots = slots || [];
+
     for (var i = 0, len = slots.length; i < len; i++) {
       var slot = slots[i];
 
@@ -53,6 +55,24 @@ define.model('model.Course', function (model, ModelUtil, require) {
       .error(function (error) {
         callback(error);
       });
+
+  };
+
+  model.updateScheduleSlots = function (courseId, addedItems, removedIds, callback) {
+
+    model.addScheduleSlots(courseId, addedItems, function (addError, addedItems) {
+      if (addError) {
+        callback(addError, true, false);
+      } else {
+        model.removeScheduleSlots(removedIds, function (removeError, affectedRows) {
+          if (removeError) {
+            callback(removeError, false, true);
+          } else {
+            callback(null, false, false);
+          }
+        });
+      }
+    });
 
   };
 

@@ -46,10 +46,13 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
     this.element.find('#button-reject-changes').click(this.proxy(this.switchToViewMode));
     this.element.find('#button-edit-attendance').click(this.proxy(this.switchToEditMode));
+
+    this.element.find('#button-all-present').click(this.proxy(this.presentAll));
+    this.element.find('#button-all-absent').click(this.proxy(this.absentAll));
   };
 
   form.refreshData = function (data) {
-    var courseId = data.id;
+    this.courseId = data.id;
 
     this.data.attr('scheduleId', null);
     this.switchToDisableMode();
@@ -57,7 +60,7 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
     var CourseProxy = require('proxy.Course');
 
     CourseProxy.findOne({
-      courseId: courseId
+      courseId: this.courseId
     }, this.proxy(findOneDone));
 
     function findOneDone(serviceResponse) {
@@ -74,7 +77,10 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
         schedules.push({
           scheduleId: schedule.scheduleId,
-          dateSlot: schedule.date + ' - slot ' + schedule.slot
+          dateSlot: Lang.get('attendance.dateSlot', {
+            date: schedule.date,
+            slot: schedule.slot
+          })
         });
       }
 
@@ -91,8 +97,18 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
   };
 
   form.viewAttendance = function () {
+    if (!this.data.attr('scheduleId')) return;
+
     this.switchToViewMode();
-  }
+  };
+
+  form.presentAll = function () {
+    this.gridAttendance.presentAll();
+  };
+
+  form.absentAll = function () {
+    this.gridAttendance.absentAll();
+  };
 
   form.refreshAttendance = function () {
 
@@ -103,6 +119,7 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
     var AttendanceProxy = require('proxy.Attendance');
 
     var data = {
+      courseId: this.courseId,
       scheduleId: this.scheduleId,
     };
 
@@ -116,8 +133,6 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
       }
 
       var attendanceData = serviceResponse.getData();
-
-      console.log(attendanceData);
 
       if (attendanceData.isLocked) {
         if (this.isGridMode !== 'DISABLED') {
@@ -143,6 +158,8 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
     var scheduleId = this.scheduleId;
     var attendanceData = this.gridAttendance.getAttendanceData();
+
+    if (!attendanceData.length) return;
 
     var AttendanceProxy = require('proxy.Attendance');
 

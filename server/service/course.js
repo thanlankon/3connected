@@ -107,40 +107,31 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
       error: null
     };
 
-    // add new slots
-    if (!serviceResponse.error && addedItems && addedItems.length) {
+    var removedIds = [];
 
-      CourseModel.addScheduleSlots(courseId, addedItems, function (error, addedItems) {
-        if (error) {
-          serviceResponse.message = 'course.updateSchedule.error.addScheduleSlots';
-          serviceResponse.error = error;
-        }
-      });
-
-    }
-
-    if (!serviceResponse.error && removedItems && removedItems.length) {
-
-      var scheduleIds = [];
+    if (removedItems && removedItems.length) {
+      var removedIds = [];
 
       for (var i = 0, len = removedItems.length; i < len; i++) {
-        scheduleIds.push(removedItems[i].scheduleId);
+        removedIds.push(removedItems[i].scheduleId);
       }
-
-      CourseModel.removeScheduleSlots(scheduleIds, function (error, affectedRows) {
-        if (error) {
-          serviceResponse.message = 'course.updateSchedule.error.removeScheduleSlots';
-          serviceResponse.error = error;
-        }
-      });
-
     }
 
-    if (!serviceResponse.error) {
-      serviceResponse.message = 'course.updateSchedule.success';
-    };
+    CourseModel.updateScheduleSlots(courseId, addedItems, removedIds, function (error, isAddError, isRemoveError) {
+      if (error) {
+        if (isAddError) {
+          serviceResponse.message = 'course.updateSchedule.error.addScheduleSlots';
+        }
+        if (isRemoveError) {
+          serviceResponse.message = 'course.updateSchedule.error.removeScheduleSlots';
+        }
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'course.updateSchedule.success';
+      }
 
-    ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+    });
 
   };
 

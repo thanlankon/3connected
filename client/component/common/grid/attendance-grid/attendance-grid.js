@@ -179,10 +179,14 @@ define.component('component.common.AttendanceGrid', function (component, require
 
     this.sourceData = sourceData;
 
+    this.originalData = {};
+
     // generate attendance data
     if (attendanceData) {
 
+      var isLocked = attendanceData.isLocked || [];
       var students = attendanceData.students || [];
+      var attendanceStatistics = attendanceData.statistics;
       var attendances = attendanceData.attendances || [];
       var hasAnyAttendances = attendances.length > 0;
 
@@ -198,14 +202,22 @@ define.component('component.common.AttendanceGrid', function (component, require
       for (var i = 0, len = students.length; i < len; i++) {
         var student = students[i];
 
+        var totalPresents = attendanceStatistics.studentAttendances[student.studentId].totalPresents;
+        var totalAbsents = attendanceStatistics.studentAttendances[student.studentId].totalAbsents;
+        var totalUnattended = attendanceStatistics.totalSlots - totalPresents - totalAbsents;
+
         var item = {
           studentId: student.studentId,
           studentCode: student.studentCode,
           firstName: student.firstName,
           lastName: student.lastName,
 
+          totalPresents: totalPresents,
+          totalAbsents: totalAbsents,
+          totalUnattended: totalUnattended,
+
           attendanceId: null,
-          isPresent: true,
+          isPresent: isLocked ? false : true,
           isAbsent: false,
         };
 
@@ -234,6 +246,11 @@ define.component('component.common.AttendanceGrid', function (component, require
           }
         }
 
+        this.originalData[item.studentId] = {
+          isPresent: item.isPresent,
+          isAbsent: item.isAbsent
+        };
+
         sourceData.push(item);
       }
 
@@ -255,26 +272,81 @@ define.component('component.common.AttendanceGrid', function (component, require
     this.isGridEditable = editable;
   };
 
-  component.processDataChange = function (event) {
+  component.processDataChange = function (event, isForced) {
 
     if (!this.isGridEditable || !event || !event.args) return;
 
     var args = event.args;
 
-    var isPresent, isAbsent;
+    console.log(args);
+
+    var rowData = this.element.jqxGrid('getrowdata', args.rowindex);
+
+    var isPresent, isAbsent, totalPresents, totalAbsents, totalUnattended;
 
     if (args.datafield == 'isPresent') {
-      isPresent = true;
-      isAbsent = false;
+      if (isForced && rowData.isPresent) {
+        return;
+      }
+
+      if (rowData.isPresent) {
+        isPresent = false;
+        isAbsent = false;
+
+        totalPresents = rowData.totalPresents - 1;
+        totalAbsents = rowData.totalAbsents;
+        totalUnattended = rowData.totalUnattended + 1;
+      } else if (rowData.isAbsent) {
+        isPresent = true;
+        isAbsent = false;
+
+        totalPresents = rowData.totalPresents + 1;
+        totalAbsents = rowData.totalAbsents - 1;
+        totalUnattended = rowData.totalUnattended;
+      } else {
+        isPresent = true;
+        isAbsent = false;
+
+        totalPresents = rowData.totalPresents + 1;
+        totalAbsents = rowData.totalAbsents;
+        totalUnattended = rowData.totalUnattended - 1;
+      }
     } else if (args.datafield == 'isAbsent') {
-      isAbsent = true;
-      isPresent = false;
+      if (isForced && rowData.isAbsent) {
+        return;
+      }
+
+      if (rowData.isAbsent) {
+        isAbsent = false;
+        isPresent = false;
+
+        totalAbsents = rowData.totalAbsents - 1;
+        totalPresents = rowData.totalPresents;
+        totalUnattended = rowData.totalUnattended + 1;
+      } else if (rowData.isPresent) {
+        isAbsent = true;
+        isPresent = false;
+
+        totalAbsents = rowData.totalAbsents + 1;
+        totalPresents = rowData.totalPresents - 1;
+        totalUnattended = rowData.totalUnattended;
+      } else {
+        isAbsent = true;
+        isPresent = false;
+
+        totalAbsents = rowData.totalAbsents + 1;
+        totalPresents = rowData.totalPresents;
+        totalUnattended = rowData.totalUnattended - 1;
+      }
     } else {
       return;
     }
 
     this.element.jqxGrid('setCellValue', args.rowindex, 'isPresent', isPresent);
     this.element.jqxGrid('setCellValue', args.rowindex, 'isAbsent', isAbsent);
+    this.element.jqxGrid('setCellValue', args.rowindex, 'totalPresents', totalPresents);
+    this.element.jqxGrid('setCellValue', args.rowindex, 'totalAbsents', totalAbsents);
+    this.element.jqxGrid('setCellValue', args.rowindex, 'totalUnattended', totalUnattended);
 
   };
 
@@ -288,8 +360,13 @@ define.component('component.common.AttendanceGrid', function (component, require
 
     for (var i = 0, len = gridRows.length; i < len; i++) {
       var row = gridRows[i];
+      var originalData = this.originalData[row.studentId];
 
-      if (!row) continue;
+      // skip empty row
+      if (!row || !originalData) continue;
+
+      // skip unchanged row
+      if (row.isPresent == originalData.isPresent && row.isAbsent == originalData.isAbsent) continue;
 
       var item = {
         attendanceId: row.attendanceId,
@@ -308,6 +385,58 @@ define.component('component.common.AttendanceGrid', function (component, require
     }
 
     return attendanceData;
+
+  };
+
+  component.presentAll = function () {
+    var gridRows = this.element.jqxGrid('getdisplayrows');
+
+    var event = {
+      args: {
+        datafield: 'isPresent',
+        rowindex: null
+      }
+    };
+
+    for (var i = 0, len = gridRows.length; i < len; i++) {
+      var row = gridRows[i];
+
+      if (!row) continue;
+
+      event.args.rowindex = row.visibleindex;
+
+      this.processDataChange(event, true);
+    }
+
+  }
+
+  component.presentAll = function () {
+    this.selectAllStatus('isPresent');
+  };
+
+  component.absentAll = function () {
+    this.selectAllStatus('isAbsent');
+  };
+
+  component.selectAllStatus = function (field) {
+    var gridRows = this.element.jqxGrid('getdisplayrows');
+
+    var event = {
+      args: {
+        datafield: field,
+        rowindex: null
+      }
+    };
+
+    for (var i = 0, len = gridRows.length; i < len; i++) {
+      var row = gridRows[i];
+
+      if (!row) continue;
+
+      event.args.rowindex = row.visibleindex;
+
+      this.processDataChange(event, true);
+    }
 
   };
 

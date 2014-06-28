@@ -8,6 +8,7 @@ define('resource.loader.Langs', function (module, require) {
     var langFiles = fileUtil.filter(files, langConfig.RULES, langConfig.EXT);
     var fileContent, lines, line, separatorIndex, langId, langContent;
 
+    var concatOn = false;
     var langs = {};
 
     for (var i = 0, len = langFiles.length; i < len; i++) {
@@ -20,14 +21,29 @@ define('resource.loader.Langs', function (module, require) {
 
         if (line == '') continue;
 
-        separatorIndex = line.indexOf('=');
+        if (concatOn) {
+          if (line == '}}') {
+            concatOn = false;
+          } else {
+            langContent += line;
+            continue;
+          }
+        } else {
+          separatorIndex = line.indexOf('=');
 
-        if (separatorIndex == -1) continue;
+          if (separatorIndex == -1) continue;
 
-        langId = line.slice(0, separatorIndex).trim();
-        langContent = line.slice(separatorIndex + 1).trim();
+          langId = line.slice(0, separatorIndex).trim();
+          langContent = line.slice(separatorIndex + 1).trim();
 
-        //      langs[langId] = escape(langContent);
+          if (langContent == '{{') {
+            langContent = ''
+            concatOn = true;
+
+            continue;
+          }
+        }
+
         langs[langId] = langContent;
       }
     }

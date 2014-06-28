@@ -28,6 +28,14 @@
         <span id="button-view-attendance">{{lang 'attendance.view'}}</span>
       </li>
 
+      <li class="text">
+        <span>
+          ({{lang 'attendance.totalSlots.total'}}
+          {{course.schedules.length}}
+          {{lang 'attendance.totalSlots.slots'}})
+        </span>
+      </li>
+
       <li class="divider" data-component-group="view">
       </li>
 
@@ -44,6 +52,17 @@
 
       <li class="icon edit" id="button-reject-changes" data-component-group="edit">
         <span>{{lang 'attendance.rejectChanges'}}</span>
+      </li>
+
+      <li class="divider" data-component-group="edit">
+      </li>
+
+      <li class="button" data-component-group="edit">
+        <span id="button-all-present">{{lang 'attendance.allPresent'}}</span>
+      </li>
+
+      <li class="button" data-component-group="edit">
+        <span id="button-all-absent">{{lang 'attendance.allAbsent'}}</span>
       </li>
 
     </ul>
