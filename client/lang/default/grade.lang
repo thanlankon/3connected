@@ -1,0 +1,12 @@
+# message
+
+grade.getCourseGrade.notFound = Course grade not found
+
+grade.updateGrade.success = The grade of the course is updated successfully
+grade.updateGrade.error.addGradeSlots = Error during adding course's grade slots
+grade.updateGrade.error.removeGradeSlots = Error during removing course's grade slots
+
+grade.getCourseGrade.error.unknown = Error during retieving course's grade
+grade.updateCourseGrade.success = The grade of the course is updated successfully
+grade.updateCourseGrade.success = The grade of the course is updated successfully
+grade.updateCourseGrade.error.unknown = Error during updating course's grade
