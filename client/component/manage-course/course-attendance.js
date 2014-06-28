@@ -110,9 +110,14 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
     function getCourseAttendanceDone(serviceResponse) {
 
+      if (serviceResponse.hasError()) {
+        this.gridAttendance.refreshData();
+        return;
+      }
+
       var attendanceData = serviceResponse.getData();
 
-      console.log(this.isGridMode);
+      console.log(attendanceData);
 
       if (attendanceData.isLocked) {
         if (this.isGridMode !== 'DISABLED') {

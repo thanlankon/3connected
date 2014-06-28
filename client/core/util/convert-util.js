@@ -69,6 +69,11 @@ define('core.util.ConvertUtil', function (module, require) {
       date = date.getTime() + date.getTimezoneOffset() * 60000;
 
       return new Date(date);
+    },
+    toTimezoneDate: function (date) {
+      date = date.getTime() + date.getTimezoneOffset() - 60000;
+
+      return new Date(date);
     }
   };
 

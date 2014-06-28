@@ -72,9 +72,12 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
           });
         }
 
+        var isLocked = checkIfAttendanceIsLocked(schedule.date, schedule.slot);
+
         var courseAttendanceData = {
           students: students,
-          attendances: attendances
+          attendances: attendances,
+          isLocked: isLocked
         };
 
         callback(null, courseAttendanceData, false);
@@ -138,5 +141,62 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
     });
 
   };
+
+  function checkIfAttendanceIsLocked(date, slot, skipCheckAfter, skipCheckBefore) {
+
+    var DateTimeConstant = require('constant.DateTime');
+    var AttendanceConfig = require('config.Attendance');
+    var Moment = require('lib.Moment');
+
+    var slotConfig = AttendanceConfig.Slots['SLOT' + slot];
+    var currentTime = Moment.utc();
+    var isLocked = false;
+
+    // get string of date: DD/MM/YYYY HH:mm
+    var slotStartTime = date + ' ' + slotConfig.START;
+    // convert string of date to date object
+    slotStartTime = Moment.utc(slotStartTime, DateTimeConstant.Format.DATE_TIME);
+
+    console.log(date, slot, slotConfig);
+
+    // check lock before starting slot
+    if (!isLocked && !skipCheckBefore && AttendanceConfig.LOCK_BEFORE_STARTING !== false) {
+      var duration = AttendanceConfig.LOCK_BEFORE_STARTING;
+
+      var beforeStartingTime = Moment(slotStartTime);
+      beforeStartingTime.subtract(duration, 'minutes');
+
+      var diff = currentTime.diff(beforeStartingTime);
+
+      isLocked = (diff <= 0);
+    }
+
+    // check lock after starting slot
+    if (!isLocked && !skipCheckAfter && AttendanceConfig.LOCK_AFTER_STARTING !== false) {
+      var duration = AttendanceConfig.LOCK_AFTER_STARTING;
+
+      var afterStartingTime = Moment(slotStartTime);
+      afterStartingTime.add(duration, 'minutes');
+
+      var diff = currentTime.diff(afterStartingTime);
+
+      isLocked = (diff >= 0);
+    }
+
+    // check lock after ending slot
+    if (!isLocked && !skipCheckAfter && AttendanceConfig.LOCK_AFTER_ENDING !== false) {
+      var duration = slotConfig.DURATION || AttendanceConfig.SLOT_DURATION;
+      duration += AttendanceConfig.LOCK_AFTER_ENDING;
+
+      var afterEndingTime = Moment(slotStartTime);
+      afterEndingTime.add(duration, 'minutes');
+
+      var diff = currentTime.diff(afterEndingTime);
+
+      isLocked = (diff >= 0);
+    }
+
+    return isLocked;
+  }
 
 });

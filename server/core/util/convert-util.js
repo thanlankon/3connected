@@ -12,8 +12,14 @@ define('core.util.ConvertUtil', function (module, require) {
       return Moment(date, DateTimeConstant.Format.DATE).format(DateTimeConstant.MySqlFormat.DATE);
     },
 
+    parseDateTime: function (date) {
+      return Moment.utc(date, DateTimeConstant.Format.DATE_TIME).toDate();
+    },
     formatDate: function (date) {
       return Moment.utc(date).format(DateTimeConstant.Format.DATE);
+    },
+    formatDateTime: function (date) {
+      return Moment.utc(date).format(DateTimeConstant.Format.DATE_TIME);
     }
   };
 

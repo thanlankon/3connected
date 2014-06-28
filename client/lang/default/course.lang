@@ -40,8 +40,10 @@ course.updateSchedule.success = The schedule of the course is updated successful
 course.updateSchedule.error.addScheduleSlots = Error during adding course's schedule slots
 course.updateSchedule.error.removeScheduleSlots = Error during removing course's schedule slots
 
+course.getCourseAttendance.error.unknown = Error during retieving course's attendances
 course.updateCourseAttendance.success = The attendances of the course is updated successfully
-course.updateCourseAttendance.error.unknown = Error during update course's attendances
+course.updateCourseAttendance.success = The attendances of the course is updated successfully
+course.updateCourseAttendance.error.unknown = Error during updating course's attendances
 
 # schedule
 
