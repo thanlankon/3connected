@@ -37,8 +37,15 @@ define('resource.Config', function (module, require) {
         'lib/jqwidgets/*',
         // lib - canjs
         'lib/can/*',
-        // lib - others
-        'lib/**',
+        // lib - ckeditor
+        'lib/ckeditor/ckeditor.js',
+        'lib/ckeditor/adapters/jquery.js',
+        // lib - excel exports
+        'lib/+(excel-builder|file-saver)/**',
+        // lib - utils
+        'lib/+(underscore|moment|numeral)/**',
+        // lib - msgbox
+        'lib/+(msgbox)/**',
         // core - dependency manager
         'core/define/dependency-manager.js',
         'core/define/define.js',

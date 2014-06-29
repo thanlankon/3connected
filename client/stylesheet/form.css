@@ -101,3 +101,41 @@
 .dialog .content .jqx-validator-error-element-metro {
   border-color: #2b579a !important;
 }
+/* create-news-form */
+.create-news-form {
+  box-sizing: border-box;
+  /* input */
+}
+.create-news-form > table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+.create-news-form .news-info td {
+  height: 40px;
+}
+.create-news-form .news-info td.label {
+  font-size: 14px;
+  color: #555;
+  width: 150px;
+  padding: 5px 10px;
+}
+.create-news-form .news-info td.component {
+  padding: 5px 10px 5px 0px;
+}
+.create-news-form .news-editor-wrapper td {
+  padding: 5px 10px;
+}
+.create-news-form .jqx-input-metro {
+  padding-left: 5px;
+  padding-right: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  border-color: #aaa;
+  color: #555;
+}
+.create-news-form .jqx-input-metro:focus {
+  color: #222;
+  border-color: #555;
+}
