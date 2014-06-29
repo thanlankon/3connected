@@ -1,0 +1,13 @@
+# attribute name
+
+newsCategory = NewsCategory
+
+newsCategory.newsCategoryId = News Category Id
+newsCategory.newsCategoryName = News Category name
+
+# button
+
+newsCategory.create = Create News Category
+newsCategory.view = View News Category details
+newsCategory.edit = Edit News Category
+newsCategory.delete = Delete News Category

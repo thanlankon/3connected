@@ -47,6 +47,7 @@ changeOrientation= Change orientation
 # manage
 
 manage.batch = Manage batches
+manage.newsCategory = Manage News Category
 manage.major = Manage majors
 manage.term = Manage terms
 manage.class = Manage classes
