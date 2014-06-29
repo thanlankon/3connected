@@ -1,0 +1,47 @@
+<template id="form.manage-course.course-grade">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-course"}}"></a>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course.manageGrade'}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
+      </li>
+
+      <li class="divider" data-component-group="view">
+      </li>
+
+      <li class="icon edit" id="button-edit-grade" data-component-group="view">
+        <span>{{lang 'grade.editGrade'}}</span>
+      </li>
+
+      <li class="divider" data-component-group="edit">
+      </li>
+
+      <li class="icon edit" id="button-update-grade" data-component-group="edit">
+        <span>{{lang 'grade.updateChanges'}}</span>
+      </li>
+
+      <li class="icon edit" id="button-reject-changes" data-component-group="edit">
+        <span>{{lang 'grade.rejectChanges'}}</span>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-course-grade"></div>
+
+  </div>
+
+</template>

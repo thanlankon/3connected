@@ -35,8 +35,8 @@ define.entity('model.entity.SubjectVersion', function (entity, DataType, require
       as: 'subject'
     });
 
-    this.hasMany('model.entity.Course', {
-      as: 'courses'
+    this.hasMany('model.entity.GradeCategory', {
+      as: 'gradeCategories'
     });
 
   };
