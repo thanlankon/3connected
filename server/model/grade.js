@@ -13,6 +13,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var GradeCategory = require('model.entity.GradeCategory');
   var CourseStudent = require('model.entity.CourseStudent');
   var Entity = require('core.model.Entity');
+  var GradeHistory = require('model.entity.GradeHistory');
 
   model.getCourseGrade = function (courseId, callback) {
 
@@ -82,6 +83,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
             gradeId: grade.gradeId,
             gradeCategoryId: grade.gradecategoryId,
             studentId: grade.studentId,
+            courseId: grade.courseId,
             value: grade.value
           });
         }
@@ -104,15 +106,19 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
   model.updateCourseGrade = function (courseId, gradeData, callback) {
 
+    if (!gradeData || !gradeData.length) {
+      callback(null);
+      return;
+    }
+
     var grades = [];
 
-    for (var i = 0, len = grade.length; i < len; i++) {
-      var grades = {
+    for (var i = 0, len = gradeData.length; i < len; i++) {
+      var grade = {
         gradeId: gradeData[i].gradeId,
         courseId: courseId,
-        studentId: attendanceData[i].studentId,
-        gradeCategoryId: attendanceData[i].gradeCategoryId,
-        value: attendanceData[i].value
+        studentId: gradeData[i].studentId,
+        value: gradeData[i].value
       };
 
       grades.push(grade);
@@ -120,34 +126,78 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
     Entity.transaction(function (transaction) {
 
-      var queryChainer = Entity.queryChainer();
+      var findOrCreateQueryChainer = Entity.queryChainer();
 
       grades.forEach(function (grade) {
-        if (grade.attendanceId) {
-          queryChainer.add(Grade.update({
-            value: grade.value
-          }, {
-            gradeId: grade.gradeId
-          }, {
-            transaction: transaction
-          }));
-        } else {
-          queryChainer.add(Grade.create({
-            courseId: courseId,
-            studentId: attendanceData[i].studentId,
-            gradeCategoryId: attendanceData[i].gradeCategoryId,
-            value: attendanceData[i].value
-          }, {
-            transaction: transaction
-          }));
-        }
+        findOrCreateQueryChainer.add(Grade.findOrCreate({
+          gradeId: attendance.gradeId
+        }, {
+          studentId: grade.studentId,
+          courseId: grade.courseId,
+          gradeCategory: grade.gradeCategoryId,
+          value: grade.value
+        }));
       });
 
-      queryChainer
+      findOrCreateQueryChainer
         .run()
-        .success(function () {
-          transaction.commit();
-          callback(null);
+        .success(function (results) {
+          var updateAndLogHistoryQueryChainer = Entity.queryChainer();
+
+          results.forEach(function (attendance, index) {
+            var gradeData = grades[index];
+
+            if (gradeData.gradeId) {
+              // update grade status and log history
+              // only if value has changed
+              if (gradeData.value != grade.value) {
+                var oldValue = grade.value;
+                var newValue = gradeData.value;
+
+                // update grade status
+                updateAndLogHistoryQueryChainer.add(grade.updateAttributes({
+                  value: newValue
+                }, {
+                  transaction: transaction
+                }));
+
+                // log history
+                updateAndLogHistoryQueryChainer.add(GradeHistory.create({
+                  gradeId: grade.gradeId,
+                  lecturerId: null,
+                  oldValue: oldValue,
+                  newValue: newValue
+                }, {
+                  transaction: transaction
+                }));
+              }
+            } else {
+              var oldValue = null;
+              var newValue = gradeData.value;
+
+              // log history for created grade
+              updateAndLogHistoryQueryChainer.add(GradeHistory.create({
+                gradeId: grade.gradeId,
+                lecturerId: null,
+                oldValue: oldValue,
+                newValue: newValue
+              }, {
+                transaction: transaction
+              }));
+            }
+          });
+
+          updateAndLogHistoryQueryChainer
+            .run()
+            .success(function () {
+              transaction.commit();
+              callback(null);
+            })
+            .error(function (error) {
+              transaction.rollback();
+              callback(error);
+            });
+
         })
         .error(function (errors) {
           transaction.rollback();
