@@ -32,9 +32,10 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       data: null
     };
 
+    var courseId = req.query.courseId;
     var scheduleId = req.query.scheduleId;
 
-    AttendanceModel.getCourseAttendance(scheduleId, function (error, courseAttendance, isNotFound) {
+    AttendanceModel.getCourseAttendance(courseId, scheduleId, function (error, courseAttendance, isNotFound) {
       if (error) {
         serviceResponse.message = 'course.getCourseAttendance.error.unknown';
         serviceResponse.error = error;

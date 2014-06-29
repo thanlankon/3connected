@@ -31,17 +31,27 @@ define.entity = function (id, definer) {
       if (key === 'config' || key === 'static' || key === 'associate') return;
 
       if (value.type == DataType.DATE) {
-        value.get = function () {
-          var date = this.getDataValue(key);
-          //          console.log(id, key, date, ConvertUtil.DateTime.formatDate(date));
-          return ConvertUtil.DateTime.formatDate(date);
-        };
+        if (value.defaultValue === DataType.NOW) {
+          value.get = function () {
+            var date = this.getDataValue(key);
+            return ConvertUtil.DateTime.formatDateFullTime(date);
+          };
 
-        value.set = function (value) {
-          var date = ConvertUtil.DateTime.toMySqlDate(value);
-          //          console.log(id, key, value, date);
-          return this.setDataValue(key, date);
-        };
+          value.set = function (value) {
+            var date = ConvertUtil.DateTime.toMySqlDateTime(value);
+            return this.setDataValue(key, date);
+          };
+        } else {
+          value.get = function () {
+            var date = this.getDataValue(key);
+            return ConvertUtil.DateTime.formatDate(date);
+          };
+
+          value.set = function (value) {
+            var date = ConvertUtil.DateTime.toMySqlDate(value);
+            return this.setDataValue(key, date);
+          };
+        }
       }
 
       if (Util.Object.isFunction(value)) {

@@ -67,13 +67,15 @@ define.component('component.common.DateInput', function (component, require, Uti
       trackingChange.data = true;
 
       if (attr == dataAttribute) {
-        var date = ConvertUtil.DateTime.parseDate(newVal);
-        // convert to UTC
-        //        date = ConvertUtil.DateTime.toUTCDate(date);
+        var dateUTC;
 
-        var dateUTC = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+        if (newVal) {
+          var date = ConvertUtil.DateTime.parseDate(newVal);
 
-        console.log(dateUTC);
+          dateUTC = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+        } else {
+          dateUTC = null;
+        }
 
         dateInput.jqxDateTimeInput('setDate', dateUTC);
       }
