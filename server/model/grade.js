@@ -10,6 +10,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var Grade = require('model.entity.Grade');
   var Student = require('model.entity.Student');
   var Course = require('model.entity.Course');
+  var SubjectVersion = require('model.entity.SubjectVersion');
+  var Subject = require('model.entity.Subject');
   var GradeCategory = require('model.entity.GradeCategory');
   var CourseStudent = require('model.entity.CourseStudent');
   var Entity = require('core.model.Entity');
@@ -19,88 +21,113 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
     var queryChainer = Entity.queryChainer();
 
-    queryChainer
-      .add(Course.find({
-        where: {
-          courseId: courseId
-        },
+    // find the Course
+    Course.find({
+      where: {
+        courseId: courseId
+      },
+      include: [{
+        model: CourseStudent,
+        as: 'courseStudents',
         include: [{
-          model: CourseStudentModel,
-          as: 'courseStudent',
-          include: [{
-            model: StudentModel,
-            as: 'student'
-          }]
+          model: Student,
+          as: 'student'
+        }]
+      }, {
+        model: SubjectVersion,
+        as: 'subjectVersion',
+        include: [{
+          model: Subject,
+          as: 'subject'
         }, {
-          model: SubjectVersionModel,
-          as: 'subjectVersion',
-          include: [{
-            model: SubjectModel,
-            as: 'subject'
-          }, {
-            model: GradeCategoryModel,
-            as: 'gradeCategory'
-          }]
-        }, {
-          model: GradeModel,
-          as: 'grade'
-          }]
-      }));
-
-    queryChainer.run()
-      .success(function (results) {
-        var course = results[0];
-
-        if (schedule == null) {
+          model: GradeCategory,
+          as: 'gradeCategories'
+        }]
+      }]
+    })
+      .success(function (course) {
+        if (course == null) {
           callback(null, null, true);
-
           return;
         }
 
-        // course students
-        var students = [];
-        var courseStudents = course.courseStudents;
-
-        for (var i = 0, len = courseStudents.length; i < len; i++) {
-          var student = courseStudents[i].student;
-
-          students.push({
-            studentId: student.studentId,
-            studentCode: student.studentCode,
-            firstName: student.firstName,
-            lastName: student.lastName
-          });
-        }
-
-        // grade attendances
-        var grade = [];
-        var courseGrades = course.grade;
-
-        for (var i = 0, len = courseGrades.length; i < len; i++) {
-          var grade = courseGrades[i];
-
-          grade.push({
-            gradeId: grade.gradeId,
-            gradeCategoryId: grade.gradecategoryId,
-            studentId: grade.studentId,
-            courseId: grade.courseId,
-            value: grade.value
-          });
-        }
-
-        var isLocked = checkIfGradeIsLocked(schedule.date, schedule.slot);
-
-        var courseGradeData = {
-          students: students,
-          grade: grade,
-          isLocked: isLocked
-        };
-
-        callback(null, courseGradeData, false);
+        // find student's grades of the course
+        getGrade(course)
       })
       .error(function (error) {
         callback(error);
       });
+
+    function getGrade(course) {
+      var gradeCategories = course.subjectVersion.gradeCategories;
+      var students = course.courseStudents;
+
+      var gradeCategoryIds = [];
+      for (var i = 0, len = gradeCategories.length; i < len; i++) {
+        gradeCategoryIds.push(gradeCategories[i].gradeCategoryId);
+      }
+
+      var studentIds = [];
+      for (var i = 0, len = students.length; i < len; i++) {
+        studentIds.push(students[i].studentId);
+      }
+
+      Grade.findAll({
+        where: {
+          gradeCategoryId: gradeCategoryIds,
+          studentId: studentIds
+        }
+      })
+        .success(function (grades) {
+          buildCourseGrade(course, grades);
+        })
+        .error(function (error) {
+          callback(error);
+        });
+
+    }
+
+    function buildCourseGrade(course, grades) {
+
+      // course students
+      var students = [];
+      var courseStudents = course.courseStudents;
+
+      for (var i = 0, len = courseStudents.length; i < len; i++) {
+        var student = courseStudents[i].student;
+
+        students.push({
+          studentId: student.studentId,
+          studentCode: student.studentCode,
+          firstName: student.firstName,
+          lastName: student.lastName
+        });
+      }
+
+      // course grade categories
+      var gradeCategories = [];
+      var courseGradeCategories = course.subjectVersion.gradeCategories;
+
+      for (var i = 0, len = courseGradeCategories.length; i < len; i++) {
+        var gradeCategory = courseGradeCategories[i];
+
+        gradeCategories.push({
+          gradeCategoryId: gradeCategory.gradeCategoryId,
+          gradeCategoryCode: gradeCategory.gradeCategoryCode,
+          gradeCategoryName: gradeCategory.gradeCategoryName,
+          weight: gradeCategory.weight
+        });
+      }
+
+      var courseGrade = {
+        gradeCategories: gradeCategories,
+        students: students,
+        grades: grades
+      };
+
+      callback(null, courseGrade, false);
+
+    }
 
   };
 

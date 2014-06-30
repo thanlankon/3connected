@@ -234,14 +234,28 @@ define('db.Deploy', function (module, require) {
   function seedGradeCategory(queryChainer) {
     var GradeCategory = require('model.entity.GradeCategory');
 
-    //    queryChainer
-    //      .add(
-    //        GradeCategory, 'create', [{
-    //          subjectVersionId: 1,
-    //          gradeCategoryCode: 'PR',
-    //          gradeCategoryName: 'Progress test 1',
-    //          weight: 20
-    //        }])
+    queryChainer
+      .add(
+        GradeCategory, 'create', [{
+          subjectVersionId: 1,
+          gradeCategoryCode: 'PT',
+          gradeCategoryName: 'Progress Test',
+          weight: 20
+        }])
+      .add(
+        GradeCategory, 'create', [{
+          subjectVersionId: 1,
+          gradeCategoryCode: 'PE',
+          gradeCategoryName: 'Practical Exam',
+          weight: 30
+        }])
+      .add(
+        GradeCategory, 'create', [{
+          subjectVersionId: 1,
+          gradeCategoryCode: 'FE',
+          gradeCategoryName: 'Final Exam',
+          weight: 50
+        }])
   }
 
   function seedCourse(queryChainer) {

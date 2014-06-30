@@ -92,3 +92,14 @@ attendance.allAbsent = Absent all
 
 attendance.totalSlots.total = Total
 attendance.totalSlots.slots = slots
+
+# grade
+
+grade.nameCode = {{name}} ({{code}})
+
+grade.editGrade = Edit grade
+grade.updateChanges = Update
+grade.rejectChanges = Cancel
+
+grade.group.student = Student
+grade.group.grade = Grade
