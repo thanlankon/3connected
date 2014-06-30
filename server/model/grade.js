@@ -174,7 +174,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         .success(function (results) {
           var updateAndLogHistoryQueryChainer = Entity.queryChainer();
 
-          results.forEach(function (attendance, index) {
+          results.forEach(function (grade, index) {
             var gradeData = grades[index];
 
             if (gradeData.gradeId) {
@@ -184,7 +184,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
                 var oldValue = grade.value;
                 var newValue = gradeData.value;
 
-                // update grade status
+                // update grade value
                 updateAndLogHistoryQueryChainer.add(grade.updateAttributes({
                   value: newValue
                 }, {
@@ -207,7 +207,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
               // log history for created grade
               updateAndLogHistoryQueryChainer.add(GradeHistory.create({
-                gradeId: null,
+                gradeId: grade.gradeId,
                 lecturerId: null,
                 oldValue: oldValue,
                 newValue: newValue
