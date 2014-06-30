@@ -63,8 +63,7 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     };
 
     var courseId = req.body.courseId;
-    var courseData = req.body.courseData;
-
+    var gradeData = req.body.gradeData;
     GradeModel.updateCourseGrade(courseId, gradeData, function (error) {
       if (error) {
         serviceResponse.message = 'grade.updateCourseGrade.error.unknown';

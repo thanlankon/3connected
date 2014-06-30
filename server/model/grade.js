@@ -146,7 +146,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         gradeId: gradeData[i].gradeId,
         courseId: courseId,
         studentId: gradeData[i].studentId,
-        value: gradeData[i].value
+        value: gradeData[i].value,
+        gradeCategoryId: gradeData[i].gradeCategoryId
       };
 
       grades.push(grade);
@@ -158,13 +159,14 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       grades.forEach(function (grade) {
         findOrCreateQueryChainer.add(Grade.findOrCreate({
-          gradeId: attendance.gradeId
+          gradeId: grade.gradeId
         }, {
+          gradeCategoryId: grade.gradeCategoryId,
           studentId: grade.studentId,
           courseId: grade.courseId,
-          gradeCategory: grade.gradeCategoryId,
           value: grade.value
         }));
+
       });
 
       findOrCreateQueryChainer
@@ -205,7 +207,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
               // log history for created grade
               updateAndLogHistoryQueryChainer.add(GradeHistory.create({
-                gradeId: grade.gradeId,
+                gradeId: null,
                 lecturerId: null,
                 oldValue: oldValue,
                 newValue: newValue

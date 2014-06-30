@@ -95,7 +95,6 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
     var gradeData = this.gridGrade.getGradeData();
 
     console.log(gradeData);
-    return;
 
     if (!gradeData.length) return;
 
@@ -108,7 +107,7 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
 
     GradeProxy.updateCourseGrade(data, this.proxy(updateCourseGradeDone));
 
-    function updateCourseGrade(serviceResponse) {
+    function updateCourseGradeDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
       this.refreshGrade();

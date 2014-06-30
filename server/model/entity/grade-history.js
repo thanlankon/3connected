@@ -25,7 +25,7 @@ define.entity('model.entity.GradeHistory', function (entity, DataType, require) 
 
   entity.gradeId = {
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
 
     // reference to Grade
     references: 'Grade',
