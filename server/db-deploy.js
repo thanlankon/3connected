@@ -44,46 +44,58 @@ define('db.Deploy', function (module, require) {
   function seedBatch(queryChainer) {
     var Batch = require('model.entity.Batch');
 
-    for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Batch, 'create', [{
-            batchName: 'Khóa ' + i + ' A'
+            batchName: 'Khóa 6C'
           }])
         .add(
           Batch, 'create', [{
-            batchName: 'Khóa ' + i + ' B'
+            batchName: 'Khóa 7B'
           }])
         .add(
           Batch, 'create', [{
-            batchName: 'Khóa ' + i + ' C'
+            batchName: 'Khóa 7C'
           }])
-    }
   }
 
   function seedTerm(queryChainer) {
     var Term = require('model.entity.Term');
 
-    for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Term, 'create', [{
-            termName: 'Spring ' + i
+            termName: 'Spring 2014'
           }])
-    }
+        .add(
+          Term, 'create', [{
+            termName: 'Summer 2014'
+          }])
+        .add(
+          Term, 'create', [{
+            termName: 'Fall 2014'
+          }])
   }
 
   function seedMajor(queryChainer) {
     var Major = require('model.entity.Major');
 
-    for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Major, 'create', [{
-            majorName: 'Major ' + i,
-            batchId: i
+            majorName: 'Software Engineering',
+            batchId: 1
           }])
-    }
+        .add(
+          Major, 'create', [{
+            majorName: 'Financial Banking',
+            batchId: 1
+          }])
+        .add(
+          Major, 'create', [{
+            majorName: 'Business Administration',
+            batchId: 1
+          }])
   }
 
   function seedDepartment(queryChainer) {
@@ -102,63 +114,42 @@ define('db.Deploy', function (module, require) {
   function seedClass(queryChainer) {
     var Class = require('model.entity.Class');
 
-    for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Class, 'create', [{
-            className: 'SE' + i,
+            className: 'SE0601',
             batchId: 1,
             majorId: 1
           }])
-        .add(
-          Class, 'create', [{
-            className: 'PC' + i,
-            batchId: 1,
-            majorId: 1
-          }])
-    }
   }
 
   function seedStudent(queryChainer) {
     var Student = require('model.entity.Student');
     var ConvertUtil = require('core.util.ConvertUtil');
 
-    for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Student, 'create', [{
-            studentCode: 'SE01' + i,
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
+            studentCode: 'SE90059',
+            firstName: 'Thành',
+            lastName: 'Võ Minh',
             classId: 1,
             gender: 1,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 9, 27)),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 6, 29)),
+            address: 'Đà Nẵng',
+            email: 'thanhvmse90059@fpt.edu.vn'
           }])
         .add(
           Student, 'create', [{
-            studentCode: 'SE02' + i,
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
+            studentCode: 'SE90075',
+            firstName: 'Dung',
+            lastName: 'Nguyễn Vương Hoàng',
             classId: 1,
             gender: 2,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1991, 3, 16)),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
+            address: 'Hội An',
+            email: 'dungnvhse90075@fpt.edu.vn'
           }])
-        .add(
-          Student, 'create', [{
-            studentCode: 'SE03' + i,
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            classId: 1,
-            gender: 0,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1991, 3, 16)),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
-          }])
-    }
   }
 
   function seedStaff(queryChainer) {
@@ -203,15 +194,13 @@ define('db.Deploy', function (module, require) {
   function seedSubject(queryChainer) {
     var Subject = require('model.entity.Subject');
 
-    for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Subject, 'create', [{
-            subjectCode: 'SJC' + i,
-            subjectName: 'Subject name ' + i,
-            numberOfCredits: i
+            subjectCode: 'PRC391',
+            subjectName: 'Cloud Computing',
+            numberOfCredits: 3
           }])
-    }
   }
 
   function seedSubjectVersion(queryChainer) {
@@ -221,13 +210,13 @@ define('db.Deploy', function (module, require) {
       .add(
         SubjectVersion, 'create', [{
           subjectId: 1,
-          description: 'Test subject version'
+          description: 'Ver 1.0'
         }])
     queryChainer
       .add(
         SubjectVersion, 'create', [{
           subjectId: 1,
-          description: 'Test subject version 2'
+          description: 'Ver 1.1'
         }])
   }
 
@@ -268,7 +257,7 @@ define('db.Deploy', function (module, require) {
           termId: 1,
           majorId: 1,
           classId: 1,
-          courseName: 'abc',
+          courseName: 'PRC391 - SE0601',
           numberOfCredits: 1
         }])
   }
@@ -324,14 +313,12 @@ define('db.Deploy', function (module, require) {
   function seedCourseStudent(queryChainer) {
     var CourseStudent = require('model.entity.CourseStudent');
 
-    for (var i = 1; i <= 3; i++) {
       queryChainer
         .add(
           CourseStudent, 'create', [{
             courseId: 1,
-            studentId: i
+            studentId: 1
           }])
-    }
   }
 
   function deploySchema(callback) {
