@@ -156,6 +156,8 @@ define.component('component.common.GradeGrid', function (component, require, Uti
     var source = this.generateSource(gradeData);
     var columns = this.getGridColumns(gradeData ? gradeData.gradeCategories : undefined);
 
+    console.log(columns);
+
     this.element.jqxGrid({
       source: source,
       columns: columns,
@@ -203,13 +205,13 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       for (var i = 0, len = grades.length; i < len; i++) {
         var grade = grades[i];
 
+        var gradeCategoryCode = gradeCategoryIdCodeMaps[grade.gradeCategoryId];
+
         // skip grade not in the null grade list
         if (
           originalGrades[grade.studentId] === undefined ||
-          originalGrades[grade.studentId][grade.gradeCategoryCode] === undefined
+          originalGrades[grade.studentId][gradeCategoryCode] === undefined
         ) continue;
-
-        var gradeCategoryCode = gradeCategoryIdCodeMaps[grade.gradeCategoryId];
 
         originalGrades[grade.studentId][gradeCategoryCode] = {
           gradeCategoryId: grade.gradeCategoryId,
@@ -235,8 +237,10 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           var gradeCategory = gradeCategories[j];
 
           var value = originalGrades[student.studentId][gradeCategory.gradeCategoryCode].value;
-          item[gradeCategory.gradeCategoryCode] = value;
+          item['gradeCategory.' + gradeCategory.gradeCategoryCode] = value;
         };
+
+        console.log(item);
 
         sourceData.push(item);
       }
