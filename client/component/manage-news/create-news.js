@@ -14,6 +14,24 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
   form.formType = form.FormType.FORM;
 
+  form.initData = function () {
+
+    var componentSettings = {
+      categoryIds: {
+        localDataAttribute: 'categories',
+        combobox: {
+          valueMember: 'categoryId',
+          displayMember: 'categoryName'
+        }
+      }
+    };
+
+    this.data.attr({
+      componentSettings: componentSettings
+    });
+
+  };
+
   form.initForm = function () {
     this.element.on('visible', this.proxy(this.initEditor));
   };
@@ -32,11 +50,11 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
   form.resizeEditor = function () {
     var ckeditor = this.element.find('#news-editor').ckeditorGet();
-    var ckeditorWrapper = this.element.find('#editor-wrapper');
+    var ckeditorWrapper = this.element.find('.news-editor-wrapper td');
 
     var editorHeight = ckeditorWrapper.height();
 
-    ckeditor.resize('100%', editorHeight);
+    ckeditor.resize('100%', editorHeight - 10);
   };
 
 });

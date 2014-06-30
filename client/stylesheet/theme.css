@@ -102,3 +102,13 @@
 .jqx-splitter-metro {
   border: none;
 }
+/* ckeditor */
+.cke_chrome {
+  box-shadow: none !important;
+}
+.cke_bottom {
+  background: #fff !important;
+}
+.cke_bottom .cke_path_item {
+  color: #000;
+}
