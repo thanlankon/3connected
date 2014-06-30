@@ -41,7 +41,7 @@ define.entity('model.entity.Grade', function (entity, DataType, require) {
 
     unique: 'grade',
 
-    // reference to GradeCategory
+    // reference to Course
     references: 'Course',
     referencesKey: 'courseId'
   };
