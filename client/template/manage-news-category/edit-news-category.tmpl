@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
   <template id="dialog.manage-newsCategory.edit-newsCategory">
 
@@ -24,3 +25,31 @@
   </div>
 
 </template>
+=======
+
+  <template id="dialog.manage-newsCategory.edit-newsCategory">
+
+  {{dialog.size width="500px" height="230px"}}
+
+  <div class="header">
+    {{lang "newsCategory.edit"}} <b>{{originalData.newsCategoryName}}</b>
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "newsCategory.newsCategoryName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="newsCategoryName"}}
+    </div>
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>
+>>>>>>> 3connected/master
