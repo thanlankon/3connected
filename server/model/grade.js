@@ -75,7 +75,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       Grade.findAll({
         where: {
           gradeCategoryId: gradeCategoryIds,
-          studentId: studentIds
+          studentId: studentIds,
+          courseId: courseId
         }
       })
         .success(function (grades) {

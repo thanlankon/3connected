@@ -35,6 +35,17 @@ define.entity('model.entity.Grade', function (entity, DataType, require) {
     referencesKey: 'gradeCategoryId'
   };
 
+  entity.courseId = {
+    type: DataType.INTEGER,
+    allowNull: false,
+
+    unique: 'grade',
+
+    // reference to GradeCategory
+    references: 'Course',
+    referencesKey: 'courseId'
+  };
+
   entity.value = {
     type: DataType.INTEGER,
     allowNull: true
@@ -54,6 +65,9 @@ define.entity('model.entity.Grade', function (entity, DataType, require) {
       as: 'gradeCategory'
     });
 
+    this.belongsTo('model.entity.Course', {
+      as: 'course'
+    });
   };
 
 });
