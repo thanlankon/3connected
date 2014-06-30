@@ -1,7 +1,9 @@
 define.component('component.common.GradeGrid', function (component, require, Util, Lang, jQuery) {
 
   // grid columns
-  component.getGridColumns = function (gradeCategories) {
+  component.getGridColumns = function () {
+
+    var gradeCategories = this.gradeCategories || [];
 
     var gridColumns = [{
       text: Lang.get('attendance.student.studentCode'),
@@ -30,46 +32,44 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       editable: false,
     }];
 
-    if (gradeCategories) {
+    for (var i = 0, len = gradeCategories.length; i < len; i++) {
+      var gradeCategory = gradeCategories[i];
 
-      for (var i = 0, len = gradeCategories.length; i < len; i++) {
-        var gradeCategory = gradeCategories[i];
+      var column = {
+        text: Lang.get('grade.nameCode', {
+          name: gradeCategory.gradeCategoryName,
+          code: gradeCategory.gradeCategoryCode
+        }),
+        dataField: 'gradeCategory.' + gradeCategory.gradeCategoryCode,
+        //          columnGroup: 'grade',
 
-        var column = {
-          text: Lang.get('grade.nameCode', {
-            name: gradeCategory.gradeCategoryName,
-            code: gradeCategory.gradeCategoryCode
-          }),
-          dataField: 'gradeCategory.' + gradeCategory.gradeCategoryCode,
-          //          columnGroup: 'grade',
+        filterType: 'textbox',
+        editable: true,
 
-          filterType: 'textbox',
-          editable: true,
+        type: 'number',
 
-          type: 'number',
-
-          validation: function (cell, value) {
-            if (value != null && (value < 0 || value > 10)) {
-              return {
-                result: false,
-                message: "Quantity should be in the 0-10 interval"
-              };
-            }
-
-            return true;
+        validation: function (cell, value) {
+          if (value != null && (value < 0 || value > 10)) {
+            return {
+              result: false,
+              message: "Quantity should be in the 0-10 interval"
+            };
           }
-        };
 
-        gridColumns.push(column);
-      }
+          return true;
+        }
+      };
 
+      gridColumns.push(column);
     }
 
     return gridColumns;
 
   };
 
-  component.getGridDataFields = function (gradeCategories) {
+  component.getGridDataFields = function () {
+
+    var gradeCategories = this.gradeCategories || [];
 
     var gridDataFields = [{
       name: 'studentId',
@@ -85,17 +85,15 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       type: 'string'
     }];
 
-    if (gradeCategories) {
-      for (var i = 0, len = gradeCategories.length; i < len; i++) {
-        var gradeCategory = gradeCategories[i];
+    for (var i = 0, len = gradeCategories.length; i < len; i++) {
+      var gradeCategory = gradeCategories[i];
 
-        var field = {
-          name: 'gradeCategory.' + gradeCategory.gradeCategoryCode,
-          type: 'number'
-        };
+      var field = {
+        name: 'gradeCategory.' + gradeCategory.gradeCategoryCode,
+        type: 'number'
+      };
 
-        gridDataFields.push(field);
-      }
+      gridDataFields.push(field);
     }
 
     return gridDataFields;
@@ -153,10 +151,10 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
   component.refreshData = function (gradeData) {
 
-    var source = this.generateSource(gradeData);
-    var columns = this.getGridColumns(gradeData ? gradeData.gradeCategories : undefined);
+    this.gradeCategories = gradeData ? gradeData.gradeCategories : undefined;
 
-    console.log(columns);
+    var source = this.generateSource(gradeData);
+    var columns = this.getGridColumns();
 
     this.element.jqxGrid({
       source: source,
@@ -170,7 +168,8 @@ define.component('component.common.GradeGrid', function (component, require, Uti
     var dataFields;
 
     if (gradeData) {
-      var gradeCategories = gradeData.gradeCategories || [];
+      var gradeCategories = this.gradeCategories || [];
+
       var students = gradeData.students || [];
       var grades = gradeData.grades || [];
 
@@ -185,7 +184,7 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       }
 
       // build original grades
-      var originalGrades = {};
+      var originalGrades = this.originalGrades = {};
 
       for (var i = 0, studentLen = students.length; i < studentLen; i++) {
         var student = students[i];
@@ -195,6 +194,7 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           var gradeCategory = gradeCategories[j];
 
           studentGrade[gradeCategory.gradeCategoryCode] = {
+            gradeId: null,
             gradeCategoryId: null,
             value: null
           };
@@ -214,12 +214,11 @@ define.component('component.common.GradeGrid', function (component, require, Uti
         ) continue;
 
         originalGrades[grade.studentId][gradeCategoryCode] = {
+          gradeId: grade.gradeId,
           gradeCategoryId: grade.gradeCategoryId,
           value: grade.value
         };
       };
-
-      console.log(originalGrades);
 
       // generate source
 
@@ -239,8 +238,6 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           var value = originalGrades[student.studentId][gradeCategory.gradeCategoryCode].value;
           item['gradeCategory.' + gradeCategory.gradeCategoryCode] = value;
         };
-
-        console.log(item);
 
         sourceData.push(item);
       }
@@ -262,9 +259,52 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
   component.setEditable = function (editable) {
     this.isGridEditable = editable;
+
+    this.element.jqxGrid({
+      editable: editable,
+      selectionMode: 'multipleCellsAdvanced'
+    });
   };
 
   component.getGradeData = function () {
+
+    var gradeData = [];
+
+    var gradeCategories = this.gradeCategories || [];
+
+    if (!gradeCategories.length) return gradeData;
+
+    var gridRows = this.element.jqxGrid('getdisplayrows');
+
+    for (var i = 0, len = gridRows.length; i < len; i++) {
+      var row = gridRows[i];
+      var studentId = row.studentId;
+      var originalData = this.originalGrades[studentId];
+
+      // skip empty row
+      if (!row || !originalData) continue;
+
+      for (var j = 0, gradeCategoryLen = gradeCategories.length; j < gradeCategoryLen; j++) {
+        var gradeCategory = gradeCategories[j];
+
+        var gradeCategoryCode = gradeCategory.gradeCategoryCode;
+        var value = row['gradeCategory.' + gradeCategoryCode];
+
+        // skip unchanged data
+        if (originalData && originalData[gradeCategoryCode].value === value) continue;
+
+        var item = {
+          gradeId: originalData[gradeCategoryCode].gradeId,
+          gradeCategoryId: gradeCategory.gradeCategoryId,
+          studentId: studentId,
+          value: value
+        };
+
+        gradeData.push(item);
+      }
+    }
+
+    return gradeData;
 
   };
 

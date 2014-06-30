@@ -89,28 +89,31 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
 
   };
 
-  //  form.updateAttendance = function () {
-  //
-  //    var scheduleId = this.scheduleId;
-  //    var attendanceData = this.gridAttendance.getAttendanceData();
-  //
-  //    if (!attendanceData.length) return;
-  //
-  //    var AttendanceProxy = require('proxy.Attendance');
-  //
-  //    var data = {
-  //      scheduleId: scheduleId,
-  //      attendanceData: attendanceData
-  //    };
-  //
-  //    AttendanceProxy.updateCourseAttendance(data, this.proxy(updateCourseAttendanceDone));
-  //
-  //    function updateCourseAttendanceDone(serviceResponse) {
-  //      if (serviceResponse.hasError()) return;
-  //
-  //      this.refreshAttendance();
-  //    }
-  //  };
+  form.updateGrade = function () {
+
+    var courseId = this.courseId;
+    var gradeData = this.gridGrade.getGradeData();
+
+    console.log(gradeData);
+    return;
+
+    if (!gradeData.length) return;
+
+    var GradeProxy = require('proxy.Grade');
+
+    var data = {
+      courseId: courseId,
+      gradeData: gradeData
+    };
+
+    GradeProxy.updateCourseGrade(data, this.proxy(updateCourseGradeDone));
+
+    function updateCourseGrade(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      this.refreshGrade();
+    }
+  };
 
   form.editGrade = function () {
     this.switchToEditMode();
