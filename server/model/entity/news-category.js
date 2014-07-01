@@ -27,8 +27,9 @@ define.entity('model.entity.NewsCategory', function (entity, DataType, require) 
 
   entity.associate = function () {
 
-    this.hasMany('model.entity.NewsCategory', {
-      as: 'parentCategory'
+    this.belongsTo('model.entity.NewsCategory', {
+      as: 'parentCategory',
+      foreignKey: 'parentCategoryId'
     });
 
   };
