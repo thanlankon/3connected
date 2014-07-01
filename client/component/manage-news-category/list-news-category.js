@@ -37,6 +37,12 @@ define.form('component.form.manage-newsCategory.ListNewsCategory', function (for
     }, {
       text: Lang.get('newsCategory.newsCategoryName'),
       dataField: 'newsCategoryName',
+    }, {
+      text: Lang.get('newsCategory.parentCategoryId'),
+      dataField: 'parentCategoryId',
+    }, {
+      text: Lang.get('newsCategory.parentCategoryName'),
+      dataField: 'parentCategoryName',
     }];
 
     var gridConfig = {

@@ -4,4 +4,5 @@ define.model('model.NewsCategory', function (model, ModelUtil, require) {
 
   model.Entity = NewsCategory;
 
+
 });

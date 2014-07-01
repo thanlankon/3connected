@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 <template id="dialog.manage-newsCategory.create-newsCategory">
 
-  {{dialog.size width="500px" height="200px"}}
+  {{dialog.size width="500px" height="250px"}}
 
   <div class="header">
     {{lang "newsCategory.create"}}
@@ -16,31 +15,11 @@
       {{component.input attribute="newsCategoryName"}}
     </div>
 
-  </div>
-
-  <div class="footer">
-    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
-
-    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
-  </div>
-
-</template>
-=======
-<template id="dialog.manage-newsCategory.create-newsCategory">
-
-  {{dialog.size width="500px" height="200px"}}
-
-  <div class="header">
-    {{lang "newsCategory.create"}}
-  </div>
-
-  <div class="content">
-
     <div class="label">
-      {{lang "newsCategory.newsCategoryName"}}:
+      {{lang "newsCategory.parentCategoryName"}}:
     </div>
     <div class="data input">
-      {{component.input attribute="newsCategoryName"}}
+      {{component.combobox attribute="parentCategoryId"}}
     </div>
 
   </div>
@@ -52,4 +31,3 @@
   </div>
 
 </template>
->>>>>>> 3connected/master

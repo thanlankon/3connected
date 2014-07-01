@@ -21,6 +21,15 @@ define.proxy('proxy.NewsCategory', function (proxy, require) {
     {
       name: 'newsCategoryName',
       type: 'string'
+    },
+    {
+      name: 'parentCategoryId',
+      type: 'string'
+    },
+    {
+      name: 'parentCategoryName',
+      type: 'string',
+      map: 'parentCategory.newsCategoryName'
     }
   ];
 

@@ -3,7 +3,14 @@ define.service('service.NewsCategory', function (service, require, ServiceUtil, 
   var NewsCategoryModel = require('model.NewsCategory');
 
   service.map = {
-    url: '/newsCategory'
+    url: '/newsCategory',
+
+    methods: {
+      getCourseAttendance: {
+        url: '/getNewsCategory',
+        httpMethod: 'GET'
+      }
+    }
   };
 
   service.Model = NewsCategoryModel;
@@ -16,16 +23,44 @@ define.service('service.NewsCategory', function (service, require, ServiceUtil, 
       displayAttribute: 'newsCategoryName'
     },
 
+    findAll: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: NewsCategoryModel,
+          as: 'parentCategory'
+        }];
+      }
+    },
+
+    findOne: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: NewsCategoryModel,
+          as: 'parentCategory'
+        }];
+      }
+    },
+
     create: {
-      attributes: ['newsCategoryName'],
+      attributes: ['newsCategoryName', 'parentCategoryId'],
       checkDuplicatedAttributes: ['newsCategoryName']
     },
 
     update: {
-      attributes: ['newsCategoryName'],
+      attributes: ['newsCategoryName', 'parentCategoryId'],
       checkExistanceAttributes: ['newsCategoryId'],
       checkDuplicatedAttributes: ['newsCategoryName']
     }
-  }
+  };
+
+  service.getNewsCategory = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+  };
 
 });
