@@ -58,7 +58,7 @@ manage.student = Manage students
 manage.staff = Manage Staff
 manage.subjectVersion = Manage subject versions
 manage.gradeCategory = Manage grade category
-
+manage.account = Manager account
 # entity
 
 entity.findOne.notFound = {{entityName}} not found

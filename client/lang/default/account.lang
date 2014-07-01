@@ -1,0 +1,20 @@
+# attribute name
+
+account = Batch
+
+account.accountId = Account Id
+account.username = Username
+account.password = Password
+account.role =  Role
+account.userInformationId = User information Id
+account.isActive = IsActive
+account.effectiveDate = Effective Date
+account.expireDate = Expire Date
+
+
+# button
+
+account.create = Create account
+account.view = View account details
+account.edit = Edit account
+account.delete = Delete accountes

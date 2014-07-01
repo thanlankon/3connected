@@ -1,0 +1,36 @@
+<template id="form.manage-account.list-account">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-account" action="create"}}">{{lang "account.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
+        <a href="{{url module="manage-account" action="edit"}}">{{lang "account.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
+        <a href="#">{{lang "account.delete"}}</a>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-accountes" data-component-role="grid"></div>
+
+  </div>
+
+</template>
