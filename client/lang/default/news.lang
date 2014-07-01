@@ -1,0 +1,11 @@
+# attribute
+
+news.title = Title
+news.categories = Categories
+news.attachments = Attachments
+
+# components
+
+news.save = Save
+news.addAttachments = Add attachments
+news.removeAttachments = Remove attachments

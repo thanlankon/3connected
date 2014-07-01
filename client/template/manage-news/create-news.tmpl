@@ -4,31 +4,59 @@
     <ul>
       <li class="icon back">
       </li>
+
+      <li class="icon save">
+        <span>{{lang "news.save"}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon attachment add" id="button-add-attachments">
+        <span>{{lang "news.addAttachments"}}</span>
+      </li>
+      <li class="icon attachment remove">
+        <span>{{lang "news.removeAttachments"}}</span>
+      </li>
     </ul>
   </div>
 
-  <div class="content create-news-form">
+  <div class="content">
 
-    <table>
-      <tr class="news-info">
-        <td class="label">Title:</td>
-        <td class="component">
-          {{component.input attribute="title" width="100%" height="30px"}}
-        </td>
-      </tr>
-      <tr class="news-info">
-        <td class="label">Categories:</td>
-        <td class="component">
-          {{component.combobox attribute="categoryIds" width="100%" height="30px" inlineSelection="true"}}
-        </td>
-      </tr>
-      <tr class="news-editor-wrapper">
-        <td colspan="2">
-          <textarea cols="80" rows="10" id="news-editor">
-          </textarea>
-        </td>
-      </tr>
-    </table>
+    <div id="splitter" class="news-editor-form">
+      <div class="news-info">
+        <div class="form-content">
+          <div class="label">
+            {{lang "news.title"}}:
+          </div>
+          <div class="data input">
+            {{component.input attribute="title" height="25px" }}
+          </div>
+          <div class="label">
+            {{lang "news.categories"}}:
+          </div>
+          <div class="data combobox">
+            {{component.combobox attribute="categoryIds" height="25px" inlineSelection="true"}}
+          </div>
+
+          <div class="label">
+            {{lang "news.attachments"}}:
+          </div>
+          <div class="data">
+            <div id="attachments">
+            </div>
+          </div>
+
+          <div class="hidden">
+            <input type="file" id="input-attachments" multiple />
+          </div>
+        </div>
+      </div>
+      <div class="news-editor-wrapper">
+        <textarea cols="80" rows="10" id="news-editor">
+        </textarea>
+      </div>
+    </div>
 
   </div>
 

@@ -164,3 +164,12 @@
 .form .toolbar li.icon.orientation {
   background-image: url("/resource/resource/img/common/orientation.png");
 }
+.form .toolbar li.icon.save {
+  background-image: url("/resource/resource/img/common/save.png");
+}
+.form .toolbar li.icon.attachment.add {
+  background-image: url("/resource/resource/img/common/attachment-add.png");
+}
+.form .toolbar li.icon.attachment.remove {
+  background-image: url("/resource/resource/img/common/attachment-remove.png");
+}
