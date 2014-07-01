@@ -4,6 +4,8 @@ newsCategory = NewsCategory
 
 newsCategory.newsCategoryId = News Category Id
 newsCategory.newsCategoryName = News Category name
+newsCategory.parentCategoryId = Parent Category Id
+newsCategory.parentCategoryName = Parent Category Name
 
 # button
 

@@ -12,16 +12,25 @@ define.entity('model.entity.NewsCategory', function (entity, DataType, require) 
     unique: true
   };
 
+  entity.parentCategoryId = {
+    type: DataType.INTEGER,
+    allowNull: true,
+
+    // reference to news category
+    references: 'NewsCategory',
+    referencesKey: 'newsCategoryId'
+  };
+
   entity.config = {
     table: 'NewsCategory'
   };
 
-//  entity.associate = function () {
-//
-//    this.hasMany('model.entity.Class', {
-//      as: 'classes'
-//    });
-//
-//  };
+  entity.associate = function () {
+
+    this.hasMany('model.entity.NewsCategory', {
+      as: 'parentCategory'
+    });
+
+  };
 
 });

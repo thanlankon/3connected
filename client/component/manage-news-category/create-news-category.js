@@ -23,4 +23,24 @@ define.form('component.dialog.manage-newsCategory.NewsCategory', function (form,
 
   // the validation rules used by form
   form.validateRules = require('validator.rule.NewsCategory');
+
+  // init form data
+  form.initData = function () {
+
+    var componentSettings = {
+      parentCategoryId: {
+        ServiceProxy: require('proxy.NewsCategory'),
+        combobox: {
+          valueMember: 'newsCategoryId',
+          displayMember: 'newsCategoryName'
+        }
+      }
+    };
+
+    var data = {
+      componentSettings: componentSettings
+    };
+
+    this.data.attr(data);
+  };
 });

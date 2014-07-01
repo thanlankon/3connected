@@ -1,6 +1,6 @@
 <template id="dialog.manage-newsCategory.create-newsCategory">
 
-  {{dialog.size width="500px" height="200px"}}
+  {{dialog.size width="500px" height="250px"}}
 
   <div class="header">
     {{lang "newsCategory.create"}}
@@ -15,10 +15,17 @@
       {{component.input attribute="newsCategoryName"}}
     </div>
 
+    <div class="label">
+      {{lang "newsCategory.parentCategoryName"}}:
+    </div>
+    <div class="data input">
+      {{component.combobox attribute="parentCategoryId"}}
+    </div>
+
   </div>
 
   <div class="footer">
-    <spa  n type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
 
     <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
   </div>
