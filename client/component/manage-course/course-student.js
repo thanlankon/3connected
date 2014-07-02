@@ -186,7 +186,7 @@ define.form('component.form.manage-course.CourseStudent', function (form, requir
     // handle click for Change direction button
     this.element.find('#button-change-orientation').click(this.proxy(toggleSplitterOrientation));
 
-    toggleSplitterOrientation();
+    toggleSplitterOrientation.apply(this);
 
     function doAddStudents() {
       var studentIds = this.gridStudents.getSelectedIds();
@@ -251,6 +251,9 @@ define.form('component.form.manage-course.CourseStudent', function (form, requir
       }
 
       $(window).trigger('resize');
+
+      this.gridStudents.refreshSize();
+      this.gridCourseStudents.refreshSize();
 
     }
 

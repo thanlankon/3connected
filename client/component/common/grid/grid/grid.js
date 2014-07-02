@@ -454,4 +454,11 @@ define.component('component.common.Grid', function (component, require, Util, La
     return selectedIds;
   };
 
+  component.refreshSize = function() {
+    this.element.jqxGrid({
+      width: '100%',
+      height: '100%'
+    });
+  };
+
 });
