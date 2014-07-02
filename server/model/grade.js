@@ -17,6 +17,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var Entity = require('core.model.Entity');
   var GradeHistory = require('model.entity.GradeHistory');
 
+  model.Entity = Grade;
+
   model.getCourseGrade = function (courseId, callback) {
 
     var queryChainer = Entity.queryChainer();

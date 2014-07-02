@@ -6,13 +6,17 @@
  */
 define.service('service.GradeHistory', function (service, require, ServiceUtil, Util) {
 
-  var GradeHistoryModel = require('model.GradeHistory');
+  var GradeModel = require('model.Grade');
+  var GradeHistotyModel = require('model.GradeHistory');
+  var CourseModel = require('model.Course');
+  var TermModel = require('model.Term');
+  var MajorModel = require('model.Major');
 
   service.map = {
     url: '/gradeHistory'
   };
 
-  service.Model = GradeHistoryModel;
+  service.Model = GradeHistotyModel;
 
   service.methodConfig = {
     idAttribute: 'gradeHistoryId',
@@ -20,6 +24,26 @@ define.service('service.GradeHistory', function (service, require, ServiceUtil, 
     message: {
       entityName: 'gradeHistory',
       displayAttribute: 'gradeHistory'
+    },
+
+    findAll: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: GradeModel,
+          as: 'grade',
+          include: [{
+            model: CourseModel,
+            as: 'course',
+            include: [{
+              model: TermModel,
+              as: 'term'
+              }, {
+              model: MajorModel,
+              as: 'major'
+              }]
+            }]
+        }];
+      }
     }
   }
 

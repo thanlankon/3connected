@@ -1,0 +1,15 @@
+# attribute name
+
+term = Term
+
+attendanceHistory.attendanceHistoryId  = Attendance history id
+attendanceHistory.oldValue = Old value
+attendanceHistory.newValue = New value
+attendanceHistory.time = Date logs
+attendanceHistory.attendanceId = Attendance Id
+attendanceHistory.staffId = Staff Id
+attendanceHistory.date = Attendace Date
+attendanceHistory.slot = Attendance slot
+attendanceHistory.termName = Term name
+attendanceHistory.majorName = Major name
+attendanceHistory.courseName = Course name

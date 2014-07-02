@@ -59,6 +59,10 @@ manage.staff = Manage Staff
 manage.subjectVersion = Manage subject versions
 manage.gradeCategory = Manage grade category
 manage.account = Manager account
+view.logsAttendance = View logs attendance
+view.logsGrade = View logs grade
+
+
 # entity
 
 entity.findOne.notFound = {{entityName}} not found

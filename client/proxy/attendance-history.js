@@ -23,36 +23,43 @@ define.proxy('proxy.AttendanceHistory', function (proxy, require) {
       type: 'number'
     },
     {
-      name: 'newsValue',
+      name: 'newValue',
       type: 'number'
     },
- //    {
- //      name: 'time',
- //      type: 'number'
- //    },
- //    {
- //      name: 'attendanceId',
- //      type: 'number'
- //    },
- //    {
- //      name: 'staffId',
- //      type: 'number'
- //    },
- //    {
- //      name: 'scheduleId',
- //      type: 'number',
- //      map: 'attendance.schedule.scheduleId'
- //    },
- //    {
- //      name: 'date',
- //      type: 'number',
- //      map: 'attendance.schedule.date'
- //    },
- //    {
- //      name: 'slot',
- //      type: 'number',
- //      map: 'attendance.schedule.slot'
- //    }
+    {
+      name: 'time',
+      type: 'string'
+    }, {
+      name: 'attendanceId',
+      type: 'number'
+    }, {
+      name: 'staffId',
+      type: 'number'
+    }, {
+      name: 'scheduleId',
+      type: 'number',
+      map: 'attendance.schedule.scheduleId'
+    }, {
+      name: 'date',
+      type: 'number',
+      map: 'attendance.schedule.date'
+    }, {
+      name: 'slot',
+      type: 'number',
+      map: 'attendance.schedule.slot'
+    }, {
+      name: 'courseName',
+      type: 'number',
+      map: 'attendance.schedule.course.courseName'
+    }, {
+      name: 'termName',
+      type: 'number',
+      map: 'attendance.schedule.course.term.termName'
+    }, {
+      name: 'majorName',
+      type: 'number',
+      map: 'attendance.schedule.course.major.majorName'
+    }
   ];
 
 });

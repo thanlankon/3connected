@@ -1,0 +1,14 @@
+# attribute name
+
+term = Term
+
+gradeHistory.gradeHistoryId  = Grade history id
+gradeHistory.oldValue = Old value
+gradeHistory.newValue = New value
+gradeHistory.time = Date logs
+gradeHistory.gradeId = Grade Id
+gradeHistory.staffId = Staff Id
+gradeHistory.courseId = Course Id
+gradeHistory.courseName = Course name
+gradeHistory.termName = Term name
+gradeHistory.majorName = Major name

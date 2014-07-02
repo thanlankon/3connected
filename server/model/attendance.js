@@ -10,6 +10,8 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
 
   var AttendanceStatus = require('enum.Attendance');
 
+  model.Entity = Attendance;
+
   model.getCourseAttendance = function (courseId, scheduleId, callback) {
 
     var queryChainer = Entity.queryChainer();
