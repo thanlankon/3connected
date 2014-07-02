@@ -185,6 +185,8 @@ define.form('component.form.manage-course.CourseStudent', function (form, requir
 
     // handle click for Change direction button
     this.element.find('#button-change-orientation').click(this.proxy(toggleSplitterOrientation));
+    // handle window resize
+    jQuery(window).resize(this.proxy(this.refreshGridSize));
 
     toggleSplitterOrientation.apply(this);
 
@@ -250,13 +252,16 @@ define.form('component.form.manage-course.CourseStudent', function (form, requir
         });
       }
 
-      $(window).trigger('resize');
+      // $(window).trigger('resize');
 
-      this.gridStudents.refreshSize();
-      this.gridCourseStudents.refreshSize();
-
+      this.refreshGridSize();
     }
 
+  };
+
+  form.refreshGridSize = function() {
+    this.gridStudents.refreshSize();
+    this.gridCourseStudents.refreshSize();
   };
 
   form.refreshData = function (data) {
