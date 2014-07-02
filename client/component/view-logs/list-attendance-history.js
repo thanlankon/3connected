@@ -1,9 +1,10 @@
 define.form('component.form.view-logs.ListAttendanceHistory', function (form, require, Util, Lang) {
 
   form.urlMap = {
-    url: ':module',
+    url: ':module/:action',
     data: {
-      module: 'view-logsAttendance'
+      module: 'history',
+      action: 'attendance'
     }
   };
 
@@ -40,6 +41,9 @@ define.form('component.form.view-logs.ListAttendanceHistory', function (form, re
     }, {
       text: Lang.get('attendanceHistory.staffId'),
       dataField: 'staffId',
+    }, {
+      text: Lang.get('attendanceHistory.studentCode'),
+      dataField: 'studentCode',
     }, {
       text: Lang.get('attendanceHistory.date'),
       dataField: 'date',

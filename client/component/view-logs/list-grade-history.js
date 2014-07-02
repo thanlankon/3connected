@@ -1,9 +1,10 @@
 define.form('component.form.view-logs.ListGradeHistory', function (form, require, Util, Lang) {
 
   form.urlMap = {
-    url: ':module',
+    url: ':module/:action',
     data: {
-      module: 'view-logsGrade'
+      module: 'history',
+      action: 'grade'
     }
   };
 
@@ -41,8 +42,8 @@ define.form('component.form.view-logs.ListGradeHistory', function (form, require
       text: Lang.get('gradeHistory.staffId'),
       dataField: 'staffId',
     }, {
-      text: Lang.get('gradeHistory.courseId'),
-      dataField: 'courseId',
+      text: Lang.get('gradeHistory.studentCode'),
+      dataField: 'studentCode',
     }, {
       text: Lang.get('gradeHistory.courseName'),
       dataField: 'courseName',

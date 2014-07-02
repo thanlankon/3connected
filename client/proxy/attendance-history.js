@@ -59,6 +59,10 @@ define.proxy('proxy.AttendanceHistory', function (proxy, require) {
       name: 'majorName',
       type: 'number',
       map: 'attendance.schedule.course.major.majorName'
+    }, {
+      name: 'studentCode',
+      type: 'number',
+      map: 'attendance.student.studentCode'
     }
   ];
 

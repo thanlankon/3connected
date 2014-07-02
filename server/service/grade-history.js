@@ -11,6 +11,7 @@ define.service('service.GradeHistory', function (service, require, ServiceUtil, 
   var CourseModel = require('model.Course');
   var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
+  var StudentModel = require('model.Student');
 
   service.map = {
     url: '/gradeHistory'
@@ -41,6 +42,9 @@ define.service('service.GradeHistory', function (service, require, ServiceUtil, 
               model: MajorModel,
               as: 'major'
               }]
+            }, {
+            model: StudentModel,
+            as: 'student'
             }]
         }];
       }

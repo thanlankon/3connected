@@ -51,6 +51,10 @@ define.proxy('proxy.GradeHistory', function (proxy, require) {
       name: 'majorName',
       type: 'number',
       map: 'grade.course.major.majorName'
+    }, {
+      name: 'studentCode',
+      type: 'number',
+      map: 'grade.student.studentCode'
     }
   ];
 

@@ -12,3 +12,4 @@ gradeHistory.courseId = Course Id
 gradeHistory.courseName = Course name
 gradeHistory.termName = Term name
 gradeHistory.majorName = Major name
+gradeHistory.studentCode = Student code

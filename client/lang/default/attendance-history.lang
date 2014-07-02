@@ -13,3 +13,4 @@ attendanceHistory.slot = Attendance slot
 attendanceHistory.termName = Term name
 attendanceHistory.majorName = Major name
 attendanceHistory.courseName = Course name
+attendanceHistory.studentCode = Student code
