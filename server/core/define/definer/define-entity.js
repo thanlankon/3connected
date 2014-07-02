@@ -34,7 +34,7 @@ define.entity = function (id, definer) {
         if (value.defaultValue === DataType.NOW) {
           value.get = function () {
             var date = this.getDataValue(key);
-            return ConvertUtil.DateTime.formatDateFullTime(date);
+            return ConvertUtil.DateTime.formatDateTimeFull(date);
           };
 
           value.set = function (value) {
