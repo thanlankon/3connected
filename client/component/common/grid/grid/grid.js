@@ -456,6 +456,10 @@ define.component('component.common.Grid', function (component, require, Util, La
 
   component.refreshSize = function() {
     this.element.jqxGrid({
+      width: '0px',
+      height: '0px'
+    });
+    this.element.jqxGrid({
       width: '100%',
       height: '100%'
     });
