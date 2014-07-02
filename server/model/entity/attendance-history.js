@@ -32,7 +32,7 @@ define.entity('model.entity.AttendanceHistory', function (entity, DataType, requ
     referencesKey: 'attendanceId'
   };
 
-  entity.lecturerId = {
+  entity.staffId = {
     type: DataType.INTEGER,
     allowNull: true,
 
@@ -48,7 +48,7 @@ define.entity('model.entity.AttendanceHistory', function (entity, DataType, requ
   entity.associate = function () {
 
     this.belongsTo('model.entity.Staff', {
-      as: 'lecturer'
+      as: 'staff'
     });
 
     this.belongsTo('model.entity.Attendance', {

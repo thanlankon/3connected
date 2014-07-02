@@ -194,7 +194,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
                 // log history
                 updateAndLogHistoryQueryChainer.add(GradeHistory.create({
                   gradeId: grade.gradeId,
-                  lecturerId: null,
+                  staffId: null,
                   oldValue: oldValue,
                   newValue: newValue
                 }, {
@@ -208,7 +208,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
               // log history for created grade
               updateAndLogHistoryQueryChainer.add(GradeHistory.create({
                 gradeId: grade.gradeId,
-                lecturerId: null,
+                staffId: null,
                 oldValue: oldValue,
                 newValue: newValue
               }, {

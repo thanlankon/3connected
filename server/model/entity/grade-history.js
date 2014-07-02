@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Grade history entity
+ * Creator         : UayLu
+ * Created date    : 2014/23/06
+ */
 define.entity('model.entity.GradeHistory', function (entity, DataType, require) {
 
   entity.gradeHistoryId = {
@@ -32,7 +38,7 @@ define.entity('model.entity.GradeHistory', function (entity, DataType, require) 
     referencesKey: 'gradeId'
   };
 
-  entity.lecturerId = {
+  entity.staffId = {
     type: DataType.INTEGER,
     allowNull: true,
 
@@ -48,7 +54,7 @@ define.entity('model.entity.GradeHistory', function (entity, DataType, require) 
   entity.associate = function () {
 
     this.belongsTo('model.entity.Staff', {
-      as: 'lecturer'
+      as: 'staff'
     });
 
     this.belongsTo('model.entity.Grade', {

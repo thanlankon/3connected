@@ -197,7 +197,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
                 // log history
                 updateAndLogHistoryQueryChainer.add(AttendanceHistory.create({
                   attendanceId: attendance.attendanceId,
-                  lecturerId: null,
+                  staffId: null,
                   oldValue: oldValue,
                   newValue: newValue
                 }, {
@@ -211,7 +211,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
               // log history for created attendance
               updateAndLogHistoryQueryChainer.add(AttendanceHistory.create({
                 attendanceId: attendance.attendanceId,
-                lecturerId: null,
+                staffId: null,
                 oldValue: oldValue,
                 newValue: newValue
               }, {
