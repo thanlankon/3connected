@@ -102,7 +102,48 @@ define('core.util.Util', function (module, require) {
 
       return str + 's';
     }
-  }
+  };
+
+  Util.File = {
+    fileName: function (fileName) {
+      var dotIndex = fileName.lastIndexOf('.');
+
+      if (dotIndex == -1) return fileName;
+
+      return fileName.slice(0, dotIndex);
+    },
+    fileExtension: function (fileName) {
+      var dotIndex = fileName.lastIndexOf('.');
+
+      if (dotIndex == -1) return null;
+
+      return fileName.slice(dotIndex + 1);
+    },
+    sizeText: function (size) {
+      var Numeral = require('lib.Numeral');
+
+      if (size < 1024) {
+        return Numeral(size).format('0') + 'B';
+      }
+
+      if (size < 1024 * 1024) {
+        return Numeral(size / 1024).format('0.00') + 'KB';
+      }
+
+      if (size < 1024 * 1024 * 1024) {
+        return Numeral(size / 1024).format('0.00') + 'MB';
+      }
+
+      return Numeral(size / 1024).format('0.00') + 'GB';
+    },
+    getBase64Data: function (fileData) {
+      var key = 'base64,';
+      var keyIndex = fileData.indexOf(key);
+
+      if (key == -1) return fileData;
+      return fileData.slice(keyIndex + key.length);
+    }
+  };
 
   Util.value = function (value) {
     return Util.Object.isFunction(value) ? value() : value;

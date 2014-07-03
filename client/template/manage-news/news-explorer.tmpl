@@ -1,0 +1,49 @@
+<template id="form.manage-news.news-explorer">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon save" id="button-save">
+        <span>{{lang "news.save"}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon attachment add" id="button-add-attachments">
+        <span>{{lang "news.addAttachments"}}</span>
+      </li>
+      <li class="icon attachment remove" id="button-remove-attachments">
+        <span>{{lang "news.removeAttachments"}}</span>
+      </li>
+
+      <li class="right component">
+        {{component.gridColumnsChooser grid="gridNews"}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content news-explorer">
+
+    <div id="splitter-vertical">
+      <div class="category-list">
+        <div id="tree-categories">
+        </div>
+      </div>
+      <div>
+        <div id="splitter-horizontal">
+          <div>
+            <div id="grid-news">
+            </div>
+          </div>
+          <div class="news">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</template>

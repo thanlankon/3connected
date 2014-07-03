@@ -1,11 +1,18 @@
 # attribute
 
+news.newsId = News Id
 news.title = Title
+news.content = Content
 news.categories = Categories
 news.attachments = Attachments
+news.createdTime = Created time
 
 # components
 
 news.save = Save
 news.addAttachments = Add attachments
 news.removeAttachments = Remove attachments
+
+# message
+news.create.error.unknown = Error during creating news
+news.create.success = The news is created successfully

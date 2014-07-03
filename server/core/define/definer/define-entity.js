@@ -30,6 +30,7 @@ define.entity = function (id, definer) {
 
       if (key === 'config' || key === 'static' || key === 'associate') return;
 
+      // for DateTime
       if (value.type == DataType.DATE) {
         if (value.defaultValue === DataType.NOW) {
           value.get = function () {
@@ -39,7 +40,7 @@ define.entity = function (id, definer) {
 
           value.set = function (value) {
             var date = ConvertUtil.DateTime.toMySqlDateTime(value);
-            return this.setDataValue(key, date);
+            this.setDataValue(key, date);
           };
         } else {
           value.get = function () {
@@ -49,9 +50,18 @@ define.entity = function (id, definer) {
 
           value.set = function (value) {
             var date = ConvertUtil.DateTime.toMySqlDate(value);
-            return this.setDataValue(key, date);
+            this.setDataValue(key, date);
           };
         }
+      }
+
+      // for Blob
+      if (value.type == DataType.BLOB) {
+        value.set = function (value) {
+          value = ConvertUtil.Blob.fromBase64(value);
+
+          this.setDataValue(key, value);
+        };
       }
 
       if (Util.Object.isFunction(value)) {

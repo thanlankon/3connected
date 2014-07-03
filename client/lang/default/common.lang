@@ -59,8 +59,9 @@ manage.staff = Manage Staff
 manage.subjectVersion = Manage subject versions
 manage.gradeCategory = Manage grade category
 manage.account = Manager account
-view.logsAttendance = View logs attendance
-view.logsGrade = View logs grade
+manage.history.attendance = Manage attendance history
+manage.history.grade = Manage grade history
+manage.news = Manage news
 
 
 # entity
