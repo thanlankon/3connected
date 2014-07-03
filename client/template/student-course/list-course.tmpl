@@ -1,0 +1,36 @@
+ <!--
+System          : 3connected
+Component       : Create course template
+Creator         : ThanhVM
+-->
+  <template id="form.student-course.list-course">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="" action="attendance"}}">{{lang "course.attendance"}}</a>
+      </li>
+
+      <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="student-course" action="grade"}}">{{lang "course.grade"}}</a>
+      </li>
+
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-coursees" data-component-role="grid"></div>
+
+  </div>
+
+</template>

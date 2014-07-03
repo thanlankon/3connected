@@ -1,15 +1,15 @@
-define.form('component.form.manage-course.ListCourse', function (form, require, Util, Lang) {
+define.form('component.form.student-course.ListCourse', function (form, require, Util, Lang) {
 
   form.urlMap = {
     url: ':module',
     data: {
-      module: 'manage-course'
+      module: 'student-course'
     }
   };
 
   form.ServiceProxy = require('proxy.Course');
 
-  form.tmpl = 'form.manage-course.list-course';
+  form.tmpl = 'form.student-course.list-course';
 
   form.formType = form.FormType.Form.LIST;
 

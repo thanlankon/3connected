@@ -158,39 +158,18 @@ define('db.Deploy', function (module, require) {
     var Staff = require('model.entity.Staff');
     var Moment = require('lib.Moment');
 
-    for (var i = 1; i <= 1; i++) {
-      queryChainer
-        .add(
-          Staff, 'create', [{
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            departmentId: 1,
-            gender: 1,
-            dateOfBirth: Moment.utc([1992, 9, 27]).toDate(),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
+    queryChainer
+      .add(
+        Staff, 'create', [{
+          staffCode: 'MaiLTT',
+          firstName: 'Mai',
+          lastName: 'Lê Thị Trúc',
+          departmentId: 1,
+          gender: 1,
+          dateOfBirth: Moment.utc([1982, 9, 27]).toDate(),
+          address: 'Quảng Nam',
+          email: 'mailtt@fpt.edu.vn'
           }])
-        .add(
-          Staff, 'create', [{
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            departmentId: 1,
-            gender: 2,
-            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
-          }])
-        .add(
-          Staff, 'create', [{
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            departmentId: 1,
-            gender: 0,
-            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
-          }])
-    }
   }
 
   function seedSubject(queryChainer) {
