@@ -2,6 +2,8 @@
 
 staff = Staff
 staff.staffId = Staff Id
+staff.staffCode = Staff code
+staff.staffRole = Staff role
 staff.firstName = {{.firstName}}
 staff.lastName = {{.lastName}}
 staff.department = {{.department}}

@@ -38,9 +38,6 @@ define.form('component.form.manage-batch.ListAccount', function (form, require, 
       text: Lang.get('account.username'),
       dataField: 'username',
     }, {
-      text: Lang.get('account.password'),
-      dataField: 'password',
-    }, {
       text: Lang.get('account.role'),
       dataField: 'role',
     }, {
@@ -50,8 +47,8 @@ define.form('component.form.manage-batch.ListAccount', function (form, require, 
       text: Lang.get('account.isActive'),
       dataField: 'isActive',
     }, {
-      text: Lang.get('account.effectiveDate'),
-      dataField: 'effectiveDate',
+      text: Lang.get('account.expiredDate'),
+      dataField: 'expiredDate',
     }];
 
     var gridConfig = {

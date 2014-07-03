@@ -9,6 +9,20 @@
   <div class="content">
 
     <div class="label">
+      {{lang "staff.staffCode"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="staffCode"}}
+    </div>
+
+    <div class="label">
+      {{lang "staff.staffRole"}}:
+    </div>
+    <div class="data dropdownlist">
+      {{component.roleDropDownList attribute="staffRole" staffOnly="true"}}
+    </div>
+
+     <div class="label">
       {{lang "staff.firstName"}}:
     </div>
     <div class="data input">

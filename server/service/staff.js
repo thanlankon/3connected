@@ -17,7 +17,7 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
       displayAttribute: 'firstName'
     },
 
-      findAll: {
+    findAll: {
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
           model: DepartmentModel,
@@ -29,6 +29,8 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
     create: {
       attributes: [
         'staffId',
+        'staffCode',
+        'staffRole',
         'firstName',
         'lastName',
         'gender',
@@ -36,7 +38,8 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
         'address',
         'email',
         'departmentId'
-      ]
+      ],
+      checkDuplicatedAttributes: ['staffCode']
     },
 
     update: {
@@ -50,7 +53,8 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
         'email',
         'departmentId'
       ],
-      checkExistanceAttributes: ['staffId']
+      checkExistanceAttributes: ['staffId'],
+      checkDuplicatedAttributes: ['staffCode']
     }
   }
 

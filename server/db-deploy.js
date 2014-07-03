@@ -157,38 +157,53 @@ define('db.Deploy', function (module, require) {
   function seedStaff(queryChainer) {
     var Staff = require('model.entity.Staff');
     var Moment = require('lib.Moment');
+    var ConvertUtil = require('core.util.ConvertUtil');
 
     for (var i = 1; i <= 1; i++) {
       queryChainer
         .add(
           Staff, 'create', [{
+            staffCode: 'staff1' + i,
             firstName: 'Firstname ' + i,
             lastName: 'LastName ' + i,
             departmentId: 1,
             gender: 1,
-            dateOfBirth: Moment.utc([1992, 9, 27]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
           }])
         .add(
           Staff, 'create', [{
+            staffCode: 'staff2' + i,
             firstName: 'Firstname ' + i,
             lastName: 'LastName ' + i,
             departmentId: 1,
             gender: 2,
-            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
           }])
         .add(
           Staff, 'create', [{
+            staffCode: 'staff3' + i,
             firstName: 'Firstname ' + i,
             lastName: 'LastName ' + i,
             departmentId: 1,
             gender: 0,
-            dateOfBirth: Moment.utc([1991, 03, 16]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
+          }])
+        .add(
+          Staff, 'create', [{
+            staffCode: 'MaiLTT',
+            firstName: 'Mai',
+            lastName: 'Lê Thị Trúc',
+            departmentId: 1,
+            gender: 1,
+            dateOfBirth: Moment.utc([1982, 9, 27]).toDate(),
+            address: 'Quảng Nam',
+            email: 'mailtt@fpt.edu.vn'
           }])
     }
   }

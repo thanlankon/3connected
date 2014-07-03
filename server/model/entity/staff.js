@@ -6,6 +6,12 @@ define.entity('model.entity.Staff', function (entity, DataType, require) {
     primaryKey: true
   };
 
+  entity.staffCode = {
+    type: DataType.STRING(20),
+    allowNull: false,
+    unique: true
+  };
+
   entity.firstName = {
     type: DataType.STRING(50),
     allowNull: false
@@ -30,7 +36,7 @@ define.entity('model.entity.Staff', function (entity, DataType, require) {
   };
 
   entity.dateOfBirth = {
-    type: 'DATE',
+    type: DataType.DATE,
     allowNull: false
   };
 

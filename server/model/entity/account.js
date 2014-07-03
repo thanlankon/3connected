@@ -15,7 +15,8 @@ define.entity('model.entity.Account', function (entity, DataType, require) {
 
   entity.username = {
     type: DataType.STRING(50),
-    allowNull: false
+    allowNull: false,
+    unique: 'account',
   };
 
   entity.password = {
@@ -25,27 +26,23 @@ define.entity('model.entity.Account', function (entity, DataType, require) {
 
   entity.role = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    unique: 'account',
   }
 
   entity.userInformationId = {
     type: DataType.INTEGER,
-    allowNull: true
+    allowNull: false
   }
 
   entity.isActive = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: true
   }
 
-  entity.effectiveDate = {
+  entity.expiredDate = {
     type: DataType.DATE,
-    allowNull: false
-  }
-
-  entity.expireDate = {
-    type: DataType.DATE,
-    allowNull: false
+    allowNull: true
   }
 
   entity.config = {

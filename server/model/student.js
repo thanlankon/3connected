@@ -4,4 +4,6 @@ define.model('model.Student', function (model, ModelUtil, require) {
 
   model.Entity = Student;
 
+
+
 });

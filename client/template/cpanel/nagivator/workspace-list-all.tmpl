@@ -1,12 +1,19 @@
 <template id="cpanel.workspace-list.all">
 
   <li>
+    <a href="{{url module="manage-account"}}">{{lang "manage.account"}}</a>
+  </li>
+  <li>
     <a href="{{url module="manage-student"}}">{{lang "manage.student"}}</a>
   </li>
   <li>
     <a href="{{url module="manage-staff"}}">{{lang "manage.staff"}}</a>
   </li>
   <li>
+  </li>
+  <li class="devider"></li>
+  <li>
+    <a href="{{url module="student-course"}}">{{lang "manage.student-course"}}</a>
   </li>
   <li class="devider"></li>
   <li>
@@ -39,10 +46,6 @@
   </li>
   <li>
     <a href="{{url module="manage-grade-category"}}">{{lang "manage.gradeCategory"}}</a>
-  </li>
-
-  <li>
-    <a href="{{url module="manage-account"}}">{{lang "manage.account"}}</a>
   </li>
   <li>
     <a href="{{url module="history" action="attendance"}}">{{lang "manage.history.attendance"}}</a>

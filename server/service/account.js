@@ -16,13 +16,19 @@ define.service('service.Account', function (service, require, ServiceUtil, Util)
       displayAttribute: 'account'
     },
 
+    findAll: {
+      buildFindOptions: function (findOptions) {
+        findOptions.attributes = ['accountId', 'username', 'role', 'userInformationId', 'isActive', 'expiredDate'];
+      }
+    },
+
     create: {
-      attributes: ['username', 'password', 'role', 'userInformationId', 'isActive', 'effectiveDate', 'expireDate'],
+      attributes: ['username', 'password', 'role', 'userInformationId', 'isActive', 'effectiveDate', 'expiredDate'],
       checkDuplicatedAttributes: ['username']
     },
 
     update: {
-      attributes: ['username', 'password', 'role', 'userInformationId', 'isActive', 'effectiveDate', 'expireDate'],
+      attributes: ['username', 'password', 'role', 'userInformationId', 'isActive', 'effectiveDate', 'expiredDate'],
       checkExistanceAttributes: ['username'],
       checkDuplicatedAttributes: ['accountId', 'username']
     }
