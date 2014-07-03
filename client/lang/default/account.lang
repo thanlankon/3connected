@@ -8,8 +8,7 @@ account.password = Password
 account.role =  Role
 account.userInformationId = User information Id
 account.isActive = IsActive
-account.effectiveDate = Effective Date
-account.expireDate = Expire Date
+account.expiredDate = Expired Date
 
 
 # button
