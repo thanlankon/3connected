@@ -39,11 +39,7 @@ define.proxy('proxy.Account', function (proxy, require) {
       type: 'string'
     },
     {
-      name: 'effectiveDate',
-      type: 'string'
-    },
-    {
-      name: 'expireDate',
+      name: 'expiredDate',
       type: 'string'
     }
   ];

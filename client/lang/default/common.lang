@@ -46,23 +46,23 @@ changeOrientation= Change orientation
 
 # manage
 
-manage.batch = Manage batches
+manage.batch = Manage Batches
 manage.newsCategory = Manage News Category
-manage.major = Manage majors
-manage.term = Manage terms
-manage.class = Manage classes
-manage.course = Manage courses
-manage.student-course = View courses
-manage.subject = Manage subjects
-manage.department = Manage departments
-manage.student = Manage students
+manage.major = Manage Majors
+manage.term = Manage Terms
+manage.class = Manage Classes
+manage.course = Manage Courses
+manage.student-course = View Courses
+manage.subject = Manage Subjects
+manage.department = Manage Departments
+manage.student = Manage Students
 manage.staff = Manage Staff
-manage.subjectVersion = Manage subject versions
-manage.gradeCategory = Manage grade category
-manage.account = Manage account
-manage.history.attendance = Manage attendance history
-manage.history.grade = Manage grade history
-manage.news = Manage news
+manage.subjectVersion = Manage Subject Versions
+manage.gradeCategory = Manage Grade Category
+manage.account = Manage Account
+manage.history.attendance = Manage Attendance History
+manage.history.grade = Manage Grade History
+manage.news = Manage News
 
 
 # entity
