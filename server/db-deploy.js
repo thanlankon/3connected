@@ -194,6 +194,17 @@ define('db.Deploy', function (module, require) {
             address: 'Address ' + i,
             email: 'Email.' + i + '@local.host'
           }])
+        .add(
+          Staff, 'create', [{
+            staffCode: 'MaiLTT',
+            firstName: 'Mai',
+            lastName: 'Lê Thị Trúc',
+            departmentId: 1,
+            gender: 1,
+            dateOfBirth: Moment.utc([1982, 9, 27]).toDate(),
+            address: 'Quảng Nam',
+            email: 'mailtt@fpt.edu.vn'
+          }])
     }
   }
 

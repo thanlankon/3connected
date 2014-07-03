@@ -1,15 +1,20 @@
-define.form('component.form.manage-course.ListCourse', function (form, require, Util, Lang) {
+/*
+ * System          : 3connected
+ * Component       : Student View Course
+ * Creator         : ThanhVM
+ */
+define.form('component.form.view-course.ListCourse', function (form, require, Util, Lang) {
 
   form.urlMap = {
     url: ':module',
     data: {
-      module: 'manage-course'
+      module: 'view-course'
     }
   };
 
   form.ServiceProxy = require('proxy.Course');
 
-  form.tmpl = 'form.manage-course.list-course';
+  form.tmpl = 'form.view-course.list-course';
 
   form.formType = form.FormType.Form.LIST;
 
@@ -47,10 +52,10 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
         text: Lang.get('course.subjectVersion'),
         dataField: 'description'
       },
-        //    {
-        //     text: Lang.get('lecture.lectureName'),
-        //     dataField: 'lectureName'
-        //    }
+ //    {
+ //     text: Lang.get('lecture.lectureName'),
+ //     dataField: 'lectureName'
+ //    }
       ];
 
     var gridConfig = {
