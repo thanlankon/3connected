@@ -35,7 +35,7 @@ define.entity('model.entity.Staff', function (entity, DataType, require) {
   };
 
   entity.dateOfBirth = {
-    type: 'DATE',
+    type: DataType.DATE,
     allowNull: false
   };
 
