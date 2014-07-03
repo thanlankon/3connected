@@ -1,3 +1,5 @@
+role.all = {{.all}}
+
 role.administrator = Administrator
 role.educator = Educator
 role.examinator = Examinator

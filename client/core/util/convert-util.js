@@ -2,6 +2,7 @@ define('core.util.ConvertUtil', function (module, require) {
 
   var Moment = require('lib.Moment');
   var Gender = require('enum.Gender');
+  var Role = require('enum.Role');
   var DateTimeConstant = require('constant.DateTime');
   var Lang = require('core.lang.Lang');
 
@@ -95,7 +96,78 @@ define('core.util.ConvertUtil', function (module, require) {
     },
 
     toGender: function (string) {
+      var gender;
 
+      switch (string) {
+      case Lang.get('gender.male'):
+        gender = Gender.MALE;
+        break;
+      case Lang.get('gender.female'):
+        gender = Gender.FEMALE;
+        break;
+      default:
+        gender = Gender.UNKNOWN;
+        break;
+      }
+
+      return gender;
+    },
+  };
+
+  ConvertUtil.Role = {
+    toString: function (role) {
+      switch (role) {
+      case Role.ADMINISTRATOR:
+        gender = Lang.get('role.administrator');
+        break;
+      case Role.EDUCATOR:
+        gender = Lang.get('role.educator');
+        break;
+      case Role.EXAMINATOR:
+        gender = Lang.get('role.examinator');
+        break;
+      case Role.NEWS_MANAGER:
+        gender = Lang.get('role.newsManager');
+        break;
+      case Role.STUDENT:
+        gender = Lang.get('role.student');
+        break;
+      case Role.PARENT:
+        gender = Lang.get('role.parent');
+        break;
+      }
+
+      return gender;
+    },
+
+    toRole: function (string) {
+      var role;
+
+      switch (string) {
+      case Lang.get('role.administrator'):
+        role = Role.ADMINISTRATOR;
+        break;
+      case Lang.get('role.educator'):
+        role = Role.EDUCATOR;
+        break;
+      case Lang.get('role.examinator'):
+        role = Role.EXAMINATOR;
+        break;
+      case Lang.get('role.newsManager'):
+        role = Role.NEWS_MANAGER;
+        break;
+      case Lang.get('role.student'):
+        role = Role.STUDENT;
+        break;
+      case Lang.get('role.parent'):
+        role = Role.PARENT;
+        break;
+      default:
+        role = null
+        break;
+      }
+
+      return role;
     },
   };
 

@@ -56,7 +56,8 @@ define.model('model.Staff', function (model, ModelUtil, require) {
       };
 
       var checkStaffAccountDupplicate = {
-        username: username
+        username: username,
+        role: entityData.staffRole
       };
 
       Account.findOrCreate(checkStaffAccountDupplicate, staffAccount, {

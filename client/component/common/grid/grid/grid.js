@@ -106,19 +106,15 @@ define.component('component.common.Grid', function (component, require, Util, La
             var dataValue = originalData['filtervalue' + i];
 
             if (['gender'].indexOf(dataField) != -1) {
-              var Gender = require('enum.Gender');
+              var ConvertUtil = require('core.util.ConvertUtil');
 
-              switch (dataValue) {
-              case Lang.get('gender.unknown'):
-                dataValue = Gender.UNKNOWN;
-                break;
-              case Lang.get('gender.male'):
-                dataValue = Gender.MALE;
-                break;
-              case Lang.get('gender.female'):
-                dataValue = Gender.FEMALE;
-                break;
-              }
+              dataValue = ConvertUtil.Gender.toGender(dataValue);
+            }
+
+            if (['role'].indexOf(dataField) != -1) {
+              var ConvertUtil = require('core.util.ConvertUtil');
+
+              dataValue = ConvertUtil.Role.toRole(dataValue);
             }
 
             // check if dataField is mapped
@@ -209,21 +205,9 @@ define.component('component.common.Grid', function (component, require, Util, La
         gridColumn.cellsRenderer = function (row, columnField, value, defaultHtml, columnProperties) {
           if (columnProperties.hidden) return;
 
-          var Gender = require('enum.Gender');
+          var ConvertUtil = require('core.util.ConvertUtil');
 
-          var genderText = null;
-
-          switch (value) {
-          case Gender.UNKNOWN:
-            genderText = Lang.get('gender.unknown');
-            break;
-          case Gender.MALE:
-            genderText = Lang.get('gender.male');
-            break;
-          case Gender.FEMALE:
-            genderText = Lang.get('gender.female');
-            break;
-          }
+          var genderText = ConvertUtil.Gender.toString(value);
 
           var elmHtml = jQuery(defaultHtml).text(genderText);
           var elmWrapper = jQuery('<div />');
@@ -234,6 +218,47 @@ define.component('component.common.Grid', function (component, require, Util, La
           elmWrapper.remove();
 
           return genderHtml;
+        }
+      }
+
+      // for role
+      if (['role'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.width = '150px';
+
+        gridColumn.filterType = 'list';
+
+        gridColumn.createFilterWidget = function (column, columnElement, widget) {
+          var source = [
+            Lang.get('role.all'),
+            Lang.get('role.educator'),
+            Lang.get('role.examinator'),
+            Lang.get('role.newsManager'),
+            Lang.get('role.student'),
+            Lang.get('role.parent'),
+          ];
+
+          widget.jqxDropDownList({
+            source: source,
+            dropDownWidth: '140px'
+          });
+        };
+
+        gridColumn.cellsRenderer = function (row, columnField, value, defaultHtml, columnProperties) {
+          if (columnProperties.hidden) return;
+
+          var ConvertUtil = require('core.util.ConvertUtil');
+
+          var roleText = ConvertUtil.Role.toString(value);
+
+          var elmHtml = jQuery(defaultHtml).text(roleText);
+          var elmWrapper = jQuery('<div />');
+
+          var roleHtml = elmWrapper.append(elmHtml).html();
+
+          elmHtml.remove();
+          elmWrapper.remove();
+
+          return roleHtml;
         }
       }
     }
