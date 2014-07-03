@@ -17,7 +17,7 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
       displayAttribute: 'firstName'
     },
 
-      findAll: {
+    findAll: {
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
           model: DepartmentModel,
@@ -29,6 +29,7 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
     create: {
       attributes: [
         'staffId',
+        'staffCode',
         'firstName',
         'lastName',
         'gender',

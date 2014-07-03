@@ -19,6 +19,10 @@ define.proxy('proxy.Staff', function (proxy, require) {
       type: 'number'
     },
     {
+      name: 'staffCode',
+      type: 'string'
+    },
+    {
       name: 'firstName',
       type: 'string'
     },

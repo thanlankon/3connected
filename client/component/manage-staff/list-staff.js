@@ -29,6 +29,10 @@ define.form('component.form.manage-staff.ListStaff', function (form, require, Ut
         hidden: false
       },
       {
+        text: Lang.get('staff.staffCode'),
+        dataField: 'staffCode',
+      },
+      {
         text: Lang.get('staff.firstName'),
         dataField: 'firstName',
       },

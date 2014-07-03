@@ -15,6 +15,25 @@ define('validator.rule.Staff', function (module, require) {
      ]
   };
 
+  var ruleStaffCode = {
+    // validate for firstName
+    attribute: 'staffCode',
+    attributeName: 'staff.staffCode',
+    rules: [
+      {
+        // firstName is required
+        rule: 'required'
+      },
+      {
+        // firstName max length is 50
+        rule: 'maxLength',
+        ruleData: {
+          maxLength: 50
+        }
+      }
+     ]
+  };
+
   var ruleFirstName = {
     // validate for firstName
     attribute: 'firstName',
@@ -69,6 +88,7 @@ define('validator.rule.Staff', function (module, require) {
   };
 
   var ruleCreateStaff = [
+    ruleStaffCode,
     ruleFirstName,
     ruleLastName
   ];
