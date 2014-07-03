@@ -10,6 +10,9 @@ define('export.Staff', function (module, require) {
       staffId: {
         width: 15
       },
+      staffCode: {
+        width: 20
+      },
       firstName: {
         width: 20
       },

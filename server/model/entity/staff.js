@@ -6,6 +6,11 @@ define.entity('model.entity.Staff', function (entity, DataType, require) {
     primaryKey: true
   };
 
+  entity.staffCode = {
+    type: DataType.STRING(50),
+    allowNull: false
+  };
+
   entity.firstName = {
     type: DataType.STRING(50),
     allowNull: false
