@@ -22,6 +22,10 @@ define('lib.Path', function (module, require, libs) {
   module.exports = libs.Path;
 });
 
+define('lib.Crypto', function (module, require, libs) {
+  module.exports = libs.Crypto;
+});
+
 // vendor libs
 
 define('lib.Express', function (module, require, libs) {
@@ -50,4 +54,8 @@ define('lib.MiniMatch', function (module, require, libs) {
 
 define('lib.Moment', function (module, require, libs) {
   module.exports = libs.Moment;
+});
+
+define('lib.UidSafe', function (module, require, libs) {
+  module.exports = libs.UidSafe;
 });
