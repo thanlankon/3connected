@@ -7,8 +7,9 @@ define.entity('model.entity.Staff', function (entity, DataType, require) {
   };
 
   entity.staffCode = {
-    type: DataType.STRING(50),
-    allowNull: false
+    type: DataType.STRING(20),
+    allowNull: false,
+    unique: true
   };
 
   entity.firstName = {
