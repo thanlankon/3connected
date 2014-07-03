@@ -8,6 +8,8 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     this.lastSelectedRow = null;
 
+    this.eventHandlers = options.events || {};
+
     var formElement = this.element.closest('.form');
 
     var dependsEntityFocusedElements = formElement.find('.toolbar [data-depends-entity=focused]');
@@ -170,9 +172,16 @@ define.component('component.common.Grid', function (component, require, Util, La
       gridColumn.hideable = true;
       gridColumn.resizable = true;
 
-      // for datetime
+      // for date
       if (['dateOfBirth'].indexOf(gridColumn.dataField) != -1) {
         gridColumn.width = '100px';
+
+        gridColumn.cellsFormat = DateTimeConstant.WidgetFormat.DATE;
+      }
+
+      // for datetime
+      if (['createdTime'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.width = '200px';
 
         gridColumn.cellsFormat = DateTimeConstant.WidgetFormat.DATE;
       }
@@ -284,6 +293,10 @@ define.component('component.common.Grid', function (component, require, Util, La
       var entityId = row[source.id];
 
       this.updateDependsEntityFocusedElements(entityId);
+
+      if (this.eventHandlers.singleSelect) {
+        this.eventHandlers.singleSelect(entityId, row);
+      }
     }));
 
     this.element.on('rowSelect rowUnselect', this.proxy(function (event) {
@@ -421,7 +434,11 @@ define.component('component.common.Grid', function (component, require, Util, La
       this.filterConditions = {};
     }
 
-    this.filterConditions[key] = value;
+    if (!value == null) {
+      this.filterConditions = Util.Object.omit(this.filterConditions, key);
+    } else {
+      this.filterConditions[key] = value;
+    }
 
     this.refreshData();
   };
@@ -454,7 +471,7 @@ define.component('component.common.Grid', function (component, require, Util, La
     return selectedIds;
   };
 
-  component.refreshSize = function() {
+  component.refreshSize = function () {
     this.element.jqxGrid({
       width: '0px',
       height: '0px'

@@ -127,9 +127,69 @@
   border-color: #2b579a !important;
 }
 /* news-editor-form */
+.news-editor-form {
+  /* theme */
+}
 .news-editor-form .news-info {
   box-sizing: border-box;
 }
 .news-editor-form .form-content {
   margin: 5px 10px;
+}
+.news-editor-form .jqx-listitem-state-hover-metro {
+  background: #f5f5f5 !important;
+  border-color: #f5f5f5 !important;
+}
+.news-editor-form .jqx-listitem-state-selected-metro {
+  background: #eee !important;
+  border-color: #eee !important;
+}
+.news-editor-form .attachment-item {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.news-editor-form .attachment-item td {
+  padding: 2px;
+  box-sizing: border-box;
+}
+.news-editor-form .attachment-item .icon {
+  width: 40px;
+  background: center center no-repeat;
+  background-image: url("/resource/resource/img/file/unknown.png");
+}
+.news-editor-form .attachment-item .icon.jpg,
+.news-editor-form .attachment-item .icon.jpeg,
+.news-editor-form .attachment-item .icon.png,
+.news-editor-form .attachment-item .icon.gif {
+  background-image: url("/resource/resource/img/file/image.png");
+}
+.news-editor-form .attachment-item .icon.xls,
+.news-editor-form .attachment-item .icon.xlsx {
+  background-image: url("/resource/resource/img/file/excel.png");
+}
+.news-editor-form .attachment-item .icon.doc,
+.news-editor-form .attachment-item .icon.docx {
+  background-image: url("/resource/resource/img/file/word.png");
+}
+.news-editor-form .attachment-item .icon.ppt,
+.news-editor-form .attachment-item .icon.pptx {
+  background-image: url("/resource/resource/img/file/powerpoint.png");
+}
+.news-editor-form .attachment-item .name {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.news-editor-form .attachment-item .extension {
+  width: 10px;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: bold;
+}
+.news-editor-form .attachment-item .size {
+  display: inline-block;
+  font-size: 12px;
+  font-style: italic;
+}
+.news-explorer .tree-categories .jqx-tree-item-metro {
+  font-size: 13px;
 }

@@ -10,6 +10,7 @@ define('constant.DateTime', function (module, require) {
 
     WidgetFormat: {
       DATE: 'dd/MM/yyyy',
+      DAY_TIME: 'dd/MM/yyyy HH:mm',
       DAY_OF_WEEK: 'dd/MM/yyyy (dddd)'
     }
   };

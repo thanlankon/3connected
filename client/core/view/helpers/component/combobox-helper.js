@@ -5,6 +5,7 @@ define('core.view.helpers.component.ComboboxHelper', function (module, require) 
   var Util = require('core.util.Util');
 
   var ComboboxComponent = require('component.common.Combobox');
+  var MultipleSelectionComboboxComponent = require('component.common.MultipleSelectionCombobox');
   var LocalDataComboboxComponent = require('component.common.LocalDataCombobox');
   var InlineSelectionComboboxComponent = require('component.common.InlineSelectionCombobox');
 
@@ -27,7 +28,7 @@ define('core.view.helpers.component.ComboboxHelper', function (module, require) 
     } else if (localData) {
       Combobox = multipleSelection ? null : LocalDataComboboxComponent;
     } else {
-      Combobox = multipleSelection ? null : ComboboxComponent;
+      Combobox = multipleSelection ? MultipleSelectionComboboxComponent : ComboboxComponent;
     }
 
     return function (element) {

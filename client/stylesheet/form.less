@@ -155,4 +155,72 @@
 
   .news-editor {}
 
+  /* theme */
+  .jqx-listitem-state-hover-metro {
+    background: #f5f5f5 !important;
+    border-color: #f5f5f5 !important;
+  }
+  .jqx-listitem-state-selected-metro {
+    background: #eee !important;
+    border-color: #eee !important;
+  }
+
+  .attachment-item {
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    td {
+      padding: 2px;
+      box-sizing: border-box;
+    }
+
+    .icon {
+      width: 40px;
+
+      background: center center no-repeat;
+      background-image: url("@{url-img}/file/unknown.png");
+
+      // file icon
+      &.jpg, &.jpeg, &.png, &.gif {
+        background-image: url("@{url-img}/file/image.png");
+      }
+      &.xls, &.xlsx {
+        background-image: url("@{url-img}/file/excel.png");
+      }
+      &.doc, &.docx {
+        background-image: url("@{url-img}/file/word.png");
+      }
+      &.ppt, &.pptx {
+        background-image: url("@{url-img}/file/powerpoint.png");
+      }
+    }
+
+    .name {
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .extension {
+      width: 10px;
+      font-size: 12px;
+      font-style: italic;
+      font-weight: bold
+    }
+
+    .size {
+      display: inline-block;
+
+      font-size: 12px;
+      font-style: italic;
+    }
+  }
+
+}
+
+.news-explorer {
+  .tree-categories {
+    .jqx-tree-item-metro {
+      font-size: 13px;
+    }
+  }
 }
