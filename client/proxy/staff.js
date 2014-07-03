@@ -32,7 +32,7 @@ define.proxy('proxy.Staff', function (proxy, require) {
     },
     {
       name: 'dateOfBirth',
-      type: 'date'
+      type: 'string'
     },
     {
       name: 'address',

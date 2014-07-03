@@ -36,7 +36,7 @@ define.proxy('proxy.Student', function (proxy, require) {
     },
     {
       name: 'dateOfBirth',
-      type: 'date'
+      type: 'string'
     },
     {
       name: 'address',
