@@ -29,6 +29,14 @@ define('core.util.ConvertUtil', function (module, require) {
     }
   };
 
+  ConvertUtil.Blob = {
+    fromBase64: function (base64) {
+      var buffer = new Buffer(base64, 'base64');
+
+      return buffer;
+    }
+  };
+
   ConvertUtil.Gender = {
     toString: function (gender) {
       switch (gender) {

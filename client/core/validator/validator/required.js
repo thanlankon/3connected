@@ -10,6 +10,8 @@ define('core.validator.Required', function (module, require) {
       isValid = true;
     } else if (Util.Object.isString(value)) {
       isValid = value.trim().length > 0;
+    } else if (Util.Object.isArray(value)) {
+      isValid = value.length > 0;
     } else {
       isValid = !!value;
     }

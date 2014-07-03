@@ -14,14 +14,17 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
   form.formType = form.FormType.FORM;
 
+  form.attachmentInfo = {};
+  form.attachmentData = {};
+
   form.initData = function () {
 
     var componentSettings = {
       categoryIds: {
-        localDataAttribute: 'categories',
+        ServiceProxy: require('proxy.NewsCategory'),
         combobox: {
-          valueMember: 'categoryId',
-          displayMember: 'categoryName'
+          valueMember: 'newsCategoryId',
+          displayMember: 'newsCategoryName'
         }
       }
     };
@@ -53,20 +56,63 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
     }).on('resize', function (event) {});
 
     // init attachments listbox
-    this.element.find('#attachments').jqxListBox({
+    this.listBoxAttachment = this.element.find('#attachments');
+    this.listBoxAttachment.jqxListBox({
       source: this.buildAttachmentSource(),
+
+      selectedIndex: 0,
+      valueMember: 'attachmentUid',
       width: '100%',
-      height: '100px'
+      height: '100px',
+      itemHeight: 47,
+
+      renderer: this.proxy(function (index, label, value) {
+        var fileInfo = this.attachmentInfo[value];
+
+        var html = '\
+          <div> \
+          <table class="attachment-item"> \
+            <tr> \
+              <td class="icon" rowspan="2"></td> \
+              <td class="name" colspan="2"></td> \
+            </tr> \
+            <tr> \
+              <td class="extension"></td> \
+              <td class="size"></td> \
+            </tr> \
+          </table> \
+          </div> \
+        ';
+
+        html = jQuery(html);
+
+        var fileSize = '(' + Util.File.sizeText(fileInfo.size) + ')';
+        var fileExtension = '.' + fileInfo.extension;
+
+        html.find('.icon').addClass(fileInfo.extension);
+        html.find('.name').text(fileInfo.name);
+        html.find('.extension').text(fileExtension);
+        html.find('.size').text(fileSize);
+
+        return html.html();
+      })
     });
 
     // init editor
-    this.element.find('#news-editor').ckeditor(this.proxy(this.resizeFormComponents));
+    this.editor = this.element.find('#news-editor');
+    this.editor.ckeditor(this.proxy(this.resizeFormComponents));
 
     // resize components when window resized
     jQuery(window).resize(this.proxy(this.resizeFormComponents));
 
+    // handle for add - remove attachments
     this.element.find('#button-add-attachments').click(this.proxy(this.addAttachments));
+    this.element.find('#button-remove-attachments').click(this.proxy(this.removeAttachments));
 
+    // handle for save
+    this.element.find('#button-save').click(this.proxy(this.saveNews));
+
+    // handle for attachments selected
     this.inputAttachments = this.element.find('#input-attachments');
     this.inputAttachments.change(this.proxy(this.updateSelectedAttachments));
   };
@@ -77,7 +123,7 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
   };
 
   form.resizeEditor = function () {
-    var ckeditor = this.element.find('#news-editor').ckeditorGet();
+    var ckeditor = this.editor.ckeditorGet();
     var ckeditorWrapper = this.element.find('.news-editor-wrapper');
 
     var editorHeight = ckeditorWrapper.height();
@@ -97,33 +143,146 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
     });
   };
 
-  form.buildAttachmentSource = function () {
-    var source = [
-      {
-        html: "<div style='height: 20px; float: left;'><img width='16' height='16' style='float: left; margin-top: 2px; margin-right: 5px;' src='https://cdn2.iconfinder.com/data/icons/ledicons/page_white_excel.png'/><span style='float: left; font-size: 13px; font-family: Arial;'>jqxNumberInput</span></div>",
-        title: 'jqxNumberInput'
-      },
-      {
-        html: "<div style='height: 20px; float: left;'><img width='16' height='16' style='float: left; margin-top: 2px; margin-right: 5px;' src='https://cdn3.iconfinder.com/data/icons/fugue/icon_shadowless/document-word-text.png'/><span style='float: left; font-size: 13px; font-family: Arial;'>jqxNumberInput</span></div>",
-        title: 'jqxNumberInput'
-      },
-      {
-        html: "<div style='height: 20px; float: left;'><img width='16' height='16' style='float: left; margin-top: 2px; margin-right: 5px;' src='https://cdn4.iconfinder.com/data/icons/48-bubbles/48/12.File-16.png'/><span style='float: left; font-size: 13px; font-family: Arial;'>jqxNumberInput</span></div>",
-        title: 'jqxNumberInput'
-      }
-    ];
+  form.refreshAttachmentList = function () {
+    this.listBoxAttachment.jqxListBox({
+      source: this.buildAttachmentSource()
+    });
+  };
 
-    return source;
+  form.buildAttachmentSource = function () {
+    var attachmentInfo = this.attachmentInfo;
+
+    var sourceData = [];
+
+    Util.Collection.each(attachmentInfo, function (fileInfo, attachmentUid) {
+      var item = {
+        attachmentUid: attachmentUid
+      };
+
+      sourceData.push(item);
+    });
+
+    var source = {
+      localData: sourceData,
+      dataType: 'array'
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(source);
+
+    return dataAdapter;
+  };
+
+  form.buildAttachmentData = function () {
+    var attachmentInfo = this.attachmentInfo;
+    var attachmentData = this.attachmentData;
+
+    var attachments = [];
+
+    Util.Collection.each(attachmentInfo, function (fileInfo, attachmentUid) {
+      var attachment = {
+        name: fileInfo.name,
+        size: fileInfo.size,
+        extension: fileInfo.extension,
+
+        data: attachmentData[attachmentUid]
+      };
+
+      attachments.push(attachment);
+    });
+
+    return attachments;
+  };
+
+  form.saveNews = function () {
+    var newsContent = this.editor.val();
+    var attachments = this.buildAttachmentData();
+
+    this.data.attr('content', newsContent);
+    this.data.attr('attachments', attachments);
+
+    var validate = this.validateData();
+
+    if (!validate.isValid) {
+      var MsgBox = require('component.common.MsgBox');
+
+      var message = Lang.get(validate.message, validate.messageData);
+      MsgBox.alert(message);
+
+      return;
+    }
+
+    var data = Util.Object.pick(this.data.attr(), ['title', 'content', 'categoryIds', 'attachments']);
+
+    var NewsProxy = require('proxy.News');
+    NewsProxy.create(data, this.proxy(createNewsDone));
+
+    function createNewsDone(serviceResonse) {
+      console.log(serviceResonse.getData());
+    }
+  };
+
+  form.validateData = function () {
+    var Validator = require('core.validator.Validator');
+    var data = this.data;
+    var rules = require('validator.rule.News').create;
+
+    var validate = Validator.validate(data, rules);
+
+    return validate;
   };
 
   form.addAttachments = function () {
+    this.inputAttachments[0].files = null;
     this.inputAttachments.click();
   };
 
-  form.updateSelectedAttachments = function() {
-    var inputAttachments = this.inputAttachments[0];
+  form.removeAttachments = function () {
+    var selectedItem = this.listBoxAttachment.jqxListBox('getSelectedItem');
 
-    console.log(inputAttachments.files);
+    if (!selectedItem) return;
+
+    var attachmentUid = selectedItem.value;
+
+    this.attachmentInfo = Util.Object.omit(this.attachmentInfo, [attachmentUid]);
+    this.attachmentData = Util.Object.omit(this.attachmentData, [attachmentUid]);
+
+    console.log(this.attachmentData);
+
+    this.refreshAttachmentList();
+  };
+
+  form.updateSelectedAttachments = function () {
+    var files = this.inputAttachments[0].files;
+
+    for (var i = 0, len = files.length; i < len; i++) {
+      this.addLocalAttachment(files[i]);
+    }
+  };
+
+  form.addLocalAttachment = function (file) {
+    var reader = new FileReader();
+
+    var fileInfo = {
+      name: Util.File.fileName(file.name),
+      size: file.size,
+      extension: Util.File.fileExtension(file.name)
+    }
+
+    reader.onloadend = this.proxy(function () {
+      var fileData = reader.result;
+
+      // get base64 data
+      fileData = Util.File.getBase64Data(fileData);
+
+      var attachmentUid = new Date().valueOf();
+
+      this.attachmentInfo[attachmentUid] = fileInfo;
+      this.attachmentData[attachmentUid] = fileData;
+
+      this.refreshAttachmentList();
+    });
+
+    reader.readAsDataURL(file);
   };
 
 });

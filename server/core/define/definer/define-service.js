@@ -32,7 +32,7 @@ define.service = function (id, definer) {
 
       var findAllConfig = methodConfig.findAll || {};
 
-      service.findAll = function (req, res) {
+      service.findAll = service.findAll || function (req, res) {
         ServiceUtil.doFindAll(req, res, serviceModel, findAllConfig);
       };
 
@@ -46,7 +46,7 @@ define.service = function (id, definer) {
       findOneConfig.idAttribute = methodConfig.idAttribute;
       findOneConfig.messageData = methodConfig.message;
 
-      service.findOne = function (req, res) {
+      service.findOne = service.findOne || function (req, res) {
         ServiceUtil.doFindOne(req, res, serviceModel, findOneConfig);
       };
 
@@ -59,7 +59,7 @@ define.service = function (id, definer) {
       var createConfig = methodConfig.create || {};
       createConfig.messageData = methodConfig.message;
 
-      service.create = function (req, res) {
+      service.create = service.create || function (req, res) {
         ServiceUtil.doCreate(req, res, serviceModel, createConfig);
       };
 
@@ -73,7 +73,7 @@ define.service = function (id, definer) {
       updateConfig.idAttribute = methodConfig.idAttribute;
       updateConfig.messageData = methodConfig.message;
 
-      service.update = function (req, res) {
+      service.update = service.update || function (req, res) {
         ServiceUtil.doUpdate(req, res, serviceModel, updateConfig);
       };
 
@@ -87,7 +87,7 @@ define.service = function (id, definer) {
       destroyConfig.idAttribute = methodConfig.idAttribute;
       destroyConfig.messageData = methodConfig.message;
 
-      service.destroy = function (req, res) {
+      service.destroy = service.destroy || function (req, res) {
         ServiceUtil.doDestroy(req, res, serviceModel, destroyConfig);
       };
 
@@ -100,10 +100,10 @@ define.service = function (id, definer) {
 
   function isMethodAllowed(methodConfig, methodName) {
     var disallowed = !methodConfig || (methodConfig && (
-      methodConfig.disableMethods === true ||
+      methodConfig.disableMethods === true || (
       methodConfig[methodName] &&
       methodConfig[methodName].disabled === true
-    ));
+    )));
 
     return !disallowed;
   }

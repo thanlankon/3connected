@@ -5,7 +5,7 @@
       <li class="icon back">
       </li>
 
-      <li class="icon save">
+      <li class="icon save" id="button-save">
         <span>{{lang "news.save"}}</span>
       </li>
 
@@ -15,7 +15,7 @@
       <li class="icon attachment add" id="button-add-attachments">
         <span>{{lang "news.addAttachments"}}</span>
       </li>
-      <li class="icon attachment remove">
+      <li class="icon attachment remove" id="button-remove-attachments">
         <span>{{lang "news.removeAttachments"}}</span>
       </li>
     </ul>
@@ -36,7 +36,7 @@
             {{lang "news.categories"}}:
           </div>
           <div class="data combobox">
-            {{component.combobox attribute="categoryIds" height="25px" inlineSelection="true"}}
+            {{component.combobox attribute="categoryIds" height="25px" multipleSelection="true"}}
           </div>
 
           <div class="label">
