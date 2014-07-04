@@ -29,8 +29,8 @@ define.service('service.Account', function (service, require, ServiceUtil, Util)
 
     update: {
       attributes: ['username', 'password', 'role', 'userInformationId', 'isActive', 'effectiveDate', 'expiredDate'],
-      checkExistanceAttributes: ['username'],
-      checkDuplicatedAttributes: ['accountId', 'username']
+      checkExistanceAttributes: ['accountId'],
+      checkDuplicatedAttributes: ['username', 'role']
     }
   }
 
