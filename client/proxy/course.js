@@ -23,6 +23,8 @@ define.proxy('proxy.Course', function (proxy, require) {
 
   // update schedule
   proxy.updateSchedule = 'POST api/course/updateSchedule';
+  proxy.findAttendanceStudent = 'GET api/course/findAttendanceStudent';
+
 
   // course entity map
   proxy.EntityMap = [
