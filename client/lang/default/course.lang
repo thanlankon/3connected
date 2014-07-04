@@ -45,6 +45,9 @@ course.updateCourseAttendance.success = The attendances of the course is updated
 course.updateCourseAttendance.success = The attendances of the course is updated successfully
 course.updateCourseAttendance.error.unknown = Error during updating course's attendances
 
+course.findAttendanceStudent.error = Error during finding attendance student
+course.findAttendanceStudent.notFound = Student's attendance not found
+
 # schedule
 
 schedule.date = {{.date}}

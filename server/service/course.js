@@ -22,6 +22,10 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
       updateSchedule: {
         url: '/updateSchedule',
         httpMethod: 'POST'
+      },
+      findAttendanceStudent: {
+        url: '/findAttendanceStudent',
+        httpMethod: 'GET'
       }
     }
   };
@@ -131,6 +135,41 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
       }
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+    });
+
+  };
+
+  // find Attendance Student
+  service.findAttendanceStudent = function (req, res) {
+
+    //    var studentId = req.body.studentId;
+    //    var courseId = req.body.courseId;
+
+    var studentId = 1;
+    var courseId = 1;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+
+    CourseModel.findAttendanceStudent(courseId, studentId, function (error, attendanceStudent, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.findAttendanceStudent.error';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.findAttendanceStudent.notFound';
+        } else {
+          serviceResponse.data = attendanceStudent;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     });
 
   };

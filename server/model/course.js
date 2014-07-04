@@ -11,6 +11,7 @@ define.model('model.Course', function (model, ModelUtil, require) {
 
   var Course = require('model.entity.Course');
   var Schedule = require('model.entity.Schedule');
+  var Attendance = require('model.entity.Attendance');
 
   model.Entity = Course;
 
@@ -74,6 +75,34 @@ define.model('model.Course', function (model, ModelUtil, require) {
       }
     });
 
+  };
+
+
+  model.findAttendanceStudent = function (courseId, studentId, callback) {
+
+    // find the Course
+    Course.findAll({
+      include: [{
+        model: Schedule,
+        as: 'schedules',
+        include: [{
+          model: Attendance,
+          as: 'attendances',
+          where: {
+            studentId: studentId
+          }
+        }]
+      }],
+      where: {
+        courseId: courseId
+      }
+    })
+      .success(function (attendanceStudent) {
+        callback(null, attendanceStudent, false);
+      })
+      .error(function (error) {
+        callback(error);
+      });
   };
 
 });
