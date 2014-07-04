@@ -18,7 +18,7 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
   form.formType = form.FormType.FORM;
 
   // the config used for exporting grid data
-  form.exportConfig = require('export.AttendanceReport');
+  form.exportConfig = require('export.Attendance');
 
   form.initData = function () {
 

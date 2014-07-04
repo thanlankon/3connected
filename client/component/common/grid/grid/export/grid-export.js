@@ -84,6 +84,10 @@ define('component.export.grid.GridExport', function (module, require) {
     var headerFields = [];
 
     for (var i = 0, len = gridData.fields.length; i < len; i++) {
+      var columnConfig = exportConfig.columns[gridData.fields[i].name];
+
+      if (!columnConfig || columnConfig.skip) continue;
+
       header.push({
         value: gridData.fields[i].text,
         metadata: {
@@ -103,6 +107,10 @@ define('component.export.grid.GridExport', function (module, require) {
       var row = [];
 
       for (j = 0; j < headerLen; j++) {
+        var columnConfig = exportConfig.columns[headerFields[j]];
+
+        if (!columnConfig || columnConfig.skip) continue;
+
         row.push({
           value: item[headerFields[j]]
         });
@@ -115,8 +123,12 @@ define('component.export.grid.GridExport', function (module, require) {
 
     var exportColumns = [];
     for (i = 0; i < headerLen; i++) {
+      var columnConfig = exportConfig.columns[headerFields[i]];
+
+      if (!columnConfig || columnConfig.skip) continue;
+
       exportColumns.push({
-        width: exportConfig.columns[headerFields[i]].width
+        width: columnConfig.width
       });
     }
 
