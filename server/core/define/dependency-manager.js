@@ -3,6 +3,7 @@ Dependency = {
     // core libs
     FileSystem: require('fs'),
     Path: require('path'),
+    Crypto: require('crypto'),
 
     // vendor libs
     Express: require('express'),
@@ -13,6 +14,8 @@ Dependency = {
     Underscore: require('underscore'),
     MiniMatch: require('minimatch'),
     Moment: require('moment'),
+
+    UidSafe: require('uid-safe'),
   },
 
   modules: {},

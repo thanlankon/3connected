@@ -18,6 +18,8 @@ define.form('component.form.manage-course.CourseStudent', function (form, requir
     }
   };
 
+  form.exportConfig = require('export.Student');
+
   form.gridConfig = function () {
 
     // grid students
@@ -259,7 +261,7 @@ define.form('component.form.manage-course.CourseStudent', function (form, requir
 
   };
 
-  form.refreshGridSize = function() {
+  form.refreshGridSize = function () {
     this.gridStudents.refreshSize();
     this.gridCourseStudents.refreshSize();
   };

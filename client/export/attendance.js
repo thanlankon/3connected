@@ -1,9 +1,9 @@
-define('export.AttendanceReport', function (module, require) {
+define('export.Attendance', function (module, require) {
 
   module.exports = {
 
-    fileName: 'AttendanceReport',
-    sheetName: 'AttendanceReport',
+    fileName: 'Attendance',
+    sheetName: 'Attendance',
 
     columns: {
 
@@ -11,19 +11,19 @@ define('export.AttendanceReport', function (module, require) {
         width: 10
       },
       firstName: {
-        width: 50
+        width: 30
       },
       lastName: {
         width: 50
       },
       totalPresents: {
-        width: 50
+        width: 20
       },
       totalAbsents: {
-        width: 50
+        width: 20
       },
       totalUnattended: {
-        width: 50
+        width: 20
       }
 
     }

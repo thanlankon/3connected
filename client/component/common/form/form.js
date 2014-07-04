@@ -102,9 +102,11 @@ define.component('component.Form', function (component, require, Util, Lang) {
   component.events['[data-component-role=export-button] click'] = function (element, event) {
     event.preventDefault();
 
+    var grid = element.data('grid') || 'grid';
+
     var GridExport = require('component.export.grid.GridExport');
 
-    GridExport.exportToExcel(this.grid, this.exportConfig);
+    GridExport.exportToExcel(this[grid], this.exportConfig[grid] || this.exportConfig);
   }
 
   component.initGrid = function () {

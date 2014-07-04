@@ -14,6 +14,7 @@ var DependencyConfig = {
       'core/model/**',
       'core/service/**',
       'core/util/**',
+      'core/auth/**',
       'core/define/definer/*',
 
       'config/**',
