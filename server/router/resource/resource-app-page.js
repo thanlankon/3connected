@@ -1,6 +1,6 @@
-define('resource.loader.App', function (module, require) {
+define('resource.loader.AppPage', function (module, require) {
 
-  module.exports = loadApp;
+  module.exports = loadAppPage;
 
   var fileUtil = require('core.util.FileUtil');
   var handlebars = require('lib.HandleBars');
@@ -39,7 +39,7 @@ define('resource.loader.App', function (module, require) {
 
   // loader
 
-  function loadApp(location, root, resource) {
+  function loadAppPage(location, root, resource) {
     Resource = resource;
 
     var fileContent = fileUtil.getContent(root, location);

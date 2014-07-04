@@ -40,9 +40,7 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
 
   model.destroyAccessToken = function (accessToken, callback) {
     var findConditions = {
-      where: {
-        accessToken: accessToken
-      }
+      accessToken: accessToken
     };
 
     AccessToken.destroy(findConditions)

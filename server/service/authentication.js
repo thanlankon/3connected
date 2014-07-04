@@ -47,7 +47,7 @@ define.service('service.Authentication', function (service, require, ServiceUtil
         };
         serviceResponse.message = 'authentication.login.incorrectAcount';
       } else {
-        serviceResponse.message = 'authentication.login.success';
+        // serviceResponse.message = 'authentication.login.success';
         serviceResponse.data = loginData;
       }
 
@@ -68,7 +68,7 @@ define.service('service.Authentication', function (service, require, ServiceUtil
       data: null
     };
 
-    if (!authenticatio.isAuthenticated || !accessToken) {
+    if (!authentication.isAuthenticated || !accessToken) {
       serviceResponse.error = 'AUTHENTICATION.NOT_AUTHENTICATED';
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
@@ -79,13 +79,13 @@ define.service('service.Authentication', function (service, require, ServiceUtil
       if (error) {
         serviceResponse.message = 'authentication.logout.error.unknown';
         serviceResponse.error = error;
-      } else if (account == null) {
+      } else if (!isLoggedOut) {
         serviceResponse.error = {
           code: 'AUTHENTICATION.NOT_LOGGED_OUT'
         };
-        serviceResponse.message = 'authentication.logout.unknown';
+        serviceResponse.message = 'authentication.logout.error.notLoggedOut';
       } else {
-        serviceResponse.message = 'authentication.login.success';
+        //serviceResponse.message = 'authentication.login.success';
       }
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);

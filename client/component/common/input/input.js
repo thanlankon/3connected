@@ -6,6 +6,10 @@ define.component('component.common.Input', function (component, require, Util, L
     var dataAttribute = options.dataAttribute;
     var componentAttributes = options.componentAttributes;
 
+    var isPasswordInput = componentAttributes.passwordInput;
+
+    componentAttributes = Util.Object.omit(componentAttributes, ['passwordInput']);
+
     var input = jQuery('<input />')
       .attr('data-attribute', dataAttribute)
       .attr('data-component-role', 'input')
@@ -29,7 +33,13 @@ define.component('component.common.Input', function (component, require, Util, L
 
     inputOptions = Util.Object.extend(inputOptions, componentAttributes);
 
-    input.jqxInput(inputOptions);
+    if (isPasswordInput) {
+      input.attr('type', 'password');
+
+      input.jqxInput(inputOptions);
+    } else {
+      input.jqxInput(inputOptions);
+    }
 
     // tracking changes of input
     input.on('change', function () {

@@ -5,12 +5,7 @@ define('router.middleware.AuthenticationMiddleware', function (module, require) 
   // export middleward
   module.exports = AuthenticationMiddleware;
 
-  function AuthenticationMiddleware(err, req, res, next) {
-    if (err) {
-      next();
-      return;
-    }
-
+  function AuthenticationMiddleware(req, res, next) {
     var accessToken = req.cookies.accessToken;
 
     var authenticationInfo = req.authentication = {
@@ -30,9 +25,15 @@ define('router.middleware.AuthenticationMiddleware', function (module, require) 
         }
 
         authenticationInfo.accessToken = accessToken;
-        authenticationInfo.accountId = accessTokenInfo.accountId;
+        authenticationInfo.accountId = accessTokenInfo.account.accountId;
+        authenticationInfo.userInformationId = accessTokenInfo.account.userInformationId;
+        authenticationInfo.role = accessTokenInfo.account.role;
         authenticationInfo.isAuthenticated = true;
+
+        next();
       });
+    } else {
+      next();
     }
   }
 

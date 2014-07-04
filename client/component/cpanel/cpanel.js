@@ -1,8 +1,10 @@
-define.component('component.Cpanel', function (component, require) {
+define.component('component.Cpanel', function (component, require, Util, Lang, jQuery) {
 
   var Route = require('core.route.Route');
   var Util = require('core.util.Util');
   var jQuery = require('lib.jQuery');
+
+  var MsgBox = require('component.common.MsgBox');
 
   // singleton
   //  component.singleton = true;
@@ -135,6 +137,24 @@ define.component('component.Cpanel', function (component, require) {
     });
 
     this.static.cpanelElement.find('#location').text(moduleName);
+  };
+
+  component.logout = function () {
+    var AuthenticationProxy = require('proxy.Authentication');
+
+    AuthenticationProxy.logout({}, this.proxy(logoutDone));
+
+    function logoutDone(serviceResponse) {
+      //if (serviceResponse.hasError()) return;
+
+      jQuery.removeCookie('accessToken');
+
+      window.location.href = window.location.origin;
+    }
+  };
+
+  component.events['#button-logout click'] = function (element, event) {
+    MsgBox.confirm(Lang.get('authentication.logout.confirm'), this.proxy(this.logout));
   };
 
 });

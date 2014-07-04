@@ -77,7 +77,9 @@
   display: none;
 }
 .dialog .content .jqx-input-metro,
-.form-content .jqx-input-metro {
+.form-content .jqx-input-metro,
+.dialog .content input[type=password].jqx-input-metro,
+.form-content input[type=password].jqx-input-metro {
   padding-left: 5px;
   padding-right: 5px;
   box-sizing: border-box;
@@ -86,7 +88,9 @@
   color: #555;
 }
 .dialog .content .jqx-input-metro:focus,
-.form-content .jqx-input-metro:focus {
+.form-content .jqx-input-metro:focus,
+.dialog .content input[type=password].jqx-input-metro:focus,
+.form-content input[type=password].jqx-input-metro:focus {
   color: #222;
   border-color: #555;
 }

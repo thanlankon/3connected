@@ -4,11 +4,7 @@ define('router.Api', function (module, require) {
   var ServiceContainer = require('core.service.ServiceContainer');
   var ServiceUtil = require('core.service.ServiceUtil');
 
-  var AuthenticationMiddleware = require('router.middleware.AuthenticationMiddleware');
-
   var apiRouter = express.Router();
-
-  apiRouter.use(AuthenticationMiddleware);
 
   apiRouter.get('/', function (req, res) {
     res.send('api');

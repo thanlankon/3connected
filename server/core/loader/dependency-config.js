@@ -21,6 +21,7 @@ var DependencyConfig = {
       'constant/**',
       'model/**',
       'service/**',
+      'router/middleware/**',
       'router/api/**',
       'router/resource/**',
 

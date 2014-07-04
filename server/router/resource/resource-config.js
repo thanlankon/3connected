@@ -12,8 +12,9 @@ define('resource.Config', function (module, require) {
       SCRIPT: '/resource/scripts'
     },
 
-    App: {
-      LOCATION: 'app.tmpl'
+    Page: {
+      APP: 'app.tmpl',
+      LOGIN: 'login.tmpl'
     },
 
     Script: {
@@ -21,6 +22,7 @@ define('resource.Config', function (module, require) {
       RULES: [
         // lib - jquery
         'lib/jquery/*',
+        'lib/jquery/**',
         // lib - jqwidgets
         /*
         'lib/jqwidgets/jqxcore.js',

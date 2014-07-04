@@ -1,0 +1,8 @@
+# message
+
+authentication.login.incorrectAcount  = Incorrect Username or Password
+
+authentication.logout.confirm = Are you sure to log out?
+
+authentication.logout.error.notLoggedOut = You are not logged out. Please try again!
+authentication.logout.error.unknown = Error during loging out!

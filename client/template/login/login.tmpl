@@ -1,0 +1,45 @@
+<template id="login">
+
+  <div id="cpanel" class="cpanel">
+
+    <div class="form-content login-form">
+
+      <div class="title">
+        <div class="app-title">Communication System for Schools</div>
+        <div class="school-name">FPT University DaNang</div>
+      </div>
+
+      <div class="label">
+        {{lang "account.username"}}:
+      </div>
+      <div class="data input">
+        {{component.input attribute="username" height="30px" }}
+      </div>
+      <div class="label">
+        {{lang "account.password"}}:
+      </div>
+      <div class="data input">
+        {{component.input attribute="password" height="30px" passwordInput="true" }}
+      </div>
+      <div class="label">
+        {{lang "account.role"}}:
+      </div>
+      <div class="data input">
+        {{component.roleDropDownList attribute="role" height="30px"}}
+      </div>
+
+      <div id="button-login">
+        Login
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div class="copyright">
+        Copyright &copy; Group 6 - FUDN K6C Capstone Project
+      </div>
+    </div>
+
+  </div>
+
+</template>

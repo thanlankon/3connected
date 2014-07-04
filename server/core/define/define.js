@@ -36,6 +36,10 @@ define('lib.BodyParser', function (module, require, libs) {
   module.exports = libs.BodyParser;
 });
 
+define('lib.CookieParser', function (module, require, libs) {
+  module.exports = libs.CookieParser;
+});
+
 define('lib.HandleBars', function (module, require, libs) {
   module.exports = libs.HandleBars;
 });

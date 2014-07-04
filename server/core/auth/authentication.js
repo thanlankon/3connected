@@ -1,5 +1,8 @@
 define('core.auth.Authentication', function (module, require) {
 
+  var AuthenticationModel = require('model.Authentication');
+  var AuthenticationConfig = require('config.Authentication');
+
   var Authentication = {};
 
   Authentication.encryptPassword = function (password) {
@@ -17,9 +20,6 @@ define('core.auth.Authentication', function (module, require) {
   };
 
   Authentication.login = function (username, role, password, remember, callback) {
-    var AuthenticationModel = require('model.Authentication');
-    var AuthenticationConfig = require('config.Authentication');
-
     AuthenticationModel.verifyAccount(username, role, password, function (error, account) {
       if (error) {
         callback(error);

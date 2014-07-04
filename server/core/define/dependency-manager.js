@@ -8,6 +8,7 @@ Dependency = {
     // vendor libs
     Express: require('express'),
     BodyParser: require('body-parser'),
+    CookieParser: require('cookie-parser'),
     HandleBars: require('handlebars'),
     Sequelize: require('sequelize'),
 

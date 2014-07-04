@@ -7,7 +7,8 @@ define('resource.loader.Resource', function (module, require) {
   var ResourceConfig = require('resource.Config');
   var fileUtil = require('core.util.FileUtil');
 
-  var loadApp = require('resource.loader.App');
+  var loadAppPage = require('resource.loader.AppPage');
+  var loadLoginPage = require('resource.loader.LoginPage');
   var loadScripts = require('resource.loader.Scripts');
   var loadStyleSheets = require('resource.loader.StyleSheets');
   var loadLangs = require('resource.loader.Langs');
@@ -33,7 +34,8 @@ define('resource.loader.Resource', function (module, require) {
     resource.langs = loadLangs(files, ResourceConfig.Location.ROOT, ResourceConfig.Lang);
     resource.templates = loadTemplates(files, ResourceConfig.Location.ROOT, ResourceConfig.Template);
 
-    resource.app = loadApp(ResourceConfig.App.LOCATION, ResourceConfig.Location.ROOT, resource);
+    resource.appPage = loadAppPage(ResourceConfig.Page.APP, ResourceConfig.Location.ROOT, resource);
+    resource.loginPage = loadLoginPage(ResourceConfig.Page.LOGIN, ResourceConfig.Location.ROOT, resource);
   }
 
 });
