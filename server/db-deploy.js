@@ -201,7 +201,7 @@ define('db.Deploy', function (module, require) {
             lastName: 'Lê Thị Trúc',
             departmentId: 1,
             gender: 1,
-            dateOfBirth: Moment.utc([1982, 9, 27]).toDate(),
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
             address: 'Quảng Nam',
             email: 'mailtt@fpt.edu.vn'
           }])

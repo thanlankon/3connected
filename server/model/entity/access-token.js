@@ -23,7 +23,9 @@ define.entity('model.entity.AccessToken', function (entity, DataType, require) {
 
   entity.lastAccessTime = {
     type: DataType.DATE,
-    allowNull: false
+    allowNull: false,
+
+    defaultValue: DataType.NOW
   };
 
   entity.timeToLive = {
