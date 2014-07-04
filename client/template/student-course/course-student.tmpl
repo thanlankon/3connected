@@ -1,0 +1,38 @@
+<template id="form.student-course.course-attendance">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-course"}}"></a>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course.manageSchedule'}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon view" id="button-refresh-schedule">
+        <span>{{lang 'schedule.refresh'}}</span>
+      </li>
+
+
+
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-course-schedule"></div>
+
+  </div>
+
+</template>

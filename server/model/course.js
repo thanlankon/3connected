@@ -95,7 +95,9 @@ define.model('model.Course', function (model, ModelUtil, require) {
       }],
       where: {
         courseId: courseId
-      }
+      },
+      order: 'schedules.date'
+
     })
       .success(function (attendanceStudent) {
         callback(null, attendanceStudent, false);
