@@ -1,6 +1,6 @@
 # attribute name
 
-account = Batch
+account = Account
 
 account.accountId = Account Id
 account.username = Username

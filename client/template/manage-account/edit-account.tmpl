@@ -1,0 +1,45 @@
+<!--
+System          : 3connected
+Component       : Create Student
+Creator         : ThanhVM
+-->
+  <template id="dialog.manage-account.edit-account">
+
+  {{dialog.size width="500px" height="310px"}}
+
+  <div class="header">
+    {{lang "account.edit"}} <b>{{originalData.username}}</b>
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "account.username"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="username"}}
+    </div>
+
+    <div class="label">
+      {{lang "account.password"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="password"}}
+    </div>
+
+    <div class="label">
+      {{lang "account.expiredDate"}}:
+    </div>
+    <div class="data input">
+      {{component.dateInput attribute="expiredDate"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "update"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

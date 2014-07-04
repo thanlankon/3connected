@@ -1,4 +1,4 @@
-define.form('component.form.manage-batch.ListAccount', function (form, require, Util, Lang) {
+define.form('component.form.manage-account.ListAccount', function (form, require, Util, Lang) {
 
   // map the form to the url
   // the form is displayed when the url is matched
