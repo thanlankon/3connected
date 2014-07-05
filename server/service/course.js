@@ -145,6 +145,8 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
     //    var studentId = req.body.studentId;
     //    var courseId = req.body.courseId;
 
+    console.log('id' + req.body.courseId);
+
     var studentId = 1;
     var courseId = 1;
 

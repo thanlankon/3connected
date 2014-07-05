@@ -3,7 +3,7 @@
   <div class="toolbar">
     <ul>
       <li class="icon back">
-        <a href="{{url module="manage-course"}}"></a>
+        <a href="{{url module="student-course"}}"></a>
       </li>
 
       <li class="text">
@@ -16,6 +16,22 @@
       <li class="text">
         <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
       </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'attendance.totalAbsent'}}: <b>{{courseAttendance.totalAbsents}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'attendance.totalPresent'}}: <b>{{courseAttendance.totalPresents}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'attendance.percentAttendance'}}: <b>{{courseAttendance.percentAbsents}}</b></span>
+      </li>
+
 
       <li class="divider">
       </li>

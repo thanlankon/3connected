@@ -33,6 +33,22 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
     this.courseId = data.id;
 
+    var CourseProxy = require('proxy.Course');
+
+    CourseProxy.findOne({
+      courseId: this.courseId
+    }, this.proxy(findOneDone));
+
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var course = serviceResponse.getData();
+
+      this.data.attr({
+        course: course
+      });
+    }
+
     this.switchToViewMode();
 
   };
@@ -53,6 +69,8 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
       courseId: this.courseId
     }, this.proxy(findAttendanceStudent));
 
+    console.log('id' + this.courseId)
+
 
 
     function findAttendanceStudent(serviceResponse) {
@@ -61,9 +79,6 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
       var ConvertUtil = require('core.util.ConvertUtil');
 
       var courseAttendanceStudent = serviceResponse.getData();
-
-      console.log('courseAttendanceStudent 1');
-      console.log(courseAttendanceStudent);
 
       this.data.attr({
         // courseAttendanceStudent info
@@ -107,14 +122,36 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
           });
           endDate = endDate.date;
 
+          var AttendanceProxy = require('proxy.Attendance');
+
+          AttendanceProxy.getCourseAttendance({
+            courseId: this.courseId,
+            scheduleId: schedules[0].scheduleId
+          }, this.proxy(findOneAttendanceDone));
+
+          function findOneAttendanceDone(serviceResponse) {
+            if (serviceResponse.hasError()) return;
+
+            var courseAttendance = serviceResponse.getData();
+
+            this.data.attr({
+              courseAttendance: {
+                percentAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents / courseAttendance.statistics.totalSlots * 100,
+                totalAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents,
+                totalPresents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents,
+
+              }
+            });
+          }
+
           this.data.attr({
+            course: course,
             schedule: {
               startDate: startDate,
-              endDate: endDate
+              endDate: endDate,
+              length: schedules.length
             }
           });
-          console.log('schedulesAttendanceStudent 1');
-          console.log(schedulesAttendanceStudent);
           this.gridSchedule.refreshData(startDate, endDate, schedules, schedulesAttendanceStudent);
 
         } else {

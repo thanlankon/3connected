@@ -139,9 +139,6 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
     for (var i = 0, len = originalData.length; i < len; i++) {
       var schedule = originalData[i];
 
-      console.log('originalData' + i);
-      console.log(originalData[i]);
-
       if (!this.scheduleData[schedule.date]) {
         this.scheduleData[schedule.date] = {};
       }
@@ -152,9 +149,6 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
 
     for (var i = 0, len = originalAttendaceStudentData.length; i < len; i++) {
       var scheduleAttendaceStudentData = originalAttendaceStudentData[i];
-
-      console.log('originalDataAttendaceStudent ' + i);
-      console.log(originalAttendaceStudentData[i]);
 
       if (!this.scheduleAttendaceStudentData[scheduleAttendaceStudentData.date]) {
         this.scheduleAttendaceStudentData[scheduleAttendaceStudentData.date] = {};
@@ -179,6 +173,8 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
           date: dayOfWeek
         };
 
+        var flag = false;
+
         for (var j = 1; j <= 9; j++) {
           var isAttendance = !!(this.scheduleAttendaceStudentData[startDate] && this.scheduleAttendaceStudentData[startDate]['slot' + j]);
           var isHaveSchedule = !!(this.scheduleData[startDate] && this.scheduleData[startDate]['slot' + j]);
@@ -186,15 +182,21 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
           if (isAttendance) {
             if (originalAttendaceStudentData[this.scheduleAttendaceStudentData[startDate]['slot' + j]['index']].attendances[0].status == 1) {
               item['slot' + j] = 'Present';
+              flag = true;
             } else if (originalAttendaceStudentData[this.scheduleAttendaceStudentData[startDate]['slot' + j]['index']].attendances[0].status == 2) {
               item['slot' + j] = 'Absent';
+              flag = true;
             }
+
           } else if (isHaveSchedule) {
-            item['slot' + j] = 'Not Yet';
+            item['slot' + j] = 'Unattended ';
+            flag = true;
           }
 
         }
-        sourceData.push(item);
+        if (flag) {
+          sourceData.push(item);
+        }
 
         startDate = ConvertUtil.DateTime.addDays(startDate, 1);
       }
