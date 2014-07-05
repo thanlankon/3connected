@@ -108,13 +108,16 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
 
   };
 
-  component.refreshData = function (startDate, endDate, originalData) {
+  component.refreshData = function (startDate, endDate, originalData, originalAttendaceStudentData) {
 
-    if (originalData) {
+    if (originalData && originalAttendaceStudentData) {
       this.originalData = originalData;
+      this.originalAttendaceStudentData = originalAttendaceStudentData;
     }
 
-    var source = this.generateSource(startDate, endDate, this.originalData);
+
+
+    var source = this.generateSource(startDate, endDate, this.originalData, this.originalAttendaceStudentData);
 
     this.element.jqxGrid({
       source: source
@@ -122,29 +125,46 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
 
   }
 
-  component.generateSource = function (startDate, endDate, originalData) {
+  component.generateSource = function (startDate, endDate, originalData, originalAttendaceStudentData) {
 
     var ConvertUtil = require('core.util.ConvertUtil');
 
     // reset schedule data
+    this.scheduleAttendaceStudentData = {};
     this.scheduleData = {};
-    this.scheduleIds = {};
 
     originalData = originalData || [];
+    originalAttendaceStudentData = originalAttendaceStudentData || [];
 
     for (var i = 0, len = originalData.length; i < len; i++) {
       var schedule = originalData[i];
 
+      console.log('originalData' + i);
+      console.log(originalData[i]);
+
       if (!this.scheduleData[schedule.date]) {
         this.scheduleData[schedule.date] = {};
-        this.scheduleIds[schedule.date] = {};
       }
       this.scheduleData[schedule.date]['slot' + schedule.slot] = {};
       this.scheduleData[schedule.date]['slot' + schedule.slot]['index'] = i;
-      this.scheduleIds[schedule.date]['slot' + schedule.slot] = schedule.scheduleId;
     }
-    console.log('scheduleData');
-    console.log(this.scheduleData);
+
+
+    for (var i = 0, len = originalAttendaceStudentData.length; i < len; i++) {
+      var scheduleAttendaceStudentData = originalAttendaceStudentData[i];
+
+      console.log('originalDataAttendaceStudent ' + i);
+      console.log(originalAttendaceStudentData[i]);
+
+      if (!this.scheduleAttendaceStudentData[scheduleAttendaceStudentData.date]) {
+        this.scheduleAttendaceStudentData[scheduleAttendaceStudentData.date] = {};
+      }
+      this.scheduleAttendaceStudentData[scheduleAttendaceStudentData.date]['slot' + scheduleAttendaceStudentData.slot] = {};
+      this.scheduleAttendaceStudentData[scheduleAttendaceStudentData.date]['slot' + scheduleAttendaceStudentData.slot]['index'] = i;
+    }
+
+
+
     var sourceData = [];
 
     // generate source data
@@ -160,14 +180,17 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
         };
 
         for (var j = 1; j <= 9; j++) {
-          var selected = !!(this.scheduleData[startDate] && this.scheduleData[startDate]['slot' + j]);
+          var isAttendance = !!(this.scheduleAttendaceStudentData[startDate] && this.scheduleAttendaceStudentData[startDate]['slot' + j]);
+          var isHaveSchedule = !!(this.scheduleData[startDate] && this.scheduleData[startDate]['slot' + j]);
 
-          if (selected) {
-            if (originalData[this.scheduleData[startDate]['slot' + j]['index']].attendances[0].status == 1) {
+          if (isAttendance) {
+            if (originalAttendaceStudentData[this.scheduleAttendaceStudentData[startDate]['slot' + j]['index']].attendances[0].status == 1) {
               item['slot' + j] = 'Present';
-            } else if (originalData[this.scheduleData[startDate]['slot' + j]['index']].attendances[0].status == 2) {
+            } else if (originalAttendaceStudentData[this.scheduleAttendaceStudentData[startDate]['slot' + j]['index']].attendances[0].status == 2) {
               item['slot' + j] = 'Absent';
             }
+          } else if (isHaveSchedule) {
+            item['slot' + j] = 'Not Yet';
           }
 
         }
@@ -178,7 +201,6 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
 
     }
 
-    console.log(sourceData);
     // build source
     var source = {
       dataType: 'local',
@@ -194,94 +216,6 @@ define.component('component.common.ViewAttendanceGrid', function (component, req
 
   component.setEditable = function (editable) {
     this.isGridEditable = editable;
-  };
-
-  component.processDataChange = function (event) {
-
-    var ConvertUtil = require('core.util.ConvertUtil');
-
-    if (!this.isGridEditable || !event || !event.args || event.args.datafield == 'date') return;
-
-    var args = event.args;
-
-    var dateCell = this.element.jqxGrid('getcell', args.rowindex, 'date');
-
-    var date = dateCell.value;
-    date = ConvertUtil.DateTime.convertDayOfWeekToDate(date);
-
-    var slot = args.datafield;
-
-    var value = args.value;
-
-    if (value) {
-      // current value is TRUE -> to be unchecked
-
-      switch (this.scheduleData[date][slot]) {
-      case 'ADDED':
-        this.scheduleData[date][slot] = 'DEATCHED';
-        break;
-      case 'UNCHANGED':
-        this.scheduleData[date][slot] = 'DELETED';
-        break;
-      }
-    } else {
-      // current value is FALSE -> to be checked
-
-      if (!this.scheduleData[date]) {
-        this.scheduleData[date] = {};
-      }
-
-      if (!this.scheduleData[date][slot]) {
-        this.scheduleData[date][slot] = 'ADDED';
-      } else {
-        switch (this.scheduleData[date][slot]) {
-        case 'DELETED':
-          this.scheduleData[date][slot] = 'UNCHANGED';
-          break;
-        case 'DEATCHED':
-          this.scheduleData[date][slot] = 'ADDED';
-          break;
-        }
-      }
-    }
-
-    this.element.jqxGrid('setCellValue', args.rowindex, args.datafield, !args.value);
-
-  };
-
-  component.getScheduleData = function () {
-
-    var scheduleData = {
-      addedItems: [],
-      removedItems: []
-    };
-
-    var scheduleIds = this.scheduleIds;
-
-    Util.Collection.each(this.scheduleData, function (slots, date) {
-      Util.Collection.each(slots, function (status, slot) {
-
-        // convert slot from name to slot number
-        var slotNumber = +slot.slice(-1);
-
-        if (status == 'ADDED') {
-          scheduleData.addedItems.push({
-            date: date,
-            slot: slotNumber
-          });
-        } else if (status == 'DELETED') {
-          scheduleData.removedItems.push({
-            scheduleId: scheduleIds[date][slot],
-            date: date,
-            slot: slotNumber
-          });
-        }
-
-      });
-    });
-
-    return scheduleData;
-
   };
 
 });

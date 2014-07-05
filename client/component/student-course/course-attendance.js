@@ -26,10 +26,6 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
     // bind event handlers to elements
     this.element.find('#button-view-schedule').click(this.proxy(this.viewSchedule));
     this.element.find('#button-refresh-schedule').click(this.proxy(this.refreshSchedule));
-    this.element.find('#button-update-schedule').click(this.proxy(this.updateSchedule));
-
-    this.element.find('#button-reject-changes').click(this.proxy(this.switchToViewMode));
-    this.element.find('#button-edit-schedule').click(this.proxy(this.switchToEditMode));
 
   };
 
@@ -50,46 +46,30 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
     this.gridSchedule.refreshData(startDate, endDate);
   };
 
-  form.updateSchedule = function () {
-    var scheduleData = this.gridSchedule.getScheduleData();
-
-    // check if data has been changed
-    if (!scheduleData.addedItems.length && !scheduleData.removedItems.length) return;
-
-    // set courseId of the schedule
-    scheduleData.courseId = this.data.attr('course.courseId');
-
-    var CourseProxy = require('proxy.Course');
-
-    CourseProxy.updateSchedule(scheduleData, this.proxy(updateScheduleDone));
-
-    function updateScheduleDone(serviceResponse) {
-      if (!serviceResponse.hasError()) {
-        this.refreshSchedule();
-      }
-    }
-  };
-
   form.refreshSchedule = function () {
     var CourseProxy = require('proxy.Course');
 
     CourseProxy.findAttendanceStudent({
       courseId: this.courseId
-    }, this.proxy(findOneDone));
+    }, this.proxy(findAttendanceStudent));
 
 
 
-    function findOneDone(serviceResponse) {
+    function findAttendanceStudent(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
       var ConvertUtil = require('core.util.ConvertUtil');
 
-      var course = serviceResponse.getData();
-//      console.log('course');
-//      console.log(course);
+      var courseAttendanceStudent = serviceResponse.getData();
+
+      console.log('courseAttendanceStudent 1');
+      console.log(courseAttendanceStudent);
+
       this.data.attr({
-        // course info
-        course: course,
+        // courseAttendanceStudent info
+        courseAttendanceStudent: courseAttendanceStudent,
+        // course infor
+        course: null,
         // schedule
         schedule: {
           startDate: null,
@@ -97,36 +77,49 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
         }
       });
 
-      var schedules = course[0].schedules;
-//      console.log('schedules');
-//      console.log(schedules);
+      var schedulesAttendanceStudent = courseAttendanceStudent[0].schedules;
 
-      if (schedules && schedules.length) {
-        // find start date and end date of the schedule
+      CourseProxy.findOne({
+        courseId: this.courseId
+      }, this.proxy(findOne));
 
-        var startDate = Util.Collection.min(schedules, function (schedule) {
-          var date = ConvertUtil.DateTime.parseDate(schedule.date);
-          return date;
-        });
-        startDate = startDate.date;
 
-        var endDate = Util.Collection.max(schedules, function (schedule) {
-          var date = ConvertUtil.DateTime.parseDate(schedule.date);
-          return date;
-        });
-        endDate = endDate.date;
 
-        this.data.attr({
-          schedule: {
-            startDate: startDate,
-            endDate: endDate
-          }
-        });
-//        console.log(schedules[0]);
-        this.gridSchedule.refreshData(startDate, endDate, schedules);
+      function findOne(serviceResponse) {
+        if (serviceResponse.hasError()) return;
 
-      } else {
-        this.gridSchedule.refreshData();
+        var course = serviceResponse.getData();
+
+        var schedules = course.schedules;
+
+        if (schedules && schedules.length) {
+          // find start date and end date of the schedule
+
+          var startDate = Util.Collection.min(schedules, function (schedule) {
+            var date = ConvertUtil.DateTime.parseDate(schedule.date);
+            return date;
+          });
+          startDate = startDate.date;
+
+          var endDate = Util.Collection.max(schedules, function (schedule) {
+            var date = ConvertUtil.DateTime.parseDate(schedule.date);
+            return date;
+          });
+          endDate = endDate.date;
+
+          this.data.attr({
+            schedule: {
+              startDate: startDate,
+              endDate: endDate
+            }
+          });
+          console.log('schedulesAttendanceStudent 1');
+          console.log(schedulesAttendanceStudent);
+          this.gridSchedule.refreshData(startDate, endDate, schedules, schedulesAttendanceStudent);
+
+        } else {
+          this.gridSchedule.refreshData();
+        }
       }
     }
 
@@ -143,17 +136,6 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
     this.gridSchedule.setEditable(false);
 
     this.refreshSchedule();
-  };
-
-  form.switchToEditMode = function () {
-    // hide all edit component
-    this.element.find('[data-component-group=view]').hide();
-
-    // show all view toolbar component
-    this.element.find('[data-component-group=edit]').show();
-
-    // enable grid editable
-    this.gridSchedule.setEditable(true);
   };
 
 });
