@@ -10,6 +10,38 @@ define('enum.Role', function (module, require) {
     PARENT: 6,
   };
 
+  Role.isAdministrator = function (role) {
+    return role === Role.ADMINISTRATOR;
+  };
+
+  Role.isEducator = function (role) {
+    return role === Role.EDUCATOR;
+  };
+
+  Role.isExaminator = function (role) {
+    return role === Role.EXAMINATOR;
+  };
+
+  Role.isNewsManager = function (role) {
+    return role === Role.NEWS_MANAGER;
+  };
+
+  Role.isStudent = function (role) {
+    return role === Role.STUDENT;
+  };
+
+  Role.isParent = function (role) {
+    return role === Role.PARENT;
+  };
+
+  Role.isStudentOrParent = function (role) {
+    return Role.isStudent(role) || Role.isParent(role);
+  };
+
+  Role.isStaff = function (role) {
+    return Role.isEducator(role) || Role.isExaminator(role) || Role.isNewsManager(role);
+  };
+
   module.exports = Role;
 
 });

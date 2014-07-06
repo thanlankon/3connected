@@ -9,6 +9,8 @@ news.createdTime = Created time
 
 # components
 
+news.create = Create
+
 news.save = Save
 news.addAttachments = Add attachments
 news.removeAttachments = Remove attachments

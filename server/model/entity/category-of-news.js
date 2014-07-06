@@ -34,7 +34,8 @@ define.entity('model.entity.CategoryOfNews', function (entity, DataType, require
 
   entity.associate = function () {
     this.belongsTo('model.entity.News', {
-      as: 'news'
+      as: 'news',
+      foreignKey: 'newsId'
     });
     this.belongsTo('model.entity.NewsCategory', {
       as: 'newsCategory'

@@ -24,11 +24,12 @@ define('router.middleware.AuthenticationMiddleware', function (module, require) 
           return;
         }
 
+        authenticationInfo.isAuthenticated = true;
+
         authenticationInfo.accessToken = accessToken;
         authenticationInfo.accountId = accessTokenInfo.account.accountId;
+        authenticationInfo.accountRole = accessTokenInfo.account.role;
         authenticationInfo.userInformationId = accessTokenInfo.account.userInformationId;
-        authenticationInfo.role = accessTokenInfo.account.role;
-        authenticationInfo.isAuthenticated = true;
 
         next();
       });

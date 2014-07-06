@@ -10,7 +10,29 @@
 
         <div class="expander" id="expander">
           <ul class="navigator" id="navigator">
-            {{partial id="cpanel.workspace-list.all"}}
+            {{#auth.isAdministrator}}
+              {{partial id="cpanel.workspace-list.administrator"}}
+            {{/auth.isAdministrator}}
+
+            {{#auth.isEducator}}
+              {{partial id="cpanel.workspace-list.educator"}}
+            {{/auth.isEducator}}
+
+            {{#auth.isExaminator}}
+              {{partial id="cpanel.workspace-list.examinator"}}
+            {{/auth.isExaminator}}
+
+            {{#auth.isNewsManager}}
+              {{partial id="cpanel.workspace-list.news-manager"}}
+            {{/auth.isNewsManager}}
+
+            {{#auth.isStudent}}
+              {{partial id="cpanel.workspace-list.student"}}
+            {{/auth.isStudent}}
+
+            {{#auth.isParent}}
+              {{partial id="cpanel.workspace-list.parent"}}
+            {{/auth.isParent}}
           </ul>
         </div>
 
@@ -18,12 +40,17 @@
       </div>
 
       <div class="right-section">
-        <span class="username">Nguyễn Đức Trọng ({{user.username}})</span>
+        <span class="username">
+          {{profile.displayName}}
+          {{#profile.username}}
+            ({{profile.username}})
+          {{/profile.username}}
+        </span>
         <a href="#" class="sign-out" id="button-logout">{{lang "logout"}}</a>
       </div>
 
       <span class="title">
-        {{lang 'app.title'}}
+        {{lang 'app.title'}} - <b>{{lang 'app.school'}}</b>
       </span>
     </div>
 
@@ -32,7 +59,7 @@
 
     <div class="footer">
       <div class="copyright">
-        Copyright &copy; Group 6 - FUDN K6C Capstone Project
+        {{lang 'app.copyright'}}
       </div>
     </div>
 

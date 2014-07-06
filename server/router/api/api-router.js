@@ -3,6 +3,7 @@ define('router.Api', function (module, require) {
   var express = require('lib.Express');
   var ServiceContainer = require('core.service.ServiceContainer');
   var ServiceUtil = require('core.service.ServiceUtil');
+  var Role = require('enum.Role');
 
   var apiRouter = express.Router();
 
@@ -39,33 +40,35 @@ define('router.Api', function (module, require) {
     var httpMethod = methodMap.httpMethod.toLowerCase();
 
     serviceRouter[httpMethod](methodMap.url, function (req, res) {
-      //      res.sendServiceResponse = function (error, object) {
-      //        ServiceUtil.sendServiceResponse(res, error, object);
-      //      };
 
-      methodMap.method(req, res);
+      var authentication = req.authentication;
+      var authorizator = methodMap.authorizator;
 
-      //      var serviceDomain = require('lib.Domain').create();
-      //
-      //      serviceDomain.add(req);
-      //      serviceDomain.add(res);
-      //
-      //      serviceDomain.on('error', function (error) {
-      //        console.error('Error', error, req.url);
-      //
-      //        try {
-      //          res.writeHead(500);
-      //          res.end('Error occurred, sorry.');
-      //        } catch (er) {
-      //          console.error('Error sending 500', error, req.url);
-      //        }
-      //      });
-      //
-      //      serviceDomain.run(function () {
-      //        methodMap.method(req, res);
-      //      });
+      if (authorizator) {
+        if (authentication.isAuthenticated) {
+          authorizator(req, authentication, Role, commit);
+        } else {
+          commit(false, true);
+        }
+      } else {
+        commit(true);
+      }
+
+      function commit(authorized, requireLogin) {
+        if (authorized) {
+          methodMap.method(req, res);
+          return;
+        }
+
+        var error = {
+          code: requireLogin ? 'AUTHENTICATION.REQUIRE_AUTHENTICATE' : 'AUTHENTICATION.PERMISSION_DENIED'
+        };
+
+        ServiceUtil.sendServiceResponse(res, error);
+      }
 
     });
+
   }
 
   // export router

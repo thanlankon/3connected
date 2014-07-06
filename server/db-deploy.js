@@ -33,6 +33,11 @@ define('db.Deploy', function (module, require) {
 
     seedGrade(queryChainer);
 
+    seedNewsCategory(queryChainer);
+    seedNews(queryChainer);
+
+    seedAccount(queryChainer);
+
     queryChainer
       .runSerially()
       .success(function () {
@@ -365,6 +370,54 @@ define('db.Deploy', function (module, require) {
           gradeCategoryId: 1,
           studentId: 1,
           value: 8
+        }])
+  }
+
+  function seedNewsCategory(queryChainer) {
+    var NewsCategory = require('model.entity.NewsCategory');
+
+    queryChainer
+      .add(
+        NewsCategory, 'create', [{
+          newsCategoryName: 'nc001',
+          parentCategoryId: null,
+        }])
+      .add(
+        NewsCategory, 'create', [{
+          newsCategoryName: 'nc002',
+          parentCategoryId: 1,
+        }])
+  }
+
+  function seedNews(queryChainer) {
+    var News = require('model.entity.News');
+    var CategoryOfNews = require('model.entity.CategoryOfNews');
+
+    queryChainer
+      .add(
+        News, 'create', [{
+          title: 'news 001',
+          content: 'news 001 content',
+        }])
+      .add(
+        CategoryOfNews, 'create', [{
+          newsCategoryId: 1,
+          newsId: 1,
+        }])
+  }
+
+  function seedAccount(queryChainer) {
+    var Account = require('model.entity.Account');
+
+    queryChainer
+      .add(
+        Account, 'create', [{
+          username: 'trongnd',
+          password: '123@abcD!@#',
+          role: 5,
+          userInformationId: 1,
+          isActive: true,
+          expiredDate: '01/01/2016'
         }])
   }
 

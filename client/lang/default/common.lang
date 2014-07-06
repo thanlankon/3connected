@@ -1,13 +1,11 @@
-# app
-
-app.title = Communication System for Schools - <b>FPT University DaNang</b>
-
 # general
 
 logout = Signout
 profile = Profile
 
+administrator = Administrator
 student = Student
+staff = Staff
 
 gender = Gender
 dateOfBirth = Date of birth
@@ -17,6 +15,8 @@ lastName = Last name
 address = Address
 email = Email
 date = Date
+
+displayName = {{firstName}} {{lastName}}
 
 all = All
 unknown = Unknown

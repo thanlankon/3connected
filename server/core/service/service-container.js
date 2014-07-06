@@ -25,14 +25,18 @@ define('core.service.ServiceContainer', function (module, require) {
 
       var methods = Util.Object.keys(Service.map.methods);
 
+      var serviceAuthorizator = Service.map.authorize;
+
       for (var j = 0, methodLen = methods.length; j < methodLen; j++) {
         var method = methods[j];
         var methodMap = Service.map.methods[method];
+        var methodAuthorizator = methodMap.authorize;
 
         serviceMap.methods.push({
           url: methodMap.url,
           httpMethod: methodMap.httpMethod,
-          method: Service[method]
+          method: Service[method],
+          authorizator: methodAuthorizator || serviceAuthorizator || undefined
         });
       }
 

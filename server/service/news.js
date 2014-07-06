@@ -18,10 +18,10 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
     findAll: {
       buildFindOptions: function (findOptions) {
-        findOptions.include = [{
-          entity: require('model.entity.CategoryOfNews'),
-          as: 'categories'
-        }];
+        //        findOptions.include = [{
+        //          entity: require('model.entity.CategoryOfNews'),
+        //          as: 'categories'
+        //        }];
 
         //findOptions.attributes = ['newsId', 'title', 'createdTime'];
       }

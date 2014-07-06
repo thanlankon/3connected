@@ -11,7 +11,7 @@ define('router.App', function (module, require) {
     var Resource = resource.getResource(true);
 
     if (authentication.isAuthenticated) {
-      var content = Resource.appPage({});
+      var content = Resource.appPage({authentication: authentication});
     } else {
       var content = Resource.loginPage({});
     }

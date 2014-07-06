@@ -1,6 +1,5 @@
 # attribute name
 
-staff = Staff
 staff.staffId = Staff Id
 staff.staffCode = Staff code
 staff.staffRole = Staff role

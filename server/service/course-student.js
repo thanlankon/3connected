@@ -117,7 +117,6 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
   service.addStudents = function (req, res) {
     var courseId = req.body.courseId;
     var studentIds = req.body.studentIds;
-    console.log("courseId " + courseId);
 
     CourseStudentModel.addStudents(courseId, studentIds, function (error) {
       var message;
