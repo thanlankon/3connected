@@ -134,9 +134,11 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
             var courseAttendance = serviceResponse.getData();
 
+            var percentAbsents = courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents / courseAttendance.statistics.totalSlots * 100;
+            percentAbsents = percentAbsents.toFixed(2);
             this.data.attr({
               courseAttendance: {
-                percentAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents / courseAttendance.statistics.totalSlots * 100,
+                percentAbsents: percentAbsents,
                 totalAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents,
                 totalPresents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents,
 
