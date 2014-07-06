@@ -2,7 +2,7 @@
  * System          : 3connected
  * Component       : Course service
  * Creator         : VyBD
- * Modifier        : TrongND
+ * Modifier        : TrongND, UayLU
  * Created date    : 2014/06/18
  * Modified date   : 2014/07/06
  */
@@ -254,14 +254,14 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
 
     CourseModel.findOneCourseStudent(courseId, function (error, course, isNotFound) {
       if (error) {
-        serviceResponse.message = 'course.findCourseAttendanceStudent.error';
+        serviceResponse.message = 'course.findOneCourseStudent.error';
         serviceResponse.error = error;
       } else {
         if (isNotFound) {
           serviceResponse.error = {
             code: 'ENTITY.NOT_FOUND'
           };
-          serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
+          serviceResponse.message = 'course.findOneCourseStudent.notFound';
         } else {
           serviceResponse.data = course;
         }

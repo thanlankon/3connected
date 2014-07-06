@@ -18,6 +18,10 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       updateCourseGrade: {
         url: '/updateCourseGrade',
         httpMethod: 'POST'
+      },
+      getSumaryGrade: {
+        url: '/getSumaryGrade',
+        httpMethod: 'GET'
       }
     }
   };
@@ -65,6 +69,29 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     var courseId = req.body.courseId;
     var gradeData = req.body.gradeData;
     GradeModel.updateCourseGrade(courseId, gradeData, function (error) {
+      if (error) {
+        serviceResponse.message = 'grade.updateCourseGrade.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'grade.updateCourseGrade.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  service.getSumaryGrade = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var termId = req.query.termId;
+    var studentId = req.authentication.userInformationId;
+    GradeModel.getSumaryGrade(courseId, gradeData, function (error) {
       if (error) {
         serviceResponse.message = 'grade.updateCourseGrade.error.unknown';
         serviceResponse.error = error;
