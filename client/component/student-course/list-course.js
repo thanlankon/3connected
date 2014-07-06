@@ -7,7 +7,10 @@ define.form('component.form.student-course.ListCourse', function (form, require,
     }
   };
 
-  form.ServiceProxy = require('proxy.Course');
+  form.ServiceProxy = {
+    proxy: require('proxy.Course'),
+    method: 'findCourseStudent'
+  };
 
   form.tmpl = 'form.student-course.list-course';
 

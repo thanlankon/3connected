@@ -29,14 +29,12 @@ define('db.Deploy', function (module, require) {
     seedSchedule(queryChainer);
     seedCourseStudent(queryChainer);
 
-    seedAccount(queryChainer);
-
     seedGrade(queryChainer);
 
     seedNewsCategory(queryChainer);
     seedNews(queryChainer);
 
-    //seedAccount(queryChainer);
+    seedAccount(queryChainer);
 
     queryChainer
       .runSerially()
@@ -345,20 +343,7 @@ define('db.Deploy', function (module, require) {
         }])
   }
 
-  function seedAccount(queryChainer) {
-    var Account = require('model.entity.Account');
 
-    queryChainer
-      .add(
-        Account, 'create', [{
-          userInformationId: 4,
-          role: 2,
-          username: 'mailtt',
-          password: 'abc123',
-          isActive: true,
-          expiredDate: '01/01/2016'
-        }])
-  }
 
   function seedGrade(queryChainer) {
     var Grade = require('model.entity.Grade');
@@ -405,21 +390,41 @@ define('db.Deploy', function (module, require) {
           newsId: 1,
         }])
   }
-//
-//  function seedAccount(queryChainer) {
-//    var Account = require('model.entity.Account');
-//
-//    queryChainer
-//      .add(
-//        Account, 'create', [{
-//          username: 'trongnd',
-//          password: '123@abcD!@#',
-//          role: 5,
-//          userInformationId: 1,
-//          isActive: true,
-//          expiredDate: '01/01/2016'
-//        }])
-//  }
+
+  function seedAccount(queryChainer) {
+    var Account = require('model.entity.Account');
+
+    queryChainer
+      .add(
+        Account, 'create', [{
+          username: 'trongnd',
+          password: '123@abcD!@#',
+          role: 5,
+          userInformationId: 1,
+          isActive: true,
+          expiredDate: '01/01/2016'
+        }])
+      .add(
+        Account, 'create', [{
+          userInformationId: 4,
+          role: 2,
+          username: 'mailtt',
+          password: 'abc123',
+          isActive: true,
+          expiredDate: '01/01/2016'
+        }])
+      .add(
+        Account, 'create', [{
+          userInformationId: 1,
+          role: 5,
+          username: 'thanhvm',
+          password: 'abc123',
+          isActive: true,
+          expiredDate: '01/01/2016'
+      }])
+
+
+  }
 
   function deploySchema(callback) {
     var syncDb = (process.argv[2] == 'sync-db' || process.argv[3] == 'sync-db');

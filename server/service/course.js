@@ -20,7 +20,7 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
 
   service.map = {
     url: '/course',
-    authorize: function(req, authentication, Role, commit) {
+    authorize: function (req, authentication, Role, commit) {
       var authorized = Role.isStaff(authentication.accountRole);
       commit(authorized);
     },
@@ -31,7 +31,27 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         httpMethod: 'POST'
       },
       findAttendanceStudent: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
         url: '/findAttendanceStudent',
+        httpMethod: 'GET'
+      },
+      findCourseStudent: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/findCourseStudent',
+        httpMethod: 'GET'
+      },
+      findOneCourseStudent: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/findOneCourseStudent',
         httpMethod: 'GET'
       }
     }
@@ -152,7 +172,7 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
     //    var studentId = req.body.studentId;
     //    var courseId = req.body.courseId;
 
-    var studentId = 1;
+    var studentId = req.authentication.userInformationId;
     var courseId = req.query.courseId;
 
     var serviceResponse = {
@@ -173,6 +193,77 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
           serviceResponse.message = 'course.findAttendanceStudent.notFound';
         } else {
           serviceResponse.data = attendanceStudent;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  // find course Attendance Student
+  service.findCourseStudent = function (req, res) {
+
+    //    var studentId = req.body.studentId;
+    //    var courseId = req.body.courseId;
+
+    var studentId = req.authentication.userInformationId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+
+    CourseModel.findCourseStudent(studentId, function (error, courseStudent, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.findCourseAttendanceStudent.error';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
+        } else {
+          serviceResponse.data = {
+            items: courseStudent,
+            total: courseStudent.length
+          };
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  // find one course Student
+  service.findOneCourseStudent = function (req, res) {
+
+    //    var studentId = req.body.studentId;
+    //    var courseId = req.body.courseId;
+
+    var courseId = req.query.courseId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+
+    CourseModel.findOneCourseStudent(courseId, function (error, course, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.findCourseAttendanceStudent.error';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
+        } else {
+          serviceResponse.data = course;
         }
       }
 
