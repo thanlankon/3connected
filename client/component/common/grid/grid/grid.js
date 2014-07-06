@@ -226,20 +226,22 @@ define.component('component.common.Grid', function (component, require, Util, La
     this.gridInitialized = true;
   };
 
-  component.generateSource = function (ServiceProxy) {
+  component.generateSource = function(ServiceProxy) {
     var source = {};
     this.source = source;
 
     // date type
     source.dataType = 'json';
 
-    var proxyMethod;
+    var proxy, proxyMethod;
 
     // service url
     if (ServiceProxy.proxy && ServiceProxy.method) {
       proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
+      proxy = ServiceProxy.proxy;
     } else {
       proxyMethod = ServiceProxy.findAll;
+      proxy = ServiceProxy;
     }
 
     source.url = proxyMethod.url;
@@ -251,10 +253,10 @@ define.component('component.common.Grid', function (component, require, Util, La
     source.root = 'data.items';
 
     // id attribute
-    source.id = ServiceProxy.entityId;
+    source.id = proxy.entityId;
 
     // data fields
-    source.dataFields = ServiceProxy.EntityMap;
+    source.dataFields = proxy.EntityMap;
 
     // source mapping char
     source.mapChar = '.';
@@ -376,16 +378,14 @@ define.component('component.common.Grid', function (component, require, Util, La
     return dataAdapter
   };
 
-  component.setServiceProxy = function (ServiceProxy) {
+  component.setServiceProxy = function(ServiceProxy) {
     var source = this.generateSource(ServiceProxy);
 
     // clear filter conditions when change ServiceProxy
     this.filterConditions = {};
     this.excludeConditions = {};
 
-    this.element.jqxGrid({
-      source: source
-    });
+    this.element.jqxGrid({source: source});
   }
 
   component.refreshData = function () {
