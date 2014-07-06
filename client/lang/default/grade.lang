@@ -10,3 +10,6 @@ grade.getCourseGrade.error.unknown = Error during retieving course's grade
 grade.updateCourseGrade.success = The grade of the course is updated successfully
 grade.updateCourseGrade.success = The grade of the course is updated successfully
 grade.updateCourseGrade.error.unknown = Error during updating course's grade
+
+grade.getTermCourseStudent.error.unknown = Error during retieving course's term
+grade.getTermCourseStudent.notFound = Not found course's term 
