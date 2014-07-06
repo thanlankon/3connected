@@ -186,7 +186,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       rowElement.addClass('selected');
       this.lastSelectedRow = rowElement;
 
-      var entityId = row[source.id];
+      var entityId = row[this.source.id];
 
       this.updateDependsEntityFocusedElements(entityId);
 
@@ -213,7 +213,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
         if (!row) continue;
 
-        var entityId = row[source.id];
+        var entityId = row[this.source.id];
 
         this.updateDependsEntitySelectedElements(entityId);
       }
