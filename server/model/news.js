@@ -34,7 +34,6 @@ define.model('model.News', function (model, ModelUtil, require) {
     });
 
     function createNewsData(news, transaction) {
-      console.log('news.newsId', news.newsId);
 
       var queryChainer = Entity.queryChainer();
 

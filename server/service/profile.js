@@ -11,7 +11,6 @@ define.service('service.Profile', function (service, require, ServiceUtil, Util)
     url: '/profile',
 
     authorize: function(req, authentication, Role, commit) {
-      console.log('authen profile');
       commit(authentication.isAuthenticated);
     },
 

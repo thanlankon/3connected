@@ -247,8 +247,6 @@ define('core.service.ServiceUtil', function (module, require) {
           message.messageData = updateConfig.messageData;
         }
 
-        console.log('update', message);
-
         ServiceUtil.sendServiceResponse(res, error, message, updatedEntity);
       });
   };
