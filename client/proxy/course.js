@@ -25,6 +25,7 @@ define.proxy('proxy.Course', function (proxy, require) {
   proxy.updateSchedule = 'POST api/course/updateSchedule';
   proxy.findAttendanceStudent = 'GET api/course/findAttendanceStudent';
   proxy.findCourseStudent = 'GET api/course/findCourseStudent';
+  proxy.findOneCourseStudent = 'GET api/course/findOneCourseStudent';
 
 
 

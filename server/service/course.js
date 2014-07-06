@@ -45,6 +45,14 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         },
         url: '/findCourseStudent',
         httpMethod: 'GET'
+      },
+      findOneCourseStudent: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/findOneCourseStudent',
+        httpMethod: 'GET'
       }
     }
   };
@@ -222,6 +230,40 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
             items: courseStudent,
             total: courseStudent.length
           };
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  // find one course Student
+  service.findOneCourseStudent = function (req, res) {
+
+    //    var studentId = req.body.studentId;
+    //    var courseId = req.body.courseId;
+
+    var courseId = req.query.courseId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+
+    CourseModel.findOneCourseStudent(courseId, function (error, course, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.findCourseAttendanceStudent.error';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
+        } else {
+          serviceResponse.data = course;
         }
       }
 

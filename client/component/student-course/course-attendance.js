@@ -35,7 +35,7 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
     var CourseProxy = require('proxy.Course');
 
-    CourseProxy.findOne({
+    CourseProxy.findOneCourseStudent({
       courseId: this.courseId
     }, this.proxy(findOneDone));
 
@@ -94,13 +94,13 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
       var schedulesAttendanceStudent = courseAttendanceStudent[0].schedules;
 
-      CourseProxy.findOne({
+      CourseProxy.findOneCourseStudent({
         courseId: this.courseId
-      }, this.proxy(findOne));
+      }, this.proxy(findOneCourseStudent));
 
 
 
-      function findOne(serviceResponse) {
+      function findOneCourseStudent(serviceResponse) {
         if (serviceResponse.hasError()) return;
 
         var course = serviceResponse.getData();

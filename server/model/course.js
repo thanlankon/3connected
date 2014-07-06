@@ -150,4 +150,41 @@ define.model('model.Course', function (model, ModelUtil, require) {
       });
   };
 
+  model.findOneCourseStudent = function (courseId, callback) {
+
+    // find the Course
+    Course.find({
+      include: [{
+        model: SubjectVersion,
+        as: 'subjectVersion',
+        include: [{
+          model: Subject,
+          as: 'subject'
+        }]
+        }, {
+        model: Class,
+        as: 'class'
+        }, {
+        model: Term,
+        as: 'term'
+        }, {
+        model: Major,
+        as: 'major'
+        }, {
+        model: Schedule,
+        as: 'schedules'
+        }],
+      where: {
+        courseId: courseId
+      }
+
+    })
+      .success(function (courseStudent) {
+        callback(null, courseStudent, false);
+      })
+      .error(function (error) {
+        callback(error);
+      });
+  };
+
 });
