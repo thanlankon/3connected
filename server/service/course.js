@@ -2,8 +2,11 @@
  * System          : 3connected
  * Component       : Course service
  * Creator         : VyBD
- * Created date    : 2014/18/06
+ * Modifier        : TrongND
+ * Created date    : 2014/06/18
+ * Modified date   : 2014/07/06
  */
+
 define.service('service.Course', function (service, require, ServiceUtil, Util) {
 
   var CourseModel = require('model.Course');
@@ -17,6 +20,10 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
 
   service.map = {
     url: '/course',
+    authorize: function(req, authentication, Role, commit) {
+      var authorized = Role.isStaff(authentication.accountRole);
+      commit(authorized);
+    },
 
     methods: {
       updateSchedule: {
