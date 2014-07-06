@@ -37,6 +37,14 @@ define('resource.loader.AppPage', function (module, require) {
     return new handlebars.SafeString(langs);
   });
 
+  handlebars.registerHelper('authentication', function (variableName) {
+    var authentication = variableName + ' = ' + JSON.stringify(this.authentication);
+
+    langs = '<script>' + authentication + '</script>';
+
+    return new handlebars.SafeString(langs);
+  });
+
   // loader
 
   function loadAppPage(location, root, resource) {

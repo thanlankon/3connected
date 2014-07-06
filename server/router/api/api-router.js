@@ -44,24 +44,24 @@ define('router.Api', function (module, require) {
       var authentication = req.authentication;
       var authorizator = methodMap.authorizator;
 
-      if (authentication.isAuthenticated) {
-        if (authorizator) {
+      if (authorizator) {
+        if (authentication.isAuthenticated) {
           authorizator(req, authentication, Role, commit);
         } else {
-          commit(true);
+          commit(false, true);
         }
       } else {
-        commit(false);
+        commit(true);
       }
 
-      function commit(authorized) {
+      function commit(authorized, requireLogin) {
         if (authorized) {
           methodMap.method(req, res);
           return;
         }
 
         var error = {
-          code: 'AUTHENTICATION.PERMISSION_DENIED'
+          code: requireLogin ? 'AUTHENTICATION.REQUIRE_AUTHENTICATE' : 'AUTHENTICATION.PERMISSION_DENIED'
         };
 
         ServiceUtil.sendServiceResponse(res, error);

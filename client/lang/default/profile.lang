@@ -1,0 +1,4 @@
+# message 
+
+profile.getSimpleProfile.error.unknown = Error during retrieving profile
+profile.getSimpleProfile.notFound = Profile not found
