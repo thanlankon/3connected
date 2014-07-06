@@ -113,7 +113,7 @@ define.model('model.Course', function (model, ModelUtil, require) {
       });
   };
 
-  model.findCourseStudent = function (courseId, studentId, callback) {
+  model.findCourseStudent = function (studentId, callback) {
 
     // find the Course
     Course.findAll({
@@ -139,10 +139,7 @@ define.model('model.Course', function (model, ModelUtil, require) {
         }, {
         model: Major,
         as: 'major'
-      }],
-      where: {
-        courseId: courseId
-      }
+      }]
 
     })
       .success(function (courseStudent) {

@@ -200,7 +200,6 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
     //    var courseId = req.body.courseId;
 
     var studentId = req.authentication.userInformationId;
-    var courseId = req.query.courseId;
 
     var serviceResponse = {
       message: null,
@@ -208,7 +207,7 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
     };
 
 
-    CourseModel.findCourseStudent(courseId, studentId, function (error, courseStudent, isNotFound) {
+    CourseModel.findCourseStudent(studentId, function (error, courseStudent, isNotFound) {
       if (error) {
         serviceResponse.message = 'course.findCourseAttendanceStudent.error';
         serviceResponse.error = error;
@@ -219,7 +218,10 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
           };
           serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
         } else {
-          serviceResponse.data = courseStudent;
+          serviceResponse.data = {
+            items: courseStudent,
+            total: courseStudent.length
+          };
         }
       }
 
