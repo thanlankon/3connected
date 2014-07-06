@@ -172,7 +172,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       showStatusbar: false
     });
 
-    this.element.on('rowClick', this.proxy(function (event) {
+    this.element.on('rowClick rowclick', this.proxy(function (event) {
       var args = event.args;
 
       var row = this.element.jqxGrid('getrowdata', args.rowindex);
@@ -233,13 +233,15 @@ define.component('component.common.Grid', function (component, require, Util, La
     // date type
     source.dataType = 'json';
 
-    var proxyMethod;
+    var proxy, proxyMethod;
 
     // service url
     if (ServiceProxy.proxy && ServiceProxy.method) {
       proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
+      proxy = ServiceProxy.proxy;
     } else {
       proxyMethod = ServiceProxy.findAll;
+      proxy = ServiceProxy;
     }
 
     source.url = proxyMethod.url;
@@ -251,10 +253,10 @@ define.component('component.common.Grid', function (component, require, Util, La
     source.root = 'data.items';
 
     // id attribute
-    source.id = ServiceProxy.entityId;
+    source.id = proxy.entityId;
 
     // data fields
-    source.dataFields = ServiceProxy.EntityMap;
+    source.dataFields = proxy.EntityMap;
 
     // source mapping char
     source.mapChar = '.';
