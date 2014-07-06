@@ -172,7 +172,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       showStatusbar: false
     });
 
-    this.element.on('rowClick', this.proxy(function (event) {
+    this.element.on('rowClick rowclick', this.proxy(function (event) {
       var args = event.args;
 
       var row = this.element.jqxGrid('getrowdata', args.rowindex);
@@ -186,7 +186,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       rowElement.addClass('selected');
       this.lastSelectedRow = rowElement;
 
-      var entityId = row[source.id];
+      var entityId = row[this.source.id];
 
       this.updateDependsEntityFocusedElements(entityId);
 
@@ -213,7 +213,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
         if (!row) continue;
 
-        var entityId = row[source.id];
+        var entityId = row[this.source.id];
 
         this.updateDependsEntitySelectedElements(entityId);
       }
@@ -226,7 +226,7 @@ define.component('component.common.Grid', function (component, require, Util, La
     this.gridInitialized = true;
   };
 
-  component.generateSource = function(ServiceProxy) {
+  component.generateSource = function (ServiceProxy) {
     var source = {};
     this.source = source;
 
@@ -376,14 +376,16 @@ define.component('component.common.Grid', function (component, require, Util, La
     return dataAdapter
   };
 
-  component.setServiceProxy = function(ServiceProxy) {
+  component.setServiceProxy = function (ServiceProxy) {
     var source = this.generateSource(ServiceProxy);
 
     // clear filter conditions when change ServiceProxy
     this.filterConditions = {};
     this.excludeConditions = {};
 
-    this.element.jqxGrid({source: source});
+    this.element.jqxGrid({
+      source: source
+    });
   }
 
   component.refreshData = function () {

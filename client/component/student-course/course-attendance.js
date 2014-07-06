@@ -139,8 +139,8 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
             this.data.attr({
               courseAttendance: {
                 percentAbsents: percentAbsents,
-                totalAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents,
-                totalPresents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents,
+                totalAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents,
+                totalPresents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents,
 
               }
             });
