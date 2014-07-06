@@ -29,8 +29,6 @@ define('db.Deploy', function (module, require) {
     seedSchedule(queryChainer);
     seedCourseStudent(queryChainer);
 
-    seedAccount(queryChainer);
-
     seedGrade(queryChainer);
 
     seedNewsCategory(queryChainer);
@@ -345,20 +343,7 @@ define('db.Deploy', function (module, require) {
         }])
   }
 
-  function seedAccount(queryChainer) {
-    var Account = require('model.entity.Account');
 
-    queryChainer
-      .add(
-        Account, 'create', [{
-          userInformationId: 4,
-          role: 2,
-          username: 'mailtt',
-          password: 'abc123',
-          isActive: true,
-          expiredDate: '01/01/2016'
-        }])
-  }
 
   function seedGrade(queryChainer) {
     var Grade = require('model.entity.Grade');
@@ -419,6 +404,26 @@ define('db.Deploy', function (module, require) {
           isActive: true,
           expiredDate: '01/01/2016'
         }])
+      .add(
+        Account, 'create', [{
+          userInformationId: 4,
+          role: 2,
+          username: 'mailtt',
+          password: 'abc123',
+          isActive: true,
+          expiredDate: '01/01/2016'
+        }])
+      .add(
+        Account, 'create', [{
+          userInformationId: 1,
+          role: 5,
+          username: 'thanhvm',
+          password: 'abc123',
+          isActive: true,
+          expiredDate: '01/01/2016'
+      }])
+
+
   }
 
   function deploySchema(callback) {

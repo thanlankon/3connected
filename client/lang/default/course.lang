@@ -47,6 +47,8 @@ course.updateCourseAttendance.error.unknown = Error during updating course's att
 
 course.findAttendanceStudent.error = Error during finding attendance student
 course.findAttendanceStudent.notFound = Student's attendance not found
+course.findCourseAttendanceStudent.error = Error during finding course
+course.findCourseAttendanceStudent.notFound = Course not found
 
 # schedule
 

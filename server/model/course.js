@@ -12,6 +12,12 @@ define.model('model.Course', function (model, ModelUtil, require) {
   var Course = require('model.entity.Course');
   var Schedule = require('model.entity.Schedule');
   var Attendance = require('model.entity.Attendance');
+  var SubjectVersion = require('model.entity.SubjectVersion');
+  var Subject = require('model.entity.Subject');
+  var Class = require('model.entity.Class');
+  var Term = require('model.entity.Term');
+  var Major = require('model.entity.Major');
+  var CourseStudent = require('model.entity.CourseStudent');
 
   model.Entity = Course;
 
@@ -101,6 +107,46 @@ define.model('model.Course', function (model, ModelUtil, require) {
     })
       .success(function (attendanceStudent) {
         callback(null, attendanceStudent, false);
+      })
+      .error(function (error) {
+        callback(error);
+      });
+  };
+
+  model.findCourseStudent = function (courseId, studentId, callback) {
+
+    // find the Course
+    Course.findAll({
+      include: [{
+        model: SubjectVersion,
+        as: 'subjectVersion',
+        include: [{
+          model: Subject,
+          as: 'subject'
+          }]
+        }, {
+        model: CourseStudent,
+        as: 'courseStudents',
+        where: {
+          studentId: studentId
+        }
+        }, {
+        model: Class,
+        as: 'class'
+        }, {
+        model: Term,
+        as: 'term'
+        }, {
+        model: Major,
+        as: 'major'
+      }],
+      where: {
+        courseId: courseId
+      }
+
+    })
+      .success(function (courseStudent) {
+        callback(null, courseStudent, false);
       })
       .error(function (error) {
         callback(error);
