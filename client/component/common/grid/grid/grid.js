@@ -233,11 +233,19 @@ define.component('component.common.Grid', function (component, require, Util, La
     // date type
     source.dataType = 'json';
 
+    var proxyMethod;
+
     // service url
-    source.url = ServiceProxy.findAll.url;
+    if (ServiceProxy.proxy && ServiceProxy.method) {
+      proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
+    } else {
+      proxyMethod = ServiceProxy.findAll;
+    }
+
+    source.url = proxyMethod.url;
 
     // http method
-    source.type = ServiceProxy.findAll.httpMethod;
+    source.type = proxyMethod.httpMethod;
 
     // root element
     source.root = 'data.items';
