@@ -29,6 +29,8 @@ define('db.Deploy', function (module, require) {
     seedSchedule(queryChainer);
     seedCourseStudent(queryChainer);
 
+    seedAccount(queryChainer);
+
     seedGrade(queryChainer);
 
     seedNewsCategory(queryChainer);
@@ -340,6 +342,21 @@ define('db.Deploy', function (module, require) {
         CourseStudent, 'create', [{
           courseId: 1,
           studentId: 1
+        }])
+  }
+
+  function seedAccount(queryChainer) {
+    var Account = require('model.entity.Account');
+
+    queryChainer
+      .add(
+        Account, 'create', [{
+          userInformationId: 4,
+          role: 2,
+          username: 'mailtt',
+          password: 'abc123',
+          isActive: true,
+          expiredDate: '01/01/2016'
         }])
   }
 

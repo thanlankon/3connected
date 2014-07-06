@@ -2,7 +2,7 @@
  * System          : 3connected
  * Component       : Course model
  * Creator         : VyBD
- * Modifier        : TrongND
+ * Modifier        : TrongND, UayLu
  * Created date    : 2014/06/17
  * Modified date   : 2014/06/23
  */
@@ -95,7 +95,9 @@ define.model('model.Course', function (model, ModelUtil, require) {
       }],
       where: {
         courseId: courseId
-      }
+      },
+      order: 'schedules.date'
+
     })
       .success(function (attendanceStudent) {
         callback(null, attendanceStudent, false);

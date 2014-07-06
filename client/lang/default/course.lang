@@ -96,6 +96,10 @@ attendance.allAbsent = Absent all
 attendance.totalSlots.total = Total
 attendance.totalSlots.slots = slots
 
+attendance.totalPresent = Total present
+attendance.totalAbsent = Total absent
+attendance.percentAttendance = Percent absent
+
 # grade
 
 grade.nameCode = {{name}} ({{code}})
