@@ -19,10 +19,10 @@ define.service('service.CategoryOfNews', function (service, require, ServiceUtil
 
     findAll: {
       buildFindOptions: function (findOptions) {
-        //        findOptions.include = [{
-        //          model: News,
-        //          as: 'news'
-        //        }];
+        findOptions.include = [{
+          model: News,
+          as: 'news'
+        }];
       }
     },
   };

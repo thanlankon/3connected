@@ -28,136 +28,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     var ServiceProxy = options.ServiceProxy;
 
-    var source = {};
-    this.source = source;
-
-    // date type
-    source.dataType = 'json';
-
-    // service url
-    source.url = ServiceProxy.findAll.url;
-
-    // http method
-    source.type = ServiceProxy.findAll.httpMethod;
-
-    // root element
-    source.root = 'data.items';
-
-    // id attribute
-    source.id = ServiceProxy.entityId;
-
-    // data fields
-    source.dataFields = ServiceProxy.EntityMap;
-
-    // source mapping char
-    source.mapChar = '.';
-    source.mapchar = '.';
-
-    // auto update sort
-    source.sort = this.proxy(function () {
-      this.element.jqxGrid('updatebounddata', 'sort');
-
-      this.clearSelection();
-    });
-
-    // auto update filter
-    source.filter = this.proxy(function () {
-      this.element.jqxGrid('updatebounddata', 'filter');
-      this.clearSelection();
-    });
-
-    // data adapter
-    var dataAdapter = new jQuery.jqx.dataAdapter(source, {
-
-      // custom paging data
-      beforeLoadComplete: function (data, originalData) {
-        //        console.log(data.length);
-        dataAdapter.totalrecords = originalData.data.total;
-      },
-
-      // custom data send to server
-      formatData: this.proxy(function (originalData) {
-        var data = {};
-
-        if (this.element.jqxGrid('pageable')) {
-          data.pageSize = originalData.pagesize;
-          data.pageIndex = originalData.pagenum || 0;
-        }
-
-        if (originalData.sortdatafield) {
-          data.sortField = originalData.sortdatafield;
-
-          // check if dataField is mapped
-          for (var j = 0, dataFieldLen = source.dataFields.length; j < dataFieldLen; j++) {
-            if (source.dataFields[j].name == data.sortField && source.dataFields[j].map) {
-              data.sortField = source.dataFields[j].map;
-              break;
-            }
-          }
-
-          data.sortOrder = originalData.sortorder || 'ASC';
-        }
-
-        if (originalData.filterscount) {
-          data.filters = [];
-
-          for (var i = 0, len = originalData.filterscount; i < len; i++) {
-            var dataField = originalData['filterdatafield' + i];
-            var dataValue = originalData['filtervalue' + i];
-
-            if (['gender'].indexOf(dataField) != -1) {
-              var ConvertUtil = require('core.util.ConvertUtil');
-
-              dataValue = ConvertUtil.Gender.toGender(dataValue);
-            }
-
-            if (['role'].indexOf(dataField) != -1) {
-              var ConvertUtil = require('core.util.ConvertUtil');
-
-              dataValue = ConvertUtil.Role.toRole(dataValue);
-            }
-
-            // check if dataField is mapped
-            for (var j = 0, dataFieldLen = source.dataFields.length; j < dataFieldLen; j++) {
-              if (source.dataFields[j].name == dataField && source.dataFields[j].map) {
-                dataField = source.dataFields[j].map;
-                break;
-              }
-            }
-
-            data.filters.push({
-              field: dataField,
-              value: dataValue,
-            });
-          }
-        }
-
-        if (this.filterConditions) {
-          if (!data.filters) data.filters = [];
-
-          Util.Collection.each(this.filterConditions, function (value, key) {
-            data.filters.push({
-              field: key,
-              value: value,
-            });
-          });
-        }
-
-        if (this.excludeConditions) {
-          if (!data.excludeFilters) data.excludeFilters = [];
-
-          Util.Collection.each(this.excludeConditions, function (value, key) {
-            data.excludeFilters.push({
-              field: key,
-              value: value,
-            });
-          });
-        }
-
-        return data;
-      })
-
-    });
+    var source = this.generateSource(ServiceProxy);
 
     var gridOptions = options.grid;
 
@@ -269,7 +140,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     this.element.jqxGrid({
       // source
-      source: dataAdapter,
+      source: source,
       // paging
       pageable: true,
       pageSize: 50,
@@ -289,7 +160,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       // size
       width: '100%',
       height: '100%',
-      scrollbarSize: 12,
+      scrollBarSize: 12,
       scrollMode: 'logical',
       // columns
       columns: gridOptions.columns,
@@ -354,6 +225,158 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     this.gridInitialized = true;
   };
+
+  component.generateSource = function(ServiceProxy) {
+    var source = {};
+    this.source = source;
+
+    // date type
+    source.dataType = 'json';
+
+    // service url
+    source.url = ServiceProxy.findAll.url;
+
+    // http method
+    source.type = ServiceProxy.findAll.httpMethod;
+
+    // root element
+    source.root = 'data.items';
+
+    // id attribute
+    source.id = ServiceProxy.entityId;
+
+    // data fields
+    source.dataFields = ServiceProxy.EntityMap;
+
+    // source mapping char
+    source.mapChar = '.';
+    source.mapchar = '.';
+
+    // auto update sort
+    source.sort = this.proxy(function () {
+      this.element.jqxGrid('updatebounddata', 'sort');
+
+      this.clearSelection();
+    });
+
+    // auto update filter
+    source.filter = this.proxy(function () {
+      this.element.jqxGrid('updatebounddata', 'filter');
+      this.clearSelection();
+    });
+
+    // data adapter
+    var dataAdapter = new jQuery.jqx.dataAdapter(source, {
+
+      // custom paging data
+      beforeLoadComplete: this.proxy(function (data, originalData) {
+        var totalRecords;
+
+        if (this.eventHandlers.getTotalRecords) {
+          totalRecords = this.eventHandlers.getTotalRecords(originalData);
+        } else {
+          totalRecords = originalData.data.total;
+        }
+
+        dataAdapter.totalrecords = totalRecords;
+      }),
+
+      // custom data send to server
+      formatData: this.proxy(function (originalData) {
+        var data = {};
+
+        if (this.element.jqxGrid('pageable')) {
+          data.pageSize = originalData.pagesize;
+          data.pageIndex = originalData.pagenum || 0;
+        }
+
+        if (originalData.sortdatafield) {
+          data.sortField = originalData.sortdatafield;
+
+          // check if dataField is mapped
+          for (var j = 0, dataFieldLen = source.dataFields.length; j < dataFieldLen; j++) {
+            if (source.dataFields[j].name == data.sortField && source.dataFields[j].map) {
+              data.sortField = source.dataFields[j].map;
+              break;
+            }
+          }
+
+          data.sortOrder = originalData.sortorder || 'ASC';
+        }
+
+        if (originalData.filterscount) {
+          data.filters = [];
+
+          for (var i = 0, len = originalData.filterscount; i < len; i++) {
+            var dataField = originalData['filterdatafield' + i];
+            var dataValue = originalData['filtervalue' + i];
+
+            if (['gender'].indexOf(dataField) != -1) {
+              var ConvertUtil = require('core.util.ConvertUtil');
+
+              dataValue = ConvertUtil.Gender.toGender(dataValue);
+            }
+
+            if (['role'].indexOf(dataField) != -1) {
+              var ConvertUtil = require('core.util.ConvertUtil');
+
+              dataValue = ConvertUtil.Role.toRole(dataValue);
+            }
+
+            // check if dataField is mapped
+            for (var j = 0, dataFieldLen = source.dataFields.length; j < dataFieldLen; j++) {
+              if (source.dataFields[j].name == dataField && source.dataFields[j].map) {
+                dataField = source.dataFields[j].map;
+                break;
+              }
+            }
+
+            data.filters.push({
+              field: dataField,
+              value: dataValue,
+            });
+          }
+        }
+
+        if (this.filterConditions) {
+          if (!data.filters) data.filters = [];
+
+          Util.Collection.each(this.filterConditions, function (value, key) {
+            data.filters.push({
+              field: key,
+              value: value,
+            });
+          });
+        }
+
+        if (this.excludeConditions) {
+          if (!data.excludeFilters) data.excludeFilters = [];
+
+          Util.Collection.each(this.excludeConditions, function (value, key) {
+            data.excludeFilters.push({
+              field: key,
+              value: value,
+            });
+          });
+        }
+
+        return data;
+      })
+
+    });
+
+    return dataAdapter
+  };
+
+  component.setServiceProxy = function(ServiceProxy) {
+    var source = this.generateSource(ServiceProxy);
+
+    // clear filter conditions when change ServiceProxy
+    this.filterConditions = {};
+    this.excludeConditions = {};
+
+    this.element.jqxGrid({source: source});
+  }
 
   component.refreshData = function () {
     this.element.jqxGrid('updatebounddata');

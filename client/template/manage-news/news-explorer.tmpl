@@ -5,22 +5,8 @@
       <li class="icon back">
       </li>
 
-      <li class="icon save" id="button-save">
-        <span>{{lang "news.save"}}</span>
-      </li>
-
-      <li class="divider">
-      </li>
-
-      <li class="icon attachment add" id="button-add-attachments">
-        <span>{{lang "news.addAttachments"}}</span>
-      </li>
-      <li class="icon attachment remove" id="button-remove-attachments">
-        <span>{{lang "news.removeAttachments"}}</span>
-      </li>
-
-      <li class="right component">
-        {{component.gridColumnsChooser grid="gridNews"}}
+      <li class="icon create" id="button-create">
+        <a href="{{url module="manage-news" action="create"}}">{{lang "news.create"}}</a>
       </li>
     </ul>
   </div>
@@ -39,6 +25,7 @@
             </div>
           </div>
           <div class="news">
+            <div id="news-content" class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"></div>
           </div>
         </div>
       </div>
