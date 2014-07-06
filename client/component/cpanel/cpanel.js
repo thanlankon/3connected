@@ -27,20 +27,6 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 
       var ProfileProxy = require('proxy.Profile');
       ProfileProxy.getSimpleProfile({}, this.proxy(getSimpleProfileDone));
-
-      function getSimpleProfileDone(serviceResponse) {
-        if (serviceResponse.hasError()) return;
-
-        var profile = serviceResponse.getData();
-        profile.displayName = Lang.get('displayName', {
-          firstName: profile.firstName,
-          lastName: profile.lastName
-        });
-
-        this.data.attr({
-          profile: profile
-        });
-      }
     }
 
     this.data.attr({
@@ -48,6 +34,20 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
         username: 'TrongND'
       }
     });
+
+    function getSimpleProfileDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var profile = serviceResponse.getData();
+      profile.displayName = Lang.get('displayName', {
+        firstName: profile.firstName,
+        lastName: profile.lastName
+      });
+
+      this.data.attr({
+        profile: profile
+      });
+    }
   };
 
   component.initView = function (view) {
