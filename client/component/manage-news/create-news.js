@@ -35,16 +35,29 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
   };
 
+  form.refreshData = function () {
+    if (!this.isFormInitialized) return;
+
+    this.editor.val('');
+
+    this.data.attr({
+      title: null,
+      content: null,
+      categoryIds: []
+    });
+
+    this.attachmentInfo = {};
+    this.attachmentData = {};
+
+    this.refreshAttachmentList();
+  };
+
   form.initForm = function () {
     this.element.on('visible', this.proxy(this.initFormComponents));
   };
 
   form.initFormComponents = function () {
-    if (this.isFormInitialized) {
-      return;
-    } else {
-      this.isFormInitialized = true;
-    }
+    if (this.isFormInitialized) return;
 
     // init splitter
     this.element.find('#splitter').jqxSplitter({
@@ -68,6 +81,8 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
       renderer: this.proxy(function (index, label, value) {
         var fileInfo = this.attachmentInfo[value];
+
+        if (!fileInfo) return '';
 
         var html = '\
           <div> \
@@ -115,6 +130,9 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
     // handle for attachments selected
     this.inputAttachments = this.element.find('#input-attachments');
     this.inputAttachments.change(this.proxy(this.updateSelectedAttachments));
+
+    // mark form initialized
+    this.isFormInitialized = true;
   };
 
   form.resizeFormComponents = function () {
@@ -144,8 +162,12 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
   };
 
   form.refreshAttachmentList = function () {
+    var source = this.buildAttachmentSource();
+
+    console.log(source);
+
     this.listBoxAttachment.jqxListBox({
-      source: this.buildAttachmentSource()
+      source: source
     });
   };
 
@@ -245,8 +267,6 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
     this.attachmentInfo = Util.Object.omit(this.attachmentInfo, [attachmentUid]);
     this.attachmentData = Util.Object.omit(this.attachmentData, [attachmentUid]);
-
-    console.log(this.attachmentData);
 
     this.refreshAttachmentList();
   };
