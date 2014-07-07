@@ -10,7 +10,7 @@ define.service('service.Profile', function (service, require, ServiceUtil, Util)
   service.map = {
     url: '/profile',
 
-    authorize: function(req, authentication, Role, commit) {
+    authorize: function (req, authentication, Role, commit) {
       commit(authentication.isAuthenticated);
     },
 
@@ -18,6 +18,11 @@ define.service('service.Profile', function (service, require, ServiceUtil, Util)
       getSimpleProfile: {
         url: '/getSimpleProfile',
         httpMethod: 'GET'
+      },
+
+      changePassword: {
+        url: '/changePassword',
+        httpMethod: 'POST'
       }
     }
   };
@@ -49,6 +54,45 @@ define.service('service.Profile', function (service, require, ServiceUtil, Util)
           serviceResponse.message = 'profile.getSimpleProfile.notFound';
         } else {
           serviceResponse.data = profile;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  service.changePassword = function (req, res) {
+
+    var authentication = req.authentication;
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var accountId = authentication.accountId;
+    var currentPassword = req.body.currentPassword;
+    var password = req.body.password;
+
+    ProfileModel.changePassword(accountId, currentPassword, password, function (error, profile, isNotFound, isIncorrect) {
+      if (error) {
+        serviceResponse.message = 'profile.changePassword.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'profile.getSimpleProfile.error.notFound';
+        } else if (isIncorrect) {
+          serviceResponse.error = {
+            code: 'ENTITY.INVALID_DATA'
+          };
+          serviceResponse.message = 'profile.changePassword.error.incorrectPassword';
+        } else {
+          serviceResponse.message = 'profile.changePassword.success';
         }
       }
 

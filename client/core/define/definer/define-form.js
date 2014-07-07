@@ -14,7 +14,8 @@ define.form = function (id, definer) {
       Dialog: {
         VIEW: 21,
         CREATE: 22,
-        EDIT: 23
+        EDIT: 23,
+        VALIDATION: 24
       }
     };
 

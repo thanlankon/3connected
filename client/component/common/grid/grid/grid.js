@@ -1,5 +1,7 @@
 define.component('component.common.Grid', function (component, require, Util, Lang, jQuery) {
 
+  component.maximumPageItems = 10000;
+
   component.initComponent = function (element, options) {
 
     var DateTimeConstant = require('constant.DateTime');
@@ -38,6 +40,10 @@ define.component('component.common.Grid', function (component, require, Util, La
 
       gridColumn.hideable = true;
       gridColumn.resizable = true;
+
+      if (gridColumn.cellsRenderer) {
+        gridColumn.cellsRenderer = this.proxy(defaultCellsRenderer(gridColumn.cellsRenderer));
+      }
 
       // for date
       if (['dateOfBirth'].indexOf(gridColumn.dataField) != -1) {
@@ -138,22 +144,18 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     this.element.data('GridComponent', this);
 
-    this.element.jqxGrid({
+    gridOptions = {
       // source
       source: source,
       // paging
-      pageable: true,
-      pageSize: 50,
-      pagerMode: 'simple',
-      virtualMode: true,
-      renderGridRows: function (params) {
-        return params.data;
-      },
+      pageable: options.grid.pageable !== false,
+      // resizing
+      columnsResize: true,
       // sorting
-      sortable: true,
+      sortable: options.grid.sortable !== false,
       // filtering
-      filterable: true,
-      showFilterRow: true,
+      filterable: options.grid.filterable !== false,
+      showFilterRow: options.grid.filterable !== false,
       // selection
       selectionMode: options.grid.singleSelection ? 'singlerow' : 'checkbox',
       enableHover: false,
@@ -170,7 +172,18 @@ define.component('component.common.Grid', function (component, require, Util, La
       showEmptyRow: false,
       // toolbar
       showStatusbar: false
-    });
+    };
+
+    if (options.grid.pageable !== false) {
+      gridOptions.pageSize = options.grid.pageable !== false ? this.maximumPageItems : 50;
+      gridOptions.pagerMode = 'simple';
+      gridOptions.virtualMode = true;
+      gridOptions.renderGridRows = function (params) {
+        return params.data;
+      };
+    }
+
+    this.element.jqxGrid(gridOptions);
 
     this.element.on('rowClick rowclick', this.proxy(function (event) {
       var args = event.args;
@@ -224,24 +237,47 @@ define.component('component.common.Grid', function (component, require, Util, La
     }));
 
     this.gridInitialized = true;
+
+    function defaultCellsRenderer(cellsRenderer) {
+      return function (rowIndex, columnField, value, defaultHtml, columnProperties) {
+        if (columnProperties.hidden) return;
+
+        var rowData = this.element.jqxGrid('getrowdata', rowIndex);
+
+        var text = cellsRenderer(rowData, columnField, value);
+
+        var elmHtml = jQuery(defaultHtml).html(text);
+        var elmWrapper = jQuery('<div />');
+
+        var html = elmWrapper.append(elmHtml).html();
+
+        elmHtml.remove();
+        elmWrapper.remove();
+
+        return html;
+      };
+    }
+
   };
 
-  component.generateSource = function(ServiceProxy) {
+  component.generateSource = function (ServiceProxy) {
     var source = {};
     this.source = source;
 
     // date type
     source.dataType = 'json';
 
-    var proxy, proxyMethod;
+    var proxy, proxyMethod, entityMap;
 
     // service url
     if (ServiceProxy.proxy && ServiceProxy.method) {
       proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
       proxy = ServiceProxy.proxy;
+      entityMap = ServiceProxy.entityMap ? proxy[ServiceProxy.entityMap] : proxy.EntityMap;
     } else {
       proxyMethod = ServiceProxy.findAll;
       proxy = ServiceProxy;
+      entityMap = ServiceProxy.EntityMap;
     }
 
     source.url = proxyMethod.url;
@@ -280,6 +316,10 @@ define.component('component.common.Grid', function (component, require, Util, La
 
       // custom paging data
       beforeLoadComplete: this.proxy(function (data, originalData) {
+        if (this.eventHandlers.processData) {
+          this.eventHandlers.processData(data, originalData);
+        }
+
         var totalRecords;
 
         if (this.eventHandlers.getTotalRecords) {
@@ -343,9 +383,15 @@ define.component('component.common.Grid', function (component, require, Util, La
 
             data.filters.push({
               field: dataField,
-              value: dataValue,
+              value: dataValue
             });
           }
+        }
+
+        if (this.params) {
+          Util.Collection.each(this.params, function (value, key) {
+            data[key] = value;
+          });
         }
 
         if (this.filterConditions) {
@@ -354,7 +400,7 @@ define.component('component.common.Grid', function (component, require, Util, La
           Util.Collection.each(this.filterConditions, function (value, key) {
             data.filters.push({
               field: key,
-              value: value,
+              value: value
             });
           });
         }
@@ -365,7 +411,7 @@ define.component('component.common.Grid', function (component, require, Util, La
           Util.Collection.each(this.excludeConditions, function (value, key) {
             data.excludeFilters.push({
               field: key,
-              value: value,
+              value: value
             });
           });
         }
@@ -378,14 +424,16 @@ define.component('component.common.Grid', function (component, require, Util, La
     return dataAdapter
   };
 
-  component.setServiceProxy = function(ServiceProxy) {
+  component.setServiceProxy = function (ServiceProxy) {
     var source = this.generateSource(ServiceProxy);
 
     // clear filter conditions when change ServiceProxy
     this.filterConditions = {};
     this.excludeConditions = {};
 
-    this.element.jqxGrid({source: source});
+    this.element.jqxGrid({
+      source: source
+    });
   }
 
   component.refreshData = function () {
@@ -479,12 +527,26 @@ define.component('component.common.Grid', function (component, require, Util, La
     pageSize = ~~pageSize;
 
     if (pageSize == 0) {
-      pageSize = 10000;
+      pageSize = this.maximumPageItems;
     }
 
     this.element.jqxGrid({
       pageSize: pageSize
     });
+  };
+
+  component.setParams = function (key, value) {
+    if (!this.params) {
+      this.params = {};
+    }
+
+    if (!value == null) {
+      this.params = Util.Object.omit(this.params, key);
+    } else {
+      this.params[key] = value;
+    }
+
+    this.refreshData();
   };
 
   component.setFilterConditions = function (key, value) {

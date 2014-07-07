@@ -9,8 +9,6 @@ define('core.view.helpers.text.DateTextHelper', function (module, require) {
   function dateTextHelper(date) {
     date = Util.value(date);
 
-    date = ConvertUtil.DateTime.formatDate(date);
-
     return View.safeString(date);
   }
 

@@ -5,7 +5,12 @@ define('component.export.grid.GridExport', function (module, require) {
   };
 
   function getGridData(grid) {
+    var jQuery = require('lib.jQuery');
+    var trimmer = jQuery('<div />');
+
     grid = grid.element;
+
+    var startIndex = grid.jqxGrid('selectionmode') === 'checkbox' ? 1 : 0;
 
     var gridColumns = grid.jqxGrid('columns').records;
 
@@ -14,7 +19,7 @@ define('component.export.grid.GridExport', function (module, require) {
       items: []
     };
 
-    for (var i = 1, len = gridColumns.length; i < len; i++) {
+    for (var i = startIndex, len = gridColumns.length; i < len; i++) {
       var column = gridColumns[i];
 
       if (column.hidden) continue;
@@ -40,14 +45,20 @@ define('component.export.grid.GridExport', function (module, require) {
         var fieldName = gridData.fields[j].name;
         var fieldValue = row[fieldName];
 
+        console.log(fieldName, fieldValue);
+
         // for datetime
         if (['dateOfBirth'].indexOf(fieldName) != -1) {
-          fieldValue = ConvertUtil.DateTime.formatDate(fieldValue);
+          // fieldValue = ConvertUtil.DateTime.formatDate(fieldValue);
+          fieldValue = fieldValue;
         }
         // for gender
         else if (['gender'].indexOf(fieldName) != -1) {
           fieldValue = ConvertUtil.Gender.toString(fieldValue);
         }
+
+        // trim html
+        fieldValue = trimmer.html(fieldValue || '').text();
 
         item[fieldName] = fieldValue;
       }

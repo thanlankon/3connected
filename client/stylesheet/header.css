@@ -95,7 +95,7 @@
 .cpanel .header .left-section ul.navigator a:hover {
   background-color: #eee;
 }
-.cpanel .header .left-section ul.navigator li.devider {
+.cpanel .header .left-section ul.navigator li.divider {
   border-top: 1px solid #2b579a;
 }
 .cpanel .header .title {
@@ -127,6 +127,9 @@
   padding-right: 15px;
   border-right: solid 1px #555;
   color: #333;
+}
+.cpanel .header .right-section .username.has-profile:hover {
+  text-decoration: underline;
 }
 .cpanel .header .right-section .sign-out {
   padding-left: 35px;

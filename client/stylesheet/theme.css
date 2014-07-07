@@ -32,6 +32,10 @@
 .jqx-grid-metro .schedule-weekend {
   color: #fa4444 !important;
 }
+.jqx-grid-metro .average-grade {
+  font-weight: bold;
+  color: red;
+}
 .jqx-fill-state-pressed-metro {
   border-color: #17396d;
   color: #fff;

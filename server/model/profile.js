@@ -3,6 +3,8 @@ define.model('model.Profile', function (model, ModelUtil, require) {
   var Role = require('enum.Role');
   var Staff = require('model.entity.Staff');
   var Student = require('model.entity.Student');
+  var Account = require('model.entity.Account');
+  var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   model.getSimpleProfile = function (role, userInformationId, callback) {
 
@@ -59,6 +61,41 @@ define.model('model.Profile', function (model, ModelUtil, require) {
         });
     }
 
+  };
+
+  model.changePassword = function (accountId, currentPassword, password, callback) {
+    // encrypt password
+    currentPassword = AuthenticationUtil.encryptPassword(currentPassword);
+    password = AuthenticationUtil.encryptPassword(password);
+
+    Account.find(accountId)
+      .success(function (account) {
+        if (account == null) {
+          // not found
+          callback(null, null, true, false);
+          return;
+        }
+
+        if (account.password !== currentPassword) {
+          // incorrect password
+          callback(null, null, false, true);
+          return;
+        }
+
+        account.password = password;
+
+        account.save()
+          .success(function (account) {
+            // update successfully
+            callback(null, account, false, false);
+          })
+          .error(function (error) {
+            callback(error);
+          });
+      })
+      .error(function (error) {
+        callback(error);
+      });
   };
 
 });

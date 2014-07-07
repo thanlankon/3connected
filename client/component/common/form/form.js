@@ -117,7 +117,8 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
     this.grid = new GridComponent(this.element.find('[data-component-role=grid]'), {
       ServiceProxy: this.ServiceProxy,
-      grid: gridConfig
+      grid: gridConfig,
+      events: gridConfig.events || {}
     });
 
   };
@@ -137,7 +138,7 @@ define.component('component.Form', function (component, require, Util, Lang) {
   component.getGridConfig = function (grid) {
     var gridConfig = this.gridConfig;
     if (Util.Object.isFunction(gridConfig)) {
-      gridConfig = gridConfig();
+      gridConfig = this.proxy(gridConfig)();
 
       this.gridConfig = gridConfig;
     }

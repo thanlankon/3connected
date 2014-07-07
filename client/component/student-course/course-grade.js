@@ -1,43 +1,34 @@
 define.form('component.form.student-course.CourseGrade', function (form, require, Util, Lang) {
 
-  // map the form to the url
-  // the form is displayed when the url is matched
-  // url: #!manage-course/grade/:id
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
-      module: 'student-course',
-      action: 'grade'
+      module: 'course',
+      action: 'grade',
     }
   };
 
-  // the template that used by the form
-  form.tmpl = 'form.student-course.course-grade';
+  form.tmpl = 'form.student-course.grade';
 
-  // the form type is FORM
-  form.formType = form.FormType.FORM;
+  form.formType = form.FormType.Form.LIST;
 
-  form.initForm = function () {
-    var GradeGridComponent = require('component.common.GradeGrid');
-
-    this.gridGrade = new GradeGridComponent(this.element.find('#grid-course-grade'));
-
-    // bind event handlers to elements
-    this.element.find('#button-update-grade').click(this.proxy(this.updateGrade));
-
-    this.element.find('#button-reject-changes').click(this.proxy(this.rejectChanges));
-    this.element.find('#button-edit-grade').click(this.proxy(this.editGrade));
+  form.ServiceProxy = {
+    proxy: require('proxy.student.CourseOfStudent'),
+    method: 'getCourseGrade',
+    entityMap: 'CourseGradeEntityMap'
   };
 
-  form.refreshData = function (data) {
-    this.courseId = data.id;
+  form.exportConfig = require('export.student.CourseGrade');
 
-    this.switchToLockedMode();
+  form.refreshData = function (params) {
+    var courseId = params.id;
+
+    this.grid.setParams('courseId', courseId);
 
     var CourseProxy = require('proxy.Course');
 
     CourseProxy.findOne({
-      courseId: this.courseId
+      courseId: courseId
     }, this.proxy(findOneDone));
 
     function findOneDone(serviceResponse) {
@@ -45,115 +36,75 @@ define.form('component.form.student-course.CourseGrade', function (form, require
 
       var course = serviceResponse.getData();
 
-      this.data.attr({
-        course: course
-      });
-
-      this.refreshGrade();
+      this.data.attr(course);
     }
+  }
 
-  };
+  // grid config
+  form.gridConfig = function () {
 
-  form.refreshGrade = function () {
+    var gridColumns = [{
+      text: Lang.get('gradeCategory.gradeCategoryName'),
+      dataField: 'gradeCategoryName',
+      cellsRenderer: function (row, columnField, value) {
+        if (!row.gradeCategoryCode) {
+          return row.gradeCategoryName;
+        }
 
-    if (!this.courseId) return;
+        return Lang.get('gradeCategory.nameAndCode', {
+          gradeCategoryCode: row.gradeCategoryCode,
+          gradeCategoryName: row.gradeCategoryName
+        });
+      }
+    }, {
+      text: Lang.get('gradeCategory.weight'),
+      dataField: 'weight',
+    }, {
+      text: Lang.get('grade.value'),
+      dataField: 'value'
+    }];
 
-    var GradeProxy = require('proxy.Grade');
+    var gridConfig = {
+      columns: gridColumns,
+      singleSelection: true,
+      filterable: false,
+      sortable: false,
+      pageable: false,
 
-    var data = {
-      courseId: this.courseId
+      events: {
+        processData: this.proxy(this.processData)
+      }
     };
 
-    GradeProxy.getCourseGrade(data, this.proxy(getCourseGradeDone));
+    return gridConfig;
 
-    function getCourseGradeDone(serviceResponse) {
+  };
 
-      if (serviceResponse.hasError()) {
-        this.gridGrade.refreshData();
-        return;
+  form.processData = function (data, originalData) {
+    var totalGrade = 0;
+    var totalWeight = 0;
+
+    for (var i = 0, len = data.length; i < len; i++) {
+      var grade = data[i];
+
+      if (grade.value === 0 || grade.value) {
+        totalWeight += grade.weight;
+
+        totalGrade += grade.value * grade.weight;
       }
-
-      var gradeData = serviceResponse.getData();
-
-      if (gradeData.isLocked) {
-        this.switchToLockedMode();
-      } else if (gradeData.grades && gradeData.grades.length) {
-        this.switchToViewMode();
-      } else {
-        this.switchToEditMode();
-      }
-
-      this.gridGrade.refreshData(gradeData);
-
     }
 
-  };
+    var averageGrade = totalGrade / totalWeight;
 
-  form.updateGrade = function () {
-
-    var courseId = this.courseId;
-    var gradeData = this.gridGrade.getGradeData();
-
-    console.log(gradeData);
-
-    if (!gradeData.length) return;
-
-    var GradeProxy = require('proxy.Grade');
-
-    var data = {
-      courseId: courseId,
-      gradeData: gradeData
-    };
-
-    GradeProxy.updateCourseGrade(data, this.proxy(updateCourseGradeDone));
-
-    function updateCourseGradeDone(serviceResponse) {
-      if (serviceResponse.hasError()) return;
-
-      this.refreshGrade();
+    var aggregateItem = {
+      gradeCategoryName: '<span class="average-grade">' + Lang.get('grade.averageGrade') + '</span>',
+      value: '<span class="average-grade">' + averageGrade + '</span>',
     }
-  };
 
-  form.editGrade = function () {
-    this.switchToEditMode();
-  };
+    data.push(aggregateItem);
 
-  form.rejectChanges = function () {
-    this.switchToViewMode();
-    this.refreshGrade();
-  };
-
-  form.switchToLockedMode = function () {
-    // hide all edit toolbar component
-    this.element.find('[data-component-group=edit]').hide();
-
-    // hide all view toolbar component
-    this.element.find('[data-component-group=view]').hide();
-
-    // disable grid editable
-    this.gridGrade.setEditable(false);
-  };
-
-  form.switchToViewMode = function () {
-    // hide all edit toolbar component
-    this.element.find('[data-component-group=edit]').hide();
-
-    // show all view toolbar component
-    this.element.find('[data-component-group=view]').show();
-
-    // disable grid editable
-    this.gridGrade.setEditable(false);
-  };
-
-  form.switchToEditMode = function () {
-    // hide all edit component
-    this.element.find('[data-component-group=view]').hide();
-
-    // show all view toolbar component
-    this.element.find('[data-component-group=edit]').show();
-
-    // enable grid editable
-    this.gridGrade.setEditable(true);
+    originalData.items = data;
+    originalData.total = data.length;
   };
 
 });

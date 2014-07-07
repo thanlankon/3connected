@@ -17,3 +17,8 @@ account.create = Create account
 account.view = View account details
 account.edit = Edit account
 account.delete = Delete accountes
+
+# profile
+
+account.currentPassword = Current password
+account.confirmPassword = Confirm password

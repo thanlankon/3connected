@@ -2,22 +2,9 @@ define('core.auth.Authentication', function (module, require) {
 
   var AuthenticationModel = require('model.Authentication');
   var AuthenticationConfig = require('config.Authentication');
+  var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   var Authentication = {};
-
-  Authentication.encryptPassword = function (password) {
-    var Crypto = require('lib.Crypto');
-
-    var md5Hash = Crypto.createHash('md5');
-
-    return md5Hash.update(password).digest('hex');
-  };
-
-  Authentication.generateAccessToken = function () {
-    var UidSafe = require('lib.UidSafe');
-
-    return UidSafe.sync(32);
-  };
 
   Authentication.login = function (username, role, password, remember, callback) {
     AuthenticationModel.verifyAccount(username, role, password, function (error, account) {
@@ -32,7 +19,7 @@ define('core.auth.Authentication', function (module, require) {
         return;
       }
 
-      var accessToken = Authentication.generateAccessToken();
+      var accessToken = AuthenticationUtil.generateAccessToken();
 
       var timeToLive;
       if (remember) {
