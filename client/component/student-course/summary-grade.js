@@ -31,11 +31,11 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
       text: Lang.get('course.courseName'),
       dataField: 'courseName',
     }, {
-      text: Lang.get('course.numberOfCredits'),
-      dataField: 'numberOfCredits',
-    }, {
       text: Lang.get('course.subjectName'),
       dataField: 'subjectName',
+    }, {
+      text: Lang.get('course.numberOfCredits'),
+      dataField: 'numberOfCredits',
     }, {
       text: Lang.get('course.finalSubjectGrade'),
       dataField: 'finalSubjectGrade',
