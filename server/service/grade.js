@@ -93,27 +93,32 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     var termId = 1;
     var studentId = req.authentication.userInformationId;
 
-    TermModel.getTermCourseStudent(termId, studentId, function (error, terms, isNotFound) {
-      if (error) {
-        serviceResponse.message = 'grade.getTermCourseStudent.error.unknown';
-        serviceResponse.error = error;
-      } else {
-        if (isNotFound) {
-          serviceResponse.error = {
-            code: 'ENTITY.NOT_FOUND'
-          };
-          serviceResponse.message = 'grade.getTermCourseStudent.notFound';
-        } else {
-          var courseIds = [];
 
-          var courses = terms[0].courses;
-          for (var i = 0, len = courses.length; i < len; i++) {
-            courseIds.push(courses[i].courseId);
+    if (termId) {
+      TermModel.getTermCourseStudent(termId, studentId, function (error, terms, isNotFound) {
+        if (error) {
+          serviceResponse.message = 'grade.getTermCourseStudent.error.unknown';
+          serviceResponse.error = error;
+        } else {
+          if (isNotFound) {
+            serviceResponse.error = {
+              code: 'ENTITY.NOT_FOUND'
+            };
+            serviceResponse.message = 'grade.getTermCourseStudent.notFound';
+          } else {
+            var courseIds = [];
+
+            var courses = terms[0].courses;
+            for (var i = 0, len = courses.length; i < len; i++) {
+              courseIds.push(courses[i].courseId);
+            }
+            getCourseGradeStudent(courseIds, studentId);
           }
-          getCourseGradeStudent(courseIds, studentId);
         }
-      }
-    });
+      });
+    } else {
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    }
 
     function getCourseGradeStudent(courseIds, studentId) {
       GradeModel.getCourseGradeStudent(courseIds, studentId, function (error, termGradeStudent, isNotFound) {
@@ -121,6 +126,7 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
 
           serviceResponse.data = {
             items: termGradeStudent.summaryGradeStudent,
+            averageGrade: termGradeStudent.summaryGrade,
             total: termGradeStudent.summaryGradeStudent.length
           };
 

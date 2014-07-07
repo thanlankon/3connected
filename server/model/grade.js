@@ -285,8 +285,6 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         }
       }
 
-      console.log(gradeCategoryIds);
-
       Grade.findAll({
         where: {
           gradeCategoryId: gradeCategoryIds,
@@ -358,7 +356,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       var courseGradeStudent = {
         summaryGradeStudent: termGradeStudent,
-        finalGrade: summaryGrade
+        summaryGrade: summaryGrade
       };
 
       callback(null, courseGradeStudent, false);

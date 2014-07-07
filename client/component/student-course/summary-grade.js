@@ -77,8 +77,12 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
   };
 
   form.viewSummaryGrade = function () {
-    if (!this.data.attr('termId')) return;
-    console.log('abcd');
+
+    var termId = this.data.attr('termId');
+
+    this.grid.setFilterConditions('termId', termId);
+
+    console.log(termId);
 
   };
 
