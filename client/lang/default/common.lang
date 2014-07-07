@@ -65,6 +65,8 @@ manage.history.grade = Manage Grade History
 manage.news = Manage News
 summary.grade = Summary grade
 view.news = View news
+view.news = View News
+
 
 # entity
 
@@ -98,3 +100,4 @@ error.destroy.unknown = Error during deleting!
 validate.required = {{attributeName}} is required
 validate.positiveInteger = {{attributeName}} must be a positive integer
 validate.maxLength = {{attributeName}} is allowed maximum {{maxLength}} characters
+validate.equal = {{attributeName}} is not correct
