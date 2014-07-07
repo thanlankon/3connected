@@ -2,7 +2,7 @@
  * System          : 3connected
  * Component       : Subject course proxy
  * Creator         : VyBD
- * Modifier        : TrongND
+ * Modifier        : TrongND, UayLU
  * Created date    : 2014/06/16
  * Modified date   : 2014/06/22
  */

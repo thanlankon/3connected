@@ -18,11 +18,16 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       updateCourseGrade: {
         url: '/updateCourseGrade',
         httpMethod: 'POST'
+      },
+      getSumaryGrade: {
+        url: '/getSumaryGrade',
+        httpMethod: 'GET'
       }
     }
   };
 
   var GradeModel = require('model.Grade');
+  var TermModel = require('model.Term');
 
   service.getCourseGrade = function (req, res) {
 
@@ -74,6 +79,50 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     });
+
+  };
+
+  service.getSumaryGrade = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var termId = 1;
+    var studentId = req.authentication.userInformationId;
+
+    TermModel.getTermCourseStudent(termId, studentId, function (error, terms, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'grade.getTermCourseStudent.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'grade.getTermCourseStudent.notFound';
+        } else {
+          var courseIds = [];
+
+          var courses = terms[0].courses;
+          for (var i = 0, len = courses.length; i < len; i++) {
+            courseIds.push(courses[i].courseId);
+          }
+          getCourseGradeStudent(courseIds, studentId);
+        }
+      }
+    });
+
+    function getCourseGradeStudent(courseIds, studentId) {
+      GradeModel.getCourseGradeStudent(courseIds, studentId, function (error, termGradeStudent, isNotFound) {
+        if (termGradeStudent) {
+          serviceResponse.data = termGradeStudent;
+          ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+        }
+      });
+    }
 
   };
 

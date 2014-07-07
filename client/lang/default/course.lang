@@ -1,6 +1,7 @@
 # System          : 3connected
 # Component       : Course lang
 # Creator         : VyBD
+# Modifier        : UayLU
 # Created date    : 2014/17/06
 
 # attribute name
@@ -49,6 +50,8 @@ course.findAttendanceStudent.error = Error during finding attendance student
 course.findAttendanceStudent.notFound = Student's attendance not found
 course.findCourseAttendanceStudent.error = Error during finding course
 course.findCourseAttendanceStudent.notFound = Course not found
+course.findOneCourseStudent.error = Error during finding course
+course.findOneCourseStudent.notFound = Course not found
 
 # schedule
 
