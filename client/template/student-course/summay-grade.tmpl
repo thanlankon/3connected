@@ -1,0 +1,37 @@
+<template id="form.summary-grade.summary-grade">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'term.termName'}}</span>
+      </li>
+
+      <li class="component">
+          {{component.combobox attribute="termId" width="150px" height="22px"}}
+      </li>
+
+      <li class="icon view" id="button-view-summary-grade">
+        <span>{{lang 'grade.refresh'}}</span>
+      </li>
+
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="content">
+
+
+    <div id="grid-summary-grade" data-component-role="grid"></div>
+
+  </div>
+
+</template>

@@ -118,7 +118,12 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     function getCourseGradeStudent(courseIds, studentId) {
       GradeModel.getCourseGradeStudent(courseIds, studentId, function (error, termGradeStudent, isNotFound) {
         if (termGradeStudent) {
-          serviceResponse.data = termGradeStudent;
+
+          serviceResponse.data = {
+            items: termGradeStudent.summaryGradeStudent,
+            total: termGradeStudent.summaryGradeStudent.length
+          };
+
           ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
         }
       });

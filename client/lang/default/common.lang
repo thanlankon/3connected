@@ -63,7 +63,8 @@ manage.account = Manage Account
 manage.history.attendance = Manage Attendance History
 manage.history.grade = Manage Grade History
 manage.news = Manage News
-
+summary.grade = Summary grade
+view.news = View news
 
 # entity
 

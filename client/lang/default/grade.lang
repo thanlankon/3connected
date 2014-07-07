@@ -1,3 +1,7 @@
+#button
+
+grade.refresh = Refresh
+
 # message
 
 grade.getCourseGrade.notFound = Course grade not found

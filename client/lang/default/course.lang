@@ -17,6 +17,9 @@ course.courseName = Course name
 course.numberOfCredits = Number of credits
 course.manageStudent = Manage student
 course.subjectVersion = Subject version
+course.finalSubjectGrade = Final grade
+course.className = Class name
+course.subjectName  = Subject name
 
 # button
 

@@ -10,7 +10,32 @@ define.proxy('proxy.Grade', function (proxy, require) {
 
   proxy.updateCourseGrade = 'POST api/grade/updateCourseGrade';
 
-  proxy.getSumaryGrade = 'POST api/grade/getSumaryGrade';
+  proxy.getSumaryGrade = 'GET api/grade/getSumaryGrade';
+
+  // grade entity map
+  proxy.EntityMap = [
+    {
+      name: 'courseId',
+      type: 'number',
+      map: 'courseId'
+    }, {
+      name: 'courseName',
+      type: 'string',
+      map: 'courseName'
+    }, {
+      name: 'numberOfCredits',
+      type: 'number',
+      map: 'numberOfCredits'
+    }, {
+      name: 'subjectName',
+      type: 'string',
+      map: 'subjectName'
+    }, {
+      name: 'finalSubjectGrade',
+      type: 'string',
+      map: 'finalSubjectGrade'
+    }
+  ];
 
 
 });

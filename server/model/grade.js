@@ -347,7 +347,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
           courseId: course[i].courseId,
           courseName: course[i].courseName,
           numberOfCredits: course[i].subjectVersion.subject.numberOfCredits,
-          subject: course[i].subjectVersion.subject.subjectName,
+          subjectName: course[i].subjectVersion.subject.subjectName,
           finalSubjectGrade: finalSubjectGrade
         });
       }
@@ -357,10 +357,10 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       summaryGrade = summaryGrade.toFixed(2);
 
       var courseGradeStudent = {
-        gradeStudent: termGradeStudent,
+        summaryGradeStudent: termGradeStudent,
         finalGrade: summaryGrade
       };
-      //console.log(courseGradeStudent);
+
       callback(null, courseGradeStudent, false);
 
     }
