@@ -1,4 +1,4 @@
-<template id="form.student-course.course-grade">
+<template id="form.student-course.grade">
 
   <div class="toolbar">
     <ul>
@@ -7,15 +7,40 @@
       </li>
 
       <li class="text">
-        <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
+        <span>Course grade</span>
       </li>
 
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course'}}: <b>{{courseName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'lecture'}}: <b></b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'term'}}: <b>{{term.termName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'major'}}: <b>{{major.majorName}}</b></span>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
     </ul>
   </div>
 
   <div class="content">
 
-    <div id="grid-course-grade"></div>
+    <div id="grid-grades" data-component-role="grid"></div>
 
   </div>
 

@@ -21,8 +21,21 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
   service.map = {
     url: '/course',
     authorize: function (req, authentication, Role, commit) {
+      // check for staff
       var authorized = Role.isStaff(authentication.accountRole);
-      commit(authorized);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      // check for student or parent
+      var authorized = Role.isStudentOrParent(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
     },
 
     methods: {

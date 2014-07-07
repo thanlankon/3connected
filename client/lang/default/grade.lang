@@ -13,3 +13,6 @@ grade.updateCourseGrade.error.unknown = Error during updating course's grade
 
 grade.getTermCourseStudent.error.unknown = Error during retieving course's term
 grade.getTermCourseStudent.notFound = Not found course's term 
+
+grade.value = Grade
+grade.averageGrade = Average grade

@@ -13,6 +13,8 @@ gradeCategory.gradeCategoryName = Grade category name
 gradeCategory.weight = Weight
 gradeCategory.subjectName = Subject name
 gradeCategory.description = Subject version
+
+gradeCategory.nameAndCode = <b>{{gradeCategoryName}}</b> ({{gradeCategoryCode}})
 # button
 
 gradeCategory.create = Create grade catetory
