@@ -40,12 +40,22 @@
       </div>
 
       <div class="right-section">
-        <span class="username">
-          {{profile.displayName}}
-          {{#profile.username}}
-            ({{profile.username}})
-          {{/profile.username}}
-        </span>
+        {{#auth.isStudentOrParent}}
+          <a class="username has-profile" href="{{url module="profile"}}">
+            {{profile.displayName}}
+            {{#profile.username}}
+              ({{profile.username}})
+            {{/profile.username}}
+          </a>
+        {{else}}
+          <span class="username">
+            {{profile.displayName}}
+            {{#profile.username}}
+              ({{profile.username}})
+            {{/profile.username}}
+          </span>
+        {{/auth.isStudentOrParent}}
+
         <a href="#" class="sign-out" id="button-logout">{{lang "logout"}}</a>
       </div>
 

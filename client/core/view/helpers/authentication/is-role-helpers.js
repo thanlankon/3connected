@@ -22,6 +22,8 @@ define('core.view.helpers.authentication.IsAdministratorAuthenticationHelper', f
 
       if (Role['is' + role](authentication.accountRole)) {
         return options.fn(options.contexts || this);
+      } else {
+        return options.inverse(options.contexts || this);
       }
     }
   }

@@ -1,4 +1,11 @@
+profile.changePassword = Change password
+
 # message 
 
 profile.getSimpleProfile.error.unknown = Error during retrieving profile
 profile.getSimpleProfile.notFound = Profile not found
+
+profile.changePassword.error.unknown = Error during changing password
+profile.getSimpleProfile.error.notFound = Profile not found
+profile.changePassword.error.incorrectPassword = Incorrect password
+profile.changePassword.success = Password is changed successfully

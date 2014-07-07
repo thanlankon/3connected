@@ -11,6 +11,8 @@ define.component = function (id, definer) {
       events: {}
     };
 
+    component.authentication = __Authentication;
+
     definer(component, require, Util, Lang, jQuery);
 
     var baseComponent = require(component.base || 'core.component.Component');

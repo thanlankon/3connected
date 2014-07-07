@@ -55,6 +55,10 @@ define('core.validator.Validator', function (module, require) {
       else if (rule.rule == 'positiveInteger') {
         validator = 'core.validator.PositiveInteger';
       }
+      // equal
+      else if (rule.rule == 'equal') {
+        validator = 'core.validator.Equal';
+      }
 
       validator = require(validator);
 
@@ -67,6 +71,7 @@ define('core.validator.Validator', function (module, require) {
           attribute: attribute,
           attributeName: attributeName ? Lang.get(attributeName) : null,
           value: value,
+          additionalData: rule.ruleData
         };
 
         Util.Object.extend(validate.messageData, rule.ruleData);

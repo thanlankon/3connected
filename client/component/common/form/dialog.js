@@ -34,7 +34,10 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       }
     });
 
-    if (this.formType == this.FormType.Dialog.CREATE) {
+    if (
+      this.formType == this.FormType.Dialog.CREATE ||
+      this.formType == this.FormType.Dialog.VALIDATION
+    ) {
       this.initData();
 
       // reset bound attributes
@@ -55,7 +58,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     }
 
     if ((this.formType == this.FormType.Dialog.EDIT || this.formType == this.FormType.Dialog.VIEW) && this.ServiceProxy) {
-      var id = params.id;
+      var id = params.id || this.data.attr('params.id');
 
       var findOptions = {};
       findOptions[this.ServiceProxy.entityId] = id;
@@ -199,7 +202,9 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       rules = rules.update;
     } else {
       // skip validate for other types of form
-      return true;
+      if (this.formType != this.FormType.Dialog.VALIDATION) {
+        return true;
+      }
     }
 
     var validate = Validator.validate(data, rules);
@@ -278,10 +283,12 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
     if (this.formType == this.FormType.Dialog.CREATE) {
       this.ServiceProxy.create(entity, this.proxy(createDone));
-    } else if (
-      this.formType == this.FormType.Dialog.EDIT
-    ) {
+    } else if (this.formType == this.FormType.Dialog.EDIT) {
       this.ServiceProxy.update(entity, this.proxy(updateDone));
+    } else if (this.formType == this.FormType.Dialog.VALIDATION) {
+      if (this.submitDialogData) {
+        this.submitDialogData(entity);
+      }
     }
 
     function createDone(serviceResponse) {

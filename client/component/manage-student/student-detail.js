@@ -1,15 +1,37 @@
 define.form('component.dialog.manage-student.StudentDetail', function (form, require, Util, Lang) {
 
-  // map the form to the url
-  // the form is displayed when the url is matched
-  // url: #!manage-student/edit/:id
-  form.urlMap = {
-    url: ':module/:action/:id',
-    data: {
-      module: 'manage-student',
-      action: 'detail'
+  var Role = require('enum.Role');
+
+  if (form.authentication) {
+    // staff
+    if (Role.isStaff(form.authentication.accountRole)) {
+      form.urlMap = {
+        url: ':module/:action/:id',
+        data: {
+          module: 'manage-student',
+          action: 'detail'
+        }
+      };
     }
-  };
+    // student or parent
+    if (Role.isStudentOrParent(form.authentication.accountRole)) {
+      form.urlMap = {
+        url: ':module',
+        data: {
+          module: 'profile'
+        }
+      };
+
+      // init default student Id
+      form.initData = function () {
+        this.data.attr({
+          params: {
+            id: this.authentication.userInformationId
+          }
+        });
+      };
+    }
+  }
 
   // the template that used by the form
   form.tmpl = 'dialog.manage-student.student-detail';

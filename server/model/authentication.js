@@ -2,8 +2,12 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
 
   var Account = require('model.entity.Account');
   var AccessToken = require('model.entity.AccessToken');
+  var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   model.verifyAccount = function (username, role, password, callback) {
+    // encrypt password
+    password = AuthenticationUtil.encryptPassword(password);
+
     var findConditions = {
       where: {
         username: username,

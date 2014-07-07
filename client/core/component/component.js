@@ -24,8 +24,6 @@ define('core.component.Component', function (module, require) {
   }, {
     data: null,
 
-    authentication: __Authentication,
-
     init: function (element, options) {
       this._super.apply(this, arguments);
 
