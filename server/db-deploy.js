@@ -500,12 +500,12 @@ define('db.Deploy', function (module, require) {
     queryChainer
       .add(
         NewsCategory, 'create', [{
-          newsCategoryName: 'nc001',
+          newsCategoryName: 'Exam Schedule',
           parentCategoryId: null,
         }])
       .add(
         NewsCategory, 'create', [{
-          newsCategoryName: 'nc002',
+          newsCategoryName: 'Subject Schedule',
           parentCategoryId: 1,
         }])
   }
