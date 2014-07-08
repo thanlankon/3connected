@@ -108,14 +108,27 @@ define('db.Deploy', function (module, require) {
   function seedDepartment(queryChainer) {
     var Department = require('model.entity.Department');
 
-    for (var i = 1; i <= 1; i++) {
-      queryChainer
-        .add(
-          Department, 'create', [{
-            departmentId: i,
-            departmentName: 'Department ' + i
+    queryChainer
+      .add(
+        Department, 'create', [{
+          departmentId: 1,
+          departmentName: 'Administrative Department'
           }])
-    }
+      .add(
+        Department, 'create', [{
+          departmentId: 2,
+          departmentName: 'Libary Department'
+          }])
+      .add(
+        Department, 'create', [{
+          departmentId: 3,
+          departmentName: 'Education Department'
+          }])
+      .add(
+        Department, 'create', [{
+          departmentId: 4,
+          departmentName: 'Examination Department'
+          }])
   }
 
   function seedClass(queryChainer) {
@@ -156,6 +169,17 @@ define('db.Deploy', function (module, require) {
           dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
           address: 'Hội An',
           email: 'dungnvhse90075@fpt.edu.vn'
+          }])
+      .add(
+        Student, 'create', [{
+          studentCode: 'SE90050',
+          firstName: 'Trọng',
+          lastName: 'Nguyễn Đức',
+          classId: 1,
+          gender: 1,
+          dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
+          address: 'Quảng Nam',
+          email: 'trongndse90050@fpt.edu.vn'
           }])
   }
 
@@ -223,6 +247,24 @@ define('db.Deploy', function (module, require) {
           subjectName: 'Cloud Computing',
           numberOfCredits: 3
           }])
+      .add(
+        Subject, 'create', [{
+          subjectCode: 'PRM391',
+          subjectName: 'Programming Mobile',
+          numberOfCredits: 3
+          }])
+      .add(
+        Subject, 'create', [{
+          subjectCode: 'JPS141',
+          subjectName: 'Japanese 4',
+          numberOfCredits: 3
+          }])
+      .add(
+        Subject, 'create', [{
+          subjectCode: 'ISC301',
+          subjectName: 'E-Commerce',
+          numberOfCredits: 3
+          }])
   }
 
   function seedSubjectVersion(queryChainer) {
@@ -237,8 +279,20 @@ define('db.Deploy', function (module, require) {
     queryChainer
       .add(
         SubjectVersion, 'create', [{
-          subjectId: 1,
-          description: 'Ver 1.1'
+          subjectId: 2,
+          description: 'Ver 1.0'
+        }])
+    queryChainer
+      .add(
+        SubjectVersion, 'create', [{
+          subjectId: 3,
+          description: 'Ver 1.0'
+        }])
+    queryChainer
+      .add(
+        SubjectVersion, 'create', [{
+          subjectId: 4,
+          description: 'Ver 1.0'
         }])
   }
 
@@ -280,7 +334,34 @@ define('db.Deploy', function (module, require) {
           majorId: 1,
           classId: 1,
           courseName: 'PRC391 - SE0601',
-          numberOfCredits: 1
+          numberOfCredits: 3
+        }])
+      .add(
+        Course, 'create', [{
+          subjectVersionId: 2,
+          termId: 1,
+          majorId: 1,
+          classId: 1,
+          courseName: 'PRM391 - SE0601',
+          numberOfCredits: 3
+        }])
+      .add(
+        Course, 'create', [{
+          subjectVersionId: 3,
+          termId: 1,
+          majorId: 1,
+          classId: 1,
+          courseName: 'JPS141 - SE0601',
+          numberOfCredits: 3
+        }])
+      .add(
+        Course, 'create', [{
+          subjectVersionId: 4,
+          termId: 1,
+          majorId: 1,
+          classId: 1,
+          courseName: 'ISC301 - SE0601',
+          numberOfCredits: 3
         }])
   }
 
@@ -341,6 +422,61 @@ define('db.Deploy', function (module, require) {
           courseId: 1,
           studentId: 1
         }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 1,
+          studentId: 2
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 1,
+          studentId: 3
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 2,
+          studentId: 1
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 2,
+          studentId: 2
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 2,
+          studentId: 3
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 3,
+          studentId: 1
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 3,
+          studentId: 2
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 3,
+          studentId: 3
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 4,
+          studentId: 1
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 4,
+          studentId: 2
+        }])
+      .add(
+        CourseStudent, 'create', [{
+          courseId: 4,
+          studentId: 3
+        }])
   }
 
 
@@ -381,8 +517,8 @@ define('db.Deploy', function (module, require) {
     queryChainer
       .add(
         News, 'create', [{
-          title: 'news 001',
-          content: 'news 001 content',
+          title: 'Exam',
+          content: 'Exam Scheduler',
         }])
       .add(
         CategoryOfNews, 'create', [{
@@ -395,6 +531,15 @@ define('db.Deploy', function (module, require) {
     var Account = require('model.entity.Account');
 
     queryChainer
+      .add(
+        Account, 'create', [{
+          userInformationId: 1,
+          role: 1,
+          username: 'admin',
+          password: 'abc123',
+          isActive: true,
+          expiredDate: '01/01/2016'
+      }])
       .add(
         Account, 'create', [{
           username: 'trongnd',
