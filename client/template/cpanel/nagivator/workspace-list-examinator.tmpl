@@ -1,5 +1,18 @@
 <template id="cpanel.workspace-list.examinator">
 
-  <a href="#">For Examinator</a>
+  <li>
+    <a href="{{url module="manage-course"}}">{{lang "manage.course"}}</a>
+  </li>
 
+  <li class="divider"></li>
+
+  <li>
+    <a href="{{url module="manage-news" action="explorer"}}">{{lang "manage.news"}}</a>
+  </li>
+
+  <li class="divider"></li>
+
+  <li>
+    <a href="{{url module="profile" action="change-password"}}">{{lang "profile.changePassword"}}</a>
+  </li>
 </template>

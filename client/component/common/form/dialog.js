@@ -64,23 +64,24 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       findOptions[this.ServiceProxy.entityId] = id;
 
       this.ServiceProxy.findOne(findOptions, this.proxy(findOneDone));
-
-      function findOneDone(serviceResponse) {
-        if (serviceResponse.hasError()) return;
-
-        var entity = serviceResponse.getData();
-
-        entity.originalData = Util.Object.clone(entity);
-
-        this.data.attr(entity);
-
-        if (this.reloadData) {
-          this.reloadData();
-        }
-
-        this.element.jqxWindow('open');
-      }
     };
+
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var entity = serviceResponse.getData();
+
+      entity.originalData = Util.Object.clone(entity);
+
+      this.data.attr(entity);
+
+      if (this.reloadData) {
+        this.reloadData();
+      }
+
+      this.element.jqxWindow('open');
+    }
+
   };
 
   component.hideForm = function () {
