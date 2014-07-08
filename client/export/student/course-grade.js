@@ -11,10 +11,10 @@ define('export.student.CourseGrade', function (module, require) {
         width: 30
       },
       weight: {
-        width: 10
+        width: 15
       },
       value: {
-        width: 10
+        width: 15
       }
 
     }
