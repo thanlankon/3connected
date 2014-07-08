@@ -315,7 +315,6 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         var courseGradeCategories = course[i].subjectVersion.gradeCategories;
         var gradeStudent = [];
         for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
-          console.log('j' + courseGradeCategories[j].gradeCategoryId);
           var gradeCategory = courseGradeCategories[j];
           for (var k = 0, lenk = grades.length; k < lenk; k++) {
             var grade = grades[k];

@@ -90,9 +90,17 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       data: null
     };
 
-    var termId = 1;
+    var termId = 0;
+    if (req.query.filters) {
+      for (var i = 0, len = req.query.filters.length; i < len; i++) {
+        if (req.query.filters[i].field == 'termId') {
+          termId = req.query.filters[0].value;
+        }
+      }
+    }
     var studentId = req.authentication.userInformationId;
 
+    console.log('termId ' + termId);
 
     if (termId) {
       TermModel.getTermCourseStudent(termId, studentId, function (error, terms, isNotFound) {
@@ -107,16 +115,23 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
             serviceResponse.message = 'grade.getTermCourseStudent.notFound';
           } else {
             var courseIds = [];
-
-            var courses = terms[0].courses;
-            for (var i = 0, len = courses.length; i < len; i++) {
-              courseIds.push(courses[i].courseId);
+            if (terms.length) {
+              var courses = terms[0].courses;
+              for (var i = 0, len = courses.length; i < len; i++) {
+                courseIds.push(courses[i].courseId);
+              }
             }
             getCourseGradeStudent(courseIds, studentId);
           }
         }
       });
     } else {
+      var items = [];
+      var total = [];
+      serviceResponse.data = {
+        items: items,
+        total: total
+      };
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     }
 
