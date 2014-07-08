@@ -92,7 +92,10 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
         }
       });
 
-      var schedulesAttendanceStudent = courseAttendanceStudent[0].schedules;
+      var schedulesAttendanceStudent = [];
+      if (courseAttendanceStudent.length) {
+        schedulesAttendanceStudent = courseAttendanceStudent[0].schedules;
+      }
 
       CourseProxy.findOneCourseStudent({
         courseId: this.courseId
