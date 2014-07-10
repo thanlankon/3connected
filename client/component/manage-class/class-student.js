@@ -18,12 +18,12 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
         text: Lang.get('student.studentId'),
         dataField: 'studentId',
 
-        width: '150px'
+        width: '80px'
       }, {
         text: Lang.get('student.studentCode'),
         dataField: 'studentCode',
 
-        width: '150px'
+        width: '100px'
       },
       {
         text: Lang.get('student.firstName'),
@@ -37,7 +37,7 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
         text: Lang.get('student.className'),
         dataField: 'className',
 
-        width: '100px'
+        width: '120px'
       },
       {
         text: Lang.get('student.batchName'),
@@ -47,9 +47,7 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
       },
       {
         text: Lang.get('student.majorName'),
-        dataField: 'majorName',
-
-        width: '120px'
+        dataField: 'majorName'
       },
       {
         text: Lang.get('student.gender'),
@@ -66,12 +64,12 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
         text: Lang.get('student.studentId'),
         dataField: 'studentId',
 
-        width: '150px'
+        width: '80px'
       }, {
         text: Lang.get('student.studentCode'),
         dataField: 'studentCode',
 
-        width: '150px'
+        width: '100px'
       },
       {
         text: Lang.get('student.firstName'),
@@ -89,9 +87,7 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
       },
       {
         text: Lang.get('student.majorName'),
-        dataField: 'majorName',
-
-        width: '120px'
+        dataField: 'majorName'
       },
       {
         text: Lang.get('student.gender'),

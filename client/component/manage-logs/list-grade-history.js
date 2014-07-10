@@ -25,34 +25,40 @@ define.form('component.form.view-logs.ListGradeHistory', function (form, require
       cellsAlign: 'right',
       filterType: 'textbox',
 
-      width: 150,
+      width: 140,
     }, {
       text: Lang.get('gradeHistory.oldValue'),
       dataField: 'oldValue',
+      width: 100
     }, {
       text: Lang.get('gradeHistory.newValue'),
       dataField: 'newValue',
+      width: 100
     }, {
       text: Lang.get('gradeHistory.time'),
       dataField: 'time',
+      width: 150
     }, {
       text: Lang.get('gradeHistory.gradeId'),
       dataField: 'gradeId',
+      width: 100
     }, {
       text: Lang.get('gradeHistory.staffId'),
       dataField: 'staffId',
+      width: 100
     }, {
       text: Lang.get('gradeHistory.studentCode'),
       dataField: 'studentCode',
+      width: 100
     }, {
       text: Lang.get('gradeHistory.courseName'),
-      dataField: 'courseName',
+      dataField: 'courseName'
     }, {
       text: Lang.get('gradeHistory.termName'),
-      dataField: 'termName',
+      dataField: 'termName'
     }, {
       text: Lang.get('gradeHistory.majorName'),
-      dataField: 'majorName',
+      dataField: 'majorName'
     }];
 
     var gridConfig = {
