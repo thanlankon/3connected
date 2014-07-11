@@ -126,20 +126,29 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 
     var Form = require(formId);
 
-    if (!Form.isDialog) {
-      if (activeFormId) {
-        var ActiveForm = require(activeFormId);
-        var activeForm = ActiveForm.formInstance;
+    var activeForm;
+    var activeFormParams;
 
-        activeForm.hideForm();
-      }
+    if (activeFormId) {
+      var ActiveForm = require(activeFormId);
+      var activeForm = ActiveForm.formInstance;
+
+      activeFormParams = activeForm.formParams;
     }
 
-    var formData = Route.attr();
+    if (!Form.isDialog && activeForm) {
+        activeForm.hideForm();
+    }
+
+    var formParams = Route.attr();
+
+    Util.Object.extend(formParams, activeFormParams);
 
     if (!Form.formInstance) {
       // this form is auto displayed when created
-      Form.formInstance = new Form(this.static.formContainer);
+      Form.formInstance = new Form(this.static.formContainer, {
+        formParams: formParams
+      });
 
       //      Form.newInstance(this.static.formContainer, {
       //        on: {
@@ -149,7 +158,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       //        }
       //      });
     } else {
-      Form.formInstance.showForm(formData);
+      Form.formInstance.showForm(formParams);
     }
   };
 

@@ -54,8 +54,7 @@ define('core.component.Component', function (module, require) {
           }
 
           if (this.showForm) {
-            var params = Route.attr();
-            this.showForm(params);
+            this.showForm(options.formParams);
           }
         });
       }

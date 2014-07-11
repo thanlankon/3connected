@@ -31,6 +31,18 @@ define.form = function (id, definer) {
       component.isDialog = component.static.isDialog = true;
     }
 
+    component.setFormParam = function (key, value) {
+      if (!this.formParams) {
+        this.formParams = {};
+      }
+
+      if (value === null) {
+        this.formParams = Util.Object.omit(this.formParams, key);
+      } else {
+        this.formParams[key] = value;
+      }
+    };
+
     // require proxy
     //    if (component.proxyMap) {
     //      component.initProxy = function () {
