@@ -200,6 +200,86 @@
   font-size: 12px;
   font-style: italic;
 }
-.news-explorer .tree-categories .jqx-tree-item-metro {
-  font-size: 13px;
+.news-explorer #tree-categories {
+  border: none;
+}
+.news-explorer #tree-categories .jqx-tree-item-metro {
+  font-size: 12px;
+}
+.news-explorer #news-content {
+  border: none;
+  padding: 0px 10px;
+}
+.news-detail {
+  padding: 10px;
+}
+.news-detail #news-content {
+  border: none;
+  margin-top: 10px;
+  border-top: 1px solid #aaa;
+}
+.news-detail table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+.news-detail td {
+  font-size: 12px;
+}
+.news-detail td.label {
+  width: 50px;
+  padding-right: 15px;
+}
+.news-detail .categories {
+  padding: 5px 0px;
+}
+.news-detail .categories td {
+  height: 20px;
+}
+.news-detail .categories .category {
+  cursor: default;
+  margin: 2px 1px;
+  display: inline-block;
+  line-height: 20px;
+  padding: 0px 3px;
+  border: 1px solid #eee;
+  background-color: #fcfcfc;
+}
+.news-detail .attachments {
+  padding: 5px 0px;
+}
+.news-detail .attachments td {
+  height: 20px;
+  text-align: left;
+}
+.news-detail .attachments .attachment {
+  cursor: default;
+  margin: 2px 1px;
+  padding: 2px 5px 2px 27px;
+  border: 1px solid #eee;
+  display: inline-block;
+  background: #fcfcfc 5px center no-repeat;
+  background-image: url("/resource/resource/img/file/unknown.png");
+}
+.news-detail .attachments .attachment.jpg,
+.news-detail .attachments .attachment.jpeg,
+.news-detail .attachments .attachment.png,
+.news-detail .attachments .attachment.gif {
+  background-image: url("/resource/resource/img/file/image.png");
+}
+.news-detail .attachments .attachment.xls,
+.news-detail .attachments .attachment.xlsx {
+  background-image: url("/resource/resource/img/file/excel.png");
+}
+.news-detail .attachments .attachment.doc,
+.news-detail .attachments .attachment.docx {
+  background-image: url("/resource/resource/img/file/word.png");
+}
+.news-detail .attachments .attachment.ppt,
+.news-detail .attachments .attachment.pptx {
+  background-image: url("/resource/resource/img/file/powerpoint.png");
+}
+.news-detail .attachments .selected {
+  border-color: #2b579a;
 }

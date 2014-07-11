@@ -34,7 +34,8 @@ define.entity('model.entity.News', function (entity, DataType, require) {
 
   entity.associate = function () {
     this.hasMany('model.entity.NewsAttachment', {
-      as: 'attachments'
+      as: 'attachments',
+      foreignKey: 'newsId'
     });
 
     this.hasMany('model.entity.CategoryOfNews', {

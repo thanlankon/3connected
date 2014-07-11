@@ -428,13 +428,15 @@ define.component('component.common.Grid', function (component, require, Util, La
     var source = this.generateSource(ServiceProxy);
 
     // clear filter conditions when change ServiceProxy
-    this.filterConditions = {};
-    this.excludeConditions = {};
+    // this.filterConditions = {};
+    // this.excludeConditions = {};
 
     this.element.jqxGrid({
       source: source
     });
-  }
+
+    this.clearSelection();
+  };
 
   component.refreshData = function () {
     this.element.jqxGrid('updatebounddata');
@@ -549,7 +551,7 @@ define.component('component.common.Grid', function (component, require, Util, La
     this.refreshData();
   };
 
-  component.setFilterConditions = function (key, value) {
+  component.setFilterConditions = function (key, value, skipRefresh) {
     if (!this.filterConditions) {
       this.filterConditions = {};
     }
@@ -560,17 +562,17 @@ define.component('component.common.Grid', function (component, require, Util, La
       this.filterConditions[key] = value;
     }
 
-    this.refreshData();
+    if (!skipRefresh) this.refreshData();
   };
 
-  component.setExcludeConditions = function (key, value) {
+  component.setExcludeConditions = function (key, value, skipRefresh) {
     if (!this.excludeConditions) {
       this.excludeConditions = {};
     }
 
     this.excludeConditions[key] = value;
 
-    this.refreshData();
+    if (!skipRefresh) this.refreshData();
   };
 
   component.getSelectedIds = function () {

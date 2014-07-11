@@ -1,10 +1,9 @@
 define.form('component.form.manage-news.NewsExplorer', function (form, require, Util, Lang) {
 
   form.urlMap = {
-    url: ':module/:action',
+    url: ':module',
     data: {
-      module: 'manage-news',
-      action: 'explorer'
+      module: 'news'
     }
   };
 
@@ -40,18 +39,22 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
     // init splitter
     this.element.find('#splitter-vertical').jqxSplitter({
       orientation: 'vertical',
+      splitBarSize: 3,
       width: '100%',
       height: '100%',
       panels: [{
         size: 200
       }]
     });
+
     this.element.find('#splitter-horizontal').jqxSplitter({
       orientation: 'horizontal',
+      splitBarSize: 3,
       width: '100%',
       height: '100%',
       panels: [{
-        size: 200
+        size: '80%',
+        collapsible: false
       }]
     });
 
@@ -67,6 +70,7 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
 
     this.treeCategories.on('select', this.proxy(function (event) {
       var args = event.args;
+
       var item = this.treeCategories.jqxTree('getItem', args.element);
       var value = item.value;
 
@@ -96,6 +100,11 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
   };
 
   form.refreshNews = function (newsId, row) {
+    if (!newsId) {
+      this.panelNewsContent.jqxPanel('clearContent');
+      return;
+    }
+
     var NewsProxy = require('proxy.News');
 
     NewsProxy.findOne({
@@ -107,7 +116,7 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
 
       var newsData = serviceResponse.getData();
 
-      this.panelNewsContent.jqxPanel('clearContent')
+      this.panelNewsContent.jqxPanel('clearContent');
       this.panelNewsContent.jqxPanel('append', newsData.content);
     }
   };
@@ -147,10 +156,14 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
 
     if (this.newsServiceProxy !== ServiceProxy) {
       this.newsServiceProxy = ServiceProxy;
+
+      this.gridNews.setFilterConditions('newsCategoryId', categoryId, true);
       this.gridNews.setServiceProxy(this.newsServiceProxy);
+    } else {
+      this.gridNews.setFilterConditions('newsCategoryId', categoryId);
     }
 
-    this.gridNews.setFilterConditions('newsCategoryId', categoryId);
+    this.refreshNews();
   };
 
   form.refreshTreeCategories = function (categories) {
@@ -162,26 +175,43 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
 
     var items = this.treeCategories.jqxTree('getItems');
     this.treeCategories.jqxTree('selectItem', items[0]);
+
+    this.treeCategories.jqxTree('expandAll');
   };
 
-  form.buildCategorySource = function (categories, catego) {
-    var rootItem = {
-      label: 'All categories',
-      value: null,
-      expanded: true,
-      items: []
+  form.buildCategorySource = function (categories) {
+    var sourceData = [{
+      newsCategoryId: null,
+      parentCategoryId: '',
+      newsCategoryName: Lang.get('news.allCatetories')
+    }].concat(categories);
+
+    var source = {
+      dataType: 'json',
+      dataFields: [{
+        name: 'newsCategoryId'
+      }, {
+        name: 'parentCategoryId'
+      }, {
+        name: 'newsCategoryName'
+      }],
+      id: 'newsCategoryId',
+      localData: sourceData
     };
 
-    var sourceData = [rootItem];
+    var dataAdapter = new jQuery.jqx.dataAdapter(source);
 
-    for (var i = 0, len = categories.length; i < len; i++) {
-      rootItem.items.push({
-        value: categories[i].newsCategoryId,
-        label: categories[i].newsCategoryName,
-      });
-    }
+    dataAdapter.dataBind();
 
-    return sourceData;
+    var records = dataAdapter.getRecordsHierarchy('newsCategoryId', 'parentCategoryId', 'items', [{
+      name: 'newsCategoryName',
+      map: 'label'
+    }, {
+      name: 'newsCategoryId',
+      map: 'value'
+    }]);
+
+    return records;
   };
 
 });

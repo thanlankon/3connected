@@ -77,6 +77,17 @@
   font-size: 12px;
   text-shadow: 1px 1px 1px #eee;
 }
+.form .toolbar li.icon strong,
+.form .toolbar li.text strong,
+.form .toolbar li.button strong {
+  font-size: 13px;
+  text-shadow: 1px 1px 1px #eee;
+}
+.form .toolbar li.icon i,
+.form .toolbar li.text i,
+.form .toolbar li.button i {
+  font-size: 11px;
+}
 .form .toolbar li.divider {
   margin-top: 5px;
   height: 20px;

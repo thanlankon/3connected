@@ -26,6 +26,25 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
         //findOptions.attributes = ['newsId', 'title', 'createdTime'];
       }
     },
+
+    findOne: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          entity: require('model.entity.CategoryOfNews'),
+          as: 'categories',
+          include: [{
+            entity: require('model.entity.NewsCategory'),
+            as: 'newsCategory'
+          }]
+        }, {
+          entity: require('model.entity.NewsAttachment'),
+          as: 'attachments',
+          attributes: ['name', 'extension', 'size']
+        }];
+
+        findOptions.attributes = ['newsId', 'title', 'content', 'createdTime'];
+      }
+    }
   };
 
   service.create = function (req, res) {
