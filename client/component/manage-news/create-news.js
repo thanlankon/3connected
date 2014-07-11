@@ -3,7 +3,7 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
   form.urlMap = {
     url: ':module/:action',
     data: {
-      module: 'manage-news',
+      module: 'news',
       action: 'create'
     }
   };

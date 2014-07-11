@@ -1,0 +1,55 @@
+<template id="form.manage-news.news-detail">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="news"}}"></a>
+      </li>
+
+      <li class="text">
+        <span><strong>{{title}}</strong> <i>({{text.date createdTime}})</i></span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon save" id="button-download-attachment">
+        <span>{{lang "news.downloadAttachment"}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content news-detail">
+
+    <table>
+      <tr class="categories">
+        <td class="label">{{lang 'news.categories'}}:</td>
+        <td>
+          {{#categories}}
+            <span class="category">
+              {{newsCategory.newsCategoryName}}
+            </span>
+          {{/categories}}
+        </td>
+      </tr>
+      <tr class="attachments">
+        <td class="label">{{lang 'news.attachments'}}:</td>
+        <td>
+          {{#attachments}}
+            <span class="attachment {{extension}}" data-attachment-id="{{attachmentId}}">
+              {{name}}.{{extension}} <i>({{size}})</i>
+            </span>
+          {{/attachments}}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div id="news-content" class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</template>

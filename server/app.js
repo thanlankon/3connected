@@ -6,7 +6,10 @@ define('app.App', function (module, require) {
   var bodyParser = require('lib.BodyParser');
   var cookieParser = require('lib.CookieParser');
 
-  app.use(bodyParser());
+  app.use(bodyParser({
+    limit: 1024 * 1024 * 10,
+  }));
+
   app.use(cookieParser());
 
   // router for client's app page

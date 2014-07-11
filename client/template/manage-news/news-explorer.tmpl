@@ -5,11 +5,13 @@
       <li class="icon back">
       </li>
 
-      {{#auth.isEducator}}
-        <li class="icon create" id="button-create">
-          <a href="{{url module="manage-news" action="create"}}">{{lang "news.create"}}</a>
-        </li>
-      {{/auth.isEducator}}
+      <li class="icon view" data-component-role="view-button" data-depends-entity="focused">
+        <a href="{{url module="news" action="detail"}}">{{lang "news.view"}}</a>
+      </li>
+
+      <li class="icon create" id="button-create">
+        <a href="{{url module="news" action="create"}}">{{lang "news.create"}}</a>
+      </li>
     </ul>
   </div>
 
@@ -27,7 +29,8 @@
             </div>
           </div>
           <div class="news">
-            <div id="news-content" class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"></div>
+            <div id="news-content" class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders">
+            </div>
           </div>
         </div>
       </div>

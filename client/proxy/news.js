@@ -12,6 +12,8 @@ define.proxy('proxy.News', function (proxy, require) {
 
   proxy.destroy = 'POST api/news/destroy';
 
+  proxy.downloadAttachment = 'GET api/attachment/download';
+
   // news entity map
   proxy.EntityMap = [
     {

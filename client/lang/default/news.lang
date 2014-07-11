@@ -9,12 +9,19 @@ news.createdTime = Created time
 
 # components
 
+news.view = View
 news.create = Create
 
 news.save = Save
 news.addAttachments = Add attachments
 news.removeAttachments = Remove attachments
+news.downloadAttachment = Download attachment
+
+news.allCatetories = All categories
 
 # message
 news.create.error.unknown = Error during creating news
 news.create.success = The news is created successfully
+
+news.attachment.download.error.unknown = Error during downloading the attachment
+news.attachment.download.error.notFound = The attachment is not found
