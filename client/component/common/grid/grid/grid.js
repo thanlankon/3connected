@@ -595,7 +595,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       this.params = {};
     }
 
-    if (!value == null) {
+    if (value === null) {
       this.params = Util.Object.omit(this.params, key);
     } else {
       this.params[key] = value;
@@ -609,7 +609,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       this.filterConditions = {};
     }
 
-    if (!value == null) {
+    if (value === null) {
       this.filterConditions = Util.Object.omit(this.filterConditions, key);
     } else {
       this.filterConditions[key] = value;
