@@ -36,7 +36,7 @@ define.entity('model.entity.Account', function (entity, DataType, require) {
   }
 
   entity.isActive = {
-    type: DataType.INTEGER,
+    type: DataType.BOOLEAN,
     allowNull: true
   }
 
