@@ -80,6 +80,10 @@ define('validator.rule.Account', function (module, require) {
 
   var ruleCreateAccount = [
     ruleUsername,
+  ];
+
+  var ruleResetPassword = [
+    ruleAccountId,
     rulePassword,
     ruleConfirmPassword
   ];
@@ -90,7 +94,8 @@ define('validator.rule.Account', function (module, require) {
 
   var ruleAccount = {
     create: ruleCreateAccount,
-    update: ruleUpdateAccount
+    update: ruleUpdateAccount,
+    resetPassword: ruleResetPassword
   };
 
   module.exports = ruleAccount;
