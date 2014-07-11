@@ -18,6 +18,8 @@ define.proxy('proxy.GradeCategory', function (proxy, require) {
 
   proxy.destroy = 'POST api/gradeCategory/destroy';
 
+  proxy.getSubjectVersionGradeCaterogy = 'GET   api/gradeCategory/getSubjectVersionGradeCaterogy';
+
   // gradeCategory entity map
   proxy.EntityMap = [
     {

@@ -21,3 +21,8 @@ gradeCategory.create = Create grade catetory
 gradeCategory.view = View grade catetory details
 gradeCategory.edit = Edit grade catetory
 gradeCategory.delete = Delete grade catetory
+
+#message
+
+gradeCategory.getSubjectVersionGradeCaterogy.error = Error during get grade category
+gradeCategory.getSubjectVersionGradeCaterogy.notFound = Not found

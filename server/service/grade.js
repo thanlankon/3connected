@@ -94,7 +94,7 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     if (req.query.filters) {
       for (var i = 0, len = req.query.filters.length; i < len; i++) {
         if (req.query.filters[i].field == 'termId') {
-          termId = req.query.filters[0].value;
+          termId = req.query.filters[i].value;
         }
       }
     }

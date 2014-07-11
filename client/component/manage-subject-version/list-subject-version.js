@@ -53,4 +53,28 @@ define.form('component.form.manage-subjectVersion.ListSubjectVersion', function 
 
   };
 
+  form.refreshData = function (data) {
+    var subjectId = data.id;
+
+    this.grid.setFilterConditions('subjectId', subjectId);
+
+    var SubjectProxy = require('proxy.Subject');
+
+    SubjectProxy.findOne({
+      subjectId: subjectId
+    }, this.proxy(findOneDone));
+
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var subject = serviceResponse.getData();
+
+      console.log(subject);
+
+      this.data.attr({
+        subject: subject
+      });
+    }
+  }
+
 });

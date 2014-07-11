@@ -82,8 +82,6 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
 
     this.grid.setFilterConditions('termId', termId);
 
-    console.log(termId);
-
   };
 
 });

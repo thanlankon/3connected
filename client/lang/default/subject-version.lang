@@ -16,3 +16,8 @@ subjectVersion.create = Create Subject Version
 subjectVersion.view = View Subject Version details
 subjectVersion.edit = Edit Subject Version
 subjectVersion.delete = Delete Subject Versions
+subjectVersion.gradeCategory = Grade Category
+
+#message
+
+

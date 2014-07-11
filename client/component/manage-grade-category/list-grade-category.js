@@ -25,7 +25,10 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
   // the proxy that used by the form
   // proxy.findAll & proxy.destroy methods will be used
   form.ServiceProxy = require('proxy.GradeCategory');
-
+//  form.ServiceProxy = {
+  //    proxy: require('proxy.GradeCategory'),
+  //    method: 'getSubjectVersionGradeCaterogy'
+  //  };
   // grid config
   form.gridConfig = function () {
 
@@ -61,5 +64,29 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
     return gridConfig;
 
   };
+
+
+  form.refreshData = function (data) {
+    var subjectVersionId = data.id;
+
+    this.grid.setFilterConditions('subjectVersionId', subjectVersionId);
+
+    var SubjectVersionProxy = require('proxy.SubjectVersion');
+
+    SubjectVersionProxy.findOne({
+      subjectVersionId: subjectVersionId
+    }, this.proxy(findOneDone));
+
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var subjectVersion = serviceResponse.getData();
+
+      this.data.attr({
+        subject: subjectVersion.subject,
+        version: subjectVersion.description
+      });
+    }
+  }
 
 });

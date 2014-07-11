@@ -18,3 +18,4 @@ subject.create = Create subject
 subject.view = View subject details
 subject.edit = Edit subject
 subject.delete = Delete subjects
+subject.subjectVersion = Subject version

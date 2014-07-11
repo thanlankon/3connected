@@ -9,6 +9,7 @@ Created date    : 2014/16/06
   <div class="toolbar">
     <ul>
       <li class="icon back">
+        <a href="{{url module="manage-subjectVersion"}}"></a>
       </li>
 
       <li class="icon create" data-component-role="create-button">
@@ -19,6 +20,18 @@ Created date    : 2014/16/06
       </li>
       <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
         <a href="#">{{lang "gradeCategory.delete"}}</a>
+      </li>
+
+      <li class="divider">
+      </li>
+      <li class="text">
+        <span>{{lang 'subject.subjectCode'}}: <b>{{subject.subjectCode}}</b></span>
+      </li>
+      <li class="text">
+        <span>{{lang 'subject.subjectName'}}: <b>{{subject.subjectName}}</b></span>
+      </li>
+      <li class="text">
+        <span>{{lang 'subjectVersion.subjectVersion'}}: <b>{{version}}</b></span>
       </li>
 
       <li class="icon export right" data-component-role="export-button">
