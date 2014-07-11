@@ -148,6 +148,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     });
 
     this.element.on('close', function () {
+      console.log('back');
       window.history.back();
     });
 

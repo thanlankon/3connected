@@ -53,9 +53,35 @@ define('validator.rule.Account', function (module, require) {
     ]
   };
 
+  var ruleConfirmPassword = {
+    // validate for username
+    attribute: 'confirmPassword',
+    attributeName: 'account.confirmPassword',
+    rules: [
+      {
+        // username is required
+        rule: 'required'
+      },
+      {
+        // username maximum length is 50
+        rule: 'maxLength',
+        ruleData: {
+          maxLength: 50
+        }
+      },
+      {
+        rule: 'equal',
+        ruleData: {
+          attribute: 'password'
+        }
+      }
+    ]
+  };
+
   var ruleCreateAccount = [
     ruleUsername,
-    rulePassword
+    rulePassword,
+    ruleConfirmPassword
   ];
 
   var ruleUpdateAccount = [

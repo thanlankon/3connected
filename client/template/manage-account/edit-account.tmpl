@@ -5,7 +5,7 @@ Creator         : ThanhVM
 -->
   <template id="dialog.manage-account.edit-account">
 
-  {{dialog.size width="500px" height="310px"}}
+  {{dialog.size width="500px" height="440px"}}
 
   <div class="header">
     {{lang "account.edit"}} <b>{{originalData.username}}</b>
@@ -25,6 +25,20 @@ Creator         : ThanhVM
     </div>
     <div class="data input">
       {{component.input attribute="password" passwordInput="true"}}
+    </div>
+
+    <div class="label">
+      {{lang "account.confirmPassword"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="confirmPassword" passwordInput="true"}}
+    </div>
+
+    <div class="label">
+      {{lang "account.isActive"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="isActive"}}
     </div>
 
     <div class="label">
