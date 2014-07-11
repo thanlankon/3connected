@@ -29,11 +29,13 @@ define.form('component.form.view-logs.ListAttendanceHistory', function (form, re
     }, {
       text: Lang.get('attendanceHistory.oldValue'),
       dataField: 'oldValue',
-      width: 100
+      width: 100,
+      columnType: 'attendance'
     }, {
       text: Lang.get('attendanceHistory.newValue'),
       dataField: 'newValue',
-      width: 100
+      width: 100,
+      columnType: 'attendance'
     }, {
       text: Lang.get('attendanceHistory.time'),
       dataField: 'time',

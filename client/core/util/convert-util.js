@@ -3,6 +3,7 @@ define('core.util.ConvertUtil', function (module, require) {
   var Moment = require('lib.Moment');
   var Gender = require('enum.Gender');
   var Role = require('enum.Role');
+  var Attendance = require('enum.Attendance');
   var DateTimeConstant = require('constant.DateTime');
   var Lang = require('core.lang.Lang');
 
@@ -111,6 +112,42 @@ define('core.util.ConvertUtil', function (module, require) {
       }
 
       return gender;
+    },
+  };
+
+  ConvertUtil.Attendance = {
+    toString: function (attendance) {
+      switch (attendance) {
+      case Attendance.UNATTENDED:
+        attendance = Lang.get('attendance.unattended');
+        break;
+      case Attendance.PRESENT:
+        attendance = Lang.get('attendance.present');
+        break;
+      case Attendance.ABSENT:
+        attendance = Lang.get('attendance.absent');
+        break;
+      }
+
+      return attendance;
+    },
+
+    toAttendance: function (string) {
+      var attendance;
+
+      switch (string) {
+      case Lang.get('attendance.present'):
+        attendance = Attendance.PRESENT;
+        break;
+      case Lang.get('attendance.absent'):
+        attendance = Attendance.ABSENT;
+        break;
+      default:
+        attendance = Attendance.UNATTENDED;
+        break;
+      }
+
+      return attendance;
     },
   };
 

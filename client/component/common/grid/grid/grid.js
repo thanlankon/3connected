@@ -98,6 +98,45 @@ define.component('component.common.Grid', function (component, require, Util, La
         }
       }
 
+      // for attendance
+      if (gridColumn.columnType == 'attendance' || ['attendance'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.width = '100px';
+
+        gridColumn.filterType = 'list';
+
+        gridColumn.createFilterWidget = function (column, columnElement, widget) {
+          var source = [
+            Lang.get('attendance.all'),
+            Lang.get('attendance.present'),
+            Lang.get('attendance.absent'),
+            Lang.get('attendance.unattended')
+          ];
+
+          widget.jqxDropDownList({
+            source: source,
+            dropDownWidth: '90px'
+          });
+        };
+
+        gridColumn.cellsRenderer = function (row, columnField, value, defaultHtml, columnProperties) {
+          if (columnProperties.hidden) return;
+
+          var ConvertUtil = require('core.util.ConvertUtil');
+
+          var attendanceText = ConvertUtil.Attendance.toString(value);
+
+          var elmHtml = jQuery(defaultHtml).text(attendanceText);
+          var elmWrapper = jQuery('<div />');
+
+          var attendanceHtml = elmWrapper.append(elmHtml).html();
+
+          elmHtml.remove();
+          elmWrapper.remove();
+
+          return attendanceHtml;
+        }
+      }
+
       // for role
       if (['role'].indexOf(gridColumn.dataField) != -1) {
         gridColumn.width = '150px';
@@ -361,13 +400,27 @@ define.component('component.common.Grid', function (component, require, Util, La
             var dataField = originalData['filterdatafield' + i];
             var dataValue = originalData['filtervalue' + i];
 
-            if (['gender'].indexOf(dataField) != -1) {
+            var column = Util.Collection.findWhere(this.gridColumns, {
+              dataField: dataField
+            });
+
+            console.log(column);
+
+            var columnType = column ? column.columnType : null;
+
+            if (columnType == 'gender' || ['gender'].indexOf(dataField) != -1) {
               var ConvertUtil = require('core.util.ConvertUtil');
 
               dataValue = ConvertUtil.Gender.toGender(dataValue);
             }
 
-            if (['role'].indexOf(dataField) != -1) {
+            if (columnType == 'attendance' || ['attendance'].indexOf(dataField) != -1) {
+              var ConvertUtil = require('core.util.ConvertUtil');
+
+              dataValue = ConvertUtil.Attendance.toAttendance(dataValue);
+            }
+
+            if (columnType == 'role' || ['role'].indexOf(dataField) != -1) {
               var ConvertUtil = require('core.util.ConvertUtil');
 
               dataValue = ConvertUtil.Role.toRole(dataValue);

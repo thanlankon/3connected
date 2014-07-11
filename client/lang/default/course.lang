@@ -88,8 +88,11 @@ attendance.student.lastName = {{.student.lastName}}
 attendance.totalPresents = Total presents
 attendance.totalAbsents = Total absents
 attendance.totalUnattended = Total Unattended
+
+attendance.all = All
 attendance.present = Present
 attendance.absent = Absent
+attendance.unattended = Unattended
 
 attendance.view = View
 attendance.editAttendance = Edit attendance

@@ -9,7 +9,9 @@ define('core.util.Util', function (module, require) {
     toArray: Underscore.toArray,
 
     min: Underscore.min,
-    max: Underscore.max
+    max: Underscore.max,
+
+    findWhere: Underscore.findWhere
   };
 
   Util.Array = {
