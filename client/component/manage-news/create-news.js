@@ -164,8 +164,6 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
   form.refreshAttachmentList = function () {
     var source = this.buildAttachmentSource();
 
-    console.log(source);
-
     this.listBoxAttachment.jqxListBox({
       source: source
     });
@@ -239,7 +237,18 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
     NewsProxy.create(data, this.proxy(createNewsDone));
 
     function createNewsDone(serviceResonse) {
-      console.log(serviceResonse.getData());
+      if (serviceResonse.hasError()) return;
+
+      var newsData = serviceResonse.getData();
+      var newsId = newsData.newsId;
+
+      var Route = require('core.route.Route');
+
+      Route.attr({
+        module: 'news',
+        action: 'detail',
+        id: newsId
+      });
     }
   };
 
