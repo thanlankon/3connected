@@ -72,6 +72,16 @@
   width: 100%;
   position: relative;
 }
+.dialog .content .checkbox,
+.form-content .checkbox {
+  display: inline-block;
+  height: 13px;
+  width: 13px;
+}
+.dialog .content .clear,
+.form-content .clear {
+  clear: both;
+}
 .dialog .content .hidden,
 .form-content .hidden {
   display: none;

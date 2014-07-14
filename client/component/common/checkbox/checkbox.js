@@ -32,8 +32,8 @@ define.component('component.common.Checkbox', function (component, require, Util
     };
 
     var checkboxOptions = {
-      width: '30px',
-      height: '30px',
+      width: '13px',
+      height: '13px',
       hasThreeStates: false,
       checked: componentData.attr(dataAttribute) || false
     };
