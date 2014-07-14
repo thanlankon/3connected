@@ -73,4 +73,48 @@ define.model('model.News', function (model, ModelUtil, require) {
 
   };
 
+  model.destroy = function (newsId, callback) {
+
+    Entity.transaction(function (transaction) {
+
+      var queryChainer = Entity.queryChainer();
+
+      queryChainer.add(CategoryOfNews.destroy({
+        newsId: newsId
+      }, {
+        transaction: transaction
+      }));
+
+      queryChainer.add(NewsAttachment.destroy({
+        newsId: newsId
+      }, {
+        transaction: transaction
+      }));
+
+      queryChainer
+        .run()
+        .success(function () {
+          News.destroy({
+            newsId: newsId
+          }, {
+            transaction: transaction
+          })
+            .success(function () {
+              transaction.commit();
+              callback(null);
+            })
+            .error(function (error) {
+              transaction.rollback();
+              callback(error);
+            });
+        })
+        .error(function (error) {
+          transaction.rollback();
+          callback(error);
+        });
+
+    });
+
+  };
+
 });

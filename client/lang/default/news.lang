@@ -12,6 +12,7 @@ news.createdTime = Created time
 news.view = View
 news.create = Create
 news.edit = Edit
+news.delete = Delete
 
 news.save = Save
 news.addAttachments = Add attachments
@@ -26,3 +27,8 @@ news.create.success = The news is created successfully
 
 news.attachment.download.error.unknown = Error during downloading the attachment
 news.attachment.download.error.notFound = The attachment is not found
+
+news.delete.confirm = Are you sure to delete the news <b>{{title}}</b>?
+
+news.destroy.error.unknown = Error during deleting news
+news.destroy.success = The news is deleted successfully

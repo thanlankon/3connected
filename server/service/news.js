@@ -73,4 +73,27 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
   };
 
+  service.destroy = function (req, res) {
+
+    var newsId = req.body.newsId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+    NewsModel.destroy(newsId, function (error) {
+      if (error) {
+        serviceResponse.message = 'news.destroy.error.unknown';
+
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'news.destroy.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+    });
+
+  };
+
 });

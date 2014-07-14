@@ -21,6 +21,8 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       autoUpdate: true,
       scrollBarSize: 12
     });
+
+    this.element.find('#button-delete-news').click(this.proxy(this.deleteNews));
   };
 
   form.refreshData = function (params) {
@@ -38,6 +40,32 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     this.element.find('#button-edit-news').attr('href', editFormUrl);
 
     this.refreshNews(newsId);
+  };
+
+  form.deleteNews = function () {
+    var newsTitle = this.data.attr('title');
+    var newsId = this.data.attr('newsId');
+
+    var MsgBox = require('component.common.MsgBox');
+
+    MsgBox.confirm(Lang.get('news.delete.confirm', {
+      title: newsTitle
+    }), this.proxy(function () {
+      var NewsProxy = require('proxy.News');
+
+      NewsProxy.destroy({
+        newsId: newsId
+      }, this.proxy(destroyNewsDone));
+    }));
+
+    function destroyNewsDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var Route = require('core.route.Route');
+      Route.attr({
+        module: 'news'
+      });
+    }
   };
 
   form.refreshNews = function (newsId) {
@@ -74,11 +102,11 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
   form.events['#button-download-attachment click'] = function (element, event) {
     if (!this.attachmentId) return;
 
-//    var NewsProxy = require('proxy.News');
-//
-//    NewsProxy.downloadAttachment({
-//      attachmentId: this.attachmentId
-//    }, function () {});
+    //    var NewsProxy = require('proxy.News');
+    //
+    //    NewsProxy.downloadAttachment({
+    //      attachmentId: this.attachmentId
+    //    }, function () {});
 
     window.location.href = '/api/attachment/download?attachmentId=' + this.attachmentId;
   };
