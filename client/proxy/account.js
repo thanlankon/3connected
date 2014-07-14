@@ -12,6 +12,8 @@ define.proxy('proxy.Account', function (proxy, require) {
 
   proxy.destroy = 'POST api/account/destroy';
 
+  proxy.resetPassword = 'POST api/account/resetPassword';
+
   // batch entity map
   proxy.EntityMap = [
     {

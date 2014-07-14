@@ -22,3 +22,9 @@ account.delete = Delete accountes
 
 account.currentPassword = Current password
 account.confirmPassword = Confirm password
+account.resetPassword = Reset password
+
+# message
+account.resetPassword.error.unknown = Error during reset password
+account.resetPassword.error.notFound = Account is not found
+account.resetPassword.success = The password is reset successfully
