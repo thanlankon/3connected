@@ -38,7 +38,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       this.formType == this.FormType.Dialog.CREATE ||
       this.formType == this.FormType.Dialog.VALIDATION
     ) {
-      this.initData();
+      this.initData(params);
 
       // reset bound attributes
       var boundAttributes = this.data.attr('boundAttributes');
