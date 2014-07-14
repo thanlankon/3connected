@@ -151,4 +151,6 @@ define('core.util.Util', function (module, require) {
     return Util.Object.isFunction(value) ? value() : value;
   };
 
+  Util.uniqueId = Underscore.uniqueId;
+
 });

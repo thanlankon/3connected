@@ -1,16 +1,20 @@
-define.form('component.form.manage-news.CreateNews', function (form, require, Util, Lang) {
+define.form('component.form.manage-news.Editor', function (form, require, Util, Lang) {
 
-  form.urlMap = {
+  form.urlMap = [{
     url: ':module/:action',
     data: {
       module: 'news',
       action: 'create'
     }
-  };
+  }, {
+    url: ':module/:action/:id',
+    data: {
+      module: 'news',
+      action: 'edit'
+    }
+  }];
 
-  //  form.ServiceProxy = require('proxy.News');
-
-  form.tmpl = 'form.manage-news.create-news';
+  form.tmpl = 'form.manage-news.news-editor';
 
   form.formType = form.FormType.FORM;
 
@@ -35,21 +39,96 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
   };
 
-  form.refreshData = function () {
-    if (!this.isFormInitialized) return;
+  form.loadNews = function (newsId) {
+    var NewsProxy = require('proxy.News');
 
-    this.editor.val('');
+    NewsProxy.findOne({
+      newsId: newsId
+    }, this.proxy(findOneDone));
 
-    this.data.attr({
-      title: null,
-      content: null,
-      categoryIds: []
-    });
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
 
-    this.attachmentInfo = {};
-    this.attachmentData = {};
+      var newsData = serviceResponse.getData();
 
-    this.refreshAttachmentList();
+      var categoryIds = [];
+      for (var i = 0, len = newsData.categories.length; i < len; i++) {
+        var category = newsData.categories[i];
+        categoryIds.push(category.newsCategoryId);
+      }
+
+      this.attachmentInfo = {};
+      this.attachmentData = {};
+
+      for (var i = 0, len = newsData.attachments.length; i < len; i++) {
+        var attachment = newsData.attachments[i];
+
+        var attachmentUid = this.attachmentUid();
+
+        var fileInfo = {
+          name: attachment.name,
+          size: attachment.size,
+          extension: attachment.extension,
+          isCreated: true
+        };
+
+        this.attachmentInfo[attachmentUid] = fileInfo;
+        this.attachmentData[attachmentUid] = null;
+      }
+
+      this.editor.val(newsData.content);
+
+      this.data.attr({
+        title: newsData.title,
+        content: newsData.content,
+        categoryIds: categoryIds
+      });
+
+      console.log(this.attachmentInfo);
+
+      this.refreshAttachmentList();
+
+      this.on();
+    }
+  };
+
+  form.refreshData = function (params) {
+    this.newsId = params.id;
+
+    if (!this.isFormInitialized) {
+      return;
+    };
+
+    console.log(this.newsId);
+
+    if (params.action == 'edit') {
+      // load news for edit
+      this.data.attr({
+        newsId: this.newsId
+      });
+
+      this.loadNews(params.id);
+    } else {
+      // clear form for create
+      this.editor.val('');
+
+      this.data.attr({
+        title: null,
+        content: null,
+        categoryIds: null
+      });
+
+      this.data.attr({
+        categoryIds: []
+      });
+
+      this.data.removeAttr('newsId');
+
+      this.attachmentInfo = {};
+      this.attachmentData = {};
+
+      this.refreshAttachmentList();
+    }
   };
 
   form.initForm = function () {
@@ -133,6 +212,10 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
 
     // mark form initialized
     this.isFormInitialized = true;
+
+    if (this.newsId) {
+      this.loadNews(this.newsId);
+    }
   };
 
   form.resizeFormComponents = function () {
@@ -303,7 +386,7 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
       // get base64 data
       fileData = Util.File.getBase64Data(fileData);
 
-      var attachmentUid = new Date().valueOf();
+      var attachmentUid = this.attachmentUid();
 
       this.attachmentInfo[attachmentUid] = fileInfo;
       this.attachmentData[attachmentUid] = fileData;
@@ -312,6 +395,10 @@ define.form('component.form.manage-news.CreateNews', function (form, require, Ut
     });
 
     reader.readAsDataURL(file);
+  };
+
+  form.attachmentUid = function() {
+    return Util.uniqueId();
   };
 
 });

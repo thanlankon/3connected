@@ -11,6 +11,7 @@ news.createdTime = Created time
 
 news.view = View
 news.create = Create
+news.edit = Edit
 
 news.save = Save
 news.addAttachments = Add attachments

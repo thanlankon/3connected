@@ -26,6 +26,17 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
   form.refreshData = function (params) {
     var newsId = params.id;
 
+    var Route = require('core.route.Route');
+
+    var editFormUrl = Route.url({
+      module: 'news',
+      action: 'edit',
+      id: newsId
+    });
+
+    // update edit button url
+    this.element.find('#button-edit-news').attr('href', editFormUrl);
+
     this.refreshNews(newsId);
   };
 
@@ -61,7 +72,6 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
   };
 
   form.events['#button-download-attachment click'] = function (element, event) {
-    console.log(this.attachmentId);
     if (!this.attachmentId) return;
 
 //    var NewsProxy = require('proxy.News');

@@ -3,7 +3,7 @@ define.form = function (id, definer) {
   define.component(id, function (component, require, Util, Lang, jQuery) {
 
     var Route = require('core.route.Route');
-    var Cpanelcomponent = require('component.Cpanel');
+    var CpanelComponent = require('component.Cpanel');
 
     component.FormType = {
       FORM: 1,
@@ -52,15 +52,19 @@ define.form = function (id, definer) {
 
     if (!component.urlMap) return;
 
-    var formUrlMap = {
-      url: component.urlMap.url,
-      data: component.urlMap.data,
-      formId: id
-    };
+    component.urlMap = [].concat(component.urlMap);
 
-    Route.define(formUrlMap.url);
+    for (var i = 0, len = component.urlMap.length; i < len; i++) {
+      var formUrlMap = {
+        url: component.urlMap[i].url,
+        data: component.urlMap[i].data,
+        formId: id
+      };
 
-    Cpanelcomponent.addFormUrlMap(formUrlMap);
+      Route.define(formUrlMap.url);
+
+      CpanelComponent.addFormUrlMap(formUrlMap);
+    }
 
   });
 
