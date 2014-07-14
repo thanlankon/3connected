@@ -10,7 +10,7 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
   // the form is displayed when the url is matched
   // url: #!manage-gradeCategory
   form.urlMap = {
-    url: ':module',
+    url: ':module/:id',
     data: {
       module: 'manage-grade-category'
     }
@@ -25,7 +25,7 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
   // the proxy that used by the form
   // proxy.findAll & proxy.destroy methods will be used
   form.ServiceProxy = require('proxy.GradeCategory');
-//  form.ServiceProxy = {
+  //  form.ServiceProxy = {
   //    proxy: require('proxy.GradeCategory'),
   //    method: 'getSubjectVersionGradeCaterogy'
   //  };

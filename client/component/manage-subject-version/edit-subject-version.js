@@ -6,7 +6,7 @@ define.form('component.dialog.manage-subjectVersion.EditSubjectVersion', functio
   form.urlMap = {
     url: ':module/:action/:id',
     data: {
-      module: 'manage-subjectVersion',
+      module: 'manage-subject-version',
       action: 'edit'
     }
   };

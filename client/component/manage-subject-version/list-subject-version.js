@@ -10,9 +10,9 @@ define.form('component.form.manage-subjectVersion.ListSubjectVersion', function 
   // the form is displayed when the url is matched
   // url: #!manage-subjectVersion
   form.urlMap = {
-    url: ':module',
+    url: ':module/:id',
     data: {
-      module: 'manage-subjectVersion'
+      module: 'manage-subject-version'
     }
   };
 
@@ -54,7 +54,10 @@ define.form('component.form.manage-subjectVersion.ListSubjectVersion', function 
   };
 
   form.refreshData = function (data) {
+
     var subjectId = data.id;
+
+    this.setFormParam('subjectId', subjectId);
 
     this.grid.setFilterConditions('subjectId', subjectId);
 
@@ -68,8 +71,6 @@ define.form('component.form.manage-subjectVersion.ListSubjectVersion', function 
       if (serviceResponse.hasError()) return;
 
       var subject = serviceResponse.getData();
-
-      console.log(subject);
 
       this.data.attr({
         subject: subject

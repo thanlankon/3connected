@@ -12,7 +12,7 @@ define.form('component.dialog.manage-subjectVersion.SubjectVersion', function (f
   form.urlMap = {
     url: ':module/:action',
     data: {
-      module: 'manage-subjectVersion',
+      module: 'manage-subject-version',
       action: 'create'
     }
   };
@@ -31,16 +31,12 @@ define.form('component.dialog.manage-subjectVersion.SubjectVersion', function (f
   form.validateRules = require('validator.rule.SubjectVersion');
 
   // init form data
-  form.initData = function () {
+  form.initData = function (params) {
+
+    console.log(params.subjectId);
 
     var componentSettings = {
-      subjectId: {
-        ServiceProxy: require('proxy.Subject'),
-        combobox: {
-          valueMember: 'subjectId',
-          displayMember: 'subjectName'
-        }
-      }
+      subjectId: params.subjectId
     };
 
     var data = {
