@@ -66,22 +66,6 @@ define('validator.rule.GradeCategory', function (module, require) {
      ]
   };
 
-
-  var ruleSubjectId = {
-    // validate for subject id
-    attribute: 'subjectId',
-    attributeName: 'subject.subjectId',
-    rules: [
-      {
-        // subjectId is required
-        rule: 'required'
-      },
-      {
-        rule: 'positiveInteger'
-      }
-     ]
-  };
-
   var ruleSubjectVersionId = {
     // validate for subject version id
     attribute: 'subjectVersionId',
@@ -99,7 +83,6 @@ define('validator.rule.GradeCategory', function (module, require) {
 
 
   var ruleCreateGradeCategory = [
-    ruleSubjectId,
     ruleSubjectVersionId,
     ruleGradeCategoryCode,
     ruleGradeCategoryName,

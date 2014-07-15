@@ -25,31 +25,21 @@ define.form('component.dialog.manage-gradeCategory.GradeCategory', function (for
   form.validateRules = require('validator.rule.GradeCategory');
 
   // init form data
-  form.initData = function () {
+  form.initData = function (params) {
 
-    var componentSettings = {
-      subjectId: {
-        ServiceProxy: require('proxy.Subject'),
-        combobox: {
-          valueMember: 'subjectId',
-          displayMember: 'subjectName'
-        }
-      },
-      subjectVersionId: {
-        ServiceProxy: require('proxy.SubjectVersion'),
-        combobox: {
-          valueMember: 'subjectVersionId',
-          displayMember: 'description'
-        },
-        filterByAttributes: ['subjectId']
-      }
-    };
+    if (!params) return;
 
-    var data = {
-      componentSettings: componentSettings
-    };
+    var subjectVersionId = 0;
+    if (params.subjectVersionId) {
 
-    this.data.attr(data);
+      subjectVersionId = +params.subjectVersionId;
+
+      var data = {
+        subjectVersionId: subjectVersionId
+      };
+
+      this.data.attr(data);
+    }
   };
 
 });

@@ -10,9 +10,10 @@ define.form('component.form.manage-subjectVersion.ListSubjectVersion', function 
   // the form is displayed when the url is matched
   // url: #!manage-subjectVersion
   form.urlMap = {
-    url: ':module/:id',
+    url: ':module/:action/:id',
     data: {
-      module: 'manage-subject-version'
+      module: 'manage-subject',
+      action: 'version'
     }
   };
 

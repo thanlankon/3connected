@@ -6,28 +6,13 @@ Created date    : 2014/16/06
 -->
   <template id="dialog.manage-gradeCategory.edit-gradeCategory">
 
-  {{dialog.size width="500px" height="430px"}}
+  {{dialog.size width="500px" height="330px"}}
 
   <div class="header">
     {{lang "gradeCategory.edit"}} <b>{{originalData.gradeCategoryName}}</b>
   </div>
 
   <div class="content">
-
-    <div class="label">
-      {{lang "subject.subjectName"}}:
-    </div>
-    <div class="data input">
-      {{component.combobox attribute="subjectId"}}
-    </div>
-
-
-    <div class="label">
-      {{lang "subjectVersion.subjectVersion"}}:
-    </div>
-    <div class="data input">
-      {{component.combobox attribute="subjectVersionId"}}
-    </div>
 
     <div class="label">
       {{lang "gradeCategory.gradeCategoryCode"}}:

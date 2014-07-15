@@ -1,10 +1,10 @@
 /*
  * System          : 3connected
- * Component       : Create subject versions component
- * Creator         : ThanhVM
- * Created date    : 2014/16/06
+ * Component       : Create parent component
+ * Creator         : UayLU
+ * Created date    : 2014/01/07
  */
-define.form('component.dialog.manage-subjectVersion.SubjectVersion', function (form, require, Util, Lang) {
+define.form('component.dialog.manage-parent.Parent', function (form, require, Util, Lang) {
 
   // map the form to the url
   // the form is displayed when the url is matched
@@ -12,36 +12,36 @@ define.form('component.dialog.manage-subjectVersion.SubjectVersion', function (f
   form.urlMap = {
     url: ':module/:action',
     data: {
-      module: 'manage-subject-version',
+      module: 'manage-parent',
       action: 'create'
     }
   };
 
   // the template that used by the form
-  form.tmpl = 'dialog.manage-subjectVersion.create-subjectVersion';
+  form.tmpl = 'dialog.manage-parent.create-parent';
 
   // the form type is Dialog.CREATE
   form.formType = form.FormType.Dialog.CREATE;
 
   // the proxy that used by the form
   // proxy.create method will be used
-  form.ServiceProxy = require('proxy.SubjectVersion');
+  form.ServiceProxy = require('proxy.Parent');
 
   // the validation rules used by form
-  form.validateRules = require('validator.rule.SubjectVersion');
+  form.validateRules = require('validator.rule.Parent');
 
   // init form data
   form.initData = function (params) {
 
     if (!params) return;
 
-    var subjectId = 0;
-    if (params.subjectId) {
+    var studentId = 0;
+    if (params.studentId) {
 
-      subjectId = +params.subjectId;
+      studentId = +params.studentId;
 
       var data = {
-        subjectId: subjectId
+        studentId: studentId
       };
 
       this.data.attr(data);

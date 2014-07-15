@@ -1,0 +1,62 @@
+<!--
+System          : 3connected
+Component       : List parent Version
+Creator         : UayLU
+Created date    : 2014/01/07
+-->
+<template id="form.manage-parent.list-parent">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="icon create" data-component-role="create-button">
+        <a href="{{url module="manage-parent" action="create"}}">{{lang "parent.create"}}</a>
+      </li>
+      <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
+        <a href="{{url module="manage-parent" action="edit"}}">{{lang "parent.edit"}}</a>
+      </li>
+      <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
+        <a href="#">{{lang "parent.delete"}}</a>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'student.studentCode'}}: <b>{{student.studentCode}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'student.firstName'}}: <b>{{student.firstName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'student.lastName'}}: <b>{{student.lastName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'class.className'}}: <b>{{student.class.className}}</b></span>
+      </li>
+
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+      <li class="right component">
+        {{component.gridClearFilter}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-parents" data-component-role="grid"></div>
+
+  </div>
+
+</template>
+

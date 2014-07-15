@@ -1,0 +1,81 @@
+<!--
+System          : 3connected
+Component       : Edit parent Version
+Creator         : UayLU
+Created date    : 2014/01/07
+-->
+<template id="dialog.manage-parent.create-parent">
+
+  {{dialog.size width="500px" height="620px"}}
+
+  <div class="header">
+    {{lang "parent.create"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "parent.firstName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="firstName"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.lastName"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="lastName"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.relationship"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="relationship"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.gender"}}:
+    </div>
+    <div class="data input">
+      {{component.genderDropDownList attribute="gender"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.dateOfBirth"}}:
+    </div>
+    <div class="data input">
+      {{component.dateInput attribute="dateOfBirth"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.address"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="address"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.email"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="email"}}
+    </div>
+
+    <div class="label">
+      {{lang "parent.phoneNumber"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="phoneNumber"}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "create"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

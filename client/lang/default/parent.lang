@@ -1,0 +1,19 @@
+# attribute name
+
+parent.parentId = Parent Id
+parent.firstName = {{.firstName}}
+parent.relationship = Relationship
+parent.lastName = {{.lastName}}
+parent.gender = {{.gender}}
+parent.dateOfBirth = {{.dateOfBirth}}
+parent.address = {{.address}}
+parent.email = {{.email}}
+parent = Parent
+parent.phoneNumber = Phone Number
+
+# controls
+
+parent.create = Create parent
+parent.view = View parent details
+parent.edit = Edit parent
+parent.delete = Delete parents

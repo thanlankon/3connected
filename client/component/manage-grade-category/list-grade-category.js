@@ -10,9 +10,10 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
   // the form is displayed when the url is matched
   // url: #!manage-gradeCategory
   form.urlMap = {
-    url: ':module/:id',
+    url: ':module/:action/:id',
     data: {
-      module: 'manage-grade-category'
+      module: 'manage-subject-version',
+      action: 'grade-category'
     }
   };
 
@@ -70,7 +71,7 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
     var subjectVersionId = data.id;
 
     this.grid.setFilterConditions('subjectVersionId', subjectVersionId);
-
+    this.setFormParam('subjectVersionId', subjectVersionId);
     var SubjectVersionProxy = require('proxy.SubjectVersion');
 
     SubjectVersionProxy.findOne({
