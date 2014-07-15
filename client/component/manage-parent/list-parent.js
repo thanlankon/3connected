@@ -47,21 +47,31 @@ define.form('component.form.manage-parent.Listparent', function (form, require, 
     }, {
       text: Lang.get('parent.relationship'),
       dataField: 'relationship',
+
+      width: '150px'
     }, {
       text: Lang.get('parent.gender'),
       dataField: 'gender',
+
+      width: '150px'
     }, {
       text: Lang.get('parent.dateOfBirth'),
       dataField: 'dateOfBirth',
+
+      width: '150px'
     }, {
       text: Lang.get('parent.address'),
       dataField: 'address',
     }, {
       text: Lang.get('parent.email'),
       dataField: 'email',
+
+      width: '200px'
     }, {
       text: Lang.get('parent.phoneNumber'),
       dataField: 'phoneNumber',
+
+      width: '180px'
     }];
 
     var gridConfig = {
