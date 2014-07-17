@@ -312,6 +312,8 @@ define.component('component.common.Grid', function (component, require, Util, La
     if (ServiceProxy.proxy && ServiceProxy.method) {
       proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
       proxy = ServiceProxy.proxy;
+
+      console.log(proxy[ServiceProxy.entityMap]);
       entityMap = ServiceProxy.entityMap ? proxy[ServiceProxy.entityMap] : proxy.EntityMap;
     } else {
       proxyMethod = ServiceProxy.findAll;
@@ -331,7 +333,7 @@ define.component('component.common.Grid', function (component, require, Util, La
     source.id = proxy.entityId;
 
     // data fields
-    source.dataFields = proxy.EntityMap;
+    source.dataFields = entityMap;
 
     // source mapping char
     source.mapChar = '.';

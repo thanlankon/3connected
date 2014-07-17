@@ -9,7 +9,8 @@ define.form('component.form.student-course.ListCourse', function (form, require,
 
   form.ServiceProxy = {
     proxy: require('proxy.Course'),
-    method: 'findCourseStudent'
+    method: 'findCourseStudent',
+    entityMap: 'StudentCourseEntityMap'
   };
 
   form.tmpl = 'form.student-course.list-course';

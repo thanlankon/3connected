@@ -30,6 +30,12 @@ define.proxy = function (id, definer) {
         return;
       }
 
+      if (!Util.Object.isString(value)) {
+        Proxy[key] = value;
+
+        return;
+      }
+
       var httpMethod = value.slice(0, value.indexOf(' '));
       var url = value.slice(value.indexOf(' ') + 1);
 

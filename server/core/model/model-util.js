@@ -5,13 +5,10 @@ define('core.model.ModelUtil', function (module, require) {
 
   var ModelUtil = module.exports = {};
 
-  // findAll method
-  ModelUtil.findAllWithOptions = function (Entity, options, callback) {
-
+  ModelUtil.buildFindOptions = function (Entity, options) {
     var page = options.page;
     var sort = options.sort;
     var attributes = options.attributes;
-    var include = options.include;
 
     var findOptions = {};
 
@@ -36,7 +33,15 @@ define('core.model.ModelUtil', function (module, require) {
       findOptions.where = buildFilters(options.filters, options.excludeFilters, Entity.tableName);
     }
 
-    findOptions.include = include;
+    return findOptions;
+  }
+
+  // findAll method
+  ModelUtil.findAllWithOptions = function (Entity, options, callback) {
+
+    var findOptions = ModelUtil.buildFindOptions(Entity, options);
+
+    findOptions.include = options.include;
 
     Entity.findAndCountAll(findOptions)
       .success(function (result) {
@@ -215,7 +220,7 @@ define('core.model.ModelUtil', function (module, require) {
           filter.value = convertToSearchDateTime(filter.value);
         }
 
-        if (['gender'].indexOf(filter.field) != -1) {
+        if (filter.findExact || ['gender'].indexOf(filter.field) != -1) {
           // find exact
           whereSql.push(columnName + ' = ?');
           whereData.push(filter.value);

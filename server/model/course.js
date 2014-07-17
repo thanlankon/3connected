@@ -113,37 +113,50 @@ define.model('model.Course', function (model, ModelUtil, require) {
       });
   };
 
-  model.findCourseStudent = function (studentId, callback) {
+  model.findCourseStudent = function (studentId, findOptions, callback) {
 
-    // find the Course
-    Course.findAll({
+    findOptions.filters = findOptions.filters || [];
+
+    findOptions.filters.push({
+      field: 'studentId',
+      value: studentId,
+      findExact: true
+    });
+
+    var includeOptions = [{
+      model: Course,
+      as: 'course',
       include: [{
+        model: Class,
+        as: 'class'
+      }, {
+        model: Term,
+        as: 'term'
+      }, {
+        model: Major,
+        as: 'major'
+      }, {
         model: SubjectVersion,
         as: 'subjectVersion',
         include: [{
           model: Subject,
           as: 'subject'
-          }]
-        }, {
-        model: CourseStudent,
-        as: 'courseStudents',
-        where: {
-          studentId: studentId
-        }
-        }, {
-        model: Class,
-        as: 'class'
-        }, {
-        model: Term,
-        as: 'term'
-        }, {
-        model: Major,
-        as: 'major'
+        }]
       }]
+    }];
 
-    })
+    findOptions = ModelUtil.buildFindOptions(CourseStudent, findOptions);
+    findOptions.include = includeOptions;
+
+    // find the Course
+    CourseStudent.findAndCountAll(findOptions)
       .success(function (courseStudent) {
-        callback(null, courseStudent, false);
+        var findResult = {
+          items: courseStudent.rows,
+          total: courseStudent.count
+        };
+
+        callback(null, findResult, false);
       })
       .error(function (error) {
         callback(error);

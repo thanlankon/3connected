@@ -227,8 +227,9 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
       error: null
     };
 
+    var findOptions = ServiceUtil.buildFindOptions(req.query);
 
-    CourseModel.findCourseStudent(studentId, function (error, courseStudent, isNotFound) {
+    CourseModel.findCourseStudent(studentId, findOptions, function (error, courseStudent, isNotFound) {
       if (error) {
         serviceResponse.message = 'course.findCourseAttendanceStudent.error';
         serviceResponse.error = error;
@@ -239,10 +240,7 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
           };
           serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
         } else {
-          serviceResponse.data = {
-            items: courseStudent,
-            total: courseStudent.length
-          };
+          serviceResponse.data = courseStudent;
         }
       }
 
