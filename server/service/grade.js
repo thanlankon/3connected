@@ -100,8 +100,6 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     }
     var studentId = req.authentication.userInformationId;
 
-    console.log('termId ' + termId);
-
     if (termId) {
       TermModel.getTermCourseStudent(termId, studentId, function (error, terms, isNotFound) {
         if (error) {

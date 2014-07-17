@@ -69,9 +69,6 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
       courseId: this.courseId
     }, this.proxy(findAttendanceStudent));
 
-    console.log('id' + this.courseId)
-
-
 
     function findAttendanceStudent(serviceResponse) {
       if (serviceResponse.hasError()) return;

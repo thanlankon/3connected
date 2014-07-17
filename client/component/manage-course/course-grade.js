@@ -94,8 +94,6 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
     var courseId = this.courseId;
     var gradeData = this.gridGrade.getGradeData();
 
-    console.log(gradeData);
-
     if (!gradeData.length) return;
 
     var GradeProxy = require('proxy.Grade');
