@@ -42,13 +42,26 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
     }];
 
     var gridConfig = {
-      columns: gridColumns
+      columns: gridColumns,
+      singleSelection: true,
+      filterable: false,
+      sortable: false,
+      pageable: false,
+
+      events: {
+        processData: this.proxy(this.processData)
+      }
     };
 
     return gridConfig;
 
   };
 
+  form.processData = function (data, originalData) {
+    var averageGrade = originalData.data && originalData.data.averageGrade;
+
+    this.data.attr('averageGrade', averageGrade);
+  };
 
   form.initForm = function () {
 

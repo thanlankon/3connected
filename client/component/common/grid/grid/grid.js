@@ -313,7 +313,6 @@ define.component('component.common.Grid', function (component, require, Util, La
       proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
       proxy = ServiceProxy.proxy;
 
-      console.log(proxy[ServiceProxy.entityMap]);
       entityMap = ServiceProxy.entityMap ? proxy[ServiceProxy.entityMap] : proxy.EntityMap;
     } else {
       proxyMethod = ServiceProxy.findAll;
