@@ -75,7 +75,8 @@ define.model('model.student.CourseOfStudent', function (model, ModelUtil, requir
             courseGrade.gradeCategoryCode = gradeCategory.gradeCategoryCode;
             courseGrade.gradeCategoryName = gradeCategory.gradeCategoryName;
             courseGrade.weight = gradeCategory.weight;
-            courseGrade.value = gradeMap[gradeCategory.gradeCategoryId] || null;
+            courseGrade.value = gradeMap[gradeCategory.gradeCategoryId];
+            if (courseGrade.value === undefined) courseGrade.value = null;
 
             courseGrades.push(courseGrade);
           }
