@@ -128,16 +128,18 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 
     var activeForm;
     var activeFormParams;
+    var skipRefresh = false;
 
     if (activeFormId) {
       var ActiveForm = require(activeFormId);
       var activeForm = ActiveForm.formInstance;
 
       activeFormParams = activeForm.formParams;
+      skipRefresh = activeForm.skipRefresh;
     }
 
     if (!Form.isDialog && activeForm) {
-        activeForm.hideForm();
+      activeForm.hideForm();
     }
 
     var formParams = Route.attr();
@@ -158,7 +160,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       //        }
       //      });
     } else {
-      Form.formInstance.showForm(formParams);
+      Form.formInstance.showForm(formParams, skipRefresh);
     }
   };
 

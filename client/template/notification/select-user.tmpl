@@ -1,0 +1,41 @@
+<template id="dialog.notification.select-user">
+
+  {{dialog.size width="700px" height="500px"}}
+
+  <div class="header">
+    {{lang "notification.selectUser"}}
+  </div>
+
+  <div class="content">
+
+    <div class="label">
+      {{lang "notification.selectUser.selectType"}}:
+    </div>
+    <div class="data combobox">
+      {{component.combobox attribute="selectType" localData="true"}}
+    </div>
+
+    <div class="label">
+      {{lang "notification.selectUser.filter"}}:
+    </div>
+    <div class="data input force-full-width">
+      {{component.input attribute="filter" placeHolder="Type name or code to search"}}
+    </div>
+
+    <div class="label">
+      {{lang "notification.selectUser.users"}}:
+    </div>
+
+    <div class="data listbox">
+      <div id="list-users"></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "notification.selectUser"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

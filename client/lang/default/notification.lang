@@ -1,0 +1,30 @@
+notification.selectUser = Select users
+notification.selectUser.selectType = Select type
+notification.selectUser.filter = Filter
+notification.selectUser.users = Users
+
+
+notification.selectType.allStudentsAndParents = All students and parents
+notification.selectType.allStudents = All students
+notification.selectType.allParents = All parents
+notification.selectType.classStudentsAndParents = All students and parents of a Class
+notification.selectType.classStudents = All students of a Class
+notification.selectType.classParents = All parents of a Class
+notification.selectType.courseStudentsAndParents = All students and parents of a Course
+notification.selectType.courseStudents = All students of a Course
+notification.selectType.courseParents = All parents of a Course
+notification.selectType.specificStudentsAndParents = Specific students and parents
+notification.selectType.specificStudents = Specific students
+notification.selectType.specificParents = Specific parents
+
+notification.selectItem.classStudentsAndParents = All students and parents of Class <b>{{className}}</b>
+notification.selectItem.classStudents = All students of Class <b>{{className}}</b>
+notification.selectItem.classParents = All parents of Class <b>{{className}}</b>
+notification.selectItem.courseStudentsAndParents = All students and parents of Course <b>{{courseName}}</b> (Term: <b>{{termName}}</b>)
+notification.selectItem.courseStudents = All students of Course <b>{{courseName}}</b> (Term: <b>{{termName}}</b>)
+notification.selectItem.courseParents = All parents of Course <b>{{courseName}}</b> (Term: <b>{{termName}}</b>)
+notification.selectItem.specificStudentsAndParents =  Parent and student <b>{{studentCode}}</b> (<b>{{lastName}} {{firstName}}</b> - Class <b>{{className}}</b>)
+notification.selectItem.specificStudents = Student <b>{{studentCode}}</b> (<b>{{lastName}} {{firstName}}</b> - Class <b>{{className}}</b>)
+notification.selectItem.specificParents = Parent of student <b>{{studentCode}}</b> (<b>{{lastName}} {{firstName}}</b> - Class <b>{{className}}</b>)
+
+notification.selectItem.noClass = No class
