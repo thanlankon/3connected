@@ -466,7 +466,18 @@ define.form('component.dialog.notification.NotifyNews', function (form, require,
 
   form.submitDialogData = function () {
     var selectedUserIds = Util.Object.keys(this.selectedUsers);
-    console.log(selectedUserIds);
+
+    var NotificationProxy = require('proxy.Notification');
+    NotificationProxy.notifyNews({
+      newsId: null,
+      userIds: selectedUserIds
+    }, this.proxy(notifyNewsDone));
+
+    function notifyNewsDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      console.log(serviceResponse.getData());
+    }
   };
 
 });
