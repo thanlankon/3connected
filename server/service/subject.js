@@ -9,7 +9,17 @@ define.service('service.Subject', function (service, require, ServiceUtil, Util)
   var SubjectModel = require('model.Subject');
 
   service.map = {
-    url: '/subject'
+    url: '/subject',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = SubjectModel;
@@ -23,12 +33,12 @@ define.service('service.Subject', function (service, require, ServiceUtil, Util)
     },
 
     create: {
-      attributes: ['subjectCode','subjectName','numberOfCredits'],
+      attributes: ['subjectCode', 'subjectName', 'numberOfCredits'],
       checkDuplicatedAttributes: ['subjectCode']
     },
 
     update: {
-      attributes: ['subjectCode','subjectName','numberOfCredits'],
+      attributes: ['subjectCode', 'subjectName', 'numberOfCredits'],
       checkExistanceAttributes: ['subjectId'],
       checkDuplicatedAttributes: ['subjectCode']
     }

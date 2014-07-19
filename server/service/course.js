@@ -51,6 +51,14 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         url: '/findAttendanceStudent',
         httpMethod: 'GET'
       },
+      findAttendanceStudentMobile: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/findAttendanceStudentMobile',
+        httpMethod: 'GET'
+      },
       findCourseStudent: {
         authorize: function (req, authentication, Role, commit) {
           var authorized = Role.isStudentOrParent(authentication.accountRole);
@@ -219,6 +227,94 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     });
+
+  };
+
+  // find Attendance Student
+  service.findAttendanceStudentMobile = function (req, res) {
+
+    //    var studentId = req.body.studentId;
+    //    var courseId = req.body.courseId;
+
+    var studentId = req.authentication.userInformationId;
+    var courseId = req.query.courseId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+
+    CourseModel.findAttendanceStudent(courseId, studentId, function (error, attendanceStudent, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.findAttendanceStudent.error';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.findAttendanceStudent.notFound';
+        } else {
+          if (attendanceStudent && attendanceStudent.length) {
+            var schedules = attendanceStudent[0].dataValues.schedules;
+            var attendanceAbsent = [];
+            var attendancePresent = [];
+            for (var i = 0, len = schedules.length; i < len; i++) {
+              if (schedules[i].attendances[0].status == 1) {
+                attendancePresent.push({
+                  date: schedules[i].date,
+                  slot: schedules[i].slot,
+                  status: schedules[i].attendances[0].status
+                });
+              } else if (schedules[i].attendances[0].status == 2) {
+                attendanceAbsent.push({
+                  date: schedules[i].date,
+                  slot: schedules[i].slot,
+                  status: schedules[i].attendances[0].status
+                });
+              }
+            }
+            buildAttendaceStudentMobile(attendanceAbsent, attendancePresent);
+          } else {
+            ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+          }
+        }
+      }
+    });
+
+    function buildAttendaceStudentMobile(attendancePresent, attendanceAbsent) {
+
+      CourseModel.findOneCourseStudent(courseId, function (error, course, isNotFound) {
+        if (error) {
+          serviceResponse.message = 'course.findOneCourseStudent.error';
+          serviceResponse.error = error;
+        } else {
+          if (isNotFound) {
+            serviceResponse.error = {
+              code: 'ENTITY.NOT_FOUND'
+            };
+            serviceResponse.message = 'course.findOneCourseStudent.notFound';
+          } else {
+            var attendance = [];
+
+            if (course) {
+              attendance.push({
+                attendanceAbsent: attendanceAbsent,
+                attendancePresent: attendancePresent,
+                totalSlot: course.schedules.length
+              });
+
+              serviceResponse.data = {
+                items: attendance
+              };
+            }
+          }
+        }
+
+        ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+      });
+    };
 
   };
 

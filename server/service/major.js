@@ -3,7 +3,17 @@ define.service('service.Major', function (service, require, ServiceUtil, Util) {
   var MajorModel = require('model.Major');
 
   service.map = {
-    url: '/major'
+    url: '/major',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = MajorModel;
