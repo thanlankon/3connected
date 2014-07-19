@@ -264,18 +264,16 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
               if (schedules[i].attendances[0].status == 1) {
                 attendancePresent.push({
                   date: schedules[i].date,
-                  slot: schedules[i].slot,
-                  status: schedules[i].attendances[0].status
+                  slot: schedules[i].slot
                 });
               } else if (schedules[i].attendances[0].status == 2) {
                 attendanceAbsent.push({
                   date: schedules[i].date,
-                  slot: schedules[i].slot,
-                  status: schedules[i].attendances[0].status
+                  slot: schedules[i].slot
                 });
               }
             }
-            buildAttendaceStudentMobile(attendanceAbsent, attendancePresent);
+            buildAttendaceStudentMobile(attendancePresent, attendanceAbsent);
           } else {
             ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
           }
