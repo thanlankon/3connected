@@ -1,18 +1,18 @@
-define.form('component.dialog.notification.SelectUser', function (form, require, Util, Lang, jQuery) {
+define.form('component.dialog.notification.NotifyNews', function (form, require, Util, Lang, jQuery) {
 
   form.urlMap = {
-    url: ':module/:action',
+    url: ':module/:action/:id',
     data: {
       module: 'notification',
-      action: 'select-user'
+      action: 'notify-news'
     }
   };
 
-  form.tmpl = 'dialog.notification.select-user';
+  form.tmpl = 'dialog.notification.notify-news';
 
   form.formType = form.FormType.DIALOG;
 
-  form.skipRefresh = true;
+  form.selectedUsers = {};
 
   form.getSelectTypes = function () {
 
@@ -81,15 +81,28 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
   form.initDialog = function () {
 
     this.listOfUsers = this.element.find('#list-users');
+    this.listOfSelectedUsers = this.element.find('#list-selected-users');
 
     this.listOfUsers.jqxListBox({
-      source: this.buildUsersSource('all:students,parents'),
+      source: this.buildUsersSource(),
       width: '100%',
       height: '210px',
       displayMember: 'text',
       valueMember: 'uniqueId',
       checkboxes: true
     });
+
+    this.listOfSelectedUsers.jqxListBox({
+      source: this.buildSelectedUsersSource(),
+      width: '100%',
+      height: '338px',
+      displayMember: 'text',
+      valueMember: 'itemId',
+      checkboxes: true
+    });
+
+    this.element.find('#button-add-users').click(this.proxy(this.addUsers));
+    this.element.find('#button-remove-users').click(this.proxy(this.removeUsers));
 
     this.data.bind('change', this.proxy(this.findUsers));
     this.findUsers();
@@ -188,9 +201,14 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
     }
   };
 
+  form.refreshListOfSelectedUsers = function () {
+    this.listOfSelectedUsers.jqxListBox({
+      source: this.buildSelectedUsersSource()
+    });
+  };
+
   form.buildUsersSource = function (selectType, items) {
     var sourceData = [];
-    this.sourceData = {};
 
     items = items || [];
 
@@ -202,7 +220,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
         text: Lang.get('notification.selectType.allStudentsAndParents')
       };
 
-      this.sourceData[item.uniqueId] = item;
       sourceData.push(item);
 
       break;
@@ -213,7 +230,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
         text: Lang.get('notification.selectType.allStudents')
       };
 
-      this.sourceData[item.uniqueId] = item;
       sourceData.push(item);
 
       break;
@@ -224,7 +240,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
         text: Lang.get('notification.selectType.allParents')
       };
 
-      this.sourceData[item.uniqueId] = item;
       sourceData.push(item);
 
       break;
@@ -239,7 +254,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -255,7 +269,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -271,7 +284,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -288,7 +300,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -305,7 +316,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -322,7 +332,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -341,7 +350,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -360,7 +368,6 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
@@ -379,11 +386,15 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
           })
         };
 
-        this.sourceData[item.uniqueId] = item;
         sourceData.push(item);
       }
 
       break;
+    }
+
+    this.users = {};
+    for (var i = 0, len = sourceData.length; i < len; i++) {
+      this.users[sourceData[i].uniqueId] = sourceData[i];
     }
 
     var source = {
@@ -396,31 +407,66 @@ define.form('component.dialog.notification.SelectUser', function (form, require,
     return dataAdapter;
   }
 
-  form.submitDialogData = function () {
-    var items = this.listOfUsers.jqxListBox('getItems');
+  form.buildSelectedUsersSource = function () {
+    var sourceData = [];
 
-    var selectedItems = [];
+    Util.Collection.each(this.selectedUsers, function (user) {
+      var item = {
+        itemId: user.id,
+        text: user.text
+      };
+
+      sourceData.push(item);
+    });
+
+    var source = {
+      localData: sourceData,
+      dataType: 'array',
+    };
+
+    var dataAdapter = new jQuery.jqx.dataAdapter(source);
+
+    return dataAdapter;
+  }
+
+  form.addUsers = function () {
+    var items = this.listOfUsers.jqxListBox('getItems');
 
     for (var i = 0, len = items.length; i < len; i++) {
       if (!items[i].checked) continue;
 
-      var item = this.sourceData[items[i].value];
+      var item = this.users[items[i].value];
 
       var itemId = item.type + '[' + (item.id || '') + ']';
 
-      var selectedItem = {
+      this.selectedUsers[itemId] = {
         id: itemId,
-        text: item.label
-      }
-
-      selectedItems.push(item);
+        text: item.text
+      };
     }
 
-    this.setFormParam('selectedItems', selectedItems);
+    this.refreshListOfSelectedUsers();
+  }
 
-    console.log(selectedItems);
+  form.removeUsers = function () {
+    var items = this.listOfSelectedUsers.jqxListBox('getItems');
 
-    //    this.hideForm();
+    var selectedItemIds = [];
+
+    for (var i = 0, len = items.length; i < len; i++) {
+      if (!items[i].checked) continue;
+
+      selectedItemIds.push(items[i].value);
+    }
+
+    this.selectedUsers = Util.Object.omit(this.selectedUsers, selectedItemIds);
+
+    this.refreshListOfSelectedUsers();
+  }
+
+  form.submitDialogData = function () {
+    var selectedUserIds = Util.Object.keys(this.selectedUsers);
+    console.log(selectedUserIds);
   };
 
 });

@@ -1,8 +1,13 @@
-notification.selectUser = Select users
+notification.notifyNews = Notify for news
+
 notification.selectUser.selectType = Select type
 notification.selectUser.filter = Filter
 notification.selectUser.users = Users
+notification.selectUser.selectedUsers = Selected users
 
+notification.selectUser.add = Add users
+notification.selectUser.remove = Remove users
+notification.notify = Notify
 
 notification.selectType.allStudentsAndParents = All students and parents
 notification.selectType.allStudents = All students
