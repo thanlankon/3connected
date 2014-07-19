@@ -258,7 +258,12 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
             });
           }
 
-          serviceResponse.data = courseStudentMobile;
+          var findResult = {
+            items: courseStudentMobile,
+            total: courseStudentMobile.length
+          };
+
+          serviceResponse.data = findResult;
         }
       }
 
