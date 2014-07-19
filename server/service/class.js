@@ -7,6 +7,17 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
   service.map = {
     url: '/class',
 
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    },
+
     methods: {
       addStudents: {
         url: '/addStudents',

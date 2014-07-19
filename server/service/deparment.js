@@ -10,7 +10,17 @@ define.service('service.Department', function (service, require, ServiceUtil, Ut
   var DepartmentModel = require('model.Department');
 
   service.map = {
-    url: '/department'
+    url: '/department',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = DepartmentModel;

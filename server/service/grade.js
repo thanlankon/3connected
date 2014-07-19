@@ -10,6 +10,17 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
   service.map = {
     url: '/grade',
 
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    },
+
     methods: {
       getCourseGrade: {
         url: '/getCourseGrade',
@@ -20,6 +31,10 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         httpMethod: 'POST'
       },
       getSumaryGrade: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
         url: '/getSumaryGrade',
         httpMethod: 'GET'
       }

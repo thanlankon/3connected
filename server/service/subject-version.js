@@ -11,7 +11,17 @@ define.service('service.SubjectVersion', function (service, require, ServiceUtil
   var SubjectModel = require('model.Subject');
 
   service.map = {
-    url: '/subjectVersion'
+    url: '/subjectVersion',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = SubjectVersionModel;

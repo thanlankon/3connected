@@ -26,7 +26,7 @@ define.proxy('proxy.Course', function (proxy, require) {
   proxy.findAttendanceStudent = 'GET api/course/findAttendanceStudent';
   proxy.findCourseStudent = 'GET api/course/findCourseStudent';
   proxy.findOneCourseStudent = 'GET api/course/findOneCourseStudent';
-  proxy.findOneCourseStudent = 'GET api/course/findCourseStudentMobile';
+  proxy.findCourseStudentMobile = 'GET api/course/findCourseStudentMobile';
 
   // course entity map
   proxy.EntityMap = [

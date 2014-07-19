@@ -6,6 +6,18 @@ define.service('service.GradeCategory', function (service, require, ServiceUtil,
 
   service.map = {
     url: '/gradeCategory',
+
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    },
+
     methods: {
       getSubjectVersionGradeCaterogy: {
         url: '/getSubjectVersionGradeCaterogy',
