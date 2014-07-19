@@ -96,28 +96,25 @@ define.service = function (id, definer) {
 
     module.exports = service;
 
-  });
+    function isMethodAllowed(methodConfig, methodName) {
+      var disallowed = !methodConfig || (methodConfig && (
+        methodConfig.disableMethods === true || (
+          methodConfig[methodName] &&
+          methodConfig[methodName].disabled === true
+        )));
 
-  function isMethodAllowed(methodConfig, methodName) {
-    var disallowed = !methodConfig || (methodConfig && (
-      methodConfig.disableMethods === true || (
-      methodConfig[methodName] &&
-      methodConfig[methodName].disabled === true
-    )));
+      return !disallowed;
+    }
 
-    return !disallowed;
-  }
-
-  function createDefaultMap(serviceMap, methodName, url, httpMethod) {
-    if (!serviceMap.methods[methodName]) {
-      serviceMap.methods[methodName] = {
-        url: url
+    function createDefaultMap(serviceMap, methodName, url, httpMethod) {
+      var defaultMap = {
+        url: url,
+        httpMethod: httpMethod
       };
+
+      serviceMap.methods[methodName] = Util.Object.extend(defaultMap, serviceMap.methods[methodName]);
     }
 
-    if (!serviceMap.methods[methodName].httpMethod) {
-      serviceMap.methods[methodName].httpMethod = httpMethod;
-    }
-  }
+  });
 
 };
