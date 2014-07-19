@@ -20,6 +20,9 @@ define.component('component.common.LocalDataCombobox', function (component, requ
 
     element.remove();
 
+    //if (!this.componentData.attr('componentElements')) this.componentData.attr('componentElements', {});
+    //this.componentData.attr('componentElements.' + this.dataAttribute, this.combobox);
+
     var comboboxOptions = {
       autoComplete: true,
       enableBrowserBoundsDetection: true,
@@ -45,7 +48,6 @@ define.component('component.common.LocalDataCombobox', function (component, requ
 
     // tracking changes of combobox
     this.combobox.on('select', this.proxy(function (event) {
-
       if (trackingChange.data || !event || !event.args || !event.args.item) return;
 
       var item = event.args.item;

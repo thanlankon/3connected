@@ -185,7 +185,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 
     gridOptions = {
       // source
-      source: source,
+      //source: source,
       // paging
       pageable: options.grid.pageable !== false,
       // resizing
@@ -223,6 +223,12 @@ define.component('component.common.Grid', function (component, require, Util, La
     }
 
     this.element.jqxGrid(gridOptions);
+
+    this.element.on('initialized', this.proxy(function () {
+      this.element.jqxGrid({
+        source: source
+      });
+    }));
 
     this.element.on('rowClick rowclick', this.proxy(function (event) {
       var args = event.args;
@@ -312,7 +318,6 @@ define.component('component.common.Grid', function (component, require, Util, La
     if (ServiceProxy.proxy && ServiceProxy.method) {
       proxyMethod = ServiceProxy.proxy[ServiceProxy.method];
       proxy = ServiceProxy.proxy;
-
       entityMap = ServiceProxy.entityMap ? proxy[ServiceProxy.entityMap] : proxy.EntityMap;
     } else {
       proxyMethod = ServiceProxy.findAll;

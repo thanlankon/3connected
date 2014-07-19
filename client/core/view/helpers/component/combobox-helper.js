@@ -15,7 +15,7 @@ define('core.view.helpers.component.ComboboxHelper', function (module, require) 
 
     var componentData = this;
     var dataAttribute = options.hash.attribute;
-    var componentAttributes = Util.Object.omit(options.hash, ['attribute', 'localData', 'multipleSelection', 'inlineSelection']);
+    var componentAttributes = Util.Object.omit(options.hash, ['id', 'attribute', 'localData', 'multipleSelection', 'inlineSelection']);
 
     var localData = options.hash.localData;
     var multipleSelection = options.hash.multipleSelection;

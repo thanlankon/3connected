@@ -86,6 +86,12 @@
 .form-content .hidden {
   display: none;
 }
+.dialog .content .input.force-full-width .jqx-input-metro,
+.form-content .input.force-full-width .jqx-input-metro,
+.dialog .content .input.force-full-width input[type=password].jqx-input-metro,
+.form-content .input.force-full-width input[type=password].jqx-input-metro {
+  width: 100% !important;
+}
 .dialog .content .jqx-input-metro,
 .form-content .jqx-input-metro,
 .dialog .content input[type=password].jqx-input-metro,

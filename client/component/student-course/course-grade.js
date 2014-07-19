@@ -84,6 +84,8 @@ define.form('component.form.student-course.CourseGrade', function (form, require
     var totalGrade = 0;
     var totalWeight = 0;
 
+    var isCompleted = true;
+
     for (var i = 0, len = data.length; i < len; i++) {
       var grade = data[i];
 
@@ -91,10 +93,14 @@ define.form('component.form.student-course.CourseGrade', function (form, require
         totalWeight += grade.weight;
 
         totalGrade += grade.value * grade.weight;
+      } else {
+        isCompleted = false;
       }
     }
 
     var averageGrade = totalGrade / totalWeight;
+
+    var totalText = isCompleted ? Lang.get('grade.averageGrade') : Lang.get('grade.accumulationGrade');
 
     var aggregateItem = {
       gradeCategoryName: '<span class="average-grade">' + Lang.get('grade.averageGrade') + '</span>',

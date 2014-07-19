@@ -266,7 +266,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       dataType: 'array'
     };
 
-    var dataAdapter = new $.jqx.dataAdapter(source);
+    var dataAdapter = new jQuery.jqx.dataAdapter(source);
 
     return dataAdapter;
   };

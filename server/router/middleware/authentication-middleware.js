@@ -6,7 +6,7 @@ define('router.middleware.AuthenticationMiddleware', function (module, require) 
   module.exports = AuthenticationMiddleware;
 
   function AuthenticationMiddleware(req, res, next) {
-    var accessToken = req.cookies.accessToken;
+    var accessToken = req.cookies.accessToken || req.get('Access-Token');
 
     var authenticationInfo = req.authentication = {
       isAuthenticated: false

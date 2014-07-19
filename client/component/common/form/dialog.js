@@ -35,6 +35,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     });
 
     if (
+      this.formType == this.FormType.DIALOG ||
       this.formType == this.FormType.Dialog.CREATE ||
       this.formType == this.FormType.Dialog.VALIDATION
     ) {
@@ -122,10 +123,10 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     //    this.initProxy();
 
     // setup dialog
-    this.initDialog();
+    this.initDialogComponents();
   };
 
-  component.initDialog = function () {
+  component.initDialogComponents = function () {
 
     this.size = Util.Object.extend(this.defaultSize, this.size);
 
@@ -148,7 +149,6 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     });
 
     this.element.on('close', function () {
-      console.log('back');
       window.history.back();
     });
 
@@ -158,6 +158,10 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
         autoUpdate: true,
         scrollBarSize: 5
       });
+
+      if (this.initDialog) {
+        this.initDialog();
+      }
 
       this.on();
     }
@@ -205,7 +209,9 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     } else {
       // skip validate for other types of form
       if (this.formType != this.FormType.Dialog.VALIDATION) {
-        return true;
+        return {
+          isValid: true
+        };
       }
     }
 
@@ -287,7 +293,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       this.ServiceProxy.create(entity, this.proxy(createDone));
     } else if (this.formType == this.FormType.Dialog.EDIT) {
       this.ServiceProxy.update(entity, this.proxy(updateDone));
-    } else if (this.formType == this.FormType.Dialog.VALIDATION) {
+    } else {
       if (this.submitDialogData) {
         this.submitDialogData(entity);
       }

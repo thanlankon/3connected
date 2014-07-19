@@ -17,6 +17,9 @@ define.component('component.common.Input', function (component, require, Util, L
 
     element.remove();
 
+    if (!componentData.attr('componentElements')) componentData.attr('componentElements', {});
+    componentData.attr('componentElements.' + dataAttribute, input);
+
     // update bound attributes
     var boundAttributes = componentData.attr('boundAttributes') || [];
     if (boundAttributes.indexOf(dataAttribute) == -1) {
@@ -41,15 +44,28 @@ define.component('component.common.Input', function (component, require, Util, L
       input.jqxInput(inputOptions);
     }
 
+    var trackingChange = {
+      input: false,
+      data: false
+    };
+
     // tracking changes of input
     input.on('change', function () {
+      if (trackingChange.data) return;
+
+      trackingChange.input = true;
       componentData.attr(dataAttribute, input.val().trim());
+      trackingChange.input = false;
     });
 
     // tracking changes of data
     componentData.bind('change', function (ev, attr, how, newVal, oldVal) {
+      if (trackingChange.input) return;
+
       if (attr == dataAttribute) {
+        trackingChange.data = true;
         input.val(newVal);
+        trackingChange.data = false;
       }
     });
 
