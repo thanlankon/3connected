@@ -1,0 +1,57 @@
+<template id="dialog.notification.notify-news">
+
+  {{dialog.size width="800px" height="500px"}}
+
+  <div class="header">
+    {{lang "notification.notifyNews"}}: <b>{{news.title}}</b>
+  </div>
+
+  <div class="content select-user">
+
+    <div class="left-panel">
+
+      <div class="label">
+        {{lang "notification.selectUser.selectType"}}:
+      </div>
+      <div class="data combobox">
+        {{component.combobox attribute="selectType" localData="true"}}
+      </div>
+
+      <div class="label">
+        {{lang "notification.selectUser.filter"}}:
+      </div>
+      <div class="data input force-full-width">
+        {{component.input attribute="filter" placeHolder="Type name or code to search"}}
+      </div>
+
+      <div class="label">
+        {{lang "notification.selectUser.users"}}:
+      </div>
+
+      <div class="data listbox">
+        <div id="list-users"></div>
+      </div>
+
+    </div>
+
+    <div class="right-panel">
+      <div class="label">
+        {{lang "notification.selectUser.selectedUsers"}}:
+      </div>
+
+      <div class="data listbox">
+        <div id="list-selected-users"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok" data-component-role="submit-button">{{lang "notification.notify"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+    <span type="button" class="button left" id="button-add-users">{{lang "notification.selectUser.add"}}</span>
+    <span type="button" class="button left" id="button-remove-users">{{lang "notification.selectUser.remove"}}</span>
+  </div>
+
+</template>

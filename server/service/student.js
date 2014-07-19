@@ -6,7 +6,29 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
   var MajorModel = require('model.Major');
 
   service.map = {
-    url: '/student'
+    url: '/student',
+
+    methods: {
+      findOne: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStaff(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          // check for student or parent
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          if (authorized) {
+            req.query.studentId = authentication.userInformationId;
+            commit(true);
+            return;
+          }
+
+          commit(false);
+        }
+      }
+    }
   };
 
   service.Model = StudentModel;
