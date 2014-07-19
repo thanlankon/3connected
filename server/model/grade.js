@@ -339,6 +339,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
         totalCredits = totalCredits + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         totalGrade = totalGrade + finalSubjectGrade * parseInt(course[i].subjectVersion.subject.numberOfCredits);
+        finalSubjectGrade = finalSubjectGrade.toFixed(2);
 
         termGradeStudent.push({
           courseId: course[i].courseId,

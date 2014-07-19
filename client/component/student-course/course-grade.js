@@ -103,8 +103,8 @@ define.form('component.form.student-course.CourseGrade', function (form, require
     var totalText = isCompleted ? Lang.get('grade.averageGrade') : Lang.get('grade.accumulationGrade');
 
     var aggregateItem = {
-      gradeCategoryName: '<span class="average-grade">' + totalText + '</span>',
-      value: '<span class="average-grade">' + averageGrade + '</span>',
+      gradeCategoryName: '<span class="average-grade">' + Lang.get('grade.averageGrade') + '</span>',
+      value: '<span class="average-grade">' + averageGrade.toFixed(2) + '</span>',
     }
 
     data.push(aggregateItem);

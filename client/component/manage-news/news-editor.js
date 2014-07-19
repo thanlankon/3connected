@@ -84,8 +84,6 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
         categoryIds: categoryIds
       });
 
-      console.log(this.attachmentInfo);
-
       this.refreshAttachmentList();
 
       this.on();
@@ -98,8 +96,6 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     if (!this.isFormInitialized) {
       return;
     };
-
-    console.log(this.newsId);
 
     if (params.action == 'edit') {
       // load news for edit
@@ -397,7 +393,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     reader.readAsDataURL(file);
   };
 
-  form.attachmentUid = function() {
+  form.attachmentUid = function () {
     return Util.uniqueId();
   };
 

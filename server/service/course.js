@@ -59,6 +59,14 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         url: '/findCourseStudent',
         httpMethod: 'GET'
       },
+      findCourseStudentMobile: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/findCourseStudentMobile',
+        httpMethod: 'GET'
+      },
       findOneCourseStudent: {
         authorize: function (req, authentication, Role, commit) {
           var authorized = Role.isStudentOrParent(authentication.accountRole);
@@ -206,6 +214,56 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
           serviceResponse.message = 'course.findAttendanceStudent.notFound';
         } else {
           serviceResponse.data = attendanceStudent;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  // find course Attendance Student for mobile
+  service.findCourseStudentMobile = function (req, res) {
+
+    //    var studentId = req.body.studentId;
+    //    var courseId = req.body.courseId;
+
+    var studentId = req.authentication.userInformationId;
+
+    var serviceResponse = {
+      message: null,
+      error: null
+    };
+
+    var findOptions = ServiceUtil.buildFindOptions(req.query);
+
+    CourseModel.findCourseStudent(studentId, findOptions, function (error, courseStudent, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.findCourseAttendanceStudent.error';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.findCourseAttendanceStudent.notFound';
+        } else {
+          var courseStudentMobile = [];
+          for (var i = 0, len = courseStudent.items.length; i < len; i++) {
+            courseStudentMobile.push({
+              courseId: courseStudent.items[i].course.courseId,
+              courseName: courseStudent.items[i].course.courseName,
+              termId: courseStudent.items[i].course.term.termId,
+              termName: courseStudent.items[i].course.term.termName
+            });
+          }
+
+          var findResult = {
+            items: courseStudentMobile,
+            total: courseStudentMobile.length
+          };
+
+          serviceResponse.data = findResult;
         }
       }
 
