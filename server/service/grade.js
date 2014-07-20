@@ -37,6 +37,14 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         },
         url: '/getSumaryGrade',
         httpMethod: 'GET'
+      },
+      getSumaryGradeMobile: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/getSumaryGradeMobile',
+        httpMethod: 'GET'
       }
     }
   };
@@ -115,7 +123,27 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     }
     var studentId = req.authentication.userInformationId;
 
-    if (termId) {
+    getSumaryGradeModel(termId, studentId, req, res, serviceResponse);
+
+  };
+
+  service.getSumaryGradeMobile = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var termId = req.query.termId;
+    var studentId = req.authentication.userInformationId;
+
+    getSumaryGradeModel(termId, studentId, req, res, serviceResponse);
+
+  };
+
+  function getSumaryGradeModel(termId, studentId, req, res, serviceResponse) {
+    if (termId, studentId) {
       TermModel.getTermCourseStudent(termId, studentId, function (error, terms, isNotFound) {
         if (error) {
           serviceResponse.message = 'grade.getTermCourseStudent.error.unknown';
@@ -134,7 +162,7 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
                 courseIds.push(courses[i].courseId);
               }
             }
-            getCourseGradeStudent(courseIds, studentId);
+            getCourseGradeStudent(courseIds, studentId, req, res, serviceResponse);
           }
         }
       });
@@ -147,22 +175,20 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       };
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     }
+  }
 
-    function getCourseGradeStudent(courseIds, studentId) {
-      GradeModel.getCourseGradeStudent(courseIds, studentId, function (error, termGradeStudent, isNotFound) {
-        if (termGradeStudent) {
+  function getCourseGradeStudent(courseIds, studentId, req, res, serviceResponse) {
+    GradeModel.getCourseGradeStudent(courseIds, studentId, function (error, termGradeStudent, isNotFound) {
+      if (termGradeStudent) {
+        serviceResponse.data = {
+          items: termGradeStudent.summaryGradeStudent,
+          averageGrade: termGradeStudent.summaryGrade,
+          total: termGradeStudent.summaryGradeStudent.length
+        };
 
-          serviceResponse.data = {
-            items: termGradeStudent.summaryGradeStudent,
-            averageGrade: termGradeStudent.summaryGrade,
-            total: termGradeStudent.summaryGradeStudent.length
-          };
-
-          ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
-        }
-      });
-    }
-
-  };
+        ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+      }
+    });
+  }
 
 });

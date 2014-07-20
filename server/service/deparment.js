@@ -13,7 +13,7 @@ define.service('service.Department', function (service, require, ServiceUtil, Ut
     url: '/department',
     authorize: function (req, authentication, Role, commit) {
       // check for staff
-      var authorized = Role.isEducator(authentication.accountRole);
+      var authorized = Role.isAdministrator(authentication.accountRole);
       if (authorized) {
         commit(authorized);
         return;
