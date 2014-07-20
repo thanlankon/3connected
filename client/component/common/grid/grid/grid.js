@@ -253,7 +253,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       }
     }));
 
-    this.element.on('rowSelect rowUnselect', this.proxy(function (event) {
+    this.element.on('rowSelect rowUnselect rowselect rowunselect', this.proxy(function (event) {
       var args = event.args;
       var rowIndexes = args.rowindex;
 

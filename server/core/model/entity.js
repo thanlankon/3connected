@@ -13,7 +13,12 @@ define('core.model.Entity', function (module, require) {
       },
       dialectOptions: {
         charset: 'utf8',
-      }
+      },
+      maxConcurrentQueries: 100,
+      pool: {
+        maxConnections: 5,
+        maxIdleTime: 3600000
+      },
     });
 
   sequelize.queryChainer = function () {

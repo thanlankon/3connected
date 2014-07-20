@@ -27,7 +27,7 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
   service.notifyNews = function (req, res) {
 
     var newsId = req.body.newsId;
-    var userIds = req.body.userIds;
+    var userIds = req.body.userIds || [];
 
     var serviceResponse = {
       error: null,
