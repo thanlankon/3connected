@@ -4,7 +4,18 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
   var DepartmentModel = require('model.Department');
 
   service.map = {
-    url: '/staff'
+    url: '/staff',
+
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isAdministrator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = StaffModel;

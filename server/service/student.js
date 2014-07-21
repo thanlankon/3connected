@@ -7,11 +7,33 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
 
   service.map = {
     url: '/student',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isAdministrator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+      commit(false);
+
+    },
 
     methods: {
       findOne: {
         authorize: function (req, authentication, Role, commit) {
-          var authorized = Role.isStaff(authentication.accountRole);
+          var authorized = Role.isAdministrator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          var authorized = Role.isEducator(authentication.accountRole);
           if (authorized) {
             commit(authorized);
             return;
@@ -22,6 +44,23 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
           if (authorized) {
             req.query.studentId = authentication.userInformationId;
             commit(true);
+            return;
+          }
+
+          commit(false);
+        }
+      },
+      destroy: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isAdministrator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          var authorized = Role.isEducator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
             return;
           }
 

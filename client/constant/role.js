@@ -42,6 +42,10 @@ define('enum.Role', function (module, require) {
     return Role.isEducator(role) || Role.isExaminator(role) || Role.isNewsManager(role);
   };
 
+  Role.isAdministratorOrStaff = function (role) {
+    return Role.isAdministrator(role) || Role.isStaff(role);
+  };
+
   module.exports = Role;
 
 });

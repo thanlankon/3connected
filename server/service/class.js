@@ -26,6 +26,25 @@ define.service('service.Class', function (service, require, ServiceUtil, Util) {
       removeStudents: {
         url: '/removeStudents',
         httpMethod: 'POST'
+      },
+      findAll: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isEducator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          // check for student or parent
+          var authorized = Role.isAdministrator(authentication.accountRole);
+          if (authorized) {
+            req.query.studentId = authentication.userInformationId;
+            commit(true);
+            return;
+          }
+
+          commit(false);
+        }
       }
     }
   };

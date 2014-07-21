@@ -278,7 +278,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     var formData = this.data;
     var entity = formData.attr();
 
-    entity = Util.Object.omit(entity, ['originalData', 'boundAttributes', 'componentSettings']);
+    entity = Util.Object.omit(entity, ['originalData', 'boundAttributes', 'componentSettings', 'componentElements']);
 
     var omitAttributes = [];
     Util.Collection.each(entity, function (value, key) {
