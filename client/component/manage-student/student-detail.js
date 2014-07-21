@@ -3,8 +3,19 @@ define.form('component.dialog.manage-student.StudentDetail', function (form, req
   var Role = require('enum.Role');
 
   if (form.authentication) {
+    // admin
+    if (Role.isAdministrator(form.authentication.accountRole)) {
+      form.urlMap = {
+        url: ':module/:action/:id',
+        data: {
+          module: 'manage-student',
+          action: 'detail'
+        }
+      };
+    }
+
     // staff
-    if (Role.isStaff(form.authentication.accountRole)) {
+    if (Role.isEducator(form.authentication.accountRole)) {
       form.urlMap = {
         url: ':module/:action/:id',
         data: {
