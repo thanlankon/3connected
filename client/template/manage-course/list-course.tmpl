@@ -12,7 +12,7 @@ Created date    : 2014/16/06
       <li class="icon back">
       </li>
 
-
+      {{#auth.isEducator}}
       <li class="icon create" data-component-role="create-button">
         <a href="{{url module="manage-course" action="create"}}">{{lang "course.create"}}</a>
       </li>
@@ -23,17 +23,27 @@ Created date    : 2014/16/06
       <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
         <a href="#">{{lang "course.delete"}}</a>
       </li>
+      {{/#auth.isEducator}}
 
       <li class="divider"></li>
 
+      {{#auth.isEducator}}
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="attendance"}}">{{lang "course.attendance"}}</a>
       </li>
+      {{/#auth.isEducator}}
+
+      {{#auth.isTeacher}}
+      <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="manage-course" action="attendance"}}">{{lang "course.attendance"}}</a>
+      </li>
+      {{/#auth.isTeacher}}
 
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="grade"}}">{{lang "course.grade"}}</a>
       </li>
 
+      {{#auth.isEducator}}
       <li class="divider"></li>
 
       <li class="icon list" data-depends-entity="focused">
@@ -42,6 +52,14 @@ Created date    : 2014/16/06
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="course-student"}}">{{lang "course.manageStudent"}}</a>
       </li>
+      {{/#auth.isEducator}}
+
+      {{#auth.isTeacher}}
+      <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="manage-course" action="schedule"}}">{{lang "course.schedule"}}</a>
+      </li>
+      {{/#auth.isTeacher}}
+
 
       <li class="right component">
         {{component.gridColumnsChooser}}
