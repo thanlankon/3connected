@@ -175,6 +175,9 @@
 .form .toolbar li.icon.orientation {
   background-image: url("/resource/resource/img/common/orientation.png");
 }
+.form .toolbar li.icon.notify {
+  background-image: url("/resource/resource/img/common/notify.png");
+}
 .form .toolbar li.icon.save {
   background-image: url("/resource/resource/img/common/save.png");
 }
