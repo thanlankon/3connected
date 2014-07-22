@@ -16,10 +16,11 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var CourseStudent = require('model.entity.CourseStudent');
   var Entity = require('core.model.Entity');
   var GradeHistory = require('model.entity.GradeHistory');
+  var Staff = require('model.entity.Staff');
 
   model.Entity = Grade;
 
-  model.getCourseGrade = function (courseId, callback) {
+  model.getCourseGrade = function (courseId, userId, callback) {
 
     var queryChainer = Entity.queryChainer();
 
@@ -49,6 +50,11 @@ define.model('model.Grade', function (model, ModelUtil, require) {
     })
       .success(function (course) {
         if (course == null) {
+          callback(null, null, true);
+          return;
+        }
+
+        if (userId != 0 && course.lectureId != userId) {
           callback(null, null, true);
           return;
         }

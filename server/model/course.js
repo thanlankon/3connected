@@ -18,6 +18,7 @@ define.model('model.Course', function (model, ModelUtil, require) {
   var Term = require('model.entity.Term');
   var Major = require('model.entity.Major');
   var CourseStudent = require('model.entity.CourseStudent');
+  var Staff = require('model.entity.Staff');
 
   model.Entity = Course;
 
@@ -174,6 +175,9 @@ define.model('model.Course', function (model, ModelUtil, require) {
           model: Subject,
           as: 'subject'
         }]
+        }, {
+        model: Staff,
+        as: 'staff'
         }, {
         model: Class,
         as: 'class'

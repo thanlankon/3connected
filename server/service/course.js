@@ -29,6 +29,12 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         return;
       }
 
+      var authorized = Role.isTeacher(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
       // check for student or parent
       var authorized = Role.isStudentOrParent(authentication.accountRole);
       if (authorized) {
@@ -117,6 +123,9 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
             model: SubjectModel,
             as: 'subject'
           }]
+        }, {
+          model: StaffModel,
+          as: 'staff'
         }, {
           model: ClassModel,
           as: 'class'

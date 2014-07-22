@@ -10,6 +10,23 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
   service.map = {
     url: '/attendance',
 
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      var authorized = Role.isTeacher(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    },
+
     methods: {
       getCourseAttendance: {
         url: '/getCourseAttendance',
@@ -26,6 +43,8 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
 
   service.getCourseAttendance = function (req, res) {
 
+    var Role = require('enum.Role');
+
     var serviceResponse = {
       error: null,
       message: null,
@@ -34,8 +53,12 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
 
     var courseId = req.query.courseId;
     var scheduleId = req.query.scheduleId;
+    var userId = 0;
+    if (Role.isTeacher(req.authentication.accountRole)) {
+      userId = req.authentication.userInformationId;
+    }
 
-    AttendanceModel.getCourseAttendance(courseId, scheduleId, function (error, courseAttendance, isNotFound) {
+    AttendanceModel.getCourseAttendance(courseId, scheduleId, userId, function (error, courseAttendance, isNotFound) {
       if (error) {
         serviceResponse.message = 'course.getCourseAttendance.error.unknown';
         serviceResponse.error = error;
