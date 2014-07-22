@@ -15,7 +15,9 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
 
   entity.classId = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: 'Class',
+    referencesKey: 'classId'
   };
 
   entity.courseName = {
@@ -30,22 +32,30 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
 
   entity.lectureId = {
     type: DataType.INTEGER,
-    allowNull: true
+    allowNull: true,
+    references: 'Staff',
+    referencesKey: 'staffId'
   }
 
   entity.subjectVersionId = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: 'SubjectVersion',
+    referencesKey: 'subjectVersionId'
   }
 
   entity.termId = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: 'Term',
+    referencesKey: 'termId'
   }
 
   entity.majorId = {
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: 'Major',
+    referencesKey: 'majorId'
   }
 
   entity.config = {
@@ -56,6 +66,11 @@ define.entity('model.entity.Course', function (entity, DataType, require) {
     //    this.hasOne('model.entity.Lecture', {
     //      as: 'lecture'
     //    });
+
+    this.belongsTo('model.entity.Staff', {
+      as: 'staff',
+      foreignKey: 'lectureId'
+    });
 
     this.belongsTo('model.entity.Class', {
       as: 'class'

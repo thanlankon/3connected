@@ -18,6 +18,13 @@ define.form('component.dialog.manage-course.EditCourse', function (form, require
 
   form.initData = function () {
     var componentSettings = {
+      lectureId: {
+        ServiceProxy: require('proxy.Staff'),
+        combobox: {
+          valueMember: 'staffId',
+          displayMember: 'staffCode'
+        }
+      },
       majorId: {
         ServiceProxy: require('proxy.Major'),
         combobox: {

@@ -1,4 +1,3 @@
-
 define.form('component.dialog.manage-course.CreateCourse', function (form, require, Util, Lang) {
 
   // map the form to the url
@@ -15,6 +14,13 @@ define.form('component.dialog.manage-course.CreateCourse', function (form, requi
   form.initData = function () {
 
     var componentSettings = {
+      lectureId: {
+        ServiceProxy: require('proxy.Staff'),
+        combobox: {
+          valueMember: 'staffId',
+          displayMember: 'staffCode'
+        }
+      },
       majorId: {
         ServiceProxy: require('proxy.Major'),
         combobox: {

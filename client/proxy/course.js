@@ -44,6 +44,10 @@ define.proxy('proxy.Course', function (proxy, require) {
       type: 'string',
       map: 'class.className'
     }, {
+      name: 'staffCode',
+      type: 'string',
+      map: 'staff.staffCode'
+    }, {
       name: 'termName',
       type: 'string',
       map: 'term.termName'

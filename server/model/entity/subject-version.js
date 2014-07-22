@@ -16,7 +16,9 @@ define.entity('model.entity.SubjectVersion', function (entity, DataType, require
   entity.subjectId = {
     type: DataType.INTEGER,
     allowNull: false,
-    unique: 'subjectVersionUnique'
+    unique: 'subjectVersionUnique',
+    references: 'Subject',
+    referencesKey: 'subjectId'
   };
 
   entity.description = {
