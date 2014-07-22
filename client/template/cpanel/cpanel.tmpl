@@ -33,6 +33,12 @@
             {{#auth.isParent}}
               {{partial id="cpanel.workspace-list.parent"}}
             {{/auth.isParent}}
+
+            {{#auth.isTeacher}}
+              {{partial id="cpanel.workspace-list.teacher"}}
+            {{/auth.isTeacher}}
+
+
           </ul>
         </div>
 

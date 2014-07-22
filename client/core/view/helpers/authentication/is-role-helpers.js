@@ -13,6 +13,7 @@ define('core.view.helpers.authentication.IsAdministratorAuthenticationHelper', f
   registerIsRoleHelper('Parent');
   registerIsRoleHelper('Staff');
   registerIsRoleHelper('StudentOrParent');
+  registerIsRoleHelper('Teacher');
 
   function registerIsRoleHelper(role) {
     View.registerHelper('auth.is' + role, isRoleHelper);

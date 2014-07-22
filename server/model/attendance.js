@@ -12,7 +12,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
 
   model.Entity = Attendance;
 
-  model.getCourseAttendance = function (courseId, scheduleId, callback) {
+  model.getCourseAttendance = function (courseId, scheduleId, userId, callback) {
 
     var queryChainer = Entity.queryChainer();
 
@@ -56,6 +56,12 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
         var totalSlots = courseSchedules.length;
 
         if (schedule == null || courseSchedules == null) {
+          callback(null, null, true);
+
+          return;
+        }
+
+        if (userId != 0 && schedule.course.lectureId != userId) {
           callback(null, null, true);
 
           return;

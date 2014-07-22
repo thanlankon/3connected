@@ -9,9 +9,18 @@
         <a href="{{url module="news" action="detail"}}">{{lang "news.view"}}</a>
       </li>
 
+      {{#auth.isStaff}}
       <li class="icon create" id="button-create">
         <a href="{{url module="news" action="create"}}">{{lang "news.create"}}</a>
       </li>
+      {{/#auth.isStaff}}
+
+      {{#auth.isAdministrator}}
+      <li class="icon create" id="button-create">
+        <a href="{{url module="news" action="create"}}">{{lang "news.create"}}</a>
+      </li>
+      {{/#auth.isAdministrator}}
+
     </ul>
   </div>
 

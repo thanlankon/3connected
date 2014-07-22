@@ -57,6 +57,9 @@ define.component('component.common.RoleDropDownList', function (component, requi
       }, {
         value: Role.NEWS_MANAGER,
         text: Lang.get('role.newsManager')
+      }, {
+        value: Role.TEACHER,
+        text: Lang.get('role.teacher')
       }
     ];
 
