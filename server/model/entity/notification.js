@@ -51,7 +51,7 @@ define.entity('model.entity.Notification', function (entity, DataType, require) 
   }
 
   entity.associate = function () {
-    this.hasMany('model.entity.Staff', {
+    this.belongsTo('model.entity.Staff', {
       as: 'sender',
       foreignKey: 'senderId'
     });

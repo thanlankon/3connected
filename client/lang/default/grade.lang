@@ -21,3 +21,4 @@ grade.getTermCourseStudent.notFound = Not found course's term
 grade.value = Grade
 grade.averageGrade = Average grade
 grade.accumulationGrade = Accumulation grade
+grade.resultSubject = Result

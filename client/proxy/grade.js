@@ -34,6 +34,10 @@ define.proxy('proxy.Grade', function (proxy, require) {
       name: 'finalSubjectGrade',
       type: 'string',
       map: 'finalSubjectGrade'
+    }, {
+      name: 'resultSubject',
+      type: 'string',
+      map: 'resultSubject'
     }
   ];
 

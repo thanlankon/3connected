@@ -20,6 +20,7 @@ course.subjectVersion = Subject version
 course.finalSubjectGrade = Final grade
 course.className = Class name
 course.subjectName  = Subject name
+course.resultSubject = Result
 
 # button
 

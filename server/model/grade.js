@@ -320,29 +320,30 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       var resultSubject = 'Pass';
 
       for (var i = 0, len = course.length; i < len; i++) {
+
         var courseGradeCategories = course[i].subjectVersion.gradeCategories;
         var gradeStudent = [];
-        for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
-          var gradeCategory = courseGradeCategories[j];
-          for (var k = 0, lenk = grades.length; k < lenk; k++) {
-            var grade = grades[k];
-            if (gradeCategory.gradeCategoryId == grade.gradeCategoryId && course[i].courseId == grade.courseId) {
-              gradeStudent.push({
-                gradeCategoryId: gradeCategory.gradeCategoryId,
-                gradeCategoryCode: gradeCategory.gradeCategoryCode,
-                gradeCategoryName: gradeCategory.gradeCategoryName,
-                weight: gradeCategory.weight,
-                value: grade.value
-              });
+        var finalSubjectGrade = 0;
 
+        for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
+
+          var gradeCategory = courseGradeCategories[j];
+          var minimumGrade = gradeCategory.minimumGrade;
+
+          for (var k = 0, lenk = grades.length; k < lenk; k++) {
+
+            var grade = grades[k];
+
+            if (gradeCategory.gradeCategoryId == grade.gradeCategoryId && course[i].courseId == grade.courseId) {
+
+              if (minimumGrade > 0 && minimumGrade > grade.value) {
+                resultSubject = 'Falied';
+              }
+
+              finalSubjectGrade = finalSubjectGrade + (parseFloat(gradeCategory.weight) * parseFloat(grade.value) / 100);
             }
           }
 
-        }
-        var finalSubjectGrade = 0;
-
-        for (var k = 0, lenk = gradeStudent.length; k < lenk; k++) {
-          finalSubjectGrade = finalSubjectGrade + (parseFloat(gradeStudent[k].weight) * parseFloat(gradeStudent[k].value) / 100);
         }
 
         totalCredits = totalCredits + parseInt(course[i].subjectVersion.subject.numberOfCredits);
@@ -367,6 +368,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       }
 
       var finalGrade = 0;
+
       var summaryGrade = totalGrade / totalCredits;
       summaryGrade = summaryGrade.toFixed(2);
 

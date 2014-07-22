@@ -30,6 +30,11 @@ define.entity('model.entity.GradeCategory', function (entity, DataType, require)
     allowNull: false,
   };
 
+  entity.minimumGrade = {
+    type: DataType.INTEGER,
+    allowNull: true,
+  };
+
 
   entity.weight = {
     type: DataType.INTEGER,
@@ -46,9 +51,9 @@ define.entity('model.entity.GradeCategory', function (entity, DataType, require)
       as: 'subjectVersion'
     });
 
-//    this.hasMany('model.entity.Grade', {
-//        as: 'grades'
-//    });
+    this.hasMany('model.entity.Grade', {
+      as: 'grades'
+    });
 
   };
 
