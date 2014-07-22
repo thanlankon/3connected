@@ -55,7 +55,13 @@ define.proxy('proxy.Parent', function (proxy, require) {
     {
       name: 'phoneNumber',
       type: 'number'
+    },
+    {
+      name: 'dateOfBirth',
+      type: 'string'
     }
+
+
   ];
 
 });

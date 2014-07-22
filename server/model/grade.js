@@ -316,6 +316,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       var totalCredits = 0;
       var totalGrade = 0;
+      var totalCreditFailed = 0;
+      var resultSubject = 'Pass';
 
       for (var i = 0, len = course.length; i < len; i++) {
         var courseGradeCategories = course[i].subjectVersion.gradeCategories;
@@ -346,13 +348,21 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         totalCredits = totalCredits + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         totalGrade = totalGrade + finalSubjectGrade * parseInt(course[i].subjectVersion.subject.numberOfCredits);
         finalSubjectGrade = finalSubjectGrade.toFixed(2);
+        if (finalSubjectGrade < 5) {
+          resultSubject = 'Falied';
+        }
+
+        if (resultSubject == 'Falied') {
+          totalCreditFailed = totalCreditFailed + parseInt(course[i].subjectVersion.subject.numberOfCredits);
+        }
 
         termGradeStudent.push({
           courseId: course[i].courseId,
           courseName: course[i].courseName,
           numberOfCredits: course[i].subjectVersion.subject.numberOfCredits,
           subjectName: course[i].subjectVersion.subject.subjectName,
-          finalSubjectGrade: finalSubjectGrade
+          finalSubjectGrade: finalSubjectGrade,
+          resultSubject: resultSubject
         });
       }
 
@@ -362,6 +372,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       var courseGradeStudent = {
         summaryGradeStudent: termGradeStudent,
+        totalCredits: totalCredits,
+        totalCreditFailed: totalCreditFailed,
         summaryGrade: summaryGrade
       };
 

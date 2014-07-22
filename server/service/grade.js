@@ -200,6 +200,8 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       if (termGradeStudent) {
         serviceResponse.data = {
           items: termGradeStudent.summaryGradeStudent,
+          totalCreditFailed: termGradeStudent.totalCreditFailed,
+          totalCredits: termGradeStudent.totalCredits,
           averageGrade: termGradeStudent.summaryGrade,
           total: termGradeStudent.summaryGradeStudent.length
         };
