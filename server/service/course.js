@@ -17,6 +17,7 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
   var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
   var Schedule = require('model.entity.Schedule');
+  var StaffModel = require('model.Staff');
 
   service.map = {
     url: '/course',
@@ -150,6 +151,9 @@ define.service('service.Course', function (service, require, ServiceUtil, Util) 
         }, {
           model: MajorModel,
           as: 'major'
+        }, {
+          model: StaffModel,
+          as: 'staff'
         }];
       }
     }

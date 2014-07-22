@@ -15,6 +15,25 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
       }
 
       commit(false);
+    },
+
+    methods: {
+      findAll: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isAdministrator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          var authorized = Role.isEducator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+          commit(false);
+        }
+      }
     }
   };
 
