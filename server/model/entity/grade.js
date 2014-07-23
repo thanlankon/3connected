@@ -47,7 +47,7 @@ define.entity('model.entity.Grade', function (entity, DataType, require) {
   };
 
   entity.value = {
-    type: DataType.INTEGER,
+    type: DataType.FLOAT,
     allowNull: true
   };
 
