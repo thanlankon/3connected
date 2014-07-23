@@ -25,11 +25,9 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
   };
 
   component.refreshData = function (params) {
-    console.log('params', params);
-
     // refresh comboboxes source
     this.element.find('[data-component-role=combobox]').each(function () {
-      var combobox = $(this).data('ComboBoxComponent');
+      var combobox = jQuery(this).data('ComboBoxComponent');
 
       if (combobox) {
         combobox.refreshData();

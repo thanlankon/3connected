@@ -15,6 +15,9 @@ define.component('component.common.Combobox', function (component, require, Util
 
     var settings = componentData.attr(settingsAttribute);
 
+    this.componentData = componentData;
+    this.dataAttribute = dataAttribute;
+
     var combobox = this.combobox = jQuery('<div />')
       .attr('data-attribute', dataAttribute)
       .attr('data-component-role', 'combobox')
@@ -163,6 +166,8 @@ define.component('component.common.Combobox', function (component, require, Util
       this.source.data = null;
     }
 
+    this.componentData.attr(this.dataAttribute, null);
+
     refreshSource(this.combobox, this.source);
   };
 
@@ -172,6 +177,8 @@ define.component('component.common.Combobox', function (component, require, Util
     combobox.jqxComboBox({
       source: dataAdapter
     });
+
+
   }
 
   function createDataAdapter(source) {
