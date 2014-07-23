@@ -13,6 +13,7 @@ define.service('service.AttendanceHistory', function (service, require, ServiceU
   var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
   var StudentModel = require('model.Student');
+  var StaffModel = require('model.Staff');
 
   service.map = {
     url: '/attendanceHistory'
@@ -51,7 +52,10 @@ define.service('service.AttendanceHistory', function (service, require, ServiceU
             model: StudentModel,
             as: 'student'
           }]
-        }];
+        }, {
+          model: StaffModel,
+          as: 'staff'
+          }];
       }
     }
   }

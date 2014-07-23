@@ -146,7 +146,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
 
   };
 
-  model.updateCourseAttendance = function (scheduleId, attendanceData, callback) {
+  model.updateCourseAttendance = function (scheduleId, attendanceData, userId, callback) {
 
     if (!attendanceData || !attendanceData.length) {
       callback(null);
@@ -205,7 +205,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
                 // log history
                 updateAndLogHistoryQueryChainer.add(AttendanceHistory.create({
                   attendanceId: attendance.attendanceId,
-                  staffId: null,
+                  staffId: userId,
                   oldValue: oldValue,
                   newValue: newValue
                 }, {
@@ -219,7 +219,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
               // log history for created attendance
               updateAndLogHistoryQueryChainer.add(AttendanceHistory.create({
                 attendanceId: attendance.attendanceId,
-                staffId: null,
+                staffId: userId,
                 oldValue: oldValue,
                 newValue: newValue
               }, {

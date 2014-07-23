@@ -35,7 +35,7 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
         text: Lang.get('class.className'),
         dataField: 'className',
       }, {
-        text: Lang.get('staff.staffCode'),
+        text: Lang.get('staff.teacherCode'),
         dataField: 'staffCode',
       }, {
         text: Lang.get('term.termName'),

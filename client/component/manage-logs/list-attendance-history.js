@@ -45,8 +45,8 @@ define.form('component.form.view-logs.ListAttendanceHistory', function (form, re
       dataField: 'attendanceId',
       width: 100
     }, {
-      text: Lang.get('attendanceHistory.staffId'),
-      dataField: 'staffId',
+      text: Lang.get('staff.staffCode'),
+      dataField: 'staffCode',
       width: 100
     }, {
       text: Lang.get('attendanceHistory.studentCode'),

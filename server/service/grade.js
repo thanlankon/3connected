@@ -110,7 +110,9 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
 
     var courseId = req.body.courseId;
     var gradeData = req.body.gradeData;
-    GradeModel.updateCourseGrade(courseId, gradeData, function (error) {
+    var userId = req.authentication.userInformationId;
+
+    GradeModel.updateCourseGrade(courseId, gradeData, userId, function (error) {
       if (error) {
         serviceResponse.message = 'grade.updateCourseGrade.error.unknown';
         serviceResponse.error = error;
