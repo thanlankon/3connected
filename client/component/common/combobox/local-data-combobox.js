@@ -122,6 +122,10 @@ define.component('component.common.LocalDataCombobox', function (component, requ
         source: source,
         disabled: false
       });
+
+      var item = this.combobox.jqxComboBox('getItemByValue', this.componentData.attr(this.dataAttribute));
+      this.combobox.jqxComboBox('selectItem', item);
+
     }
 
   };

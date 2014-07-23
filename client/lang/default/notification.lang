@@ -1,5 +1,18 @@
 notification.notifyNews = Notify for news
 
+# fields
+
+notification.notificationId = Notification Id
+notification.sender = Sender
+notification.message = Message
+
+notification.all = {{.all}}
+notification.news = News notification
+notification.grade = Grade notification
+notification.attendance = Attendance notification
+
+# select user
+
 notification.selectUser.selectType = Select type
 notification.selectUser.filter = Filter
 notification.selectUser.users = Users

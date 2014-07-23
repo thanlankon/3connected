@@ -7,6 +7,10 @@
 
 define.model('model.Notification', function (model, ModelUtil, require) {
 
+  var Notification = require('model.entity.Notification');
+
+  model.Entity = Notification;
+
   model.notifyNews = function (newsId, senderId, ids, callback) {
     var NotificationType = require('enum.NotificationType');
 
@@ -49,7 +53,6 @@ define.model('model.Notification', function (model, ModelUtil, require) {
 
   function doNotify(senderId, userIds, type, dataId, callback) {
     var Entity = require('core.model.Entity');
-    var Notification = require('model.entity.Notification');
     var NotifyFor = require('enum.NotifyFor');
 
     Entity.transaction(function (transaction) {

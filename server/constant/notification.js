@@ -1,6 +1,7 @@
 define('enum.NotificationType', function (module, require) {
 
   var NotificationType = {
+    ALL: 0,
     GRADE: 1,
     ATTENDANCE: 2,
     NEWS: 3

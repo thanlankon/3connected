@@ -23,6 +23,35 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
   };
 
   var NotificationModel = require('model.Notification');
+  var StaffModel = require('model.Staff');
+  var NewsModel = require('model.News');
+  var CourseModel = require('model.Course');
+
+  service.Model = NotificationModel;
+
+  service.methodConfig = {
+    idAttribute: 'notificationId',
+
+    message: {
+      entityName: 'notification',
+      displayAttribute: 'notificationId'
+    },
+
+    findAll: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: StaffModel,
+          as: 'sender'
+        }, {
+          model: NewsModel,
+          as: 'news'
+        }, {
+          model: CourseModel,
+          as: 'course'
+        }];
+      }
+    }
+  };
 
   service.notifyNews = function (req, res) {
 
