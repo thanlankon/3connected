@@ -7,7 +7,94 @@
 
 define.model('model.Notification', function (model, ModelUtil, require) {
 
-  model.getIds = function (items, callback) {
+  var Notification = require('model.entity.Notification');
+
+  model.Entity = Notification;
+
+  model.notifyNews = function (newsId, senderId, ids, callback) {
+    var NotificationType = require('enum.NotificationType');
+
+    getUserIds(ids, function (error, userIds) {
+      if (error) {
+        callback(error);
+      } else {
+        doNotify(senderId, userIds, NotificationType.NEWS, newsId, callback);
+      }
+    });
+  };
+
+  model.notifyGrade = function (courseId, senderId, callback) {
+    var NotificationType = require('enum.NotificationType');
+
+    var ids = 'course:students,parents[' + courseId + ']';
+
+    getUserIds(ids, function (error, userIds) {
+      if (error) {
+        callback(error);
+
+        doNotify(senderId, userIds, NotificationType.GRADE, courseId, callback);
+      }
+    });
+  };
+
+  model.notifyAttendance = function (courseId, senderId, callback) {
+    var NotificationType = require('enum.NotificationType');
+
+    var ids = 'course:students,parents[' + courseId + ']';
+
+    getUserIds(ids, function (error, userIds) {
+      if (error) {
+        callback(error);
+
+        doNotify(senderId, userIds, NotificationType.ATTENDANCE, courseId, callback);
+      }
+    });
+  };
+
+  function doNotify(senderId, userIds, type, dataId, callback) {
+    var Entity = require('core.model.Entity');
+    var NotifyFor = require('enum.NotifyFor');
+
+    Entity.transaction(function (transaction) {
+
+      var queryChainer = Entity.queryChainer();
+
+      userIds.studentIds.forEach(function (userId) {
+        queryChainer.add(Notification.create({
+          senderId: senderId,
+          receiverId: userId,
+          notifyFor: NotifyFor.STUDENT,
+          notificationType: type,
+          dataId: dataId
+        }));
+      });
+      userIds.parentIds.forEach(function (userId) {
+        queryChainer.add(Notification.create({
+          senderId: senderId,
+          receiverId: userId,
+          notifyFor: NotifyFor.PARENT,
+          notificationType: type,
+          dataId: dataId
+        }));
+      });
+
+      queryChainer
+        .run()
+        .success(function (results) {
+          transaction.commit();
+
+          callback(null);
+        })
+        .error(function (error) {
+          transaction.rollback();
+
+          callback(error);
+        });
+
+    });
+  }
+
+  function getUserIds(items, callback) {
     items = [].concat(items);
 
     var CourseStudent = require('model.entity.CourseStudent');

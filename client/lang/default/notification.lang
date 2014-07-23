@@ -1,5 +1,18 @@
 notification.notifyNews = Notify for news
 
+# fields
+
+notification.notificationId = Notification Id
+notification.sender = Sender
+notification.message = Message
+
+notification.all = {{.all}}
+notification.news = News notification
+notification.grade = Grade notification
+notification.attendance = Attendance notification
+
+# select user
+
 notification.selectUser.selectType = Select type
 notification.selectUser.filter = Filter
 notification.selectUser.users = Users
@@ -33,3 +46,14 @@ notification.selectItem.specificStudents = Student <b>{{studentCode}}</b> (<b>{{
 notification.selectItem.specificParents = Parent of student <b>{{studentCode}}</b> (<b>{{lastName}} {{firstName}}</b> - Class <b>{{className}}</b>)
 
 notification.selectItem.noClass = No class
+
+# message
+
+notification.notifyNews.error.unknown = Error during notifying news
+notification.notifyNews.success = Notify news successfully
+
+notification.notifyGrade.error.unknown = Error during notifying grade
+notification.notifyGrade.success = Notify grade successfully
+
+notification.notifyAttendance.error.unknown = Error during notifying attendance
+notification.notifyAttendance.success = Notify attendance successfully

@@ -8,6 +8,7 @@ define('enum.Role', function (module, require) {
     NEWS_MANAGER: 4,
     STUDENT: 5,
     PARENT: 6,
+    TEACHER: 7,
   };
 
   Role.isAdministrator = function (role) {
@@ -20,6 +21,10 @@ define('enum.Role', function (module, require) {
 
   Role.isExaminator = function (role) {
     return role === Role.EXAMINATOR;
+  };
+
+  Role.isTeacher = function (role) {
+    return role === Role.TEACHER;
   };
 
   Role.isNewsManager = function (role) {
@@ -39,7 +44,7 @@ define('enum.Role', function (module, require) {
   };
 
   Role.isStaff = function (role) {
-    return Role.isEducator(role) || Role.isExaminator(role) || Role.isNewsManager(role);
+    return Role.isEducator(role) || Role.isExaminator(role) || Role.isNewsManager(role) || Role.isTeacher(role);
   };
 
   Role.isAdministratorOrStaff = function (role) {

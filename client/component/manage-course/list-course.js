@@ -64,4 +64,14 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
 
   };
 
+
+  form.refreshData = function (data) {
+    var Role = require('enum.Role');
+
+    if (Role.isTeacher(form.authentication.accountRole)) {
+      this.grid.setFilterConditions('lectureId', form.authentication.userInformationId);
+    }
+
+  }
+
 });

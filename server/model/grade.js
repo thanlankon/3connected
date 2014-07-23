@@ -16,10 +16,11 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var CourseStudent = require('model.entity.CourseStudent');
   var Entity = require('core.model.Entity');
   var GradeHistory = require('model.entity.GradeHistory');
+  var Staff = require('model.entity.Staff');
 
   model.Entity = Grade;
 
-  model.getCourseGrade = function (courseId, callback) {
+  model.getCourseGrade = function (courseId, userId, callback) {
 
     var queryChainer = Entity.queryChainer();
 
@@ -49,6 +50,11 @@ define.model('model.Grade', function (model, ModelUtil, require) {
     })
       .success(function (course) {
         if (course == null) {
+          callback(null, null, true);
+          return;
+        }
+
+        if (userId != 0 && course.lectureId != userId) {
           callback(null, null, true);
           return;
         }
@@ -310,52 +316,66 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       var totalCredits = 0;
       var totalGrade = 0;
+      var totalCreditFailed = 0;
+      var resultSubject = 'Pass';
 
       for (var i = 0, len = course.length; i < len; i++) {
+
         var courseGradeCategories = course[i].subjectVersion.gradeCategories;
         var gradeStudent = [];
-        for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
-          var gradeCategory = courseGradeCategories[j];
-          for (var k = 0, lenk = grades.length; k < lenk; k++) {
-            var grade = grades[k];
-            if (gradeCategory.gradeCategoryId == grade.gradeCategoryId && course[i].courseId == grade.courseId) {
-              gradeStudent.push({
-                gradeCategoryId: gradeCategory.gradeCategoryId,
-                gradeCategoryCode: gradeCategory.gradeCategoryCode,
-                gradeCategoryName: gradeCategory.gradeCategoryName,
-                weight: gradeCategory.weight,
-                value: grade.value
-              });
+        var finalSubjectGrade = 0;
 
+        for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
+
+          var gradeCategory = courseGradeCategories[j];
+          var minimumGrade = gradeCategory.minimumGrade;
+
+          for (var k = 0, lenk = grades.length; k < lenk; k++) {
+
+            var grade = grades[k];
+
+            if (gradeCategory.gradeCategoryId == grade.gradeCategoryId && course[i].courseId == grade.courseId) {
+
+              if (minimumGrade > 0 && minimumGrade > grade.value) {
+                resultSubject = 'Falied';
+              }
+
+              finalSubjectGrade = finalSubjectGrade + (parseFloat(gradeCategory.weight) * parseFloat(grade.value) / 100);
             }
           }
 
-        }
-        var finalSubjectGrade = 0;
-
-        for (var k = 0, lenk = gradeStudent.length; k < lenk; k++) {
-          finalSubjectGrade = finalSubjectGrade + (parseFloat(gradeStudent[k].weight) * parseFloat(gradeStudent[k].value) / 100);
         }
 
         totalCredits = totalCredits + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         totalGrade = totalGrade + finalSubjectGrade * parseInt(course[i].subjectVersion.subject.numberOfCredits);
         finalSubjectGrade = finalSubjectGrade.toFixed(2);
+        if (finalSubjectGrade < 5) {
+          resultSubject = 'Falied';
+        }
+
+        if (resultSubject == 'Falied') {
+          totalCreditFailed = totalCreditFailed + parseInt(course[i].subjectVersion.subject.numberOfCredits);
+        }
 
         termGradeStudent.push({
           courseId: course[i].courseId,
           courseName: course[i].courseName,
           numberOfCredits: course[i].subjectVersion.subject.numberOfCredits,
           subjectName: course[i].subjectVersion.subject.subjectName,
-          finalSubjectGrade: finalSubjectGrade
+          finalSubjectGrade: finalSubjectGrade,
+          resultSubject: resultSubject
         });
       }
 
       var finalGrade = 0;
+
       var summaryGrade = totalGrade / totalCredits;
       summaryGrade = summaryGrade.toFixed(2);
 
       var courseGradeStudent = {
         summaryGradeStudent: termGradeStudent,
+        totalCredits: totalCredits,
+        totalCreditFailed: totalCreditFailed,
         summaryGrade: summaryGrade
       };
 

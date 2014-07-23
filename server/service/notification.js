@@ -23,6 +23,35 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
   };
 
   var NotificationModel = require('model.Notification');
+  var StaffModel = require('model.Staff');
+  var NewsModel = require('model.News');
+  var CourseModel = require('model.Course');
+
+  service.Model = NotificationModel;
+
+  service.methodConfig = {
+    idAttribute: 'notificationId',
+
+    message: {
+      entityName: 'notification',
+      displayAttribute: 'notificationId'
+    },
+
+    findAll: {
+      buildFindOptions: function (findOptions) {
+        findOptions.include = [{
+          model: StaffModel,
+          as: 'sender'
+        }, {
+          model: NewsModel,
+          as: 'news'
+        }, {
+          model: CourseModel,
+          as: 'course'
+        }];
+      }
+    }
+  };
 
   service.notifyNews = function (req, res) {
 
@@ -31,19 +60,46 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
 
     var serviceResponse = {
       error: null,
-      message: null,
-      data: null
+      message: null
     };
 
-    NotificationModel.getIds(userIds, function (error, ids) {
+    var authentication = req.authentication;
+    var senderId = authentication.userInformationId;
+
+    NotificationModel.notifyNews(newsId, senderId, userIds, function (error) {
       if (error) {
-        serviceResponse.message = 'profile.notifyNews.error.unknown';
+        serviceResponse.message = 'notification.notifyNews.error.unknown';
         serviceResponse.error = error;
       } else {
-        serviceResponse.data = ids;
+        serviceResponse.message = 'notification.notifyNews.success';
       }
 
-      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+    });
+
+  };
+
+  service.notifyGrade = function (req, res) {
+
+    var courseId = req.body.courseId;
+
+    var serviceResponse = {
+      error: null,
+      message: null
+    };
+
+    var authentication = req.authentication;
+    var senderId = authentication.userInformationId;
+
+    NotificationModel.notifyGrade(courseId, senderId, userIds, function (error) {
+      if (error) {
+        serviceResponse.message = 'notification.notifyGrade.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'notification.notifyGrade.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
     });
 
   };

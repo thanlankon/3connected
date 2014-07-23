@@ -18,6 +18,18 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         return;
       }
 
+      var authorized = Role.isTeacher(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      var authorized = Role.isExaminator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
       commit(false);
     },
 
@@ -54,6 +66,8 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
 
   service.getCourseGrade = function (req, res) {
 
+    var Role = require('enum.Role');
+
     var serviceResponse = {
       error: null,
       message: null,
@@ -61,8 +75,12 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
     };
 
     var courseId = req.query.courseId;
+    var userId = 0;
+    if (Role.isTeacher(req.authentication.accountRole)) {
+      userId = req.authentication.userInformationId;
+    }
 
-    GradeModel.getCourseGrade(courseId, function (error, courseGrade, isNotFound) {
+    GradeModel.getCourseGrade(courseId, userId, function (error, courseGrade, isNotFound) {
       if (error) {
         serviceResponse.message = 'grade.getCourseGrade.error.unknown';
         serviceResponse.error = error;
@@ -182,6 +200,8 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       if (termGradeStudent) {
         serviceResponse.data = {
           items: termGradeStudent.summaryGradeStudent,
+          totalCreditFailed: termGradeStudent.totalCreditFailed,
+          totalCredits: termGradeStudent.totalCredits,
           averageGrade: termGradeStudent.summaryGrade,
           total: termGradeStudent.summaryGradeStudent.length
         };

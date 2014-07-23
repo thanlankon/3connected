@@ -1,0 +1,32 @@
+<template id="form.notification.notification-explorer">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-course"}}"></a>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="component">
+        {{component.combobox attribute="notificationType" width="150px" height="22px" localData="true"}}
+      </li>
+
+      <li class="divider" data-component-group="edit">
+      </li>
+
+      <li class="icon export right" data-component-role="export-button" data-grid="gridAttendance">
+        <span>{{lang "export"}}</span>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-notifications" data-component-role="grid"></div>
+
+  </div>
+
+</template>

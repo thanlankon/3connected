@@ -15,6 +15,17 @@ define('validator.rule.GradeCategory', function (module, require) {
      ]
   };
 
+  var ruleMinimumGrade = {
+    // validate for grade category id
+    attribute: 'minimumGrade',
+    attributeName: 'gradeCategory.minimumGrade',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      }
+     ]
+  };
+
   var ruleGradeCategoryCode = {
     // validate for grade category code
     attribute: 'gradeCategoryCode',

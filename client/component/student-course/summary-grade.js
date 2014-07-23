@@ -39,6 +39,9 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
     }, {
       text: Lang.get('course.finalSubjectGrade'),
       dataField: 'finalSubjectGrade',
+    }, {
+      text: Lang.get('course.resultSubject'),
+      dataField: 'resultSubject',
     }];
 
     var gridConfig = {

@@ -58,7 +58,7 @@ define.form('component.dialog.notification.NotifyNews', function (form, require,
 
   };
 
-  form.initData = function () {
+  form.initData = function (params) {
 
     var componentSettings = {
       selectType: {
@@ -69,6 +69,8 @@ define.form('component.dialog.notification.NotifyNews', function (form, require,
         }
       }
     };
+
+    this.newsId = params.id;
 
     this.data.attr({
       selectTypes: this.getSelectTypes(),
@@ -469,14 +471,14 @@ define.form('component.dialog.notification.NotifyNews', function (form, require,
 
     var NotificationProxy = require('proxy.Notification');
     NotificationProxy.notifyNews({
-      newsId: null,
+      newsId: this.newsId,
       userIds: selectedUserIds
     }, this.proxy(notifyNewsDone));
 
     function notifyNewsDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
-      console.log(serviceResponse.getData());
+      this.hideForm();
     }
   };
 

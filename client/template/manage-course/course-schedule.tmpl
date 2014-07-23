@@ -27,9 +27,11 @@
       <li class="divider" data-component-group="view">
       </li>
 
+      {{#auth.isEducator}}
       <li class="icon edit" id="button-edit-schedule" data-component-group="view">
         <span>{{lang 'schedule.editSchedule'}}</span>
       </li>
+      {{/#auth.isEducator}}
 
       <li class="divider" data-component-group="edit">
       </li>

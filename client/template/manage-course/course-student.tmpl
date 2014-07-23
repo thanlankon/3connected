@@ -18,7 +18,7 @@
       </li>
 
       <li class="text">
-        <span>{{lang 'lecture'}}: <b></b></span>
+        <span>{{lang 'lecture'}}: <b>{{staff.staffCode}}</b></span>
       </li>
 
       <li class="text">
@@ -42,9 +42,11 @@
       <div>
         <div class="toolbar">
           <ul>
+            {{#auth.isEducator}}
             <li class="icon create">
               <span id="button-add-students">{{lang "class.manageStudent.add"}}</span>
             </li>
+            {{/#auth.isEducator}}
 
             <li class="right component">
               {{component.gridColumnsChooser grid="gridStudents"}}
@@ -61,9 +63,11 @@
       <div>
         <div class="toolbar">
           <ul>
+            {{#auth.isEducator}}
             <li class="icon delete">
               <span id="button-remove-students">{{lang "class.manageStudent.remove"}}</span>
             </li>
+            {{#auth.isEducator}}
 
             <li class="icon export right" data-component-role="export-button" data-grid="gridCourseStudents">
               <span>{{lang "export"}}</span>

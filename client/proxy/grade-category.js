@@ -35,6 +35,10 @@ define.proxy('proxy.GradeCategory', function (proxy, require) {
       type: 'string'
     },
     {
+      name: 'minimumGrade',
+      type: 'number'
+    },
+    {
       name: 'weight',
       type: 'number'
     },

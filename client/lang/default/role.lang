@@ -6,3 +6,4 @@ role.examinator = Examinator
 role.newsManager = News Manager
 role.student = Student
 role.parent = Parent
+role.teacher = Teacher
