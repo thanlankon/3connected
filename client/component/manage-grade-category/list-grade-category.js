@@ -42,17 +42,14 @@ define.form('component.form.manage-gradeCategory.ListGradeCategory', function (f
 
       width: 100,
     }, {
-      text: Lang.get('gradeCategory.subjectName'),
-      dataField: 'subjectName',
-    }, {
-      text: Lang.get('gradeCategory.description'),
-      dataField: 'description',
-    }, {
       text: Lang.get('gradeCategory.gradeCategoryCode'),
       dataField: 'gradeCategoryCode',
     }, {
       text: Lang.get('gradeCategory.gradeCategoryName'),
       dataField: 'gradeCategoryName',
+    }, {
+      text: Lang.get('gradeCategory.minimumGrade'),
+      dataField: 'minimumGrade',
     }, {
       text: Lang.get('gradeCategory.weight'),
       dataField: 'weight',

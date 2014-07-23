@@ -6,7 +6,7 @@ Created date    : 2014/16/06
 -->
   <template id="dialog.manage-gradeCategory.create-gradeCategory">
 
-  {{dialog.size width="500px" height="330px"}}
+  {{dialog.size width="500px" height="370px"}}
 
   <div class="header">
     {{lang "gradeCategory.create"}}
@@ -21,7 +21,7 @@ Created date    : 2014/16/06
       {{component.input attribute="gradeCategoryCode"}}
     </div>
 
-     <div class="label">
+    <div class="label">
       {{lang "gradeCategory.gradeCategoryName"}}:
     </div>
     <div class="data input">
@@ -36,6 +36,13 @@ Created date    : 2014/16/06
       {{component.input attribute="weight"}}
     </div>
     
+    <div class="label">
+      {{lang "gradeCategory.minimumGrade"}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="minimumGrade"}}
+    </div>
+
   </div>
 
   <div class="footer">

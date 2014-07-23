@@ -53,12 +53,12 @@ define.service('service.GradeCategory', function (service, require, ServiceUtil,
     },
 
     create: {
-      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'gradeCategoryName', 'weight']
+      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'minimumGrade', 'weight']
     },
 
     update: {
-      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'gradeCategoryName', 'weight'],
-      checkExistanceAttributes: ['gradeCategoryId']
+      attributes: ['subjectVersionId', 'gradeCategoryCode', 'gradeCategoryName', 'minimumGrade', 'weight'],
+      checkExistanceAttributes: ['gradeCategoryId', 'gradeCategoryCode']
     },
 
     findOne: {

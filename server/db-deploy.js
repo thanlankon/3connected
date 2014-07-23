@@ -552,7 +552,7 @@ define('db.Deploy', function (module, require) {
       .add(
         Account, 'create', [{
           userInformationId: 4,
-          role: 2,
+          role: 3,
           username: 'mailtt',
           password: 'abc123',
           isActive: true,

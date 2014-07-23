@@ -47,7 +47,7 @@ define.service('service.NewsCategory', function (service, require, ServiceUtil, 
     },
 
     update: {
-      attributes: ['newsCategoryName', 'parentCategoryId'],
+      attributes: ['newsCategoryName'],
       checkExistanceAttributes: ['newsCategoryId'],
       checkDuplicatedAttributes: ['newsCategoryName']
     }
