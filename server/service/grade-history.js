@@ -12,9 +12,34 @@ define.service('service.GradeHistory', function (service, require, ServiceUtil, 
   var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
   var StudentModel = require('model.Student');
+  var GradeCategoryModel = require('model.GradeCategory');
+  var StaffModel = require('model.Staff');
+
 
   service.map = {
-    url: '/gradeHistory'
+    url: '/gradeHistory',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      authorized = Role.isAdministrator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      authorized = Role.isExaminator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = GradeHistotyModel;
@@ -45,7 +70,13 @@ define.service('service.GradeHistory', function (service, require, ServiceUtil, 
             }, {
             model: StudentModel,
             as: 'student'
+            }, {
+            model: GradeCategoryModel,
+            as: 'gradeCategory'
             }]
+        }, {
+          model: StaffModel,
+          as: 'staff'
         }];
       }
     }

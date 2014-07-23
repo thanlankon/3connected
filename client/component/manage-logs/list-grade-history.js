@@ -25,7 +25,7 @@ define.form('component.form.view-logs.ListGradeHistory', function (form, require
       cellsAlign: 'right',
       filterType: 'textbox',
 
-      width: 140,
+      width: 100,
     }, {
       text: Lang.get('gradeHistory.oldValue'),
       dataField: 'oldValue',
@@ -39,12 +39,12 @@ define.form('component.form.view-logs.ListGradeHistory', function (form, require
       dataField: 'time',
       width: 150
     }, {
-      text: Lang.get('gradeHistory.gradeId'),
-      dataField: 'gradeId',
-      width: 100
+      text: Lang.get('gradeCategory.gradeCategoryName'),
+      dataField: 'gradeCategoryName',
+      width: 140
     }, {
-      text: Lang.get('gradeHistory.staffId'),
-      dataField: 'staffId',
+      text: Lang.get('staff.staffCode'),
+      dataField: 'staffCode',
       width: 100
     }, {
       text: Lang.get('gradeHistory.studentCode'),

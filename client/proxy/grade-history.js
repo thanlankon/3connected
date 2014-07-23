@@ -30,11 +30,13 @@ define.proxy('proxy.GradeHistory', function (proxy, require) {
       name: 'time',
       type: 'string'
     }, {
-      name: 'gradeId',
-      type: 'number'
+      name: 'gradeCategoryName',
+      type: 'string',
+      map: 'grade.gradeCategory.gradeCategoryName'
     }, {
-      name: 'staffId',
-      type: 'number'
+      name: 'staffCode',
+      type: 'string',
+      map: 'staff.staffCode'
     }, {
       name: 'courseId',
       type: 'number',

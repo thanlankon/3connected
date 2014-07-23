@@ -124,7 +124,7 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
           var AttendanceProxy = require('proxy.Attendance');
 
-          AttendanceProxy.getCourseAttendance({
+          AttendanceProxy.getCourseAttendanceStudent({
             courseId: this.courseId,
             scheduleId: schedules[0].scheduleId
           }, this.proxy(findOneAttendanceDone));

@@ -12,7 +12,7 @@ staff.gender = {{.gender}}
 staff.dateOfBirth = {{.dateOfBirth}}
 staff.address = {{.address}}
 staff.email = {{.email}}
-
+staff.teacherCode = Teacher code
 # button
 
 staff.create = Create staff

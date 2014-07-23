@@ -13,9 +13,26 @@ define.service('service.AttendanceHistory', function (service, require, ServiceU
   var TermModel = require('model.Term');
   var MajorModel = require('model.Major');
   var StudentModel = require('model.Student');
+  var StaffModel = require('model.Staff');
 
   service.map = {
-    url: '/attendanceHistory'
+    url: '/attendanceHistory',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      authorized = Role.isAdministrator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = AttendanceHistotyModel;
@@ -51,7 +68,10 @@ define.service('service.AttendanceHistory', function (service, require, ServiceU
             model: StudentModel,
             as: 'student'
           }]
-        }];
+        }, {
+          model: StaffModel,
+          as: 'staff'
+          }];
       }
     }
   }

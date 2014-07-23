@@ -32,6 +32,14 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
         url: '/getCourseAttendance',
         httpMethod: 'GET'
       },
+      getCourseAttendanceStudent: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/getCourseAttendanceStudent',
+        httpMethod: 'GET'
+      },
       updateCourseAttendance: {
         url: '/updateCourseAttendance',
         httpMethod: 'POST'
@@ -78,6 +86,43 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
 
   };
 
+  service.getCourseAttendanceStudent = function (req, res) {
+
+    var Role = require('enum.Role');
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var courseId = req.query.courseId;
+    var scheduleId = req.query.scheduleId;
+    var userId = 0;
+    if (Role.isTeacher(req.authentication.accountRole)) {
+      userId = req.authentication.userInformationId;
+    }
+
+    AttendanceModel.getCourseAttendance(courseId, scheduleId, userId, function (error, courseAttendance, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.getCourseAttendance.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.getCourseAttendance.notFound';
+        } else {
+          serviceResponse.data = courseAttendance;
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
   service.updateCourseAttendance = function (req, res) {
 
     var serviceResponse = {
@@ -88,8 +133,9 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
 
     var scheduleId = req.body.scheduleId;
     var attendanceData = req.body.attendanceData;
+    var userId = req.authentication.userInformationId;
 
-    AttendanceModel.updateCourseAttendance(scheduleId, attendanceData, function (error) {
+    AttendanceModel.updateCourseAttendance(scheduleId, attendanceData, userId, function (error) {
       if (error) {
         serviceResponse.message = 'course.updateCourseAttendance.error.unknown';
         serviceResponse.error = error;

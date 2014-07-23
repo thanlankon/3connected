@@ -33,8 +33,9 @@ define.proxy('proxy.AttendanceHistory', function (proxy, require) {
       name: 'attendanceId',
       type: 'number'
     }, {
-      name: 'staffId',
-      type: 'number'
+      name: 'staffCode',
+      type: 'string',
+      map: 'staff.staffCode'
     }, {
       name: 'scheduleId',
       type: 'number',
