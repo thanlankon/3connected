@@ -37,9 +37,17 @@ define('core.model.ModelUtil', function (module, require) {
   }
 
   // findAll method
-  ModelUtil.findAllWithOptions = function (Entity, options, callback) {
+  ModelUtil.findAllWithOptions = function (Entity, options, methodOptions, callback) {
 
     var findOptions = ModelUtil.buildFindOptions(Entity, options);
+
+    if (methodOptions.buildWhereClause) {
+      var helpers = {
+        buildColumnName: buildColumnName
+      };
+
+      methodOptions.buildWhereClause(findOptions, options, helpers);
+    }
 
     findOptions.include = options.include;
 

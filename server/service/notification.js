@@ -15,8 +15,41 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
     },
 
     methods: {
+      findAll: {
+        authorize: function (req, authentication, Role, commit) {
+          var NotifyFor = require('enum.NotifyFor');
+
+          if (Role.isStudentOrParent(authentication.accountRole)) {
+            req.query.filters = req.query.filters || [];
+
+            req.query.filters.push({
+              field: 'receiverId',
+              value: authentication.userInformationId
+            });
+
+            req.query.filters.push({
+              field: 'notifyFor',
+              value: Role.isStudent(authentication.accountRole) ? NotifyFor.STUDENT : NotifyFor.PARENT
+            });
+
+            commit(true);
+
+            return;
+          };
+
+          commit(false);
+        },
+      },
       notifyNews: {
         url: '/notifyNews',
+        httpMethod: 'POST'
+      },
+      notifyGrade: {
+        url: '/notifyGrade',
+        httpMethod: 'POST'
+      },
+      notifyAttendance: {
+        url: '/notifyAttendance',
         httpMethod: 'POST'
       }
     }
@@ -38,7 +71,12 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
     },
 
     findAll: {
-      buildFindOptions: function (findOptions) {
+      buildFindOptions: function (findOptions, query) {
+
+        findOptions.params = {
+          message: query.message
+        };
+
         findOptions.include = [{
           model: StaffModel,
           as: 'sender'
@@ -91,12 +129,37 @@ define.service('service.Notification', function (service, require, ServiceUtil, 
     var authentication = req.authentication;
     var senderId = authentication.userInformationId;
 
-    NotificationModel.notifyGrade(courseId, senderId, userIds, function (error) {
+    NotificationModel.notifyGrade(courseId, senderId, function (error) {
       if (error) {
         serviceResponse.message = 'notification.notifyGrade.error.unknown';
         serviceResponse.error = error;
       } else {
         serviceResponse.message = 'notification.notifyGrade.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
+    });
+
+  };
+
+  service.notifyAttendance = function (req, res) {
+
+    var courseId = req.body.courseId;
+
+    var serviceResponse = {
+      error: null,
+      message: null
+    };
+
+    var authentication = req.authentication;
+    var senderId = authentication.userInformationId;
+
+    NotificationModel.notifyAttendance(courseId, senderId, function (error) {
+      if (error) {
+        serviceResponse.message = 'notification.notifyAttendance.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'notification.notifyAttendance.success';
       }
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);

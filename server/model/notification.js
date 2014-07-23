@@ -11,6 +11,41 @@ define.model('model.Notification', function (model, ModelUtil, require) {
 
   model.Entity = Notification;
 
+  model.methodConfig = {
+    findAll: {
+      buildWhereClause: function (findOptions, options, helpers) {
+        var NotificationType = require('enum.NotificationType');
+
+        var message = options.params.message;
+
+        if (message) {
+          var notificationTypeColumn = helpers.buildColumnName('notificationType', Notification.tableName);
+
+          var appendWhere = [
+            ' AND ((',
+            notificationTypeColumn,
+            ' = ',
+            NotificationType.NEWS,
+            ' AND ',
+            helpers.buildColumnName('news.title', Notification.tableName),
+            ' LIKE ?',
+            ') OR (',
+            notificationTypeColumn,
+            ' != ',
+            NotificationType.NEWS,
+            ' AND ',
+            helpers.buildColumnName('course.courseName', Notification.tableName),
+            ' LIKE ?',
+            '))'
+          ].join('');
+
+          findOptions.where[0] += appendWhere;
+          findOptions.where.push('%' + message + '%', '%' + message + '%');
+        }
+      }
+    }
+  };
+
   model.notifyNews = function (newsId, senderId, ids, callback) {
     var NotificationType = require('enum.NotificationType');
 
@@ -31,7 +66,7 @@ define.model('model.Notification', function (model, ModelUtil, require) {
     getUserIds(ids, function (error, userIds) {
       if (error) {
         callback(error);
-
+      } else {
         doNotify(senderId, userIds, NotificationType.GRADE, courseId, callback);
       }
     });
@@ -45,7 +80,7 @@ define.model('model.Notification', function (model, ModelUtil, require) {
     getUserIds(ids, function (error, userIds) {
       if (error) {
         callback(error);
-
+      } else {
         doNotify(senderId, userIds, NotificationType.ATTENDANCE, courseId, callback);
       }
     });

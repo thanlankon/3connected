@@ -27,6 +27,23 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
 
     this.element.find('#button-reject-changes').click(this.proxy(this.rejectChanges));
     this.element.find('#button-edit-grade').click(this.proxy(this.editGrade));
+
+    this.element.find('#button-notify-grade').click(this.proxy(this.notifyGrade));
+  };
+
+  form.notifyGrade = function () {
+    var NotificationProxy = require('proxy.Notification');
+    var MsgBox = require('component.common.MsgBox');
+
+    MsgBox.confirm(Lang.get('notification.confirm.grade'), this.proxy(doNotifyGrade));
+
+    function doNotifyGrade() {
+      NotificationProxy.notifyGrade({
+        courseId: this.courseId
+      }, function (serviceResponse) {
+        if (serviceResponse.hasError()) return;
+      });
+    }
   };
 
   form.refreshData = function (data) {

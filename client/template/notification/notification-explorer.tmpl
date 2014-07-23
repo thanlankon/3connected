@@ -6,18 +6,41 @@
         <a href="{{url module="manage-course"}}"></a>
       </li>
 
+      <li class="text">
+        <span><b>{{lang 'notification'}}</b></span>
+      </li>
+
       <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'notification.type'}}:</b></span>
       </li>
 
       <li class="component">
         {{component.combobox attribute="notificationType" width="150px" height="22px" localData="true"}}
       </li>
 
-      <li class="divider" data-component-group="edit">
+      <li class="text">
+        <span>{{lang 'notification.message'}}:</b></span>
+      </li>
+      <li class="component">
+        {{component.input attribute="message" width="150px" height="22px"}}
       </li>
 
-      <li class="icon export right" data-component-role="export-button" data-grid="gridAttendance">
-        <span>{{lang "export"}}</span>
+      <li class="button">
+        <span id="button-search-notification">{{lang 'notification.search'}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="icon view" data-depends-entity="focused" data-skip-update-url="true">
+        <a href="#" id="button-view-notification">{{lang 'notification.view'}}</a>
+      </li>
+
+      <li class="icon delete right" data-component-role="delete-button" data-depends-entity="selected">
+        <a href="#">{{lang "notification.delete"}}</a>
       </li>
 
     </ul>

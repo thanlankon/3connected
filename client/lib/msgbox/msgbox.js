@@ -96,7 +96,7 @@
       close();
     });
 
-    $overlay.click(function () {
+    $overlay.click(function (event) {
       if (event.target.id == $overlay.attr('id')) {
         close();
       }

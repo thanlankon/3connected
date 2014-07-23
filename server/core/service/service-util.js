@@ -79,7 +79,7 @@ define('core.service.ServiceUtil', function (module, require) {
     var findOptions = ServiceUtil.buildFindOptions(req.query);
 
     if (findAllConfig.buildFindOptions) {
-      var buildFindOptions = findAllConfig.buildFindOptions(findOptions);
+      var buildFindOptions = findAllConfig.buildFindOptions(findOptions, req.query);
 
       if (buildFindOptions) {
         findOptions = buildFindOptions;

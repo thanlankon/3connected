@@ -1,10 +1,20 @@
+notification = Notification
+
 notification.notifyNews = Notify for news
+notification.notifyGrade = Notify for grade
+notification.notifyAttendance = Notify for attendance
 
 # fields
 
 notification.notificationId = Notification Id
+notification.type = Type
 notification.sender = Sender
 notification.message = Message
+notification.time = Time
+
+notification.search = Search
+notification.view = View detail
+notification.delete = Delete notifications
 
 notification.all = {{.all}}
 notification.news = News notification
@@ -57,3 +67,6 @@ notification.notifyGrade.success = Notify grade successfully
 
 notification.notifyAttendance.error.unknown = Error during notifying attendance
 notification.notifyAttendance.success = Notify attendance successfully
+
+notification.confirm.grade = Are you sure to notify grade for this course?
+notification.confirm.attendance = Are you sure to notify attendance for this course?
