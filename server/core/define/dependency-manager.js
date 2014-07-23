@@ -17,6 +17,8 @@ Dependency = {
     Moment: require('moment'),
 
     UidSafe: require('uid-safe'),
+
+    NodeGcm: require('node-gcm')
   },
 
   modules: {},

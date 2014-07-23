@@ -56,7 +56,10 @@ define.component('component.Form', function (component, require, Util, Lang) {
   component.initForm = function () {};
 
   component.events['[data-depends-entity=focused] click'] = function (element, event) {
-    event.preventDefault();
+    if (element.data('skip-update-url')) {
+      if (element.hasClass('disabled')) event.preventDefault();
+      return;
+    }
 
     if (element.hasClass('disabled')) {
       return;

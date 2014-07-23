@@ -1,7 +1,9 @@
 define.model('model.Authentication', function (model, ModelUtil, require) {
 
+  var Entity = require('core.model.Entity');
   var Account = require('model.entity.Account');
   var AccessToken = require('model.entity.AccessToken');
+  var NotifyRegistration = require('model.entity.NotifyRegistration');
   var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   model.verifyAccount = function (username, role, password, callback) {
@@ -26,15 +28,35 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
       });
   };
 
-  model.createAccessToken = function (accessToken, accountId, timeToLive, callback) {
+  model.createAccessToken = function (accessToken, account, timeToLive, registrationId, callback) {
+    var NotifyFor = require('enum.NotifyFor');
+    var Role = require('enum.Role');
+
     var accessTokenData = {
       accessToken: accessToken,
-      accountId: accountId,
+      accountId: account.accountId,
       timeToLive: timeToLive
     };
 
-    AccessToken.create(accessTokenData)
-      .success(function (createdAccessToken) {
+    var queryChainer = Entity.queryChainer();
+
+    queryChainer.add(AccessToken.create(accessTokenData));
+
+    if (registrationId && Role.isStudentOrParent(account.role)) {
+      var notifyRegistration = {
+        receiverId: account.userInformationId,
+        registerFor: Role.isStudent(account.role) ? NotifyFor.STUDENT : NotifyFor.PARENT,
+        registrationKey: registrationId
+      };
+
+      queryChainer.add(NotifyRegistration.create(notifyRegistration));
+    }
+
+    queryChainer
+      .run()
+      .success(function (results) {
+        var createdAccessToken = results[0];
+
         callback(null, createdAccessToken);
       })
       .error(function (error) {
@@ -42,14 +64,24 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
       });
   };
 
-  model.destroyAccessToken = function (accessToken, callback) {
-    var findConditions = {
+  model.destroyAccessToken = function (accessToken, registrationId, callback) {
+    var findAccessTokenConditions = {
       accessToken: accessToken
     };
 
-    AccessToken.destroy(findConditions)
-      .success(function (affectedRows) {
-        callback(null, affectedRows == 1);
+    var findRegistrationIdConditions = {
+      registrationKey: registrationId
+    };
+
+    var queryChainer = Entity.queryChainer();
+
+    queryChainer.add(AccessToken.destroy(findAccessTokenConditions));
+    queryChainer.add(NotifyRegistration.destroy(findRegistrationIdConditions));
+
+    queryChainer
+      .run()
+      .success(function (results) {
+        callback(null, results && results[0] == 1);
       })
       .error(function (error) {
         callback(error);

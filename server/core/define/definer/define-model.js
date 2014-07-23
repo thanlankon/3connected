@@ -21,7 +21,15 @@ define.model = function (id, definer) {
     if (modelEntity && isMethodAllowed(methodConfig, 'findAll')) {
       // add findAll method
       model.findAll = model.findAll || function (options, callback) {
-        ModelUtil.findAllWithOptions(modelEntity, options, callback);
+        var buildWhereClause;
+        if (methodConfig && methodConfig.findAll && methodConfig.findAll.buildWhereClause) {
+          buildWhereClause = methodConfig.findAll.buildWhereClause;
+        }
+        var methodOptions = {
+          buildWhereClause: buildWhereClause
+        };
+
+        ModelUtil.findAllWithOptions(modelEntity, options, methodOptions, callback);
       }
     }
 

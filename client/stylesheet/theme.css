@@ -36,6 +36,13 @@
   font-weight: bold;
   color: red;
 }
+.jqx-grid-metro .notification {
+  display: inline-block;
+  padding: 2px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  width: 100%;
+}
 .jqx-fill-state-pressed-metro {
   border-color: #17396d;
   color: #fff;

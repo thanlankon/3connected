@@ -52,6 +52,22 @@ define.form('component.form.manage-course.CourseAttendance', function (form, req
 
     this.element.find('#button-all-present').click(this.proxy(this.presentAll));
     this.element.find('#button-all-absent').click(this.proxy(this.absentAll));
+    this.element.find('#button-notify-attendance').click(this.proxy(this.notifyAttendance));
+  };
+
+  form.notifyAttendance = function () {
+    var NotificationProxy = require('proxy.Notification');
+    var MsgBox = require('component.common.MsgBox');
+
+    MsgBox.confirm(Lang.get('notification.confirm.attendance'), this.proxy(doNotifyAttendance));
+
+    function doNotifyAttendance() {
+      NotificationProxy.notifyAttendance({
+        courseId: this.courseId
+      }, function (serviceResponse) {
+        if (serviceResponse.hasError()) return;
+      });
+    }
   };
 
   form.refreshData = function (data) {
