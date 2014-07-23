@@ -3,7 +3,7 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
   var NewsModel = require('model.News');
 
   service.map = {
-    url: '/news'
+    url: '/news',
   };
 
   service.Model = NewsModel;
@@ -18,10 +18,10 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
     findAll: {
       buildFindOptions: function (findOptions) {
-        //        findOptions.include = [{
-        //          entity: require('model.entity.CategoryOfNews'),
-        //          as: 'categories'
-        //        }];
+        findOptions.include = [{
+          entity: require('model.entity.Staff'),
+          as: 'author'
+        }];
 
         //findOptions.attributes = ['newsId', 'title', 'createdTime'];
       }
@@ -44,10 +44,20 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
         findOptions.attributes = ['newsId', 'title', 'content', 'createdTime'];
       }
+    },
+
+    create: {
+      authorize: function (req, authentication, Role, commit) {
+        // check for staff
+        var authorized = Role.isStaff(authentication.accountRole);
+        commit(authorized);
+      }
     }
   };
 
   service.create = function (req, res) {
+
+    var authorId = req.authentication.userInformationId;
 
     var newsData = Util.Object.pick(req.body, ['title', 'content', 'categoryIds', 'attachments']);
 
@@ -57,7 +67,7 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
       data: null
     };
 
-    NewsModel.create(newsData, function (error, createdNews) {
+    NewsModel.create(authorId, newsData, function (error, createdNews) {
       if (error) {
         serviceResponse.message = 'news.create.error.unknown';
 

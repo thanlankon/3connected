@@ -1,6 +1,7 @@
 define.service('service.CategoryOfNews', function (service, require, ServiceUtil, Util) {
 
-  var News = require('model.News');
+  var NewsModel = require('model.News');
+  var StaffModel = require('model.Staff');
   var CategoryOfNewsModel = require('model.CategoryOfNews');
 
   service.map = {
@@ -20,8 +21,12 @@ define.service('service.CategoryOfNews', function (service, require, ServiceUtil
     findAll: {
       buildFindOptions: function (findOptions) {
         findOptions.include = [{
-          model: News,
-          as: 'news'
+          model: NewsModel,
+          as: 'news',
+          include: [{
+            model: StaffModel,
+            as: 'author',
+          }]
         }];
       }
     },

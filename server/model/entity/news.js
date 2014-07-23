@@ -28,6 +28,15 @@ define.entity('model.entity.News', function (entity, DataType, require) {
     defaultValue: DataType.NOW
   };
 
+  entity.authorId = {
+    type: DataType.INTEGER,
+    allowNull: false,
+
+    // reference to Staff
+    references: 'Staff',
+    referencesKey: 'staffId'
+  };
+
   entity.config = {
     table: 'News'
   };
@@ -41,6 +50,11 @@ define.entity('model.entity.News', function (entity, DataType, require) {
     this.hasMany('model.entity.CategoryOfNews', {
       as: 'categories',
       foreignKey: 'newsId'
+    });
+
+    this.belongsTo('model.entity.Staff', {
+      as: 'author',
+      foreignKey: 'authorId'
     });
   };
 

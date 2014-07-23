@@ -7,11 +7,12 @@ define.model('model.News', function (model, ModelUtil, require) {
 
   model.Entity = News;
 
-  model.create = function (newsData, callback) {
+  model.create = function (authorId, newsData, callback) {
 
     var news = {
       title: newsData.title,
-      content: newsData.content
+      content: newsData.content,
+      authorId: authorId
     };
 
     var attachments = newsData.attachments || [];

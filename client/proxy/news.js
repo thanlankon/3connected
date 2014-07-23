@@ -25,6 +25,11 @@ define.proxy('proxy.News', function (proxy, require) {
       type: 'string'
     },
     {
+      name: 'author',
+      type: 'string',
+      map: 'author.staffCode'
+    },
+    {
       name: 'createdTime',
       type: 'date'
     }

@@ -519,6 +519,7 @@ define('db.Deploy', function (module, require) {
         News, 'create', [{
           title: 'Exam',
           content: 'Exam Scheduler',
+          authorId: 1,
         }])
       .add(
         CategoryOfNews, 'create', [{

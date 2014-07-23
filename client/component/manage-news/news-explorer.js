@@ -128,10 +128,19 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
 
       filterType: 'textbox'
     }, {
+      text: Lang.get('news.author'),
+      dataField: 'author',
+
+      filterType: 'textbox',
+
+      width: 200
+    }, {
       text: Lang.get('news.createdTime'),
       dataField: 'createdTime',
 
-      filterType: 'textbox'
+      filterType: 'textbox',
+
+      width: 130
     }];
 
     var gridConfig = {

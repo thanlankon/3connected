@@ -6,6 +6,7 @@ news.content = Content
 news.categories = Categories
 news.attachments = Attachments
 news.createdTime = Created time
+news.author = Author
 
 # components
 
