@@ -17,7 +17,29 @@ define.service('service.GradeHistory', function (service, require, ServiceUtil, 
 
 
   service.map = {
-    url: '/gradeHistory'
+    url: '/gradeHistory',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      authorized = Role.isAdministrator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      authorized = Role.isExaminator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = GradeHistotyModel;

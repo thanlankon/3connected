@@ -16,7 +16,23 @@ define.service('service.AttendanceHistory', function (service, require, ServiceU
   var StaffModel = require('model.Staff');
 
   service.map = {
-    url: '/attendanceHistory'
+    url: '/attendanceHistory',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isEducator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      authorized = Role.isAdministrator(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    }
   };
 
   service.Model = AttendanceHistotyModel;
