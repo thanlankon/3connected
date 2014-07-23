@@ -6,7 +6,7 @@ define('core.auth.Authentication', function (module, require) {
 
   var Authentication = {};
 
-  Authentication.login = function (username, role, password, remember, callback) {
+  Authentication.login = function (username, role, password, remember, registrationId, callback) {
     AuthenticationModel.verifyAccount(username, role, password, function (error, account) {
       if (error) {
         callback(error);
@@ -28,7 +28,7 @@ define('core.auth.Authentication', function (module, require) {
         timeToLive = AuthenticationConfig.TimeToLive.SESSION;
       }
 
-      AuthenticationModel.createAccessToken(accessToken, account.accountId, timeToLive, function (error, createdAccessToken) {
+      AuthenticationModel.createAccessToken(accessToken, account, timeToLive, registrationId, function (error, createdAccessToken) {
         if (error) {
           callback(error, true);
           return;
@@ -44,8 +44,8 @@ define('core.auth.Authentication', function (module, require) {
     });
   };
 
-  Authentication.logout = function (accessToken, callback) {
-    AuthenticationModel.destroyAccessToken(accessToken, function (error, isDestroyed) {
+  Authentication.logout = function (accessToken, registrationId, callback) {
+    AuthenticationModel.destroyAccessToken(accessToken, registrationId, function (error, isDestroyed) {
       if (error) {
         callback(error);
         return;

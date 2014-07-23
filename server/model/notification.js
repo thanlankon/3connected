@@ -8,6 +8,8 @@
 define.model('model.Notification', function (model, ModelUtil, require) {
 
   var Notification = require('model.entity.Notification');
+  var NotifyRegistration = require('model.entity.NotifyRegistration');
+  var DataType = require('core.model.DataType');
 
   model.Entity = Notification;
 
@@ -48,47 +50,102 @@ define.model('model.Notification', function (model, ModelUtil, require) {
 
   model.notifyNews = function (newsId, senderId, ids, callback) {
     var NotificationType = require('enum.NotificationType');
+    var News = require('model.entity.News');
 
-    getUserIds(ids, function (error, userIds) {
-      if (error) {
+    News.find(newsId)
+      .success(function (news) {
+
+        if (news == null) {
+          callback({
+            error: 'ENTITY.NOT_FOUND'
+          });
+          return;
+        }
+
+        var message = news.title;
+
+        getUserIds(ids, function (error, userIds) {
+          if (error) {
+            callback(error);
+          } else {
+            doNotify(senderId, userIds, NotificationType.NEWS, newsId, message, callback);
+          }
+        });
+
+      })
+      .error(function (error) {
         callback(error);
-      } else {
-        doNotify(senderId, userIds, NotificationType.NEWS, newsId, callback);
-      }
-    });
+      });
   };
 
   model.notifyGrade = function (courseId, senderId, callback) {
     var NotificationType = require('enum.NotificationType');
+    var Course = require('model.entity.Course');
 
     var ids = 'course:students,parents[' + courseId + ']';
 
-    getUserIds(ids, function (error, userIds) {
-      if (error) {
+    Course.find(courseId)
+      .success(function (course) {
+
+        if (course == null) {
+          callback({
+            error: 'ENTITY.NOT_FOUND'
+          });
+          return;
+        }
+
+        var message = course.courseName;
+
+        getUserIds(ids, function (error, userIds) {
+          if (error) {
+            callback(error);
+          } else {
+            doNotify(senderId, userIds, NotificationType.GRADE, courseId, message, callback);
+          }
+        });
+
+      })
+      .error(function (error) {
         callback(error);
-      } else {
-        doNotify(senderId, userIds, NotificationType.GRADE, courseId, callback);
-      }
-    });
+      });
   };
 
   model.notifyAttendance = function (courseId, senderId, callback) {
     var NotificationType = require('enum.NotificationType');
+    var Course = require('model.entity.Course');
 
     var ids = 'course:students,parents[' + courseId + ']';
 
-    getUserIds(ids, function (error, userIds) {
-      if (error) {
+    Course.find(courseId)
+      .success(function (course) {
+
+        if (course == null) {
+          callback({
+            error: 'ENTITY.NOT_FOUND'
+          });
+          return;
+        }
+
+        var message = course.courseName;
+
+        getUserIds(ids, function (error, userIds) {
+          if (error) {
+            callback(error);
+          } else {
+            doNotify(senderId, userIds, NotificationType.ATTENDANCE, courseId, message, callback);
+          }
+        });
+
+      })
+      .error(function (error) {
         callback(error);
-      } else {
-        doNotify(senderId, userIds, NotificationType.ATTENDANCE, courseId, callback);
-      }
-    });
+      });
   };
 
-  function doNotify(senderId, userIds, type, dataId, callback) {
+  function doNotify(senderId, userIds, type, dataId, message, callback) {
     var Entity = require('core.model.Entity');
     var NotifyFor = require('enum.NotifyFor');
+    var Notifier = require('core.notification.Notifier');
 
     Entity.transaction(function (transaction) {
 
@@ -116,9 +173,23 @@ define.model('model.Notification', function (model, ModelUtil, require) {
       queryChainer
         .run()
         .success(function (results) {
-          transaction.commit();
 
-          callback(null);
+          var notifyData = {
+            senderId: senderId,
+            notificationType: type,
+            dataId: dataId,
+            message: message
+          }
+
+          Notifier.notifyForMobile(userIds.registrationIds, notifyData, function (error, results) {
+            if (error) {
+              callback(error);
+              return;
+            }
+
+            transaction.commit();
+            callback(null);
+          });
         })
         .error(function (error) {
           transaction.rollback();
@@ -227,12 +298,44 @@ define.model('model.Notification', function (model, ModelUtil, require) {
           parentIds: Util.Object.keys(ids.parentIds)
         }
 
-        callback(null, listOfIds);
+        findRegistrationIds(listOfIds, callback);
       })
       .error(function (error) {
         callback(error);
       });
 
+    function findRegistrationIds(listOfIds, callback) {
+      var NotifyFor = require('enum.NotifyFor');
+
+      NotifyRegistration.findAll({
+        where: DataType.or(
+          DataType.and({
+            receiverId: listOfIds.studentIds
+          }, {
+            registerFor: NotifyFor.STUDENT
+          }),
+          DataType.and({
+            receiverId: listOfIds.parentIds
+          }, {
+            registerFor: NotifyFor.PARENT
+          })
+        )
+      })
+        .success(function (registrations) {
+          var registrationIds = [];
+
+          for (var i = 0, len = registrations.length; i < len; i++) {
+            registrationIds.push(registrations.registrationKey);
+          }
+
+          listOfIds.registrationIds = registrationIds;
+
+          callback(null, listOfIds);
+        })
+        .error(function (error) {
+          callback(error);
+        });
+    }
   }
 
   function parseId(id) {

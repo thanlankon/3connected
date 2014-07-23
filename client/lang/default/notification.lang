@@ -1,5 +1,3 @@
-notification = Notification
-
 notification.notifyNews = Notify for news
 notification.notifyGrade = Notify for grade
 notification.notifyAttendance = Notify for attendance

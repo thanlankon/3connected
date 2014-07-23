@@ -8,6 +8,7 @@ student = Student
 staff = Staff
 
 news = News
+notification = Notification
 
 gender = Gender
 dateOfBirth = Date of birth

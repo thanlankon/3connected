@@ -30,6 +30,7 @@ define.service('service.Authentication', function (service, require, ServiceUtil
     var role = req.body.role;
     var password = req.body.password;
     var remember = req.body.remember;
+    var registrationId = req.body.registrationId;
 
     var serviceResponse = {
       message: null,
@@ -37,7 +38,7 @@ define.service('service.Authentication', function (service, require, ServiceUtil
       data: null
     };
 
-    Authentication.login(username, role, password, remember, function (error, isAccountCorrect, loginData) {
+    Authentication.login(username, role, password, remember, registrationId, function (error, isAccountCorrect, loginData) {
       if (error) {
         serviceResponse.message = 'authentication.login.error.unknown';
         serviceResponse.error = error;
@@ -61,6 +62,7 @@ define.service('service.Authentication', function (service, require, ServiceUtil
     var authentication = req.authentication;
 
     var accessToken = authentication.accessToken;
+    var registrationId = req.query.registrationId;
 
     var serviceResponse = {
       message: null,
@@ -75,7 +77,7 @@ define.service('service.Authentication', function (service, require, ServiceUtil
       return;
     }
 
-    Authentication.logout(accessToken, function (error, isLoggedOut) {
+    Authentication.logout(accessToken, registrationId, function (error, isLoggedOut) {
       if (error) {
         serviceResponse.message = 'authentication.logout.error.unknown';
         serviceResponse.error = error;

@@ -63,3 +63,7 @@ define('lib.Moment', function (module, require, libs) {
 define('lib.UidSafe', function (module, require, libs) {
   module.exports = libs.UidSafe;
 });
+
+define('lib.NodeGcm', function (module, require, libs) {
+  module.exports = libs.NodeGcm;
+});

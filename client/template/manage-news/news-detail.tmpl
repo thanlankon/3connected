@@ -31,9 +31,11 @@
       <li class="divider">
       </li>
 
+      {{#auth.isStaff}}
       <li class="icon notify right">
         <a href="{{url module="notification" action="notify-news" id=newsId }}">{{lang "notification.notifyNews"}}</a>
       </li>
+      {{/auth.isStaff}}
     </ul>
   </div>
 
