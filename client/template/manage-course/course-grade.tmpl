@@ -17,6 +17,14 @@
         <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
       </li>
 
+      {{#noGradeCategories}}
+      <li class="divider">
+      </li>
+      <li class="text">
+        <span><i>{{lang 'course.grade.noGradeCategories'}}</i></span>
+      </li>
+      {{/noGradeCategories}}
+
       <li class="divider" data-component-group="view">
       </li>
 
@@ -35,9 +43,11 @@
         <span>{{lang 'grade.rejectChanges'}}</span>
       </li>
 
+      {{^noGradeCategories}}
       <li class="icon notify right" id="button-notify-grade">
         <span>{{lang 'notification.notifyGrade'}}</span>
       </li>
+      {{/noGradeCategories}}
 
     </ul>
   </div>
