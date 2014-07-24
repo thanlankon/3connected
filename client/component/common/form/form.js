@@ -61,6 +61,8 @@ define.component('component.Form', function (component, require, Util, Lang) {
       return;
     }
 
+    event.preventDefault();
+
     if (element.hasClass('disabled')) {
       return;
     }
