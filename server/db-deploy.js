@@ -228,7 +228,18 @@ define('db.Deploy', function (module, require) {
             staffCode: 'MaiLTT',
             firstName: 'Mai',
             lastName: 'Lê Thị Trúc',
-            departmentId: 1,
+            departmentId: 3,
+            gender: 1,
+            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
+            address: 'Quảng Nam',
+            email: 'mailtt@fpt.edu.vn'
+          }])
+        .add(
+          Staff, 'create', [{
+            staffCode: 'HoangTV',
+            firstName: 'Hoang',
+            lastName: 'Trần Văn',
+            departmentId: 2,
             gender: 1,
             dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
             address: 'Quảng Nam',
@@ -552,7 +563,7 @@ define('db.Deploy', function (module, require) {
         }])
       .add(
         Account, 'create', [{
-          userInformationId: 4,
+          userInformationId: 5,
           role: 2,
           username: 'hoangtv',
           password: 'abc123',
