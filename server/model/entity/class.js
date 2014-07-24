@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Class entity
+ * Creator         : ThanhVM
+ * Modifier        : UayLU, VyBD
+ * Created date    : 2014/06/13
+ */
 define.entity('model.entity.Class', function (entity, DataType, require) {
 
   entity.classId = {

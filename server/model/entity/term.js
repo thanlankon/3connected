@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Term entity
+ * Creator         : VyBD
+ * Modifier        : ThanhVM, UayLU
+ * Created date    : 2014/06/13
+ */
 define.entity('model.entity.Term', function (entity, DataType, require) {
 
   entity.termId = {

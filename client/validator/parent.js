@@ -70,6 +70,21 @@ define('validator.rule.Parent', function (module, require) {
      ]
   };
 
+  var ruleRelationship = {
+    // validate for lastName
+    attribute: 'relationship',
+    attributeName: 'parent.relationship',
+    rules: [
+      {
+        // lastName is required
+        rule: 'required'
+      },
+      {
+        rule: 'positiveInteger'
+      }
+     ]
+  };
+
   var ruleGender = {
     // validate for gender
     attribute: 'gender',
@@ -103,7 +118,8 @@ define('validator.rule.Parent', function (module, require) {
     ruleStudentId,
     ruleFirstName,
     ruleLastName,
-    rulePhoneNumber
+    rulePhoneNumber,
+    ruleRelationship
   ];
 
   var ruleUpdateParent = [

@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : List major component
+ * Creator         : UayLU
+ * Created date    : 2014/06/14
+ */
 define.form('component.form.manage-major.ListMajor', function (form, require, Util, Lang) {
 
   form.urlMap = {

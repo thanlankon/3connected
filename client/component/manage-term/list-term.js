@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : List term component
+ * Creator         : UayLU
+ * Created date    : 2014/06/14
+ */
 define.form('component.form.manage-term.ListTerm', function (form, require, Util, Lang) {
 
   form.urlMap = {

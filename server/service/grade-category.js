@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Grade category service
+ * Creator         : UayLu
+ * Created date    : 2014/06/18
+ */
 define.service('service.GradeCategory', function (service, require, ServiceUtil, Util) {
 
   var SubjectModel = require('model.Subject');

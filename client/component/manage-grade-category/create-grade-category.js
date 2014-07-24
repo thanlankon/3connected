@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Create grade category component
+ * Creator         : UayLU
+ * Created date    : 2014/06/18
+ */
 define.form('component.dialog.manage-gradeCategory.GradeCategory', function (form, require, Util, Lang) {
 
   // map the form to the url

@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Class model
+ * Creator         : UayLU
+ * Created date    : 2014/06/15
+ */
 define.model('model.Class', function (model, ModelUtil, require) {
 
   var Class = require('model.entity.Class');

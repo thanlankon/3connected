@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Input grade component
+ * Creator         : UayLU
+ * Created date    : 2014/06/14
+ */
 define.form('component.form.manage-course.CourseGrade', function (form, require, Util, Lang) {
 
   // map the form to the url

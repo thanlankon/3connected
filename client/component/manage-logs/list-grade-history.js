@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : List grade history component
+ * Creator         : UayLU
+ * Created date    : 2014/07/1
+ */
 define.form('component.form.view-logs.ListGradeHistory', function (form, require, Util, Lang) {
 
   form.urlMap = {

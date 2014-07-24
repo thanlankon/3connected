@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Batch entity
+ * Creator         : TrongND
+ * Created date    : 2014/06/13
+ */
 define.entity('model.entity.Batch', function (entity, DataType, require) {
 
   entity.batchId = {

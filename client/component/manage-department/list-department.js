@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : List department component
+ * Creator         : UayLU
+ * Created date    : 2014/06/15
+ */
 define.form('component.form.manage-department.ListDepartment', function (form, require, Util, Lang) {
 
   form.urlMap = {

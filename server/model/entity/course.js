@@ -2,6 +2,7 @@
  * System          : 3connected
  * Component       : Course entity
  * Creator         : VyBD
+ * Modifire        : UayLU
  * Created date    : 2014/17/06
  */
 
