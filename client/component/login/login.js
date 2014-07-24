@@ -9,6 +9,8 @@ define.component('component.Login', function (component, require, Util, Lang, jQ
   component.login = function () {
     var loginData = Util.Object.pick(this.data.attr(), ['username', 'password', 'role', 'remember']);
 
+    loginData.registrationId = 'abcdef12345#$#$';
+
     var AuthenticationProxy = require('proxy.Authentication');
 
     AuthenticationProxy.login(loginData, this.proxy(loginDone));
