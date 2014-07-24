@@ -18,6 +18,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var GradeHistory = require('model.entity.GradeHistory');
   var Staff = require('model.entity.Staff');
 
+  var GradeStatus = require('enum.GradeStatus');
+
   model.Entity = Grade;
 
   model.getCourseGrade = function (courseId, userId, callback) {
@@ -317,7 +319,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       var totalCredits = 0;
       var totalGrade = 0;
       var totalCreditFailed = 0;
-      var resultSubject = 'Pass';
+      var resultSubject = GradeStatus.PASS;
 
       for (var i = 0, len = course.length; i < len; i++) {
 
@@ -337,7 +339,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
             if (gradeCategory.gradeCategoryId == grade.gradeCategoryId && course[i].courseId == grade.courseId) {
 
               if (minimumGrade > 0 && minimumGrade > grade.value) {
-                resultSubject = 'Falied';
+                resultSubject = GradeStatus.FAIL;
               }
 
               finalSubjectGrade = finalSubjectGrade + (parseFloat(gradeCategory.weight) * parseFloat(grade.value) / 100);
@@ -350,10 +352,10 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         totalGrade = totalGrade + finalSubjectGrade * parseInt(course[i].subjectVersion.subject.numberOfCredits);
         finalSubjectGrade = finalSubjectGrade.toFixed(2);
         if (finalSubjectGrade < 5) {
-          resultSubject = 'Falied';
+          resultSubject = GradeStatus.FAIL;
         }
 
-        if (resultSubject == 'Falied') {
+        if (resultSubject == GradeStatus.FAIL) {
           totalCreditFailed = totalCreditFailed + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         }
 

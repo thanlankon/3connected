@@ -19,6 +19,8 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
   // grid config
   form.gridConfig = function () {
 
+    var GradeStatus = require('enum.GradeStatus');
+
     var gridColumns = [{
       text: Lang.get('course.courseId'),
       dataField: 'courseId',
@@ -42,6 +44,24 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
     }, {
       text: Lang.get('course.resultSubject'),
       dataField: 'resultSubject',
+      width: 100,
+
+      cellsRenderer: function (row, columnField, value) {
+        switch (value) {
+        case GradeStatus.PASS:
+          var text = Lang.get('grade.status.pass');
+          text = '<span class="grade-status grade-status-pass">' + text + '</span>';
+
+          break;
+        case GradeStatus.FAIL:
+          var text = Lang.get('grade.status.fail');
+          text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+
+          break;
+        }
+
+        return text;
+      }
     }];
 
     var gridConfig = {
@@ -62,9 +82,14 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
 
   form.processData = function (data, originalData) {
     var averageGrade = originalData.data && originalData.data.averageGrade;
+    var totalCredits = originalData.data && originalData.data.totalCredits;
+    var totalCreditFailed = originalData.data && originalData.data.totalCreditFailed;
 
     this.data.attr('displayAverageGrade', averageGrade != null);
+
     this.data.attr('averageGrade', averageGrade);
+    this.data.attr('totalCredits', totalCredits);
+    this.data.attr('totalCreditFailed', totalCreditFailed);
   };
 
   form.initForm = function () {

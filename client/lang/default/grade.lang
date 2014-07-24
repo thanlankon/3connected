@@ -22,3 +22,9 @@ grade.value = Grade
 grade.averageGrade = Average grade
 grade.accumulationGrade = Accumulation grade
 grade.resultSubject = Result
+
+grade.totalCredits = Total credits
+grade.totalCreditFailed = Total fail credits
+
+grade.status.pass = Pass
+grade.status.fail = Fail
