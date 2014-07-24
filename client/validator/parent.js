@@ -88,10 +88,22 @@ define('validator.rule.Parent', function (module, require) {
      ]
   };
 
+  var rulePhoneNumber = {
+    // validate for studentId
+    attribute: 'phoneNumber',
+    attributeName: 'parent.phoneNumber',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      }
+     ]
+  };
+
   var ruleCreateParent = [
     ruleStudentId,
     ruleFirstName,
-    ruleLastName
+    ruleLastName,
+    rulePhoneNumber
   ];
 
   var ruleUpdateParent = [

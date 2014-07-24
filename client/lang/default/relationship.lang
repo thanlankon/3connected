@@ -1,0 +1,7 @@
+relationship.unknown = Unknown
+relationship.other = Other
+relationship.father = Father
+relationship.mother = Mother
+relationship.grandFather = Grand mother
+relationship.grandMother = Grand father
+relationship.godParent = Godparents

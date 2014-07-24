@@ -63,6 +63,7 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
   form.processData = function (data, originalData) {
     var averageGrade = originalData.data && originalData.data.averageGrade;
 
+    this.data.attr('displayAverageGrade', averageGrade != null);
     this.data.attr('averageGrade', averageGrade);
   };
 

@@ -17,12 +17,16 @@
         <span>{{lang 'grade.view'}}</span>
       </li>
 
+      {{#displayAverageGrade}}
+
       <li class="divider">
       </li>
 
       <li class="text">
         <span>{{lang 'grade.averageGrade'}}: <b>{{averageGrade}}</b></span>
       </li>
+
+      {{/displayAverageGrade}}
 
       <li class="right component">
         {{component.gridColumnsChooser}}

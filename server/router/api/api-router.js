@@ -7,6 +7,9 @@ define('router.Api', function (module, require) {
 
   var apiRouter = express.Router();
 
+  var AuthenticationMiddleware = require('router.middleware.AuthenticationMiddleware');
+  apiRouter.use(AuthenticationMiddleware);
+
   apiRouter.get('/', function (req, res) {
     res.send('api');
   });
