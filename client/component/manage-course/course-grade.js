@@ -92,6 +92,13 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
 
       var gradeData = serviceResponse.getData();
 
+      if (!gradeData.gradeCategories || !gradeData.gradeCategories.length) {
+        this.data.attr('noGradeCategories', true);
+        gradeData.isLocked = true;
+      } else {
+        this.data.attr('noGradeCategories', false);
+      }
+
       if (gradeData.isLocked) {
         this.switchToLockedMode();
       } else if (gradeData.grades && gradeData.grades.length) {
