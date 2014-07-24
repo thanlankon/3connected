@@ -325,7 +325,7 @@ define.model('model.Notification', function (model, ModelUtil, require) {
           var registrationIds = [];
 
           for (var i = 0, len = registrations.length; i < len; i++) {
-            registrationIds.push(registrations.registrationKey);
+            registrationIds.push(registrations[i].registrationKey);
           }
 
           listOfIds.registrationIds = registrationIds;

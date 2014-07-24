@@ -3,7 +3,7 @@ define('config.Notification', function (module, require) {
   var Notification = {
     Provider: {
       GCM: {
-        API_KEY: ''
+        API_KEY: 'AIzaSyBqDMZUPwjKzAPFNySWaEEtD2F4SsqMLLg'
       }
     },
     PushNotification: {

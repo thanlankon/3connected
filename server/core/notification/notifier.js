@@ -29,9 +29,9 @@ define('core.notification.Notifier', function (module, require) {
     var sender = new NodeGcm.Sender(apiKey);
 
     // callback with error = null to skip sending
-    callback(null, []);
-    return;
-
+    //callback(null, []);
+    //return;
+    console.log(registrationIds);
     sender.send(message, registrationIds, retryTimes, function (error, result) {
       callback(error, result);
     });
