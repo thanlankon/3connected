@@ -44,8 +44,8 @@ define('core.auth.Authentication', function (module, require) {
     });
   };
 
-  Authentication.logout = function (accessToken, registrationId, callback) {
-    AuthenticationModel.destroyAccessToken(accessToken, registrationId, function (error, isDestroyed) {
+  Authentication.logout = function (accessToken, account, registrationId, callback) {
+    AuthenticationModel.destroyAccessToken(accessToken, account, registrationId, function (error, isDestroyed) {
       if (error) {
         callback(error);
         return;

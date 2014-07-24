@@ -40,7 +40,7 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
 
     var queryChainer = Entity.queryChainer();
 
-    queryChainer.add(AccessToken.create(accessTokenData));
+    queryChainer.add(AccessToken, 'create', [accessTokenData]);
 
     if (registrationId && Role.isStudentOrParent(account.role)) {
       var notifyRegistration = {
@@ -49,11 +49,18 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
         registrationKey: registrationId
       };
 
-      queryChainer.add(NotifyRegistration.create(notifyRegistration));
+      // delete the existed registrationKey
+      queryChainer.add(NotifyRegistration, 'destroy', [{
+        registrationKey: registrationId
+      }]);
+
+      queryChainer.add(NotifyRegistration, 'create', [notifyRegistration]);
     }
 
     queryChainer
-      .run()
+      .runSerially({
+        skipOnError: true
+      })
       .success(function (results) {
         var createdAccessToken = results[0];
 
@@ -64,19 +71,27 @@ define.model('model.Authentication', function (model, ModelUtil, require) {
       });
   };
 
-  model.destroyAccessToken = function (accessToken, registrationId, callback) {
+  model.destroyAccessToken = function (accessToken, account, registrationId, callback) {
+    var NotifyFor = require('enum.NotifyFor');
+    var Role = require('enum.Role');
+
     var findAccessTokenConditions = {
       accessToken: accessToken
-    };
-
-    var findRegistrationIdConditions = {
-      registrationKey: registrationId
     };
 
     var queryChainer = Entity.queryChainer();
 
     queryChainer.add(AccessToken.destroy(findAccessTokenConditions));
-    queryChainer.add(NotifyRegistration.destroy(findRegistrationIdConditions));
+
+    if (registrationId && Role.isStudentOrParent(account.role)) {
+      var findRegistrationIdConditions = {
+        receiverId: account.userInformationId,
+        registerFor: Role.isStudent(account.role) ? NotifyFor.STUDENT : NotifyFor.PARENT,
+        registrationKey: registrationId
+      };
+
+      queryChainer.add(NotifyRegistration.destroy(findRegistrationIdConditions));
+    }
 
     queryChainer
       .run()

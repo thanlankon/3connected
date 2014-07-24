@@ -77,7 +77,12 @@ define.service('service.Authentication', function (service, require, ServiceUtil
       return;
     }
 
-    Authentication.logout(accessToken, registrationId, function (error, isLoggedOut) {
+    var account = {
+      userInformationId: authentication.userInformationId,
+      role: authentication.accountRole
+    };
+
+    Authentication.logout(accessToken, account, registrationId, function (error, isLoggedOut) {
       if (error) {
         serviceResponse.message = 'authentication.logout.error.unknown';
         serviceResponse.error = error;
