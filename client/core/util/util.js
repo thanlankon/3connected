@@ -36,10 +36,10 @@ define('core.util.Util', function (module, require) {
 
     isInteger: function (object) {
       // check for type is Number
-      if (!Util.Object.isNumber(object)) return false;
+      // if (!Util.Object.isNumber(object)) return false;
 
       // check for integer
-      var isInteger = !isNaN(object) && parseInt(Number(object)) === object;
+      var isInteger = object !== '' && !isNaN(+object) && ~~object == +object;
 
       return isInteger;
     }

@@ -177,6 +177,49 @@ define.component('component.common.Grid', function (component, require, Util, La
           return roleHtml;
         }
       }
+
+      // for relationship
+      if (['relationship'].indexOf(gridColumn.dataField) != -1) {
+        gridColumn.width = '150px';
+
+        gridColumn.filterType = 'list';
+
+        gridColumn.createFilterWidget = function (column, columnElement, widget) {
+          var source = [
+            Lang.get('relationship.unknown'),
+            Lang.get('relationship.other'),
+            Lang.get('relationship.father'),
+            Lang.get('relationship.mother'),
+            Lang.get('relationship.grandFather'),
+            Lang.get('relationship.grandMother'),
+            Lang.get('relationship.godParent'),
+          ];
+
+          widget.jqxDropDownList({
+            source: source,
+            dropDownWidth: '140px'
+          });
+        };
+
+        gridColumn.cellsRenderer = function (row, columnField, value, defaultHtml, columnProperties) {
+          if (columnProperties.hidden) return;
+
+          var ConvertUtil = require('core.util.ConvertUtil');
+
+          var roleText = ConvertUtil.Relationship.toString(value);
+
+          var elmHtml = jQuery(defaultHtml).text(roleText);
+          var elmWrapper = jQuery('<div />');
+
+          var relationshipHtml = elmWrapper.append(elmHtml).html();
+
+          elmHtml.remove();
+          elmWrapper.remove();
+
+          return relationshipHtml;
+        }
+      }
+
     }
 
     this.gridColumns = gridOptions.columns;
@@ -430,6 +473,12 @@ define.component('component.common.Grid', function (component, require, Util, La
               var ConvertUtil = require('core.util.ConvertUtil');
 
               dataValue = ConvertUtil.Role.toRole(dataValue);
+            }
+
+            if (columnType == 'relationship' || ['relationship'].indexOf(dataField) != -1) {
+              var ConvertUtil = require('core.util.ConvertUtil');
+
+              dataValue = ConvertUtil.Relationship.toRelationship(dataValue);
             }
 
             // check if dataField is mapped

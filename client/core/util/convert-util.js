@@ -3,6 +3,7 @@ define('core.util.ConvertUtil', function (module, require) {
   var Moment = require('lib.Moment');
   var Gender = require('enum.Gender');
   var Role = require('enum.Role');
+  var Relationship = require('enum.Relationship');
   var Attendance = require('enum.Attendance');
   var DateTimeConstant = require('constant.DateTime');
   var Lang = require('core.lang.Lang');
@@ -205,6 +206,66 @@ define('core.util.ConvertUtil', function (module, require) {
       }
 
       return role;
+    },
+  };
+
+  ConvertUtil.Relationship = {
+    toString: function (relationship) {
+      switch (relationship) {
+      case Relationship.UNKNOWN:
+        relationship = Lang.get('relationship.unknown');
+        break;
+      case Relationship.OTHER:
+        relationship = Lang.get('relationship.other');
+        break;
+      case Relationship.FATHER:
+        relationship = Lang.get('relationship.father');
+        break;
+      case Relationship.MOTHER:
+        relationship = Lang.get('relationship.mother');
+        break;
+      case Relationship.GRAND_FATHER:
+        relationship = Lang.get('relationship.grandFather');
+        break;
+      case Relationship.GRAND_MOTHER:
+        relationship = Lang.get('relationship.grandMother');
+        break;
+      case Relationship.GODPARENT:
+        relationship = Lang.get('relationship.godParent');
+        break;
+      }
+
+      return relationship;
+    },
+
+    toRelationship: function (string) {
+      var relationship;
+
+      switch (string) {
+      case Lang.get('relationship.unknown'):
+        relationship = Relationship.UNKNOWN;
+        break;
+      case Lang.get('relationship.other'):
+        relationship = Relationship.OTHER;
+        break;
+      case Lang.get('relationship.father'):
+        relationship = Relationship.FATHER;
+        break;
+      case Lang.get('relationship.mother'):
+        relationship = Relationship.MOTHER;
+        break;
+      case Lang.get('relationship.grandFather'):
+        relationship = Relationship.GRAND_FATHER;
+        break;
+      case Lang.get('relationship.grandMother'):
+        relationship = Relationship.GRAND_MOTHER;
+        break;
+      case Lang.get('relationship.godParent'):
+        relationship = Relationship.GODPARENT;
+        break;
+      }
+
+      return gender;
     },
   };
 

@@ -280,7 +280,15 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
     var formData = this.data;
     var entity = formData.attr();
 
-    entity = Util.Object.omit(entity, ['originalData', 'boundAttributes', 'componentSettings', 'componentElements']);
+    var skipSubmitAttributes = ['originalData', 'boundAttributes', 'componentSettings', 'componentElements'];
+
+    Util.Collection.each(entity, function (value, key) {
+      if (value == null) {
+        skipSubmitAttributes.push(key);
+      }
+    });
+
+    entity = Util.Object.omit(entity, skipSubmitAttributes);
 
     var omitAttributes = [];
     Util.Collection.each(entity, function (value, key) {

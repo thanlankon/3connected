@@ -372,6 +372,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       var summaryGrade = totalGrade / totalCredits;
       summaryGrade = summaryGrade.toFixed(2);
 
+      if (isNaN(summaryGrade)) summaryGrade = null;
+
       var courseGradeStudent = {
         summaryGradeStudent: termGradeStudent,
         totalCredits: totalCredits,

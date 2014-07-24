@@ -19,9 +19,6 @@ define('app.App', function (module, require) {
   // router for service api
   var apiRouter = require('router.Api');
 
-  var AuthenticationMiddleware = require('router.middleware.AuthenticationMiddleware');
-  app.use(AuthenticationMiddleware);
-
   app.use('/resource', resourceRouter);
   app.use('/', appRouter);
   app.use('/api', apiRouter);
