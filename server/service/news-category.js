@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : News category service
+ * Creator         : DungNVH
+ * Created date    : 2014/06/23
+ */
 define.service('service.NewsCategory', function (service, require, ServiceUtil, Util) {
 
   var NewsCategoryModel = require('model.NewsCategory');

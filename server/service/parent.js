@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Grade history service
+ * Creator         : UayLU
+ * Created date    : 2014/07/15
+ */
 define.service('service.Parent', function (service, require, ServiceUtil, Util) {
 
   var ParentModel = require('model.Parent');

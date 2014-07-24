@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Course studebt model
+ * Creator         : UayLU
+ * Created date    : 2014/06/20
+ */
 define.model('model.CourseStudent', function (model, ModelUtil, require) {
 
   var CourseStudent = require('model.entity.CourseStudent');

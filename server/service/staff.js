@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Staff service
+ * Creator         : DungNVH
+ * Created date    : 2014/06/19
+ */
 define.service('service.Staff', function (service, require, ServiceUtil, Util) {
 
   var StaffModel = require('model.Staff');

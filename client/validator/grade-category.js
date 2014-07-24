@@ -73,6 +73,9 @@ define('validator.rule.GradeCategory', function (module, require) {
       {
         // weight is required
         rule: 'required'
+      },
+      {
+        rule: 'positiveInteger'
       }
      ]
   };

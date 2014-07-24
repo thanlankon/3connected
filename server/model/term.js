@@ -1,3 +1,10 @@
+/*
+ * System          : 3connected
+ * Component       : Term model
+ * Creator         : ThanhVM
+ * Modifier        : UayLU
+ * Created date    : 2014/06/14
+ */
 define.model('model.Term', function (model, ModelUtil, require) {
 
   var Term = require('model.entity.Term');

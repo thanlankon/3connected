@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Edit class component
+ * Creator         : UayLU
+ * Created date    : 2014/06/15
+ */
 define.form('component.dialog.manage-class.EditClass', function (form, require, Util, Lang) {
 
   // map the form to the url

@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : List account component
+ * Creator         : UayLU
+ * Created date    : 2014/07/1
+ */
 define.form('component.form.manage-account.ListAccount', function (form, require, Util, Lang) {
 
   // map the form to the url
