@@ -9,3 +9,13 @@ define('enum.GradeStatus', function (module, require) {
   module.exports = GradeStatus;
 
 });
+
+define('constant.Grade', function (module, require) {
+
+  var GradeConstant = {
+    PASS_GRADE: 5
+  };
+
+  module.exports = GradeConstant;
+
+});

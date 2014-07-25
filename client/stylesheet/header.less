@@ -122,13 +122,27 @@
         font-size: 12px;
         line-height: 30px;
 
-        padding-left: 10px;
+        padding-left: 30px;
 
         width: 100%;
 
         &:hover {
-          background-color: #eee;
+          background-color: #eee !important;
         }
+
+        &.icon {
+          background: #fff 5px center no-repeat;
+          background-size: 16px 16px;
+        }
+
+        &.student {
+          background-image: url("@{url-img}/navigator/student.png");
+        }
+
+        &.course {
+          background-image: url("@{url-img}/navigator/course.png");
+        }
+
       }
 
       li.divider {

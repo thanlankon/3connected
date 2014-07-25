@@ -122,6 +122,12 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       this.size = Util.Object.extend(this.size || {}, sizeElement.data());
     }
 
+    if (this.formType == this.FormType.Dialog.CREATE) {
+      footerElement.find('.ok').addClass('create');
+    } else if (this.formType == this.FormType.Dialog.EDIT) {
+      footerElement.find('.ok').addClass('edit');
+    }
+
     //    this.initProxy();
 
     // setup dialog
@@ -271,7 +277,10 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
       } else {
         // hidden attribute
 
-        MsgBox.alert(message);
+        MsgBox.alert({
+          text: message,
+          icon: 'warning'
+        });
       }
     }
   };

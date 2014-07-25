@@ -28,7 +28,10 @@ define('core.proxy.ServiceResponseUtil', function (module, require) {
 
       var lang = Lang.get(messageId, messageData);
 
-      MsgBox.alert(lang);
+      MsgBox.alert({
+        text: lang,
+        icon: serviceResponse.hasError() ? 'error' : 'info'
+      });
     }
 
     if (serviceResponse.hasError()) {

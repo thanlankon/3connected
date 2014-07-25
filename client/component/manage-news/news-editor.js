@@ -305,7 +305,10 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       var MsgBox = require('component.common.MsgBox');
 
       var message = Lang.get(validate.message, validate.messageData);
-      MsgBox.alert(message);
+      MsgBox.alert({
+        text: message,
+        icon: 'warning'
+      });
 
       return;
     }

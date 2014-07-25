@@ -1,14 +1,22 @@
 (function ($, window) {
-  $.alert = window.alert = function (msg) {
+  $.alert = function (msg) {
     //    if ($('#overlay').is(':visible')) return;
 
     var $overlay = $('<div class="overlay" id="overlay" />');
     var $alert = $('<div class="msgbox" id="alert" />');
-    var $content = $('<div class="content" id="content" />');
+    var $content = $(' \
+      <div class="content" id="content"> \
+        <table><tr> \
+          <td class="icon"></td> \
+          <td class="msg"></td> \
+        </tr></table> \
+      </div> \
+    ');
     var $buttons = $('<div class="buttons" id="buttons" />');
     var $btnOK = $('<input type="button" class="button ok"/>').val('OK');
 
-    $content.html(msg);
+    $content.find('.msg').html(msg.text);
+    $content.find('.icon').addClass(msg.icon);
     $buttons.append($btnOK);
     $alert.append($content);
     $alert.append($buttons);
@@ -63,17 +71,24 @@
     }
   };
 
-  $.confirm = window.confirm = function (msg, callback) {
+  $.confirm = function (msg, callback) {
     //    if ($('#overlay').is(':visible')) return;
 
     var $overlay = $('<div class="overlay" id="overlay" />');
     var $confirm = $('<div class="msgbox" id="alert" />');
-    var $content = $('<div class="content" id="content" />');
+    var $content = $(' \
+      <div class="content" id="content"> \
+        <table><tr> \
+          <td class="icon question"></td> \
+          <td class="msg"></td> \
+        </tr></table> \
+      </div> \
+    ');
     var $buttons = $('<div class="buttons" id="buttons" />');
     var $btnCancel = $('<input type="button" class="button cancel"/>').val('Cancel');
     var $btnOK = $('<input type="button" class="button ok"/>').val('OK');
 
-    $content.html(msg);
+    $content.find('.msg').html(msg);
     $buttons.append($btnCancel);
     $buttons.append($btnOK);
     $confirm.append($content);

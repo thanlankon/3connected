@@ -33,6 +33,29 @@
   font-size: 13px;
   color: #555;
 }
+.msgbox .content table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.msgbox .content table td {
+  height: 40px;
+}
+.msgbox .content .icon {
+  width: 50px;
+  background: 0px center no-repeat;
+}
+.msgbox .content .error {
+  background-image: url('img/error.png');
+}
+.msgbox .content .warning {
+  background-image: url('img/warning.png');
+}
+.msgbox .content .question {
+  background-image: url('img/question.png');
+}
+.msgbox .content .info {
+  background-image: url('img/info.png');
+}
 .msgbox .buttons {
   position: absolute;
   bottom: 0px;

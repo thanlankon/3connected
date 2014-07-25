@@ -61,14 +61,22 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 
     this.element.find('#expander').click(toggleNavigator);
     this.element.find('#expander #navigator li').click(function () {
-      var $this = $(this);
-      $this.parent().parent().parent().find('#location').text($this.text());
+      var elm = jQuery(this);
+      elm.parent().parent().parent().find('#location').text(elm.text());
+    });
+
+    jQuery(document).mousedown(function(event) {
+      var elm = jQuery(event.target);
+
+      if (elm.closest('#expander').size() == 0 && jQuery('#expander').hasClass('active')) {
+        toggleNavigator();
+      }
     });
 
     function toggleNavigator() {
-      var $this = $(this);
-      $this.find('#navigator').slideToggle(100);
-      $this.toggleClass('active');
+      var elm = jQuery('#expander');
+      elm.find('#navigator').slideToggle(100);
+      elm.toggleClass('active');
     }
 
     Route.ready();
@@ -169,7 +177,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     var moduleName = '';
 
     this.static.cpanelElement.find('#navigator a').each(function () {
-      var a = $(this);
+      var a = jQuery(this);
 
       if (a.attr('href') && a.attr('href').substr(2, module.length) == module) {
         moduleName = a.text();

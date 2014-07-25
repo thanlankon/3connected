@@ -89,11 +89,21 @@
   color: #666;
   font-size: 12px;
   line-height: 30px;
-  padding-left: 10px;
+  padding-left: 30px;
   width: 100%;
 }
 .cpanel .header .left-section ul.navigator a:hover {
-  background-color: #eee;
+  background-color: #eee !important;
+}
+.cpanel .header .left-section ul.navigator a.icon {
+  background: #ffffff 5px center no-repeat;
+  background-size: 16px 16px;
+}
+.cpanel .header .left-section ul.navigator a.student {
+  background-image: url("/resource/resource/img/navigator/student.png");
+}
+.cpanel .header .left-section ul.navigator a.course {
+  background-image: url("/resource/resource/img/navigator/course.png");
 }
 .cpanel .header .left-section ul.navigator li.divider {
   border-top: 1px solid #2b579a;

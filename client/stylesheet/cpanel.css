@@ -108,9 +108,23 @@
   border: 1px solid #2b579a;
   transition: border-color 0.1s, background-color 0.1s;
 }
+.dialog .body .bottom .button.ok,
+.dialog .body .footer .button.ok {
+  padding-left: 30px;
+  background: #ffffff 5px center no-repeat;
+  background-size: 16px 16px;
+}
+.dialog .body .bottom .button.create,
+.dialog .body .footer .button.create {
+  background-image: url("/resource/resource/img/common/create.png");
+}
+.dialog .body .bottom .button.edit,
+.dialog .body .footer .button.edit {
+  background-image: url("/resource/resource/img/common/edit.png");
+}
 .dialog .body .bottom .button:hover,
 .dialog .body .footer .button:hover {
-  background-color: #d5e1f2;
+  background-color: #d5e1f2 !important;
   color: #000;
 }
 .dialog .body .bottom .cancel,
