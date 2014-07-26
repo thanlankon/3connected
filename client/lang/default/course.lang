@@ -56,6 +56,8 @@ course.findCourseAttendanceStudent.error = Error during finding course
 course.findCourseAttendanceStudent.notFound = Course not found
 course.findOneCourseStudent.error = Error during finding course
 course.findOneCourseStudent.notFound = Course not found
+course.statisticCourseAttendance.error.unknown = Error during statistic course attendance
+course.statisticCourseAttendance.notFound = Course attendance statsitic not found
 
 # schedule
 
@@ -124,3 +126,5 @@ grade.group.student = Student
 grade.group.grade = Grade
 
 course.grade.noGradeCategories = This course has no grade categories
+course.attendanceStatisticText = View Attendance Statistic
+course.attendanceStatistic = Attendance statistic

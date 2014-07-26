@@ -1,0 +1,55 @@
+<!--
+System          : 3connected
+Component       : List attendance statistic
+Creator         : UayLu
+Created date    : 2014/07/26
+-->
+  <template id="form.manage-course.course-attendance-statistic">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+        <a href="{{url module="manage-course"}}"></a>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'course.attendanceStatisticText'}}</b></span>
+      </li>
+
+      <li class="divider"></li>
+
+      <li class="text">
+        <span>{{lang 'course'}}: <b>{{course.courseName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'lecture'}}: <b>{{course.staff.staffCode}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'term'}}: <b>{{course.term.termName}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'major'}}: <b>{{course.major.majorName}}</b></span>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <div id="grid-departments" data-component-role="grid"></div>
+
+  </div>
+
+</template>

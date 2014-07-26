@@ -31,11 +31,17 @@ Created date    : 2014/16/06
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="attendance"}}">{{lang "course.attendance"}}</a>
       </li>
+      <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="manage-course" action="attendance-statistic"}}">{{lang "course.attendanceStatistic"}}</a>
+      </li>
       {{/#auth.isEducator}}
 
       {{#auth.isTeacher}}
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="attendance"}}">{{lang "course.attendance"}}</a>
+      </li>
+      <li class="icon list" data-depends-entity="focused">
+        <a href="{{url module="manage-course" action="attendance-statistic"}}">{{lang "course.attendance"}}</a>
       </li>
       {{/#auth.isTeacher}}
 

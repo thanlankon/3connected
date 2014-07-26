@@ -43,6 +43,10 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       updateCourseAttendance: {
         url: '/updateCourseAttendance',
         httpMethod: 'POST'
+      },
+      statisticCourseAttendance: {
+        url: '/statisticCourseAttendance',
+        httpMethod: 'GET'
       }
     }
   };
@@ -141,6 +145,55 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
         serviceResponse.error = error;
       } else {
         serviceResponse.message = 'course.updateCourseAttendance.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  service.statisticCourseAttendance = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var courseId = 0;
+    if (req.query.filters) {
+      for (var i = 0, len = req.query.filters.length; i < len; i++) {
+        if (req.query.filters[i].field == 'courseId') {
+          courseId = req.query.filters[i].value;
+        }
+      }
+    }
+
+
+    if (courseId == 0) {
+      serviceResponse.error = {
+        code: 'ENTITY.NOT_FOUND'
+      };
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+      return;
+    }
+
+    AttendanceModel.statisticCourseAttendance(courseId, function (error, courseAttendance, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.statisticCourseAttendance.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.data = null;
+        } else {
+          serviceResponse.data = {
+            items: courseAttendance,
+            total: courseAttendance.length
+          };
+        }
       }
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
