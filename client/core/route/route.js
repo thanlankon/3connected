@@ -7,7 +7,6 @@ define('core.route.Route', function (module, require) {
   var originalSetState = Route.setState;
 
   Route.setState = function () {
-    console.log('set state');
     originalSetState.apply(this, arguments);
 
     if (Route.onChange) Route.onChange();
