@@ -124,9 +124,20 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       }
     }
 
-    Route.attr({
-      module: 'home'
-    });
+    var Role = require('enum.Role');
+
+    Route.removeAttr('action');
+    Route.removeAttr('id');
+
+    if (Role.isStudentOrParent(component.authentication.accountRole)) {
+      Route.attr({
+        module: 'notification'
+      });
+    } else {
+      Route.attr({
+        module: 'news'
+      });
+    }
   };
 
   component.static.switchForm = function (formId) {
