@@ -54,7 +54,11 @@ define.form('component.form.manage-course.CourseAttendanceStatistic', function (
       ];
 
     var gridConfig = {
-      columns: gridColumns
+      columns: gridColumns,
+      singleSelection: true,
+      filterable: false,
+      sortable: false,
+      pageable: false,
     };
 
     return gridConfig;
