@@ -98,6 +98,8 @@ error.create.unknown = Error during creation!
 error.update.unknown = Error during updating!
 error.destroy.unknown = Error during deleting!
 
+error.ajax = Error during performing action! Please try again.
+
 # validate
 
 validate.required = {{attributeName}} is required
