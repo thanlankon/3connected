@@ -8,10 +8,11 @@ define.component('component.Login', function (component, require, Util, Lang, jQ
 
   component.login = function () {
     var loginData = Util.Object.pick(this.data.attr(), ['username', 'password', 'role', 'remember']);
-
-    loginData.registrationId = 'abcdef12345#$#$';
+    var remember = loginData.remember;
 
     var AuthenticationProxy = require('proxy.Authentication');
+
+    jQuery.removeCookie('accessToken');
 
     AuthenticationProxy.login(loginData, this.proxy(loginDone));
 
@@ -21,9 +22,13 @@ define.component('component.Login', function (component, require, Util, Lang, jQ
       var loginData = serviceResponse.getData();
       var accessToken = loginData.accessToken;
 
-      jQuery.cookie('accessToken', accessToken, {
-        expires: 7
-      });
+      if (remember) {
+        jQuery.cookie('accessToken', accessToken, {
+          expires: 7
+        });
+      } else {
+        jQuery.cookie('accessToken', accessToken);
+      }
 
       window.location.href = window.location.origin;
     }

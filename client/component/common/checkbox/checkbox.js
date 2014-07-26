@@ -40,8 +40,6 @@ define.component('component.common.Checkbox', function (component, require, Util
 
     checkboxOptions = Util.Object.extend(checkboxOptions, componentAttributes);
 
-    console.log(checkboxOptions);
-
     checkbox.jqxCheckBox(checkboxOptions);
 
     // tracking changes of input

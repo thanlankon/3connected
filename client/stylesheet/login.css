@@ -126,6 +126,20 @@
 .login-form .form-content .data.password .jqx-input-metro {
   background-image: url("/resource/resource/img/common/password.png");
 }
+.login-form .form-content .checkbox {
+  float: left;
+  margin-top: 30px;
+  position: relative;
+}
+.login-form .form-content .checkbox .text {
+  font-size: 14px;
+  position: absolute;
+  top: -3px;
+  left: 30px;
+}
+.login-form .form-content .checkbox .jqx-checkbox-default-metro {
+  border: 1px solid #2b579a !important;
+}
 .login-form .form-content #button-login {
   float: right;
   border: 1px solid #555;
@@ -140,6 +154,8 @@
 .login-form .form-content #button-login:hover {
   background-color: #eee;
 }
-.login-form .form-content #button-login:active {
+.login-form .form-content #button-login:active,
+.login-form .form-content #button-login:focus {
   background-color: #ddd;
+  outline: none;
 }

@@ -176,6 +176,25 @@
       }
     }
 
+    .checkbox {
+      float: left;
+      margin-top: 30px;
+
+      position: relative;
+
+      .text {
+        font-size: 14px;
+        position: absolute;
+
+        top: -3px;
+        left: 30px;
+      }
+
+      .jqx-checkbox-default-metro {
+        border: 1px solid #2b579a !important;
+      }
+    }
+
     #button-login {
       float: right;
 
@@ -196,8 +215,10 @@
         background-color: #eee;
       }
 
-      &:active {
+      &:active, &:focus {
         background-color: #ddd;
+
+        outline: none;
       }
     }
 
