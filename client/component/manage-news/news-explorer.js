@@ -21,6 +21,7 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
 
       var categories = serviceResponse.getData();
 
+      this.newsServiceProxy = null;
       this.refreshTreeCategories(categories.items);
     }
   };
