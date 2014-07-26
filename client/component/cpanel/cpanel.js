@@ -90,7 +90,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
   };
 
   component.static.bindRoute = function () {
-    Route.bind('change', this.proxy(this.static.mapRoute));
+    Route.onChange = this.proxy(this.static.mapRoute);
   };
 
   component.static.mapRoute = function () {

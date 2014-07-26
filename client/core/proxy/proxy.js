@@ -74,7 +74,13 @@ define('core.proxy.Proxy', function (module, require) {
   jQuery(document).ajaxError(function (error) {
     console.log(error);
 
-    alert('ajax error');
+    var MsgBox = require('component.common.MsgBox');
+    var Lang = require('core.lang.Lang');
+
+    MsgBox.alert({
+      text: Lang.get('error.ajax'),
+      icon: 'error'
+    });
   });
 
   //  var ProxyUtil = {
