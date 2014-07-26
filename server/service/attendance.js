@@ -43,6 +43,10 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       updateCourseAttendance: {
         url: '/updateCourseAttendance',
         httpMethod: 'POST'
+      },
+      statisticCourseAttendance: {
+        url: '/statisticCourseAttendance',
+        httpMethod: 'GET'
       }
     }
   };
@@ -141,6 +145,36 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
         serviceResponse.error = error;
       } else {
         serviceResponse.message = 'course.updateCourseAttendance.success';
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
+  service.statisticCourseAttendance = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var courseId = req.query.courseId;
+
+    AttendanceModel.statisticCourseAttendance(courseId, function (error, courseAttendance, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'course.statisticCourseAttendance.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'course.statisticCourseAttendance.notFound';
+        } else {
+          serviceResponse.data = courseAttendance;
+        }
       }
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);

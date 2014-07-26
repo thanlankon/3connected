@@ -146,6 +146,105 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
 
   };
 
+  model.statisticCourseAttendance = function (courseId, callback) {
+
+    var queryChainer = Entity.queryChainer();
+
+    queryChainer.add(Course.find({
+      where: {
+        courseId: courseId
+      },
+      include: [{
+        model: CourseStudent,
+        as: 'courseStudents',
+        include: [{
+          model: Student,
+          as: 'student'
+        }]
+      }, {
+        model: Schedule,
+        as: 'schedules',
+        include: [{
+          model: Attendance,
+          as: 'attendances'
+        }]
+      }]
+    }));
+
+    queryChainer.run()
+      .success(function (results) {
+        var courseAttendance = results[0];
+
+        if (courseAttendance == null) {
+          callback(null, null, true);
+
+          return;
+        }
+
+        var totalSlots = courseAttendance.schedules.length;
+        var schedules = courseAttendance.schedules;
+        var courseStudent = courseAttendance.courseStudents;
+
+        if (courseStudent == null) {
+          callback(null, null, true);
+
+          return;
+        }
+
+        var attendances = []
+        for (var i = 0, len = schedules.length; i < len; i++) {
+          var attendance = schedules[i].attendances;
+          for (var j = 0, lenj = attendance.length; j < lenj; j++) {
+            attendances.push({
+              studentId: attendance[j].studentId,
+              status: attendance[j].status
+            });
+          }
+        }
+
+        var studentAttendace = [];
+        for (var i = 0, len = courseStudent.length; i < len; i++) {
+
+          var student = courseStudent[i].student;
+          var totalPresent = 0;
+          var totalAbsent = 0;
+          for (var j = 0, lenj = attendances.length; j < lenj; j++) {
+
+            var attendance = attendances[j];
+            if (student.studentId == attendance.studentId) {
+              if (attendances[j].status == AttendanceStatus.PRESENT) {
+                totalPresent += 1
+              } else if (attendances[j].status == AttendanceStatus.ABSENT) {
+                totalAbsent += 1
+              }
+            }
+          }
+
+          var percentAbsent = 0;
+          percentAbsent = totalAbsent / totalSlots * 100;
+          percentAbsent = percentAbsent.toFixed(2);
+
+          studentAttendace.push({
+            studentId: student.studentId,
+            firstName: student.firstName,
+            lastName: student.lastName,
+            totalAbsent: totalAbsent,
+            totalPresent: totalPresent,
+            totalSlots: totalSlots,
+            percentAbsent: percentAbsent
+          });
+        }
+
+
+        callback(null, studentAttendace, false);
+      })
+      .error(function (error) {
+        callback(error);
+      });
+
+  };
+
+
   model.updateCourseAttendance = function (scheduleId, attendanceData, userId, callback) {
 
     if (!attendanceData || !attendanceData.length) {
