@@ -21,7 +21,9 @@ define.form = function (id, definer) {
 
     definer(component, require, Util, Lang, jQuery);
 
-    if (component.formType == component.FormType.FORM || component.formType == component.FormType.Form.LIST) {
+    if (component.base) {
+      //
+    } else if (component.formType == component.FormType.FORM || component.formType == component.FormType.Form.LIST) {
       component.base = 'component.Form';
 
       component.isDialog = component.static.isDialog = false;

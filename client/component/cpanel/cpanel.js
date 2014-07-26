@@ -65,7 +65,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       elm.parent().parent().parent().find('#location').text(elm.text());
     });
 
-    jQuery(document).mousedown(function(event) {
+    jQuery(document).mousedown(function (event) {
       var elm = jQuery(event.target);
 
       if (elm.closest('#expander').size() == 0 && jQuery('#expander').hasClass('active')) {
@@ -80,6 +80,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     }
 
     Route.ready();
+    this.static.mapRoute();
   };
 
   component.static.formUrlMaps = [];
@@ -118,10 +119,14 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
           this.static.switchForm(formUrlMap.formId);
           this.static.updateNavigator();
 
-          break;
+          return;
         }
       }
     }
+
+    Route.attr({
+      module: 'home'
+    });
   };
 
   component.static.switchForm = function (formId) {
