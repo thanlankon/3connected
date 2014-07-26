@@ -1,36 +1,205 @@
 .login-form {
-  margin: 80px auto;
-  width: 300px;
+
+  background: #fefefe;
 
   .title {
     margin-bottom: 20px;
-    font-size: 15px;
+
+    background: rgba(254, 254, 254, 0.99);
+
+    position: relative;
+
+    .app-title {
+      font-size: 17px;
+
+      color: #000;
+      text-shadow: 1px 1px 1px #eee;
+
+      position: absolute;
+      left: 150px;
+      top: 15px;
+    }
+
+    .school-logo {
+      width: 90px;
+      height: 70px;
+
+      position: absolute;
+      left: 40px;
+      top: 5px;
+
+      background: center center no-repeat;
+      background-image: url("@{url-img}/school/logo.png");
+
+      background-size: 90px 60px;
+    }
 
     .school-name {
-      margin-top: 5px;
       font-weight: bold;
-      font-size: 13px;
+      font-size: 15px;
+
+      color: #000;
+      text-shadow: 1px 1px 1px #eee;
+
+      position: absolute;
+      left: 150px;
+      top: 45px;
     }
   }
 
-  #button-login {
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    width: 100%;
+    height: 100%;
+
+    td {
+      width: 50% !important;
+
+      position: relative;
+
+      &.left-size {
+        .animation-box {
+          position: absolute;
+
+          top: 50%;
+          margin-top: -250px;
+          right: 100px;
+        }
+
+        .title {
+          position: absolute;
+
+          top: 50%;
+          margin-top: -70px;
+          right: 50px;
+
+          width: 420px;
+          height: 80px;
+
+          box-sizing: border-box;
+        }
+      }
+
+      &.right-size {
+        .form-content {
+          position: absolute;
+
+          top: 50%;
+          margin-top: -200px;
+          left: 100px;
+        }
+      }
+    }
+  }
+
+  .animation-box {
+    width: 470;
+    height: 392;
+    overflow: hidden;
+
+    float: left;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      background: #fefefe;
+
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+  }
+
+  .form-content {
     float: right;
+    width: 300px;
 
-    border: 1px solid #555;
-    padding: 3px 10px;
+    margin-top: 0px;
+    padding-top: 70px;
+    margin-right: 10px;
 
-    font-size: 12px;
+    .app-logo {
+      position: absolute;
+      width: 250px;
+      height: 50px;
 
-    margin-top: 20px;
+      left: 0;
+      top: 10px;
 
-    cursor: pointer;
-
-    &:hover {
-      background-color: #eee;
+      background: left center no-repeat;
+      background-image: url("@{url-img}/logo/logo-with-name.png");
     }
 
-    &:active {
-      background-color: #ddd;
+    .data {
+      .jqx-dropdownlist-state-normal-metro {
+        width: 100% !important;
+        box-sizing: border-box;
+
+        border: 1px solid #2b579a !important;
+        border-left-width: 5px !important;
+      }
+
+      .jqx-dropdownlist-state-hove {
+        background-color: #fff !important;
+      }
+
+      .jqx-dropdownlist-state-selected {
+        background-color: #fff !important;
+        border-color: #173c74 !important;
+      }
+
+      .jqx-input-metro {
+        box-sizing: border-box;
+
+        border: 1px solid #2b579a !important;
+        border-left-width: 5px !important;
+
+        padding-left: 30px;
+        background: 5px center no-repeat;
+
+        background-size: 16px 16px;
+
+        &:focus {
+          border-color: #173c74 !important;
+        }
+      }
+
+      &.username .jqx-input-metro {
+        background-image: url("@{url-img}/common/username.png");
+      }
+      &.password .jqx-input-metro {
+        background-image: url("@{url-img}/common/password.png");
+      }
     }
+
+    #button-login {
+      float: right;
+
+      border: 1px solid #555;
+      padding: 4px 15px;
+      padding-left: 30px;
+
+      background: #fff 5px center no-repeat;
+      background-image: url("@{url-img}/common/signin.png");
+
+      font-size: 12px;
+
+      margin-top: 30px;
+
+      cursor: pointer;
+
+      &:hover {
+        background-color: #eee;
+      }
+
+      &:active {
+        background-color: #ddd;
+      }
+    }
+
   }
 }

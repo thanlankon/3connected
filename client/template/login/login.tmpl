@@ -1,38 +1,58 @@
 <template id="login">
 
-  <div id="cpanel" class="cpanel">
+  <div id="cpanel" class="cpanel login-form">
 
-    <div class="form-content login-form">
+    <table>
+      <tr>
+        <td class="left-size">
 
-      <div class="title">
-        <div class="app-title">{{lang 'app.title'}}</div>
-        <div class="school-name">{{lang 'app.school'}}</div>
-      </div>
+          <div class="animation-box">
+            <iframe src="resource/resource/login/animation.html">
+            </iframe>
+          </div>
 
-      <div class="label">
-        {{lang "account.username"}}:
-      </div>
-      <div class="data input force-full-width">
-        {{component.input attribute="username" height="30px" }}
-      </div>
-      <div class="label">
-        {{lang "account.password"}}:
-      </div>
-      <div class="data input data input force-full-width">
-        {{component.input attribute="password" height="30px" passwordInput="true" }}
-      </div>
-      <div class="label">
-        {{lang "account.role"}}:
-      </div>
-      <div class="data dropdown-list">
-        {{component.roleDropDownList attribute="role" height="30px"}}
-      </div>
+          <div class="title">
+            <div class="school-logo" id="school-logo"></div>
+            <div class="app-title">{{lang 'app.title'}}</div>
+            <div class="school-name">{{lang 'app.school'}}</div>
+          </div>
 
-      <div id="button-login">
-        Login
-      </div>
+        </td>
+        <td class="right-size">
 
-    </div>
+          <div class="form-content">
+
+            <div class="app-logo" id="app-logo">
+            </div>
+
+            <div class="label">
+              {{lang "account.username"}}:
+            </div>
+            <div class="data input force-full-width username">
+              {{component.input attribute="username" height="30px" }}
+            </div>
+            <div class="label">
+              {{lang "account.password"}}:
+            </div>
+            <div class="data input force-full-width password">
+              {{component.input attribute="password" height="30px" passwordInput="true" }}
+            </div>
+            <div class="label">
+              {{lang "account.role"}}:
+            </div>
+            <div class="data dropdown-list force-full-width">
+              {{component.roleDropDownList attribute="role" height="30px"}}
+            </div>
+
+            <button id="button-login" type="button">
+              Login
+            </button>
+
+          </div>
+
+        </td>
+      </tr>
+    </table>
 
     <div class="footer">
       <div class="copyright">
