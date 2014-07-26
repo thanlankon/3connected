@@ -6,9 +6,9 @@ define.proxy('proxy.Attendance', function (proxy, require) {
 
   proxy.updateCourseAttendance = 'POST api/attendance/updateCourseAttendance';
 
-  proxy.statisticCourseAttendance = 'POST api/attendance/statisticCourseAttendance';
+  proxy.statisticCourseAttendance = 'GET api/attendance/statisticCourseAttendance';
 
-  proxy.StatisticCourseAttendanceEntityMap = [
+  proxy.EntityMap = [
     {
       name: 'studentId',
       type: 'number'
@@ -25,10 +25,10 @@ define.proxy('proxy.Attendance', function (proxy, require) {
       name: 'totalPresent',
       type: 'number'
     }, {
-      name: 'percentAbsent',
-      type: 'string'
-    }, {
       name: 'totalSlots',
+      type: 'number'
+    }, {
+      name: 'percentAbsent',
       type: 'number'
     }
 

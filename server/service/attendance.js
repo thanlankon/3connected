@@ -160,7 +160,19 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       data: null
     };
 
-    var courseId = req.query.courseId;
+    var courseId = 0;
+    if (req.query.filters) {
+      for (var i = 0, len = req.query.filters.length; i < len; i++) {
+        if (req.query.filters[i].field == 'courseId') {
+          courseId = req.query.filters[i].value;
+        }
+      }
+    }
+
+
+    if (courseId == 0) {
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    }
 
     AttendanceModel.statisticCourseAttendance(courseId, function (error, courseAttendance, isNotFound) {
       if (error) {
@@ -171,9 +183,12 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
           serviceResponse.error = {
             code: 'ENTITY.NOT_FOUND'
           };
-          serviceResponse.message = 'course.statisticCourseAttendance.notFound';
+          serviceResponse.data = null;
         } else {
-          serviceResponse.data = courseAttendance;
+          serviceResponse.data = {
+            items: courseAttendance,
+            total: courseAttendance.length
+          };
         }
       }
 

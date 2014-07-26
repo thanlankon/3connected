@@ -10,13 +10,15 @@ define.form('component.form.manage-course.CourseAttendanceStatistic', function (
 
   form.ServiceProxy = {
     proxy: require('proxy.Attendance'),
-    method: 'statisticCourseAttendance',
-    entityMap: 'StatisticCourseAttendanceEntityMap'
+    method: 'statisticCourseAttendance'
   };
 
-  form.tmpl = 'form.manage-course.list-course';
+  form.tmpl = 'form.manage-course.course-attendance-statistic';
 
   form.formType = form.FormType.Form.LIST;
+
+  // the config used for exporting grid data
+  form.exportConfig = require('export.AttendanceStatistic');
 
   // grid config
   form.gridConfig = function () {
@@ -61,12 +63,25 @@ define.form('component.form.manage-course.CourseAttendanceStatistic', function (
 
 
   form.refreshData = function (data) {
-    var Role = require('enum.Role');
+    var courseId = data.id;
 
-    if (Role.isTeacher(form.authentication.accountRole)) {
-      this.grid.setFilterConditions('lectureId', form.authentication.userInformationId);
+    this.grid.setFilterConditions('courseId', courseId);
+
+    var CourseProxy = require('proxy.Course');
+
+    CourseProxy.findOne({
+      courseId: courseId
+    }, this.proxy(findOneDone));
+
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var course = serviceResponse.getData();
+
+      this.data.attr({
+        course: course
+      });
     }
-
   }
 
 });
