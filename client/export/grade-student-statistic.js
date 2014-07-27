@@ -16,6 +16,9 @@ define('export.GradeStudentStatistic', function (module, require) {
       subjectName: {
         width: 30
       },
+      termName: {
+        width: 30
+      },
       numberOfCredits: {
         width: 15
       },

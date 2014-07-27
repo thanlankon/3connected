@@ -17,6 +17,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var Entity = require('core.model.Entity');
   var GradeHistory = require('model.entity.GradeHistory');
   var Staff = require('model.entity.Staff');
+  var Term = require('model.entity.Term');
 
   var GradeStatus = require('enum.GradeStatus');
   var GradeConstant = require('constant.Grade');
@@ -351,7 +352,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
               if (minimumGrade > 0 && minimumGrade > grade.value) {
                 resultSubject = GradeStatus.FAIL;
               }
-
+              k = lenk - 1;
               finalSubjectGrade = finalSubjectGrade + parseFloat(gradeCategory.weight) * parseFloat(grade.value);
             }
           }
@@ -429,7 +430,10 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         where: {
           studentId: studentId
         }
-      }],
+      }, {
+        model: Term,
+        as: 'term',
+        }],
       order: 'courseId'
     })
       .success(function (course) {
@@ -512,7 +516,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
               if (minimumGrade > 0 && minimumGrade > grade.value) {
                 resultSubject = GradeStatus.FAIL;
               }
-
+              k = lenk - 1;
               finalSubjectGrade = finalSubjectGrade + parseFloat(gradeCategory.weight) * parseFloat(grade.value);
             }
           }
@@ -544,6 +548,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         termGradeStudent.push({
           courseId: course[i].courseId,
           courseName: course[i].courseName,
+          termName: course[i].term.termName,
           numberOfCredits: course[i].subjectVersion.subject.numberOfCredits,
           subjectName: course[i].subjectVersion.subject.subjectName,
           finalSubjectGrade: finalSubjectGrade,

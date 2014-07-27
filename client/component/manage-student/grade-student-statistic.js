@@ -80,6 +80,9 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
       text: Lang.get('course.subjectName'),
       dataField: 'subjectName',
     }, {
+      text: Lang.get('term.termName'),
+      dataField: 'termName',
+    }, {
       text: Lang.get('course.numberOfCredits'),
       dataField: 'numberOfCredits',
 

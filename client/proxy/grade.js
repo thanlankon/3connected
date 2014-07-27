@@ -26,7 +26,7 @@ define.proxy('proxy.Grade', function (proxy, require) {
       map: 'courseName'
     }, {
       name: 'numberOfCredits',
-      type: 'number',
+      type: 'string',
       map: 'numberOfCredits'
     }, {
       name: 'subjectName',
@@ -44,6 +44,10 @@ define.proxy('proxy.Grade', function (proxy, require) {
       name: 'statistic',
       type: 'string',
       map: 'statistic'
+    }, {
+      name: 'termName',
+      type: 'string',
+      map: 'termName'
     }
   ];
 
