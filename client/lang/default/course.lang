@@ -118,6 +118,10 @@ attendance.percentAttendance = Percent absent
 
 grade.nameCode = {{name}} ({{code}})
 
+grade.student.studentCode = {{.student.studentCode}}
+grade.student.firstName = {{.student.firstName}}
+grade.student.lastName = {{.student.lastName}}
+
 grade.editGrade = Edit grade
 grade.updateChanges = Update
 grade.rejectChanges = Cancel

@@ -128,7 +128,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
           gradeCategoryId: gradeCategory.gradeCategoryId,
           gradeCategoryCode: gradeCategory.gradeCategoryCode,
           gradeCategoryName: gradeCategory.gradeCategoryName,
-          weight: gradeCategory.weight
+          weight: gradeCategory.weight,
+          minimumGrade: gradeCategory.minimumGrade
         });
       }
 
