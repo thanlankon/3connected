@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Statistic attendance component
+ * Creator         : UayLU
+ * Created date    : 2014/07/26
+ */
 define.form('component.form.manage-course.CourseAttendanceStatistic', function (form, require, Util, Lang) {
 
   form.urlMap = {

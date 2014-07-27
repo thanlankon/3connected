@@ -1,3 +1,9 @@
+/*
+ * System          : 3connected
+ * Component       : Statistic grade component
+ * Creator         : UayLU
+ * Created date    : 2014/07/27
+ */
 define.form('component.form.manage-student.grade-student-statistic', function (form, require, Util, Lang) {
 
   form.urlMap = {
