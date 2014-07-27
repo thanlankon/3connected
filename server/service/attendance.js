@@ -171,7 +171,11 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
 
 
     if (courseId == 0) {
+      serviceResponse.error = {
+        code: 'ENTITY.NOT_FOUND'
+      };
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+      return;
     }
 
     AttendanceModel.statisticCourseAttendance(courseId, function (error, courseAttendance, isNotFound) {

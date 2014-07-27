@@ -326,11 +326,15 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         var courseGradeCategories = course[i].subjectVersion.gradeCategories;
         var gradeStudent = [];
         var finalSubjectGrade = 0;
+        var totalWeightGradeCategory = 0;
+        var isFinish = false;
 
         for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
 
           var gradeCategory = courseGradeCategories[j];
           var minimumGrade = gradeCategory.minimumGrade;
+          totalWeightGradeCategory = totalWeightGradeCategory + parseFloat(gradeCategory.weight);
+          isFinish = false;
 
           for (var k = 0, lenk = grades.length; k < lenk; k++) {
 
@@ -338,25 +342,33 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
             if (gradeCategory.gradeCategoryId == grade.gradeCategoryId && course[i].courseId == grade.courseId) {
 
+              isFinish = true;
               if (minimumGrade > 0 && minimumGrade > grade.value) {
                 resultSubject = GradeStatus.FAIL;
               }
 
-              finalSubjectGrade = finalSubjectGrade + (parseFloat(gradeCategory.weight) * parseFloat(grade.value) / 100);
+              finalSubjectGrade = finalSubjectGrade + parseFloat(gradeCategory.weight) * parseFloat(grade.value);
             }
           }
 
         }
 
+        if (totalWeightGradeCategory != 0) finalSubjectGrade = finalSubjectGrade / totalWeightGradeCategory;
+
         totalCredits = totalCredits + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         totalGrade = totalGrade + finalSubjectGrade * parseInt(course[i].subjectVersion.subject.numberOfCredits);
         finalSubjectGrade = finalSubjectGrade.toFixed(2);
+
         if (finalSubjectGrade < 5) {
           resultSubject = GradeStatus.FAIL;
         }
 
-        if (resultSubject == GradeStatus.FAIL) {
+        if (resultSubject == GradeStatus.FAIL && isFinish == true) {
           totalCreditFailed = totalCreditFailed + parseInt(course[i].subjectVersion.subject.numberOfCredits);
+        }
+
+        if (isFinish == false) {
+          resultSubject = 3;
         }
 
         termGradeStudent.push({
