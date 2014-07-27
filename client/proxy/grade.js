@@ -40,6 +40,10 @@ define.proxy('proxy.Grade', function (proxy, require) {
       name: 'resultSubject',
       type: 'string',
       map: 'resultSubject'
+    }, {
+      name: 'statistic',
+      type: 'string',
+      map: 'statistic'
     }
   ];
 

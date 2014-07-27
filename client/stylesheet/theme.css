@@ -63,6 +63,9 @@
 .jqx-grid-metro .grade-status-unfinished {
   color: #555;
 }
+.jqx-grid-metro .statistic {
+  font-weight: bold;
+}
 .jqx-fill-state-pressed-metro {
   border-color: #17396d;
   color: #fff;
