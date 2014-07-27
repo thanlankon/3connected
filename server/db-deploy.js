@@ -237,7 +237,7 @@ define('db.Deploy', function (module, require) {
         .add(
           Staff, 'create', [{
             staffCode: 'HoangTV',
-            firstName: 'Hoang',
+            firstName: 'Hoàng',
             lastName: 'Trần Văn',
             departmentId: 2,
             gender: 1,
