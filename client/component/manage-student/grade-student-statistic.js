@@ -152,13 +152,13 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
   form.processData = function (data, originalData) {
     var accumulationGrade = originalData.data && originalData.data.accumulationGrade;
     var totalCredits = originalData.data && originalData.data.totalCredits;
-    var totalCreditFailed = originalData.data && originalData.data.totalCreditFailed;
-    var totalCreditCurrentLearn = originalData.data && originalData.data.totalCreditCurrentLearn;
+    var totalCreditFail = originalData.data && originalData.data.totalCreditFail;
+    var totalCreditUnfinished = originalData.data && originalData.data.totalCreditUnfinished;
 
     this.data.attr('accumulationGrade', accumulationGrade);
     this.data.attr('totalCredits', totalCredits);
-    this.data.attr('totalCreditFailed', totalCreditFailed);
-    this.data.attr('totalCreditCurrentLearn', totalCreditCurrentLearn);
+    this.data.attr('totalCreditFail', totalCreditFail);
+    this.data.attr('totalCreditUnfinished', totalCreditUnfinished);
   };
 
 

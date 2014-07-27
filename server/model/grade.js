@@ -271,7 +271,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
           model: GradeCategory,
           as: 'gradeCategories'
         }]
-      }]
+      }],
+      order: 'courseId'
     })
       .success(function (course) {
         if (course == null) {
@@ -428,7 +429,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         where: {
           studentId: studentId
         }
-      }]
+      }],
+      order: 'courseId'
     })
       .success(function (course) {
         if (course == null) {
@@ -557,6 +559,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         accumulationGrade = totalGradeNotFailed / (totalCredits - totalCreditFail - totalCreditUnfinished);
       }
       averageGrade = averageGrade.toFixed(2);
+      accumulationGrade = accumulationGrade.toFixed(2);
 
       if (isNaN(averageGrade)) averageGrade = null;
 

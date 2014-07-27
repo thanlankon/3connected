@@ -206,7 +206,7 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       if (termGradeStudent) {
         serviceResponse.data = {
           items: termGradeStudent.summaryGradeStudent,
-          totalCreditFailed: termGradeStudent.totalCreditFailed,
+          totalCreditFailed: termGradeStudent.totalCreditFail,
           totalCredits: termGradeStudent.totalCredits,
           averageGrade: termGradeStudent.summaryGrade,
           total: termGradeStudent.summaryGradeStudent.length
@@ -248,11 +248,11 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         } else {
           serviceResponse.data = {
             items: statisticGradeStudent.summaryGradeStudent,
-            totalCreditFailed: statisticGradeStudent.totalCreditFailed,
+            totalCreditFail: statisticGradeStudent.totalCreditFail,
             totalCredits: statisticGradeStudent.totalCredits,
             averageGrade: statisticGradeStudent.averageGrade,
             accumulationGrade: statisticGradeStudent.accumulationGrade,
-            totalCreditCurrentLearn: statisticGradeStudent.totalCreditCurrentLearn,
+            totalCreditUnfinished: statisticGradeStudent.totalCreditUnfinished,
             total: statisticGradeStudent.summaryGradeStudent.length
           };
           ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
