@@ -1,0 +1,60 @@
+<template id="form.manage-student.grade-student-statistic">
+
+  <div class="toolbar">
+    <ul>
+      <li class="icon back">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'student.gradStatistic'}}</span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'student.studentCode'}}: <b>{{student.studentCode}}</b></span>
+      </li>
+
+      <li class="divider">
+      </li>
+
+      <li class="text">
+        <span>{{lang 'grade.accumulationGrade'}}: <b>{{accumulationGrade}}</b></span>
+      </li>
+
+
+      <li class="text">
+        <span>{{lang 'grade.totalCreditFailed'}}: <b>{{totalCreditFailed}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'grade.totalCreditCurrentLearn'}}: <b>{{totalCreditCurrentLearn}}</b></span>
+      </li>
+
+      <li class="text">
+        <span>{{lang 'grade.totalCredits'}}: <b>{{totalCredits}}</b></span>
+      </li>
+
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang "export"}}</span>
+      </li>
+
+      <li class="right component">
+        {{component.gridColumnsChooser}}
+      </li>
+      <li class="right component">
+        {{component.gridPager}}
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="content">
+
+
+    <div id="grid-summary-grade" data-component-role="grid"></div>
+
+  </div>
+
+</template>

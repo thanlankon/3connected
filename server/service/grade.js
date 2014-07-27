@@ -57,6 +57,10 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         },
         url: '/getSumaryGradeMobile',
         httpMethod: 'GET'
+      },
+      statisticGradeStudent: {
+        url: '/statisticGradeStudent',
+        httpMethod: 'GET'
       }
     }
   };
@@ -212,5 +216,50 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
       }
     });
   }
+
+  service.statisticGradeStudent = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var studentId = 0;
+
+    if (req.query.filters) {
+      for (var i = 0, len = req.query.filters.length; i < len; i++) {
+        if (req.query.filters[i].field == 'studentId') {
+          studentId = req.query.filters[i].value;
+        }
+      }
+    }
+
+    GradeModel.statisticGradeStudent(studentId, function (error, statisticGradeStudent, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'grade.statisticGradeStudent.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'grade.statisticGradeStudent.notFound';
+        } else {
+          serviceResponse.data = {
+            items: statisticGradeStudent.summaryGradeStudent,
+            totalCreditFailed: statisticGradeStudent.totalCreditFailed,
+            totalCredits: statisticGradeStudent.totalCredits,
+            averageGrade: statisticGradeStudent.averageGrade,
+            accumulationGrade: statisticGradeStudent.accumulationGrade,
+            totalCreditCurrentLearn: statisticGradeStudent.totalCreditCurrentLearn,
+            total: statisticGradeStudent.summaryGradeStudent.length
+          };
+          ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+        }
+      }
+    });
+
+  };
 
 });
