@@ -43,6 +43,7 @@
 .msgbox .content .icon {
   width: 50px;
   background: 0px center no-repeat;
+  background-size: 30px 30px;
 }
 .msgbox .content .error {
   background-image: url('img/error.png');

@@ -105,6 +105,27 @@
 .cpanel .header .left-section ul.navigator a.course {
   background-image: url("/resource/resource/img/navigator/course.png");
 }
+.cpanel .header .left-section ul.navigator a.password {
+  background-image: url("/resource/resource/img/navigator/key.png");
+}
+.cpanel .header .left-section ul.navigator a.news {
+  background-image: url("/resource/resource/img/navigator/news.png");
+}
+.cpanel .header .left-section ul.navigator a.category {
+  background-image: url("/resource/resource/img/navigator/category.png");
+}
+.cpanel .header .left-section ul.navigator a.term {
+  background-image: url("/resource/resource/img/navigator/term.png");
+}
+.cpanel .header .left-section ul.navigator a.subject {
+  background-image: url("/resource/resource/img/navigator/subject.png");
+}
+.cpanel .header .left-section ul.navigator a.historyAttendance {
+  background-image: url("/resource/resource/img/navigator/historyAttendance.png");
+}
+.cpanel .header .left-section ul.navigator a.historyGrade {
+  background-image: url("/resource/resource/img/navigator/historyGrade.png");
+}
 .cpanel .header .left-section ul.navigator li.divider {
   border-top: 1px solid #2b579a;
 }
