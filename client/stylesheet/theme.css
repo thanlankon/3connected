@@ -18,6 +18,9 @@
   color: #fff;
   background-color: #2b579a;
 }
+.jqx-grid-metro [role="row"].selected [role="gridcell"] .grade-status {
+  color: #fff !important;
+}
 .jqx-grid-metro .schedule-date {
   font-weight: bold;
 }
@@ -56,6 +59,9 @@
 }
 .jqx-grid-metro .grade-status-fail {
   color: red;
+}
+.jqx-grid-metro .grade-status-unfinished {
+  color: #555;
 }
 .jqx-fill-state-pressed-metro {
   border-color: #17396d;

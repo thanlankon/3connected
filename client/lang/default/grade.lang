@@ -28,3 +28,4 @@ grade.totalCreditFailed = Total fail credits
 
 grade.status.pass = Pass
 grade.status.fail = Fail
+grade.status.unfinished = Unfinished

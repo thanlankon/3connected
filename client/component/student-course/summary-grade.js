@@ -58,6 +58,11 @@ define.form('component.form.summary-grade.summary-grade', function (form, requir
           text = '<span class="grade-status grade-status-fail">' + text + '</span>';
 
           break;
+        case GradeStatus.UNFINISHED:
+          var text = Lang.get('grade.status.unfinished');
+          text = '<span class="grade-status grade-status-unfinished">' + text + '</span>';
+
+          break;
         }
 
         return text;

@@ -19,6 +19,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var Staff = require('model.entity.Staff');
 
   var GradeStatus = require('enum.GradeStatus');
+  var GradeConstant = require('constant.Grade');
 
   model.Entity = Grade;
 
@@ -359,7 +360,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         totalGrade = totalGrade + finalSubjectGrade * parseInt(course[i].subjectVersion.subject.numberOfCredits);
         finalSubjectGrade = finalSubjectGrade.toFixed(2);
 
-        if (finalSubjectGrade < 5) {
+        if (finalSubjectGrade < GradeConstant.PASS_GRADE) {
           resultSubject = GradeStatus.FAIL;
         }
 
@@ -368,7 +369,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         }
 
         if (isFinish == false) {
-          resultSubject = 3;
+          resultSubject = GradeStatus.UNFINISHED;
         }
 
         termGradeStudent.push({
@@ -514,7 +515,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
         if (totalWeightGradeCategory != 0) finalSubjectGrade = finalSubjectGrade / totalWeightGradeCategory;
 
-        if (finalSubjectGrade < 5) {
+        if (finalSubjectGrade < GradeConstant.PASS_GRADE) {
           resultSubject = GradeStatus.FAIL;
         }
 
@@ -523,7 +524,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         }
 
         if (isFinish == false) {
-          resultSubject = 3;
+          resultSubject = GradeStatus.UNFINISHED;
           totalCreditCurrentLearn = totalCreditCurrentLearn + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         }
 
