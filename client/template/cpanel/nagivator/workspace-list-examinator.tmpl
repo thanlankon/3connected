@@ -1,20 +1,20 @@
 <template id="cpanel.workspace-list.examinator">
 
   <li>
-    <a href="{{url module="manage-course"}}">{{lang "manage.course"}}</a>
+    <a href="{{url module="manage-course"}}" class="icon course">{{lang "manage.course"}}</a>
   </li>
   <li>
-    <a href="{{url module="history" action="grade"}}">{{lang "manage.history.grade"}}</a>
+    <a href="{{url module="history" action="grade"}}" class="icon historyGrade">{{lang "manage.history.grade"}}</a>
   </li>
   <li class="divider"></li>
 
   <li>
-    <a href="{{url module="news"}}">{{lang "manage.news"}}</a>
+    <a href="{{url module="news"}}" class="icon news">{{lang "manage.news"}}</a>
   </li>
 
   <li class="divider"></li>
 
   <li>
-    <a href="{{url module="profile" action="change-password"}}">{{lang "profile.changePassword"}}</a>
+    <a href="{{url module="profile" action="change-password"}}" class="icon password">{{lang "profile.changePassword"}}</a>
   </li>
 </template>

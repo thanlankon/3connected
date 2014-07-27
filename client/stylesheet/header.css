@@ -126,6 +126,18 @@
 .cpanel .header .left-section ul.navigator a.historyGrade {
   background-image: url("/resource/resource/img/navigator/historyGrade.png");
 }
+.cpanel .header .left-section ul.navigator a.account {
+  background-image: url("/resource/resource/img/navigator/account.png");
+}
+.cpanel .header .left-section ul.navigator a.staff {
+  background-image: url("/resource/resource/img/navigator/staff.png");
+}
+.cpanel .header .left-section ul.navigator a.notification {
+  background-image: url("/resource/resource/img/navigator/notification.png");
+}
+.cpanel .header .left-section ul.navigator a.summary {
+  background-image: url("/resource/resource/img/navigator/summary.png");
+}
 .cpanel .header .left-section ul.navigator li.divider {
   border-top: 1px solid #2b579a;
 }
