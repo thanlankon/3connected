@@ -329,6 +329,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         var finalSubjectGrade = 0;
         var totalWeightGradeCategory = 0;
         var isFinish = false;
+        resultSubject = GradeStatus.PASS;
 
         for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
 
@@ -488,6 +489,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         var finalSubjectGrade = 0;
         var totalWeightGradeCategory = 0;
         var isFinish = false;
+        resultSubject = GradeStatus.PASS;
 
         for (var j = 0, lenj = courseGradeCategories.length; j < lenj; j++) {
 
