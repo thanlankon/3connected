@@ -6,7 +6,11 @@ define('component.export.grid.GridExport', function (module, require) {
 
   function getGridData(grid) {
     var jQuery = require('lib.jQuery');
+    var Underscore = require('lib.Underscore');
+
     var trimmer = jQuery('<div />');
+
+    var originalGridColumns = grid.gridColumns;
 
     grid = grid.element;
 
@@ -24,9 +28,16 @@ define('component.export.grid.GridExport', function (module, require) {
 
       if (column.hidden) continue;
 
+      var columnConfig = Underscore.findWhere(originalGridColumns, {
+        dataField: column.datafield
+      });
+
+      var renderer = columnConfig && columnConfig.originalRenderer ? columnConfig.originalRenderer : undefined;
+
       gridData.fields.push({
         name: column.datafield,
-        text: column.text
+        text: column.text,
+        renderer: renderer
       });
     }
 
@@ -43,9 +54,10 @@ define('component.export.grid.GridExport', function (module, require) {
 
       for (var j = 0, fieldLen = gridData.fields.length; j < fieldLen; j++) {
         var fieldName = gridData.fields[j].name;
+        var renderer = gridData.fields[j].renderer;
         var fieldValue = row[fieldName];
 
-        console.log(fieldName, fieldValue);
+        console.log(renderer, fieldName, fieldValue);
 
         // for datetime
         if (['dateOfBirth'].indexOf(fieldName) != -1) {
@@ -56,9 +68,19 @@ define('component.export.grid.GridExport', function (module, require) {
         else if (['gender'].indexOf(fieldName) != -1) {
           fieldValue = ConvertUtil.Gender.toString(fieldValue);
         }
+        // for column has custom renderer
+        else if (renderer) {
+          fieldValue = renderer(row, fieldName, fieldValue);
+        }
+
+        if (fieldValue == null || fieldValue == undefined) {
+          fieldValue = '';
+        } else {
+          fieldValue = '' + fieldValue;
+        }
 
         // trim html
-        fieldValue = trimmer.html(fieldValue || '').text();
+        fieldValue = trimmer.html(fieldValue).text();
 
         item[fieldName] = fieldValue;
       }

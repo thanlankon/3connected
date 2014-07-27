@@ -1,12 +1,14 @@
 define.component('component.common.GradeGrid', function (component, require, Util, Lang, jQuery) {
 
+  component.gradeCalculation = {};
+
   // grid columns
   component.getGridColumns = function () {
 
     var gradeCategories = this.gradeCategories || [];
 
     var gridColumns = [{
-      text: Lang.get('attendance.student.studentCode'),
+      text: Lang.get('grade.student.studentCode'),
       dataField: 'studentCode',
       //      columnGroup: 'student',
 
@@ -17,14 +19,14 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
       cellClassName: function (row, dataField, value, rowData) {}
     }, {
-      text: Lang.get('attendance.student.firstName'),
+      text: Lang.get('grade.student.firstName'),
       dataField: 'firstName',
       //      columnGroup: 'student',
 
       filterType: 'textbox',
       editable: false,
     }, {
-      text: Lang.get('attendance.student.lastName'),
+      text: Lang.get('grade.student.lastName'),
       dataField: 'lastName',
       //      columnGroup: 'student',
 
@@ -63,7 +65,116 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       gridColumns.push(column);
     }
 
+    gridColumns.push({
+      text: Lang.get('grade.averageGrade'),
+      filterType: 'textbox',
+      editable: false,
+      dataField: 'averageGrade',
+
+      cellsRenderer: this.proxy(function (rowIndex, columnField, value, defaultHtml, columnProperties) {
+        var GradeConstant = require('constant.Grade');
+        var GradeStatus = require('enum.GradeStatus');
+
+        var totalGrade = 0;
+        var totalWeight = 0;
+        var gradeStatus;
+
+        var rowData = this.element.jqxGrid('getrowdata', rowIndex);
+
+        for (var i = 0, len = gradeCategories.length; i < len; i++) {
+          var gradeCategory = gradeCategories[i];
+          var grade = rowData['gradeCategory.' + gradeCategory.gradeCategoryCode];
+          var weight = gradeCategory.weight;
+          var minimunGrade = gradeCategory.minimunGrade;
+
+          if (grade == null) {
+            if (gradeStatus === undefined) {
+              gradeStatus = GradeStatus.UNFINISHED;
+            }
+          } else {
+            totalGrade += grade * weight;
+            totalWeight += weight;
+
+            if (grade < minimunGrade && gradeStatus === undefined) {
+              gradeStatus = GradeStatus.FAIL;
+            }
+          }
+        }
+
+        var averageGrade = totalGrade / totalWeight;
+        if (isNaN(averageGrade)) {
+          averageGrade = null;
+        }
+
+        if (gradeStatus === undefined) {
+          if (averageGrade >= GradeConstant.PASS_GRADE) {
+            gradeStatus = GradeStatus.PASS;
+          } else if (totalWeight == 0) {
+            gradeStatus = GradeStatus.UNFINISHED;
+          } else {
+            gradeStatus = GradeStatus.FAIL;
+          }
+        }
+
+        this.gradeCalculation[rowIndex] = {
+          gradeStatus: gradeStatus
+        }
+
+        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade
+        text = '<span class="statistic">' + text + '</span>';
+
+        return defaultCellRenderer(defaultHtml, text);
+      })
+    }, {
+      text: Lang.get('grade.averageGrade'),
+      filterType: 'textbox',
+      editable: false,
+      dataField: 'gradeStatus',
+
+      cellsRenderer: this.proxy(function (rowIndex, columnField, value, defaultHtml, columnProperties) {
+        var GradeStatus = require('enum.GradeStatus');
+
+        var gradeCalculation = this.gradeCalculation[rowIndex];
+
+        var text;
+
+        if (gradeCalculation) {
+          switch (gradeCalculation.gradeStatus) {
+          case GradeStatus.PASS:
+            text = Lang.get('grade.status.pass');
+            text = '<span class="grade-status grade-status-pass">' + text + '</span>';
+
+            break;
+          case GradeStatus.FAIL:
+            text = Lang.get('grade.status.fail');
+            text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+
+            break;
+          case GradeStatus.UNFINISHED:
+            text = Lang.get('grade.status.unfinished');
+            text = '<span class="grade-status grade-status-unfinished">' + text + '</span>';
+
+            break;
+          }
+        }
+
+        return defaultCellRenderer(defaultHtml, text);
+      })
+    });
+
     return gridColumns;
+
+    function defaultCellRenderer(defaultHtml, text) {
+      var elmHtml = jQuery(defaultHtml).html(text);
+      var elmWrapper = jQuery('<div />');
+
+      var html = elmWrapper.append(elmHtml).html();
+
+      elmHtml.remove();
+      elmWrapper.remove();
+
+      return html;
+    }
 
   };
 
@@ -95,6 +206,14 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
       gridDataFields.push(field);
     }
+
+    gridDataFields.push({
+      name: 'averageGrade',
+      type: 'number'
+    }, {
+      name: 'gradeStatus',
+      type: 'string'
+    });
 
     return gridDataFields;
   }

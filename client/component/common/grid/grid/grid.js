@@ -42,6 +42,7 @@ define.component('component.common.Grid', function (component, require, Util, La
       gridColumn.resizable = true;
 
       if (gridColumn.cellsRenderer) {
+        gridColumn.originalRenderer = gridColumn.cellsRenderer;
         gridColumn.cellsRenderer = this.proxy(defaultCellsRenderer(gridColumn.cellsRenderer));
       }
 
@@ -452,8 +453,6 @@ define.component('component.common.Grid', function (component, require, Util, La
             var column = Util.Collection.findWhere(this.gridColumns, {
               dataField: dataField
             });
-
-            console.log(column);
 
             var columnType = column ? column.columnType : null;
 

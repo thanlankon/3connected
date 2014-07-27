@@ -23,44 +23,110 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
   form.gridConfig = function () {
 
     var GradeStatus = require('enum.GradeStatus');
+    var StatisticType = require('enum.StatisticType');
 
     var gridColumns = [{
-      text: Lang.get('course.courseId'),
-      dataField: 'courseId',
-
-      cellsAlign: 'right',
-      filterType: 'textbox',
-
-      width: 150,
-    }, {
       text: Lang.get('course.courseName'),
       dataField: 'courseName',
+
+      cellsRenderer: function (row, columnField, value) {
+        var text;
+        if (row.statistic == undefined) {
+          text = row.courseName;
+        } else {
+          switch (row.statistic) {
+          case StatisticType.AVERAGE_GRADE:
+            text = Lang.get('grade.averageGrade');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.ACCUMULATION_GRADE:
+            text = Lang.get('grade.accumulationGrade');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT_PASS:
+            text = Lang.get('grade.totalCreditPass');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT_FAIL:
+            text = Lang.get('grade.totalCreditFail');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT_UNFINISHED:
+            text = Lang.get('grade.totalCreditUnfinished');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT:
+            text = Lang.get('grade.totalCredits');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          }
+        }
+
+        return text;
+      }
     }, {
       text: Lang.get('course.subjectName'),
       dataField: 'subjectName',
     }, {
       text: Lang.get('course.numberOfCredits'),
       dataField: 'numberOfCredits',
+
+      cellsRenderer: function (row, columnField, value) {
+        var text = value;
+
+        if (row.statistic) {
+          text = '<span class="statistic">' + text + '</span>';
+        }
+
+        return text;
+      }
     }, {
       text: Lang.get('course.finalSubjectGrade'),
       dataField: 'finalSubjectGrade',
+
+      cellsRenderer: function (row, columnField, value) {
+        var text = value;
+
+        if (row.statistic) {
+          text = '<span class="statistic">' + text + '</span>';
+        }
+
+        return text;
+      }
     }, {
       text: Lang.get('course.resultSubject'),
       dataField: 'resultSubject',
       width: 100,
 
       cellsRenderer: function (row, columnField, value) {
-        switch (value) {
-        case GradeStatus.PASS:
-          var text = Lang.get('grade.status.pass');
-          text = '<span class="grade-status grade-status-pass">' + text + '</span>';
+        var text;
 
-          break;
-        case GradeStatus.FAIL:
-          var text = Lang.get('grade.status.fail');
-          text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+        if (row.statistic) {
+          text = '<span class="statistic">' + value + '</span>';
+        } else {
+          switch (value) {
+          case GradeStatus.PASS:
+            text = Lang.get('grade.status.pass');
+            text = '<span class="grade-status grade-status-pass">' + text + '</span>';
 
-          break;
+            break;
+          case GradeStatus.FAIL:
+            text = Lang.get('grade.status.fail');
+            text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+
+            break;
+          case GradeStatus.UNFINISHED:
+            text = Lang.get('grade.status.unfinished');
+            text = '<span class="grade-status grade-status-unfinished">' + text + '</span>';
+
+            break;
+          }
         }
 
         return text;

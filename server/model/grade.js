@@ -20,6 +20,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
   var GradeStatus = require('enum.GradeStatus');
   var GradeConstant = require('constant.Grade');
+  var StatisticType = require('enum.StatisticType');
 
   model.Entity = Grade;
 
@@ -127,7 +128,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
           gradeCategoryId: gradeCategory.gradeCategoryId,
           gradeCategoryCode: gradeCategory.gradeCategoryCode,
           gradeCategoryName: gradeCategory.gradeCategoryName,
-          weight: gradeCategory.weight
+          weight: gradeCategory.weight,
+          minimumGrade: gradeCategory.minimumGrade
         });
       }
 
@@ -319,7 +321,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       var totalCredits = 0;
       var totalGrade = 0;
-      var totalCreditFailed = 0;
+      var totalCreditFail = 0;
       var resultSubject = GradeStatus.PASS;
 
       for (var i = 0, len = course.length; i < len; i++) {
@@ -366,7 +368,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         }
 
         if (resultSubject == GradeStatus.FAIL && isFinish == true) {
-          totalCreditFailed = totalCreditFailed + parseInt(course[i].subjectVersion.subject.numberOfCredits);
+          totalCreditFail = totalCreditFail + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         }
 
         if (isFinish == false) {
@@ -393,7 +395,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       var courseGradeStudent = {
         summaryGradeStudent: termGradeStudent,
         totalCredits: totalCredits,
-        totalCreditFailed: totalCreditFailed,
+        totalCreditFail: totalCreditFail,
         summaryGrade: summaryGrade
       };
 
@@ -478,8 +480,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       var totalCredits = 0;
       var totalGrade = 0;
       var totalGradeNotFailed = 0;
-      var totalCreditFailed = 0;
-      var totalCreditCurrentLearn = 0;
+      var totalCreditFail = 0;
+      var totalCreditUnfinished = 0;
       var resultSubject = GradeStatus.PASS;
 
       for (var i = 0, len = course.length; i < len; i++) {
@@ -522,12 +524,12 @@ define.model('model.Grade', function (model, ModelUtil, require) {
         }
 
         if (resultSubject == GradeStatus.FAIL && isFinish == true) {
-          totalCreditFailed = totalCreditFailed + parseInt(course[i].subjectVersion.subject.numberOfCredits);
+          totalCreditFail = totalCreditFail + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         }
 
         if (isFinish == false) {
           resultSubject = GradeStatus.UNFINISHED;
-          totalCreditCurrentLearn = totalCreditCurrentLearn + parseInt(course[i].subjectVersion.subject.numberOfCredits);
+          totalCreditUnfinished = totalCreditUnfinished + parseInt(course[i].subjectVersion.subject.numberOfCredits);
         }
 
         totalCredits = totalCredits + parseInt(course[i].subjectVersion.subject.numberOfCredits);
@@ -551,44 +553,44 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
       var averageGrade = totalGrade / totalCredits;
       var accumulationGrade = 0;
-      if ((totalCredits - totalCreditFailed - totalCreditCurrentLearn) != 0) {
-        accumulationGrade = totalGradeNotFailed / (totalCredits - totalCreditFailed - totalCreditCurrentLearn);
+      if ((totalCredits - totalCreditFail - totalCreditUnfinished) != 0) {
+        accumulationGrade = totalGradeNotFailed / (totalCredits - totalCreditFail - totalCreditUnfinished);
       }
       averageGrade = averageGrade.toFixed(2);
 
       if (isNaN(averageGrade)) averageGrade = null;
 
       termGradeStudent.push({
-        courseName: 'Average Grade ',
+        statistic: StatisticType.AVERAGE_GRADE,
         numberOfCredits: totalCredits,
         finalSubjectGrade: averageGrade
       });
 
       termGradeStudent.push({
-        courseName: 'Total creadit failed',
-        resultSubject: totalCreditFailed
+        statistic: StatisticType.TOTAL_CREDIT_FAIL,
+        resultSubject: totalCreditFail
       });
 
       termGradeStudent.push({
-        courseName: 'Total creadit in current learning ',
-        resultSubject: totalCreditCurrentLearn
+        statistic: StatisticType.TOTAL_CREDIT_UNFINISHED,
+        resultSubject: totalCreditUnfinished
       });
 
       termGradeStudent.push({
-        courseName: 'Total creadit',
+        statistic: StatisticType.TOTAL_CREDIT,
         resultSubject: totalCredits
       });
 
       termGradeStudent.push({
-        courseName: 'Accumulation grade ',
+        statistic: StatisticType.ACCUMULATION_GRADE,
         resultSubject: accumulationGrade
       });
 
       var courseGradeStudent = {
         summaryGradeStudent: termGradeStudent,
         totalCredits: totalCredits,
-        totalCreditFailed: totalCreditFailed,
-        totalCreditCurrentLearn: totalCreditCurrentLearn,
+        totalCreditFail: totalCreditFail,
+        totalCreditUnfinished: totalCreditUnfinished,
         averageGrade: averageGrade,
         accumulationGrade: accumulationGrade
       };

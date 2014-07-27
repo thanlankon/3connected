@@ -104,7 +104,7 @@ define.form('component.form.student-course.CourseGrade', function (form, require
 
     var aggregateItem = {
       gradeCategoryName: '<span class="average-grade">' + Lang.get('grade.averageGrade') + '</span>',
-      value: '<span class="average-grade">' + averageGrade.toFixed(2) + '</span>',
+      value: '<span class="average-grade">' + (isNaN(averageGrade) ? '' : averageGrade.toFixed(2)) + '</span>',
     }
 
     data.push(aggregateItem);

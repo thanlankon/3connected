@@ -24,7 +24,9 @@ grade.accumulationGrade = Accumulation grade
 grade.resultSubject = Result
 
 grade.totalCredits = Total credits
-grade.totalCreditFailed = Total fail credits
+grade.totalCreditFail = Total failed credits
+grade.totalCreditPass = Total passed credits
+grade.totalCreditUnfinished = Total unfinished credits
 
 grade.status.pass = Pass
 grade.status.fail = Fail
