@@ -57,8 +57,6 @@ define('component.export.grid.GridExport', function (module, require) {
         var renderer = gridData.fields[j].renderer;
         var fieldValue = row[fieldName];
 
-        console.log(renderer, fieldName, fieldValue);
-
         // for datetime
         if (['dateOfBirth'].indexOf(fieldName) != -1) {
           // fieldValue = ConvertUtil.DateTime.formatDate(fieldValue);
@@ -73,7 +71,7 @@ define('component.export.grid.GridExport', function (module, require) {
           fieldValue = renderer(row, fieldName, fieldValue);
         }
 
-        if (fieldValue == null || fieldValue == undefined) {
+        if (fieldValue === null || fieldValue === undefined) {
           fieldValue = '';
         } else {
           fieldValue = '' + fieldValue;

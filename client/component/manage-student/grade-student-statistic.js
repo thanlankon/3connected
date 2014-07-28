@@ -87,10 +87,10 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
       dataField: 'numberOfCredits',
 
       cellsRenderer: function (row, columnField, value) {
-        var text = value;
+        var text = '';
 
-        if (row.statistic) {
-          text = '<span class="statistic">' + text + '</span>';
+        if (row.statistic && value !== null && value != undefined) {
+          text = '<span class="statistic">' + value + '</span>';
         }
 
         return text;
@@ -100,10 +100,10 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
       dataField: 'finalSubjectGrade',
 
       cellsRenderer: function (row, columnField, value) {
-        var text = value;
+        var text = '';
 
-        if (row.statistic) {
-          text = '<span class="statistic">' + text + '</span>';
+        if (row.statistic && value !== null && value != undefined) {
+          text = '<span class="statistic">' + value + '</span>';
         }
 
         return text;
@@ -114,9 +114,9 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
       width: 100,
 
       cellsRenderer: function (row, columnField, value) {
-        var text;
+        var text = '';
 
-        if (row.statistic) {
+        if (row.statistic && value !== null && value != undefined) {
           text = '<span class="statistic">' + value + '</span>';
         } else {
           switch (value) {
