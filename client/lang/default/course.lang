@@ -116,7 +116,7 @@ attendance.percentAttendance = Percent absent
 
 # grade
 
-grade.nameCode = {{name}} ({{code}})
+grade.nameCode = {{name}} (<b>{{code}}</b> - {{weight}}%)
 
 grade.student.studentCode = {{.student.studentCode}}
 grade.student.firstName = {{.student.firstName}}

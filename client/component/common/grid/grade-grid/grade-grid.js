@@ -40,7 +40,8 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       var column = {
         text: Lang.get('grade.nameCode', {
           name: gradeCategory.gradeCategoryName,
-          code: gradeCategory.gradeCategoryCode
+          code: gradeCategory.gradeCategoryCode,
+          weight: gradeCategory.weight
         }),
         dataField: 'gradeCategory.' + gradeCategory.gradeCategoryCode,
         //          columnGroup: 'grade',
