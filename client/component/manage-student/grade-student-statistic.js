@@ -91,6 +91,8 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
 
         if (row.statistic && value !== null && value != undefined) {
           text = '<span class="statistic">' + value + '</span>';
+        } else {
+          text = value;
         }
 
         return text;
@@ -104,6 +106,8 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
 
         if (row.statistic && value !== null && value != undefined) {
           text = '<span class="statistic">' + value + '</span>';
+        } else {
+          text = value;
         }
 
         return text;

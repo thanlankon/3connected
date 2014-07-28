@@ -86,7 +86,7 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           var gradeCategory = gradeCategories[i];
           var grade = rowData['gradeCategory.' + gradeCategory.gradeCategoryCode];
           var weight = gradeCategory.weight;
-          var minimunGrade = gradeCategory.minimunGrade;
+          var minimumGrade = gradeCategory.minimumGrade;
 
           if (grade == null) {
             if (gradeStatus === undefined) {
@@ -96,7 +96,7 @@ define.component('component.common.GradeGrid', function (component, require, Uti
             totalGrade += grade * weight;
             totalWeight += weight;
 
-            if (grade < minimunGrade && gradeStatus === undefined) {
+            if (grade < minimumGrade && gradeStatus === undefined) {
               gradeStatus = GradeStatus.FAIL;
             }
           }
