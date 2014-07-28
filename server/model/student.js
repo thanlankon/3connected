@@ -7,6 +7,7 @@ define.model('model.Student', function (model, ModelUtil, require) {
   var ConvertUtil = require('core.util.ConvertUtil');
   var AccountConfig = require('config.Account');
   var Role = require('enum.Role');
+  var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   model.Entity = Student;
 
@@ -39,7 +40,7 @@ define.model('model.Student', function (model, ModelUtil, require) {
 
     function createStudentAccount(createdStudent, transaction) {
       var username = createdStudent.studentCode;
-      var defaultPassword = AccountConfig.DEFAULT_PASSWORD;
+      var defaultPassword = AuthenticationUtil.encryptPassword(AccountConfig.DEFAULT_PASSWORD);
       // expired date
       var currentDate = new Date();
       var defaultExpiredYear = AccountConfig.DEFAULT_EXPIRED_YEAR;
@@ -83,7 +84,7 @@ define.model('model.Student', function (model, ModelUtil, require) {
 
     function createParentAccount(createdStudent, transaction) {
       var username = createdStudent.studentCode;
-      var defaultPassword = AccountConfig.DEFAULT_PASSWORD;
+      var defaultPassword = AuthenticationUtil.encryptPassword(AccountConfig.DEFAULT_PASSWORD);
       // expired date
       var currentDate = new Date();
       var defaultExpiredYear = AccountConfig.DEFAULT_EXPIRED_YEAR;

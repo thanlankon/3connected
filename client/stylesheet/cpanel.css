@@ -48,11 +48,13 @@
   box-shadow: 0 0 6px 1px rgba(172, 181, 194, 0.56);
 }
 .dialog .header {
+  color: #2b579a;
   background: #fff;
   padding-top: 15px;
   padding-left: 20px;
   position: relative;
-  font-size: 15px;
+  font-size: 16px;
+  text-shadow: 1px 1px 1px #fff;
   border: none;
 }
 .dialog .header div:first-child {

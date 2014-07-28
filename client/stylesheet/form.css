@@ -102,29 +102,59 @@
   font-size: 14px;
   border-color: #aaa;
   color: #555;
+  border: 1px solid #888 !important;
+  border-left-width: 5px !important;
 }
 .dialog .content .jqx-input-metro:focus,
 .form-content .jqx-input-metro:focus,
 .dialog .content input[type=password].jqx-input-metro:focus,
 .form-content input[type=password].jqx-input-metro:focus {
   color: #222;
-  border-color: #555;
+  border-color: #2b579a !important;
 }
 .dialog .content .jqx-combobox-metro,
 .form-content .jqx-combobox-metro {
   border-color: #aaa;
 }
-.dialog .content .jqx-combobox-input,
-.form-content .jqx-combobox-input {
+.dialog .content .jqx-combobox-input-metro,
+.form-content .jqx-combobox-input-metro {
   padding-left: 5px !important;
   padding-right: 5px !important;
   box-sizing: border-box !important;
   font-size: 14px;
   color: #555;
 }
+.dialog .content .jqx-combobox-state-normal-metro,
+.form-content .jqx-combobox-state-normal-metro {
+  box-sizing: border-box;
+  border: 1px solid #888 !important;
+  border-left-width: 5px !important;
+}
+.dialog .content .jqx-combobox-state-selected-metro,
+.form-content .jqx-combobox-state-selected-metro,
+.dialog .content .jqx-combobox-state-focus-metro,
+.form-content .jqx-combobox-state-focus-metro {
+  background-color: #fff !important;
+  border-color: #2b579a !important;
+}
 .dialog .content .jqx-dropdownlist-state-normal-metro,
 .form-content .jqx-dropdownlist-state-normal-metro {
-  border-color: #aaa;
+  box-sizing: border-box;
+  border: 1px solid #888 !important;
+  border-left-width: 5px !important;
+}
+.dialog .content .jqx-dropdownlist-state-hove-metro,
+.form-content .jqx-dropdownlist-state-hove-metro {
+  background-color: #fff !important;
+}
+.dialog .content .jqx-dropdownlist-state-selected-metro,
+.form-content .jqx-dropdownlist-state-selected-metro {
+  background-color: #fff !important;
+  border-color: #2b579a !important;
+}
+.dialog .content .jqx-fill-state-focus-metro,
+.form-content .jqx-fill-state-focus-metro {
+  border-color: #2b579a !important;
 }
 .dialog .content .jqx-listbox-metro,
 .form-content .jqx-listbox-metro {

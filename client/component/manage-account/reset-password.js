@@ -12,9 +12,9 @@ define.form('component.dialog.manage-account.ResetPassword', function (form, req
 
   form.formType = form.FormType.Dialog.VALIDATION;
 
-  form.initData = function () {
+  form.initData = function (params) {
     this.data.attr({
-      accountId: this.authentication.accountId
+      accountId: params.id
     });
   };
 

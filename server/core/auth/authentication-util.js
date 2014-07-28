@@ -4,7 +4,7 @@ define('core.auth.AuthenticationUtil', function (module, require) {
 
   AuthenticationUtil.encryptPassword = function (password) {
     // for development, disable encrypt password
-    return password;
+    // return password;
 
     var Crypto = require('lib.Crypto');
 

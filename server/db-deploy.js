@@ -541,6 +541,7 @@ define('db.Deploy', function (module, require) {
 
   function seedAccount(queryChainer) {
     var Account = require('model.entity.Account');
+    var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
     queryChainer
       .add(
@@ -548,14 +549,14 @@ define('db.Deploy', function (module, require) {
           userInformationId: 1,
           role: 1,
           username: 'admin',
-          password: 'abc123',
+          password: AuthenticationUtil.encryptPassword('abc123'),
           isActive: true,
           expiredDate: '01/01/2016'
       }])
       .add(
         Account, 'create', [{
           username: 'trongnd',
-          password: '123@abcD!@#',
+          password: AuthenticationUtil.encryptPassword('123@abcD!@#'),
           role: 5,
           userInformationId: 1,
           isActive: true,
@@ -566,7 +567,7 @@ define('db.Deploy', function (module, require) {
           userInformationId: 5,
           role: 2,
           username: 'hoangtv',
-          password: 'abc123',
+          password: AuthenticationUtil.encryptPassword('abc123'),
           isActive: true,
           expiredDate: '01/01/2016'
         }])
@@ -575,7 +576,7 @@ define('db.Deploy', function (module, require) {
           userInformationId: 4,
           role: 3,
           username: 'mailtt',
-          password: 'abc123',
+          password: AuthenticationUtil.encryptPassword('abc123'),
           isActive: true,
           expiredDate: '01/01/2016'
         }])
@@ -584,7 +585,7 @@ define('db.Deploy', function (module, require) {
           userInformationId: 1,
           role: 5,
           username: 'thanhvm',
-          password: 'abc123',
+          password: AuthenticationUtil.encryptPassword('abc123'),
           isActive: true,
           expiredDate: '01/01/2016'
       }])

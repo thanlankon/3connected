@@ -6,6 +6,7 @@ define.model('model.Staff', function (model, ModelUtil, require) {
   var Util = require('core.util.Util');
   var ConvertUtil = require('core.util.ConvertUtil');
   var AccountConfig = require('config.Account');
+  var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   model.Entity = Staff;
 
@@ -38,7 +39,7 @@ define.model('model.Staff', function (model, ModelUtil, require) {
 
     function createAccounts(createdStaff, transaction) {
       var username = createdStaff.staffCode;
-      var defaultPassword = AccountConfig.DEFAULT_PASSWORD;
+      var defaultPassword = AuthenticationUtil.encryptPassword(AccountConfig.DEFAULT_PASSWORD);
       // expired date
       var currentDate = new Date();
       var defaultExpiredYear = AccountConfig.DEFAULT_EXPIRED_YEAR;

@@ -97,13 +97,21 @@
 
     font-size: 14px;
 
+
     border-color: #aaa;
     color: #555;
 
+    border: 1px solid #888 !important;
+    border-left-width: 5px !important;
+
+//        padding-left: 30px;
+//        background: 5px center no-repeat;
+//
+//        background-size: 16px 16px;
+
     &:focus {
       color: #222;
-
-      border-color: #555;
+      border-color: #2b579a !important;
     }
   }
 
@@ -112,7 +120,7 @@
     border-color: #aaa;
   }
 
-  .jqx-combobox-input {
+  .jqx-combobox-input-metro {
     padding-left: 5px !important;
     padding-right: 5px !important;
     box-sizing: border-box !important;
@@ -121,10 +129,38 @@
 
     color: #555;
   }
+  .jqx-combobox-state-normal-metro {
+    box-sizing: border-box;
+
+    border: 1px solid #888 !important;
+    border-left-width: 5px !important;
+  }
+
+  .jqx-combobox-state-selected-metro, .jqx-combobox-state-focus-metro {
+    background-color: #fff !important;
+    border-color: #2b579a !important;
+  }
 
   /* dropdownlist */
   .jqx-dropdownlist-state-normal-metro {
-    border-color: #aaa;
+    //width: 100% !important;
+    box-sizing: border-box;
+
+    border: 1px solid #888 !important;
+    border-left-width: 5px !important;
+  }
+
+  .jqx-dropdownlist-state-hove-metro {
+    background-color: #fff !important;
+  }
+
+  .jqx-dropdownlist-state-selected-metro {
+    background-color: #fff !important;
+    border-color: #2b579a !important;
+  }
+
+  .jqx-fill-state-focus-metro {
+    border-color: #2b579a !important;
   }
 
   /* listbox */
