@@ -29,7 +29,6 @@ define('resource.loader.Templates', function (module, require) {
         if (contentCursor == -1) break;
 
         templateContent = fileContent.substr(0, contentCursor);
-        //      templateContent = populateLang(templateContent, langs);
 
         templates[templateId] = templateContent;
 
@@ -39,52 +38,6 @@ define('resource.loader.Templates', function (module, require) {
     }
 
     return templates;
-  }
-
-  function populateLang(templateContent, langs) {
-    return templateContent;
-
-    //  var beginIndex, endIndex, langId, langContent;
-    //
-    //  // for {{lang "id"}}
-    //
-    //  var populatedContent = '';
-    //
-    //  while ((beginIndex = templateContent.indexOf('{{lang "')) != -1) {
-    //    beginIndex += '{{lang "'.length;
-    //    endIndex = templateContent.indexOf('"', beginIndex);
-    //
-    //    langId = templateContent.slice(beginIndex, endIndex);
-    //
-    //    langContent = langs[langId] || '';
-    //
-    //    populatedContent += templateContent.slice(0, beginIndex) + langContent;
-    //    templateContent = templateContent.slice(endIndex);
-    //  }
-    //
-    //  populatedContent += templateContent;
-    //
-    //  // for {{lang 'id'}}
-    //
-    //  templateContent = populatedContent;
-    //
-    //  var populatedContent = '';
-    //
-    //  while ((beginIndex = templateContent.indexOf("{{lang '")) != -1) {
-    //    beginIndex += "{{lang '".length;
-    //    endIndex = templateContent.indexOf("'", beginIndex);
-    //
-    //    langId = templateContent.slice(beginIndex, endIndex);
-    //
-    //    langContent = langs[langId] || '';
-    //
-    //    populatedContent += templateContent.slice(0, beginIndex) + langContent;
-    //    templateContent = templateContent.slice(endIndex);
-    //  }
-    //
-    //  populatedContent += templateContent;
-    //
-    //  return populatedContent.trim();
   }
 
 });

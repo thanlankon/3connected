@@ -6,6 +6,10 @@ define('app.App', function (module, require) {
   var bodyParser = require('lib.BodyParser');
   var cookieParser = require('lib.CookieParser');
 
+  // init resource
+  var resource = require('resource.loader.Resource');
+  resource.getResource();
+
   app.use(bodyParser({
     limit: 1024 * 1024 * 10,
   }));
