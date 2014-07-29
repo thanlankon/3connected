@@ -5,17 +5,19 @@ Loader.loadDependencies();
 // main
 define.main(function (require) {
 
-  var app = require('app.App');
+  var Configuration = require('core.config.Configuration').getConfiguration();
 
+  var app = require('app.App');
   var dbDeploy = require('db.Deploy');
 
   dbDeploy(function () {
 
-    var port = (process.argv[2] && process.argv[2] != 'sync-db') ? process.argv[2] : 80;
+    var host = Configuration.Web.HOST;
+    var port = Configuration.Web.PORT;
 
-    app.listen(port);
-
-    console.log('App started at port: ' + port);
+    app.listen(port, host, function () {
+      console.log('App started at ' + host + ':' + port);
+    });
 
   });
 

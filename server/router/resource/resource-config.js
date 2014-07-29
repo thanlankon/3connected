@@ -1,10 +1,11 @@
 define('resource.Config', function (module, require) {
 
   var path = require('lib.Path');
+  var Configuration = require('core.config.Configuration').getConfiguration();
 
   var ResourceConfig = {
     Location: {
-      ROOT: path.resolve('../client')
+      ROOT: path.join(Configuration.ROOT_DIRECTORY, 'client')
     },
 
     Url: {

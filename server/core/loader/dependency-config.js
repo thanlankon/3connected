@@ -2,7 +2,7 @@ var path = require('path');
 
 var DependencyConfig = {
   Location: {
-    ROOT: path.resolve('../server')
+    ROOT: path.join(__dirname, '../../../server')
   },
 
   Dependency: {
@@ -11,6 +11,7 @@ var DependencyConfig = {
       'core/define/dependency-manager.js',
       'core/define/*',
       'config/**',
+      'core/config/**',
       'core/model/**',
       'core/service/**',
       'core/util/**',
@@ -26,8 +27,9 @@ var DependencyConfig = {
       'router/api/**',
       'router/resource/**',
 
-      'db-deploy.js',
+      'development/**',
 
+      'db.js',
       'app.js',
     ]
   }

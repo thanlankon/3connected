@@ -1,6 +1,7 @@
 # message
 
 authentication.login.incorrectAcount  = Incorrect Username or Password
+authentication.login.error.unknown = Error during loging in!
 
 authentication.logout.confirm = Are you sure to log out?
 

@@ -1,13 +1,16 @@
 define('core.model.Entity', function (module, require) {
 
   var Sequelize = require('lib.Sequelize');
-  var DatabaseConfig = require('config.Database');
+  var Configuration = require('core.config.Configuration').getConfiguration();
 
   var sequelize = new Sequelize(
-    DatabaseConfig.NAME,
-    DatabaseConfig.USERNAME,
-    DatabaseConfig.PASSWORD, {
+    Configuration.Database.NAME,
+    Configuration.Database.USERNAME,
+    Configuration.Database.PASSWORD, {
       logging: false,
+
+      host: Configuration.Database.HOST,
+      port: Configuration.Database.PORT,
 
       define: {
         charset: 'utf8',

@@ -1,16 +1,10 @@
-define('db.Deploy', function (module, require) {
+define('db.seed.DbSeeder', function (module, require) {
 
-  var Entity = require('core.model.Entity');
-  var Util = require('core.util.Util');
-
-  module.exports = deployDb;
-
-  function deployDb(callback) {
-    deploySchema(callback);
+  module.exports = {
+    seed: seedDb
   }
 
-  function dbSeed(callback) {
-    var queryChainer = Entity.queryChainer();
+  function seedDb(queryChainer) {
 
     seedBatch(queryChainer);
     seedMajor(queryChainer);
@@ -36,16 +30,6 @@ define('db.Deploy', function (module, require) {
 
     seedAccount(queryChainer);
 
-    queryChainer
-      .runSerially()
-      .success(function () {
-        console.log('Db data deployed');
-
-        callback();
-      })
-      .error(function (error) {
-        console.log('Db seed error:', error);
-      });;
   };
 
   function seedBatch(queryChainer) {
@@ -490,8 +474,6 @@ define('db.Deploy', function (module, require) {
         }])
   }
 
-
-
   function seedGrade(queryChainer) {
     var Grade = require('model.entity.Grade');
 
@@ -589,39 +571,6 @@ define('db.Deploy', function (module, require) {
           isActive: true,
           expiredDate: '01/01/2016'
       }])
-
-
-  }
-
-  function deploySchema(callback) {
-    var syncDb = (process.argv[2] == 'sync-db' || process.argv[3] == 'sync-db');
-
-    if (!syncDb) {
-      require('core.model.entity.EntityContainer').resoleAssociations();
-
-      callback();
-
-      return;
-    }
-
-    Entity
-      .query('SET FOREIGN_KEY_CHECKS = 0')
-      .then(function () {
-        return Entity.sync({
-          force: syncDb
-        });
-      })
-      .then(function () {
-        return Entity.query('SET FOREIGN_KEY_CHECKS = 1');
-      })
-      .then(function () {
-        // resolve entity associations
-        require('core.model.entity.EntityContainer').resoleAssociations();
-
-        dbSeed(callback);
-      }, function (error) {
-        console.error('Db error: ', error);
-      });
   }
 
 });

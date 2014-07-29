@@ -35,21 +35,21 @@ define.entity = function (id, definer) {
         if (value.defaultValue === DataType.NOW) {
           value.get = function () {
             var date = this.getDataValue(key);
-            return ConvertUtil.DateTime.formatDateTimeFull(date);
+            return date ? ConvertUtil.DateTime.formatDateTimeFull(date) : null;
           };
 
           value.set = function (value) {
-            var date = ConvertUtil.DateTime.toMySqlDateTime(value);
+            var date = value ? ConvertUtil.DateTime.toMySqlDateTime(value) : null;
             this.setDataValue(key, date);
           };
         } else {
           value.get = function () {
             var date = this.getDataValue(key);
-            return ConvertUtil.DateTime.formatDate(date);
+            return date ? ConvertUtil.DateTime.formatDate(date) : null;
           };
 
           value.set = function (value) {
-            var date = ConvertUtil.DateTime.toMySqlDate(value);
+            var date = value ? ConvertUtil.DateTime.toMySqlDate(value) : null;
             this.setDataValue(key, date);
           };
         }

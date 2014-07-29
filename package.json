@@ -18,5 +18,9 @@
     "sequelize": "^1.7.5",
     "uid-safe": "^1.0.1",
     "underscore": "^1.6.0"
-  }
+  },
+  "scripts": {
+    "start": "node ./server/server.js"
+  },
+  "main": "./server/server.js"
 }
