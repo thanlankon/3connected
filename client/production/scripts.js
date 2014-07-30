@@ -7110,7 +7110,7 @@ define.component('component.common.Grid', function (component, require, Util, La
     };
 
     if (options.grid.pageable !== false) {
-      gridOptions.pageSize = options.grid.pageable !== false ? this.maximumPageItems : 50;
+      gridOptions.pageSize = options.grid.pageable !== false ? 50 : this.maximumPageItems;
       gridOptions.pagerMode = 'simple';
       gridOptions.virtualMode = true;
       gridOptions.renderGridRows = function (params) {
@@ -7564,7 +7564,6 @@ define.component('component.common.Grid', function (component, require, Util, La
   };
 
 });
-
 
 
 define.component('component.common.ScheduleGrid', function (component, require, Util, Lang, jQuery) {
