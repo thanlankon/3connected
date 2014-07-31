@@ -45,6 +45,7 @@ cancel = Cancel
 close = Close
 import = Import
 export = Export
+browse = Browse
 changeOrientation= Change orientation
 
 # manage

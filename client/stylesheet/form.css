@@ -92,6 +92,39 @@
 .form-content .input.force-full-width input[type=password].jqx-input-metro {
   width: 100% !important;
 }
+.dialog .content .file,
+.form-content .file {
+  margin-top: 5px;
+  box-sizing: border-box;
+  padding-right: 50px;
+  position: relative;
+}
+.dialog .content .file input[type="file"],
+.form-content .file input[type="file"] {
+  display: none;
+}
+.dialog .content .file .button-browse,
+.form-content .file .button-browse {
+  width: 40px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background: #eeeeee center center no-repeat;
+  cursor: pointer;
+}
+.dialog .content .file .button-browse:hover,
+.form-content .file .button-browse:hover {
+  background-color: #ddd;
+}
+.dialog .content .file .button-browse:active,
+.form-content .file .button-browse:active {
+  background-color: #ccc;
+}
+.dialog .content .file .button-browse.excel,
+.form-content .file .button-browse.excel {
+  background-image: url("/resource/resource/img/file/excel.png");
+}
 .dialog .content .jqx-input-metro,
 .form-content .jqx-input-metro,
 .dialog .content input[type=password].jqx-input-metro,

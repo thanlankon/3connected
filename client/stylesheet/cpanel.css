@@ -59,6 +59,7 @@
 }
 .dialog .header div:first-child {
   width: 90%;
+  height: 30px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -124,6 +125,10 @@
 .dialog .body .bottom .button.edit,
 .dialog .body .footer .button.edit {
   background-image: url("/resource/resource/img/common/edit-light.png");
+}
+.dialog .body .bottom .button.import,
+.dialog .body .footer .button.import {
+  background-image: url("/resource/resource/img/common/import-light.png");
 }
 .dialog .body .bottom .button:hover,
 .dialog .body .footer .button:hover {

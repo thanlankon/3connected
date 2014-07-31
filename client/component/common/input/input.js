@@ -7,8 +7,9 @@ define.component('component.common.Input', function (component, require, Util, L
     var componentAttributes = options.componentAttributes;
 
     var isPasswordInput = componentAttributes.passwordInput;
+    var upperCase = componentAttributes.upperCase;
 
-    componentAttributes = Util.Object.omit(componentAttributes, ['passwordInput']);
+    componentAttributes = Util.Object.omit(componentAttributes, ['passwordInput', 'upperCase']);
 
     var input = jQuery('<input />')
       .attr('data-attribute', dataAttribute)
@@ -49,12 +50,22 @@ define.component('component.common.Input', function (component, require, Util, L
       data: false
     };
 
+    if (upperCase) {
+      input.css('text-transform', 'uppercase');
+    }
+
     // tracking changes of input
     input.on('change', function () {
       if (trackingChange.data) return;
 
+      var val = input.val();
+
+      if (upperCase) {
+        val = val.toUpperCase();
+      }
+
       trackingChange.input = true;
-      componentData.attr(dataAttribute, input.val().trim());
+      componentData.attr(dataAttribute, val.trim());
       trackingChange.input = false;
     });
 

@@ -1,0 +1,49 @@
+<template id="dialog.manage-course.import-grade">
+
+  {{dialog.size width="500px" height="90%"}}
+
+  <div class="header">
+    {{lang "grade.importGradeForCourse"}}: <b>{{originalData.courseName}}</b>
+  </div>
+
+  <div class="content">
+    <div class="label">
+      {{lang 'grade.import.file'}}
+    </div>
+    <div class="data file">
+      {{component.input attribute="importFileName" disabled="true"}}
+      <input type="file" id="input-import-file" />
+      <span class="button-browse excel" id="button-browse-import-file"></span>
+    </div>
+
+    <div class="label">
+      {{lang 'grade.import.columnForStudent'}}:
+    </div>
+    <div class="data input">
+      {{component.input attribute="studentColumn" upperCase="true"}}
+    </div>
+
+    {{#gradeCategories}}
+      <div class="label">
+      {{lang 'grade.import.columnFor'}} <b>{{gradeCategoryName}} ({{gradeCategoryCode}})</b>:
+      </div>
+      <div class="data input">
+        {{component.input attribute="bindToColumn" upperCase="true"}}
+      </div>
+    {{/gradeCategories}}
+
+    <div class="label">
+      {{lang 'grade.import.startRow'}}
+    </div>
+    <div class="data input">
+      {{component.input attribute="startRow" upperCase="true"}}
+    </div>
+  </div>
+
+  <div class="footer">
+    <span type="button" class="button ok import" data-component-role="submit-button">{{lang "import"}}</span>
+
+    <span type="button" class="button cancel" data-component-role="cancel-button">{{lang "cancel"}}</span>
+  </div>
+
+</template>

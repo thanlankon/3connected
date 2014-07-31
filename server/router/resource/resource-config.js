@@ -45,6 +45,8 @@ define('resource.Config', function (module, require) {
         'lib/ckeditor/adapters/jquery.js',
         // lib - excel exports
         'lib/+(excel-builder|file-saver)/**',
+        // lib - excel imports
+        'lib/+(excel-parser)/**',
         // lib - utils
         'lib/+(underscore|moment|numeral)/**',
         // lib - msgbox

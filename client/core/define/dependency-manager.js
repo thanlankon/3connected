@@ -7,7 +7,9 @@ Dependency = {
     Numeral: numeral,
 
     ExcelBuilder: ExcelBuilder,
-    FileSaver: saveAs
+    FileSaver: saveAs,
+    Xls: XLS,
+    Xlsx: XLSX
   },
 
   modules: {},

@@ -169,6 +169,9 @@
 .form .toolbar li.icon.list {
   background-image: url("/resource/resource/img/common/list.png");
 }
+.form .toolbar li.icon.import {
+  background-image: url("/resource/resource/img/common/import.png");
+}
 .form .toolbar li.icon.export {
   background-image: url("/resource/resource/img/common/export.png");
 }

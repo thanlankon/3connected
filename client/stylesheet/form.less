@@ -89,6 +89,44 @@
     }
   }
 
+  .file {
+    //width: 100% !important;
+
+    margin-top: 5px;
+    box-sizing: border-box;
+    padding-right: 50px;
+    position: relative;
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .button-browse {
+      width: 40px;
+      height: 30px;
+
+      position: absolute;
+      right: 0px;
+      top: 0px;
+
+      background: #eee center center no-repeat;
+
+      cursor: pointer;
+
+      &:hover {
+        background-color: #ddd;
+      }
+
+      &:active {
+        background-color: #ccc;
+      }
+
+      &.excel {
+        background-image: url("@{url-img}/file/excel.png");
+      }
+    }
+  }
+
   /* input */
   .jqx-input-metro, input[type=password].jqx-input-metro {
     padding-left: 5px;

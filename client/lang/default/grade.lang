@@ -1,7 +1,9 @@
 #button
 
-grade.view = view
+grade.view = View
 summary.grade-statistic-student = Grade statistic
+
+grade.importGradeForCourse = Import grade for course
 
 # message
 
@@ -32,3 +34,14 @@ grade.totalCreditUnfinished = Total unfinished credits
 grade.status.pass = Pass
 grade.status.fail = Fail
 grade.status.unfinished = Unfinished
+
+grade.import.file = Import file (.xlsx)
+grade.import.columnFor = Column for
+grade.import.columnForStudent = Column for <b>Student code</b>
+grade.import.startRow = Start from row (&ge; 1)
+grade.import.noDataFound = The selected file has no grades
+grade.import.startRowInvalid = Start row is invalid
+grade.import.importFileInvalid = The selected file is not Excel file (.xlsx)
+grade.import.importFileRequired = The import file is required
+grade.import.studentColumnRequired = The column for <b>Student code</b> is required
+grade.import.invalidValueAt = Invalid value at {{cell}}

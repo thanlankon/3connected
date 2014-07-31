@@ -49,6 +49,14 @@
       </li>
       {{/noGradeCategories}}
 
+      <li class="icon export right" data-component-role="export-button">
+        <span>{{lang 'export'}}</span>
+      </li>
+
+      <li class="icon import right">
+        <a href="{{url module="manage-course" action="import-grade" id=course.courseId }}">{{lang "import"}}</a>
+      </li>
+
     </ul>
   </div>
 

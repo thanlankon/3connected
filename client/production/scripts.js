@@ -3020,6 +3020,7 @@ define.proxy('proxy.Grade', function (proxy, require) {
 });
 
 
+
 define.proxy('proxy.Major', function (proxy, require) {
 
   proxy.entityId = 'majorId';
@@ -10091,6 +10092,72 @@ define.form('component.dialog.manage-course.EditCourse', function (form, require
 
 
 
+define.form('component.dialog.manage-course.ImportGrade', function (form, require, Util, Lang, jQuery) {
+
+  form.urlMap = {
+    url: ':module/:action/:id',
+    data: {
+      module: 'manage-course',
+      action: 'import-grade'
+    }
+  };
+
+  form.tmpl = 'dialog.manage-course.import-grade';
+
+  form.formType = form.FormType.Dialog.EDIT;
+
+  form.ServiceProxy = require('proxy.Course');
+
+  form.reloadData = function (params) {
+    var subjectVersionId = this.data.attr('subjectVersionId');
+
+    var filters = [{
+      field: 'subjectVersionId',
+      value: subjectVersionId
+    }];
+
+    var GradeCategoryProxy = require('proxy.GradeCategory');
+    GradeCategoryProxy.findAll({
+      filters: filters
+    }, this.proxy(findGradeCategoryDone));
+
+    function findGradeCategoryDone(serviceResponse) {
+      if (serviceResponse.hasError()) {
+        this.hideForm()
+        return;
+      }
+
+      var serviceData = serviceResponse.getData();
+
+      var gradeCategories = [];
+
+      for (var i = 0, len = serviceData.items.length; i < len; i++) {
+        var item = serviceData.items[i];
+
+        var gradeCategory = {
+          gradeCategoryId: item.gradeCategoryId,
+          gradeCategoryCode: item.gradeCategoryCode,
+          gradeCategoryName: item.gradeCategoryName
+        }
+
+        gradeCategories.push(gradeCategory);
+      }
+
+      this.data({
+        gradeCategories: gradeCategories
+      });
+    }
+  };
+
+  form.initDialog = function () {}
+
+  form.submitDialogData = function () {
+    console.log(this.data.attr());
+  };
+
+});
+
+
 define.form('component.form.manage-course.ListCourse', function (form, require, Util, Lang) {
 
   form.urlMap = {
@@ -14179,6 +14246,7 @@ define.form('component.form.manage-student.grade-student-statistic-client', func
 });
 
 
+
 define.form('component.form.student-course.ListCourse', function (form, require, Util, Lang) {
 
   form.urlMap = {
@@ -14901,6 +14969,7 @@ define('validator.rule.Course', function (module, require) {
 });
 
 
+
 //ThanhVMSE90059
 define('validator.rule.Department', function (module, require) {
 
@@ -15089,6 +15158,7 @@ define('validator.rule.GradeCategory', function (module, require) {
   module.exports = ruleGradeCategory;
 
 });
+
 
 
 define('validator.rule.Major', function (module, require) {
@@ -15909,6 +15979,7 @@ define('validator.rule.Subject', function (module, require) {
 
   module.exports = ruleSubject;
 });
+
 
 
 define('validator.rule.Term', function (module, require) {

@@ -46,3 +46,11 @@ define('lib.FileSaver', function (module, require, libs) {
     saveAs: libs.FileSaver
   };
 });
+
+define('lib.Xls', function (module, require, libs) {
+  module.exports = libs.Xls;
+});
+
+define('lib.Xlsx', function (module, require, libs) {
+  module.exports = libs.Xlsx;
+});
