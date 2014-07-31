@@ -59,7 +59,19 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         httpMethod: 'GET'
       },
       statisticGradeStudent: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isEducator(authentication.accountRole);
+          commit(authorized);
+        },
         url: '/statisticGradeStudent',
+        httpMethod: 'GET'
+      },
+      statisticGradeStudentClient: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isStudentOrParent(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/statisticGradeStudentClient',
         httpMethod: 'GET'
       }
     }
@@ -234,6 +246,43 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         }
       }
     }
+
+    GradeModel.statisticGradeStudent(studentId, function (error, statisticGradeStudent, isNotFound) {
+      if (error) {
+        serviceResponse.message = 'grade.statisticGradeStudent.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        if (isNotFound) {
+          serviceResponse.error = {
+            code: 'ENTITY.NOT_FOUND'
+          };
+          serviceResponse.message = 'grade.statisticGradeStudent.notFound';
+        } else {
+          serviceResponse.data = {
+            items: statisticGradeStudent.summaryGradeStudent,
+            totalCreditFail: statisticGradeStudent.totalCreditFail,
+            totalCredits: statisticGradeStudent.totalCredits,
+            averageGrade: statisticGradeStudent.averageGrade,
+            accumulationGrade: statisticGradeStudent.accumulationGrade,
+            totalCreditUnfinished: statisticGradeStudent.totalCreditUnfinished,
+            total: statisticGradeStudent.summaryGradeStudent.length
+          };
+          ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+        }
+      }
+    });
+
+  };
+
+  service.statisticGradeStudentClient = function (req, res) {
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    var studentId = req.authentication.userInformationId;
 
     GradeModel.statisticGradeStudent(studentId, function (error, statisticGradeStudent, isNotFound) {
       if (error) {

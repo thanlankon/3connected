@@ -1,6 +1,7 @@
 #button
 
 grade.view = view
+summary.grade-statistic-student = Grade statistic
 
 # message
 

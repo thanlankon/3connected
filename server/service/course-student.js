@@ -21,12 +21,31 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
 
   service.map = {
     url: '/courseStudent',
+    authorize: function (req, authentication, Role, commit) {
+      // check for staff
+      var authorized = Role.isStaff(authentication.accountRole);
+      if (authorized) {
+        commit(authorized);
+        return;
+      }
+
+      commit(false);
+    },
+
     methods: {
       addStudents: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isEducator(authentication.accountRole);
+          commit(authorized);
+        },
         url: '/addStudents',
         httpMethod: 'POST'
       },
       removeStudents: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isEducator(authentication.accountRole);
+          commit(authorized);
+        },
         url: '/removeStudents',
         httpMethod: 'POST'
       }
@@ -154,5 +173,4 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
       ServiceUtil.sendServiceResponse(res, error, message);
     });
   };
-
 });

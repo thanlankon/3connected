@@ -34,8 +34,21 @@ define('validator.rule.Course', function (module, require) {
     ]
   };
 
+  var ruleNumberOfCreadits = {
+    // validate for courseName
+    attribute: 'numberOfCredits',
+    attributeName: 'course.numberOfCredits',
+    rules: [
+      {
+        // courseName is required
+        rule: 'positiveInteger'
+      }
+    ]
+  };
+
   var ruleCreateCourse = [
-    ruleCourseName
+    ruleCourseName,
+    ruleNumberOfCreadits
   ];
 
   var ruleUpdateCourse = [
@@ -48,5 +61,4 @@ define('validator.rule.Course', function (module, require) {
   };
 
   module.exports = ruleCourse;
-
 });

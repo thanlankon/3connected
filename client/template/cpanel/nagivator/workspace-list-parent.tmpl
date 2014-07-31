@@ -1,23 +1,28 @@
-<template id="cpanel.workspace-list.parent">
+<template id="cpanel.workspace-list.student">
 
-  <a href="#">For Parent</a>
   <li>
-    <a href="{{url module="student-course"}}">{{lang "manage.student-course"}}</a>
+    <a href="{{url module="student-course"}}" class="icon course">{{lang "manage.student-course"}}</a>
   </li>
   <li>
-    <a href="{{url module="news"}}">{{lang "view.news"}}</a>
+    <a href="{{url module="news"}}" class="icon news">{{lang "view.news"}}</a>
+  </li>
+  <li>
+    <a href="{{url module="summary-grade"}}" class="icon summary">{{lang "summary.grade"}}</a>
+  </li>
+  <li>
+    <a href="{{url module="grade-statistic"}}" class="icon summary">{{lang "summary.grade-statistic-student"}}</a>
   </li>
 
   <li class="divider"></li>
 
   <li>
-    <a href="{{url module="profile" action="change-password"}}">{{lang "profile.changePassword"}}</a>
+    <a href="{{url module="profile" action="change-password"}}" class="icon password">{{lang "profile.changePassword"}}</a>
   </li>
 
   <li class="divider"></li>
 
   <li>
-    <a href="{{url module="notification"}}">{{lang "notification"}}</a>
+    <a href="{{url module="notification"}}" class="icon notification">{{lang "notification"}}</a>
   </li>
 
 </template>
