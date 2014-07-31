@@ -9,6 +9,7 @@
 
 define.model('model.Course', function (model, ModelUtil, require) {
 
+  var Entity = require('core.model.Entity');
   var Course = require('model.entity.Course');
   var Schedule = require('model.entity.Schedule');
   var Attendance = require('model.entity.Attendance');
@@ -19,8 +20,195 @@ define.model('model.Course', function (model, ModelUtil, require) {
   var Major = require('model.entity.Major');
   var CourseStudent = require('model.entity.CourseStudent');
   var Staff = require('model.entity.Staff');
+  var Student = require('model.entity.Student');
 
   model.Entity = Course;
+
+  model.create = function (entityData, checkStudentDuplicated, callback) {
+
+    var courseData = entityData;
+
+    Entity.transaction(function (transaction) {
+
+      Course.findOrCreate(checkStudentDuplicated, courseData, {
+        transaction: transaction
+      })
+        .success(function (createdCourse, created) {
+
+          if (!created) {
+            transaction.rollback();
+
+            callback(null, createdCourse, true);
+          } else {
+            if (courseData.classId != null) {
+              findClassStudent(courseData.classId, createdCourse, transaction);
+            } else {
+              transaction.commit();
+              callback(null, createdCourse, false);
+            }
+          }
+        })
+        .error(function (error) {
+          transaction.rollback();
+
+          callback(error);
+        });
+
+    });
+
+    function findClassStudent(classId, createdCourse, transaction) {
+      Student.findAll({
+        where: {
+          classId: classId
+        },
+        order: 'studentId'
+
+      })
+        .success(function (classStudent) {
+          if (classStudent.length) {
+            var courseStudents = [];
+            for (var i = 0, len = classStudent.length; i < len; i++) {
+              courseStudents.push({
+                courseId: createdCourse.courseId,
+                studentId: classStudent[i].studentId
+              });
+            }
+            createCourseStudent(courseStudents, createdCourse, transaction);
+          } else {
+            transaction.commit();
+            callback(null, createdCourse, false);
+          }
+        })
+        .error(function (error) {
+          callback(error);
+        });
+
+    }
+
+    function createCourseStudent(courseStudents, createdCourse, transaction) {
+      console.log(courseStudents);
+
+      CourseStudent.bulkCreate(courseStudents, {
+        transaction: transaction
+      })
+        .success(function () {
+          transaction.commit();
+          callback(null, createdCourse, false);
+        })
+        .error(function (error) {
+          transaction.rollback();
+          callback(error, createdCourse, true);
+        });
+    }
+
+  };
+
+  model.update = function (entityData, checkDupplicatedData, checkExistanceData, callback) {
+
+    var courseData = entityData;
+    var modelEntity = Course;
+
+
+    var courseId = checkExistanceData.courseId;
+
+    Course.find({
+      where: {
+        courseId: courseId
+      }
+    })
+      .success(function (course) {
+        updateCourse(entityData, checkDupplicatedData, checkExistanceData, course);
+      })
+      .error(function (error) {
+        callback(error);
+      });
+
+    function updateCourse(entityData, checkDupplicatedData, checkExistanceData, oldCourse) {
+      Entity.transaction(function (transaction) {
+
+        ModelUtil.update(modelEntity, entityData, checkDupplicatedData, checkExistanceData, function (error, updatedEntity, isDuplicated, isNotFound) {
+          if (error || isDuplicated || isNotFound) {
+
+            return;
+            transaction.rollback();
+            callback(error, updatedEntity, isDuplicated, isNotFound)
+          }
+
+          if (updatedEntity.classId == oldCourse.classId) {
+            transaction.commit();
+            callback(null, updatedEntity, false);
+          } else {
+            console.log('find');
+            destroyOldCourseStudent(updatedEntity, transaction)
+          }
+        });
+
+      });
+    }
+
+    function destroyOldCourseStudent(updatedEntity, transaction) {
+      CourseStudent.destroy({
+        courseId: updatedEntity.courseId
+      }).success(function () {
+        findClassStudent(updatedEntity, transaction);
+//        console.log('delete ok');
+//        transaction.commit();
+//        callback(null, updatedEntity, false);
+      })
+        .error(function (error) {
+          transaction.rollback();
+          callback(error);
+        });
+
+    }
+
+    function findClassStudent(updatedEntity, transaction) {
+      Student.findAll({
+        where: {
+          classId: updatedEntity.classId
+        },
+        order: 'studentId'
+
+      })
+        .success(function (classStudent) {
+          if (classStudent.length) {
+            var courseStudents = [];
+            for (var i = 0, len = classStudent.length; i < len; i++) {
+              courseStudents.push({
+                courseId: updatedEntity.courseId,
+                studentId: classStudent[i].studentId
+              });
+            }
+            createCourseStudent(courseStudents, updatedEntity, transaction);
+          } else {
+            transaction.commit();
+            callback(null, updatedEntity, false);
+          }
+        })
+        .error(function (error) {
+          callback(error);
+        });
+
+    }
+
+    function createCourseStudent(courseStudents, updatedEntity, transaction) {
+      console.log(courseStudents);
+
+      CourseStudent.bulkCreate(courseStudents, {
+        transaction: transaction
+      })
+        .success(function () {
+          transaction.commit();
+          callback(null, updatedEntity, false);
+        })
+        .error(function (error) {
+          transaction.rollback();
+          callback(error, updatedEntity, true);
+        });
+    }
+
+  };
+
 
   model.addScheduleSlots = function (courseId, slots, callback) {
 

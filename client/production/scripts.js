@@ -3020,6 +3020,7 @@ define.proxy('proxy.Grade', function (proxy, require) {
 });
 
 
+
 define.proxy('proxy.Major', function (proxy, require) {
 
   proxy.entityId = 'majorId';
@@ -14179,6 +14180,7 @@ define.form('component.form.manage-student.grade-student-statistic-client', func
 });
 
 
+
 define.form('component.form.student-course.ListCourse', function (form, require, Util, Lang) {
 
   form.urlMap = {
@@ -14901,6 +14903,7 @@ define('validator.rule.Course', function (module, require) {
 });
 
 
+
 //ThanhVMSE90059
 define('validator.rule.Department', function (module, require) {
 
@@ -15089,6 +15092,7 @@ define('validator.rule.GradeCategory', function (module, require) {
   module.exports = ruleGradeCategory;
 
 });
+
 
 
 define('validator.rule.Major', function (module, require) {
@@ -15909,6 +15913,7 @@ define('validator.rule.Subject', function (module, require) {
 
   module.exports = ruleSubject;
 });
+
 
 
 define('validator.rule.Term', function (module, require) {
