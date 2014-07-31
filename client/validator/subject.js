@@ -41,6 +41,7 @@ define('validator.rule.Subject', function (module, require) {
     ]
   };
 
+
   var ruleSubjectName = {
     // validate for subjectName
     attribute: 'subjectName',
@@ -68,6 +69,10 @@ define('validator.rule.Subject', function (module, require) {
       {
         // subjectId is required
         rule: 'required'
+      },
+      {
+        // courseName is required
+        rule: 'positiveInteger'
       }
      ]
   };
@@ -88,5 +93,4 @@ define('validator.rule.Subject', function (module, require) {
   };
 
   module.exports = ruleSubject;
-
 });

@@ -65,6 +65,18 @@ define('validator.rule.GradeCategory', function (module, require) {
   };
 
 
+  var ruleMinimumGrade = {
+    // validate for weight
+    attribute: 'minimumGrade',
+    attributeName: 'gradeCategory.minimumGrade',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      }
+     ]
+  };
+
+
   var ruleWeight = {
     // validate for weight
     attribute: 'weight',
@@ -101,6 +113,7 @@ define('validator.rule.GradeCategory', function (module, require) {
     ruleGradeCategoryCode,
     ruleGradeCategoryName,
     ruleGradeCategoryName,
+    ruleMinimumGrade,
     ruleWeight
 
   ];

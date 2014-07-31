@@ -14,6 +14,8 @@ define.proxy('proxy.Grade', function (proxy, require) {
 
   proxy.statisticGradeStudent = 'GET api/grade/statisticGradeStudent';
 
+  proxy.statisticGradeStudentClient = 'GET api/grade/statisticGradeStudentClient';
+
   // grade entity map
   proxy.EntityMap = [
     {

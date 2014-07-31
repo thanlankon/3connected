@@ -2975,6 +2975,8 @@ define.proxy('proxy.Grade', function (proxy, require) {
 
   proxy.statisticGradeStudent = 'GET api/grade/statisticGradeStudent';
 
+  proxy.statisticGradeStudentClient = 'GET api/grade/statisticGradeStudentClient';
+
   // grade entity map
   proxy.EntityMap = [
     {
@@ -3016,7 +3018,6 @@ define.proxy('proxy.Grade', function (proxy, require) {
 
 
 });
-
 
 
 define.proxy('proxy.Major', function (proxy, require) {
@@ -13975,6 +13976,209 @@ define.form('component.form.student-course.CourseGrade', function (form, require
 
 
 
+/*
+ * System          : 3connected
+ * Component       : Statistic grade component
+ * Creator         : UayLU
+ * Created date    : 2014/07/27
+ */
+define.form('component.form.manage-student.grade-student-statistic-client', function (form, require, Util, Lang) {
+
+  form.urlMap = {
+    url: ':module',
+    data: {
+      module: 'grade-statistic',
+    }
+  };
+
+  form.ServiceProxy = {
+    proxy: require('proxy.Grade'),
+    method: 'statisticGradeStudentClient'
+  };
+
+  form.tmpl = 'form.manage-student.grade-student-statistic-client';
+
+  form.exportConfig = require('export.GradeStudentStatistic');
+
+  form.formType = form.FormType.Form.LIST;
+
+  // grid config
+  form.gridConfig = function () {
+
+    var GradeStatus = require('enum.GradeStatus');
+    var StatisticType = require('enum.StatisticType');
+
+    var gridColumns = [{
+      text: Lang.get('course.courseName'),
+      dataField: 'courseName',
+
+      cellsRenderer: function (row, columnField, value) {
+        var text;
+        if (row.statistic == undefined) {
+          text = row.courseName;
+        } else {
+          switch (row.statistic) {
+          case StatisticType.AVERAGE_GRADE:
+            text = Lang.get('grade.averageGrade');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.ACCUMULATION_GRADE:
+            text = Lang.get('grade.accumulationGrade');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT_PASS:
+            text = Lang.get('grade.totalCreditPass');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT_FAIL:
+            text = Lang.get('grade.totalCreditFail');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT_UNFINISHED:
+            text = Lang.get('grade.totalCreditUnfinished');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          case StatisticType.TOTAL_CREDIT:
+            text = Lang.get('grade.totalCredits');
+            text = '<span class="statistic">' + text + '</span>';
+
+            break;
+          }
+        }
+
+        return text;
+      }
+    }, {
+      text: Lang.get('course.subjectName'),
+      dataField: 'subjectName',
+    }, {
+      text: Lang.get('term.termName'),
+      dataField: 'termName',
+    }, {
+      text: Lang.get('course.numberOfCredits'),
+      dataField: 'numberOfCredits',
+
+      cellsRenderer: function (row, columnField, value) {
+        var text = '';
+
+        if (row.statistic && value !== null && value != undefined) {
+          text = '<span class="statistic">' + value + '</span>';
+        } else {
+          text = value;
+        }
+
+        return text;
+      }
+    }, {
+      text: Lang.get('course.finalSubjectGrade'),
+      dataField: 'finalSubjectGrade',
+
+      cellsRenderer: function (row, columnField, value) {
+        var text = '';
+
+        if (row.statistic && value !== null && value != undefined) {
+          text = '<span class="statistic">' + value + '</span>';
+        } else {
+          text = value;
+        }
+
+        return text;
+      }
+    }, {
+      text: Lang.get('course.resultSubject'),
+      dataField: 'resultSubject',
+      width: 100,
+
+      cellsRenderer: function (row, columnField, value) {
+        var text = '';
+
+        if (row.statistic && value !== null && value != undefined) {
+          text = '<span class="statistic">' + value + '</span>';
+        } else {
+          switch (value) {
+          case GradeStatus.PASS:
+            text = Lang.get('grade.status.pass');
+            text = '<span class="grade-status grade-status-pass">' + text + '</span>';
+
+            break;
+          case GradeStatus.FAIL:
+            text = Lang.get('grade.status.fail');
+            text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+
+            break;
+          case GradeStatus.UNFINISHED:
+            text = Lang.get('grade.status.unfinished');
+            text = '<span class="grade-status grade-status-unfinished">' + text + '</span>';
+
+            break;
+          }
+        }
+
+        return text;
+      }
+    }];
+
+    var gridConfig = {
+      columns: gridColumns,
+      singleSelection: true,
+      filterable: false,
+      sortable: false,
+      pageable: false,
+
+      events: {
+        processData: this.proxy(this.processData)
+      }
+    };
+
+    return gridConfig;
+
+  };
+
+  form.processData = function (data, originalData) {
+    var accumulationGrade = originalData.data && originalData.data.accumulationGrade;
+    var totalCredits = originalData.data && originalData.data.totalCredits;
+    var totalCreditFail = originalData.data && originalData.data.totalCreditFail;
+    var totalCreditUnfinished = originalData.data && originalData.data.totalCreditUnfinished;
+
+    this.data.attr('accumulationGrade', accumulationGrade);
+    this.data.attr('totalCredits', totalCredits);
+    this.data.attr('totalCreditFail', totalCreditFail);
+    this.data.attr('totalCreditUnfinished', totalCreditUnfinished);
+  };
+
+
+  form.refreshData = function (data) {
+
+    var Role = require('enum.Role');
+    var studentId = form.authentication.userInformationId;
+
+    this.grid.setFilterConditions('studentId', studentId);
+
+    var StudentProxy = require('proxy.Student');
+
+    StudentProxy.findOne({
+      studentId: studentId
+    }, this.proxy(findOneDone));
+
+    function findOneDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var student = serviceResponse.getData();
+
+      this.data.attr({
+        student: student
+      });
+    }
+  }
+
+});
+
+
 define.form('component.form.student-course.ListCourse', function (form, require, Util, Lang) {
 
   form.urlMap = {
@@ -14667,8 +14871,21 @@ define('validator.rule.Course', function (module, require) {
     ]
   };
 
+  var ruleNumberOfCreadits = {
+    // validate for courseName
+    attribute: 'numberOfCredits',
+    attributeName: 'course.numberOfCredits',
+    rules: [
+      {
+        // courseName is required
+        rule: 'positiveInteger'
+      }
+    ]
+  };
+
   var ruleCreateCourse = [
-    ruleCourseName
+    ruleCourseName,
+    ruleNumberOfCreadits
   ];
 
   var ruleUpdateCourse = [
@@ -14681,9 +14898,7 @@ define('validator.rule.Course', function (module, require) {
   };
 
   module.exports = ruleCourse;
-
 });
-
 
 
 //ThanhVMSE90059
@@ -14809,6 +15024,18 @@ define('validator.rule.GradeCategory', function (module, require) {
   };
 
 
+  var ruleMinimumGrade = {
+    // validate for weight
+    attribute: 'minimumGrade',
+    attributeName: 'gradeCategory.minimumGrade',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      }
+     ]
+  };
+
+
   var ruleWeight = {
     // validate for weight
     attribute: 'weight',
@@ -14845,6 +15072,7 @@ define('validator.rule.GradeCategory', function (module, require) {
     ruleGradeCategoryCode,
     ruleGradeCategoryName,
     ruleGradeCategoryName,
+    ruleMinimumGrade,
     ruleWeight
 
   ];
@@ -14861,7 +15089,6 @@ define('validator.rule.GradeCategory', function (module, require) {
   module.exports = ruleGradeCategory;
 
 });
-
 
 
 define('validator.rule.Major', function (module, require) {
@@ -15629,6 +15856,7 @@ define('validator.rule.Subject', function (module, require) {
     ]
   };
 
+
   var ruleSubjectName = {
     // validate for subjectName
     attribute: 'subjectName',
@@ -15656,6 +15884,10 @@ define('validator.rule.Subject', function (module, require) {
       {
         // subjectId is required
         rule: 'required'
+      },
+      {
+        // courseName is required
+        rule: 'positiveInteger'
       }
      ]
   };
@@ -15676,9 +15908,7 @@ define('validator.rule.Subject', function (module, require) {
   };
 
   module.exports = ruleSubject;
-
 });
-
 
 
 define('validator.rule.Term', function (module, require) {
