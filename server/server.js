@@ -16,7 +16,7 @@ define.main(function (require) {
     var port = Configuration.Web.PORT;
 
     app.listen(port, host, function () {
-      console.log('App started at ' + host + ':' + port);
+      console.log('App started at ' + (host || '') + ':' + port);
     });
 
   });

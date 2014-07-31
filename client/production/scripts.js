@@ -7566,6 +7566,7 @@ define.component('component.common.Grid', function (component, require, Util, La
 });
 
 
+
 define.component('component.common.ScheduleGrid', function (component, require, Util, Lang, jQuery) {
 
   // grid columns
