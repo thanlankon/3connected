@@ -141,7 +141,12 @@ define.service('service.CourseStudent', function (service, require, ServiceUtil,
       var message;
 
       if (error) {
-        message = 'course.addStudents.error';
+        console.log(error.code);
+        if (error.code == 'ER_DUP_ENTRY') {
+          message = 'course.addStudents.duplicate';
+        } else {
+          message = 'course.addStudents.error';
+        }
       } else {
         message = 'course.addStudents.success';
       }

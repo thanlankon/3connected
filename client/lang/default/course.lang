@@ -59,6 +59,8 @@ course.findOneCourseStudent.notFound = Course not found
 course.statisticCourseAttendance.error.unknown = Error during statistic course attendance
 course.statisticCourseAttendance.notFound = Course attendance statsitic not found
 
+course.addStudents.duplicate = Some student already exist in course!!
+
 # schedule
 
 schedule.date = {{.date}}
