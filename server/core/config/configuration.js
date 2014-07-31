@@ -60,7 +60,6 @@ define('core.config.Configuration', function (module, require) {
     configuration = envConfig;
 
     // default
-    configuration.Web.HOST = configuration.Web.HOST || '127.0.0.1';
     configuration.Web.PORT = configuration.Web.PORT || 80;
 
     configuration.Database.HOST = configuration.Database.HOST || '127.0.0.1';

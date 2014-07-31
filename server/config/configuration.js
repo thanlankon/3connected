@@ -10,10 +10,6 @@ define('config.Configuration', function (module, require) {
   Configuration['SyncDbKey'] = 'splink';
 
   Configuration.Environments['LocalHost'] = {
-    Web: {
-      HOST: 'localhost',
-      PORT: 80
-    },
     Database: {
       HOST: 'localhost',
       PORT: 3306,
