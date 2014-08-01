@@ -23,6 +23,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
   var GradeConstant = require('constant.Grade');
   var StatisticType = require('enum.StatisticType');
 
+  var Util = require('core.util.Util');
+
   model.Entity = Grade;
 
   model.getCourseGrade = function (courseId, userId, callback) {
@@ -153,6 +155,8 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       return;
     }
 
+    console.log(gradeData);
+
     var grades = [];
 
     for (var i = 0, len = gradeData.length; i < len; i++) {
@@ -172,9 +176,21 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       var findOrCreateQueryChainer = Entity.queryChainer();
 
       grades.forEach(function (grade) {
-        findOrCreateQueryChainer.add(Grade.findOrCreate({
-          gradeId: grade.gradeId
-        }, {
+        var findOption;
+
+        if (grade.gradeId) {
+          findOption = {
+            gradeId: gradeId
+          }
+        } else {
+          findOption = {
+            gradeCategoryId: grade.gradeCategoryId,
+            studentId: grade.studentId,
+            courseId: grade.courseId,
+          }
+        }
+
+        findOrCreateQueryChainer.add(Grade.findOrCreate(findOption, {
           gradeCategoryId: grade.gradeCategoryId,
           studentId: grade.studentId,
           courseId: grade.courseId,
@@ -614,6 +630,73 @@ define.model('model.Grade', function (model, ModelUtil, require) {
     var isLocked = false;
 
     return isLocked;
+  }
+
+  model.importGrade = function (courseId, grades, userId, callback) {
+
+    CourseStudent.findAll({
+      where: {
+        courseId: courseId
+      },
+      include: [{
+        model: Student,
+        as: 'student'
+      }]
+    })
+      .success(function (courseStudent) {
+        if (!courseStudent.length) {
+          callback(null, 0);
+
+          return;
+        }
+
+        var studentIdMap = {};
+
+        for (var i = 0, len = courseStudent.length; i < len; i++) {
+          var studentCode = courseStudent[i].student && courseStudent[i].student.studentCode;
+
+          if (!studentCode) continue;
+
+          studentIdMap[studentCode.toUpperCase()] = courseStudent[i].studentId;
+        }
+
+        doImportGrade(courseId, studentIdMap, grades, callback);
+      })
+      .error(function (error) {
+        callback(error);
+      });
+
+    function doImportGrade(courseId, studentIdMap, grades, userId, callback) {
+
+      var gradeData = [];
+
+      Util.Collection.each(grades, function (studentGrades, studentCode) {
+        studentCode = (studentCode || '').toUpperCase();
+        var studentId = studentIdMap[studentCode];
+
+        if (!studentId) return;
+
+        for (var i = 0, len = studentGrades.length; i < len; i++) {
+          var grade = {
+            gradeCategoryId: studentGrades[i].gradeCategoryId,
+            studentId: studentId,
+            value: studentGrades[i].value
+          }
+
+          gradeData.push(grade);
+        }
+      });
+
+      model.updateCourseGrade(courseId, gradeData, userId, function (error) {
+        if (error) {
+          callback(error);
+        } else {
+          callback(null, gradeData.length)
+        }
+      });
+
+    }
+
   }
 
 });

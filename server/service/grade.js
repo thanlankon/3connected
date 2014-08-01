@@ -73,7 +73,17 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
         },
         url: '/statisticGradeStudentClient',
         httpMethod: 'GET'
-      }
+      },
+      importGrade: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isEducator(authentication.accountRole) ||
+            Role.isExaminator(authentication.accountRole) ||
+            Role.isTeacher(authentication.accountRole);
+          commit(authorized);
+        },
+        url: '/importGrade',
+        httpMethod: 'POST'
+      },
     }
   };
 
@@ -267,9 +277,10 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
             totalCreditUnfinished: statisticGradeStudent.totalCreditUnfinished,
             total: statisticGradeStudent.summaryGradeStudent.length
           };
-          ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
         }
       }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     });
 
   };
@@ -304,11 +315,39 @@ define.service('service.Grade', function (service, require, ServiceUtil, Util) {
             totalCreditUnfinished: statisticGradeStudent.totalCreditUnfinished,
             total: statisticGradeStudent.summaryGradeStudent.length
           };
-          ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
         }
       }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
     });
 
   };
+
+  service.importGrade = function (req, res) {
+    var courseId = req.body.courseId;
+    var grades = req.body.grades;
+
+    var userId = req.authentication.userInformationId;
+
+    var serviceResponse = {
+      error: null,
+      message: null,
+      data: null
+    };
+
+    GradeModel.importGrade(courseId, grades, userId, function (error, importedGrade) {
+      if (error) {
+        serviceResponse.message = 'grade.importGrade.error.unknown';
+        serviceResponse.error = error;
+      } else {
+        serviceResponse.message = 'grade.importGrade.success';
+        serviceResponse.data = {
+          importedGrade: importedGrade
+        }
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+  }
 
 });

@@ -45,3 +45,6 @@ grade.import.importFileInvalid = The selected file is not Excel file (.xlsx)
 grade.import.importFileRequired = The import file is required
 grade.import.studentColumnRequired = The column for <b>Student code</b> is required
 grade.import.invalidValueAt = Invalid value at {{cell}}
+
+grade.importGrade.error.unknown = Error during import grade!
+grade.importGrade.success = Import {{importedGrade}} grades successfully

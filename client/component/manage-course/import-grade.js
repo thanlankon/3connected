@@ -15,7 +15,10 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
   form.ServiceProxy = require('proxy.Course');
 
   form.reloadData = function (params) {
+    var courseId = this.data.attr('courseId');
     var subjectVersionId = this.data.attr('subjectVersionId');
+
+    this.courseId = courseId;
 
     var filters = [{
       field: 'subjectVersionId',
@@ -104,6 +107,8 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
   }
 
   form.submitDialogData = function () {
+    if (!this.courseId) return;
+
     var Xlsx = require('lib.Xlsx');
     var MsgBox = require('component.common.MsgBox');
 
@@ -177,7 +182,11 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
     var gradeMaps = {};
 
     for (var i = rowStart; i <= rowEnd; i++) {
-      var studentCode = sheet[studentColumn + i].v;
+      var studentCell = sheet[studentColumn + i];
+
+      if (!studentCell) continue;
+
+      var studentCode = studentCell.v;
       studentCode = (studentCode || '').trim();
 
       if (studentCode == '') continue;
@@ -226,7 +235,21 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
       grades[gradeMap.studentCode] = gradeMap.grades;
     });
 
-    console.log(grades);
+    var gradeData = {
+      courseId: this.courseId,
+      grades: grades
+    };
+
+    var GradeProxy = require('proxy.Grade');
+
+    GradeProxy.importGrade(gradeData, this.proxy(importGradeDone));
+
+    function importGradeDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var importGradeData = serviceResponse.getData();
+      console.log('Import done', importGradeData);
+    }
 
   };
 
