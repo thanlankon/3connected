@@ -155,8 +155,6 @@ define.model('model.Grade', function (model, ModelUtil, require) {
       return;
     }
 
-    console.log(gradeData);
-
     var grades = [];
 
     for (var i = 0, len = gradeData.length; i < len; i++) {
@@ -180,7 +178,7 @@ define.model('model.Grade', function (model, ModelUtil, require) {
 
         if (grade.gradeId) {
           findOption = {
-            gradeId: gradeId
+            gradeId: grade.gradeId
           }
         } else {
           findOption = {
@@ -660,13 +658,33 @@ define.model('model.Grade', function (model, ModelUtil, require) {
           studentIdMap[studentCode.toUpperCase()] = courseStudent[i].studentId;
         }
 
-        doImportGrade(courseId, studentIdMap, grades, callback);
+        Grade.findAll({
+          where: {
+            courseId: courseId
+          }
+        })
+          .success(function (courseGrades) {
+
+            var gradeIdMap = {};
+
+            for (var i = 0, len = courseGrades.length; i < len; i++) {
+              var gradeIdKey = courseGrades[i].courseId + '.' + courseGrades[i].studentId + '.' + courseGrades[i].gradeCategoryId;
+              gradeIdMap[gradeIdKey] = courseGrades[i].gradeId;
+            }
+
+            doImportGrade(courseId, studentIdMap, gradeIdMap, grades, userId, callback);
+
+          })
+          .error(function (error) {
+            callback(error);
+          });
+
       })
       .error(function (error) {
         callback(error);
       });
 
-    function doImportGrade(courseId, studentIdMap, grades, userId, callback) {
+    function doImportGrade(courseId, studentIdMap, gradeIdMap, grades, userId, callback) {
 
       var gradeData = [];
 
@@ -681,6 +699,11 @@ define.model('model.Grade', function (model, ModelUtil, require) {
             gradeCategoryId: studentGrades[i].gradeCategoryId,
             studentId: studentId,
             value: studentGrades[i].value
+          }
+
+          var gradeIdKey = courseId + '.' + studentId + '.' + studentGrades[i].gradeCategoryId;
+          if (gradeIdMap[gradeIdKey]) {
+            grade.gradeId = gradeIdMap[gradeIdKey];
           }
 
           gradeData.push(grade);
