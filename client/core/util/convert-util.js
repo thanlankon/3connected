@@ -167,6 +167,9 @@ define('core.util.ConvertUtil', function (module, require) {
       case Role.NEWS_MANAGER:
         gender = Lang.get('role.newsManager');
         break;
+      case Role.TEACHER:
+        gender = Lang.get('role.teacher');
+        break;
       case Role.STUDENT:
         gender = Lang.get('role.student');
         break;
@@ -193,6 +196,9 @@ define('core.util.ConvertUtil', function (module, require) {
         break;
       case Lang.get('role.newsManager'):
         role = Role.NEWS_MANAGER;
+        break;
+      case Lang.get('role.teacher'):
+        role = Role.TEACHER;
         break;
       case Lang.get('role.student'):
         role = Role.STUDENT;

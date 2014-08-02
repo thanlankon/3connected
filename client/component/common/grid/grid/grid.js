@@ -150,6 +150,7 @@ define.component('component.common.Grid', function (component, require, Util, La
             Lang.get('role.educator'),
             Lang.get('role.examinator'),
             Lang.get('role.newsManager'),
+            Lang.get('role.teacher'),
             Lang.get('role.student'),
             Lang.get('role.parent'),
           ];
