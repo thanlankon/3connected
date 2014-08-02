@@ -31,9 +31,12 @@ grade.totalCreditFail = Total failed credits
 grade.totalCreditPass = Total passed credits
 grade.totalCreditUnfinished = Total unfinished credits
 
+grade.status = Status
 grade.status.pass = Pass
 grade.status.fail = Fail
 grade.status.unfinished = Unfinished
+
+grade.validate.range = Grade should be in the 0-10 interval
 
 grade.import.file = Import file (.xlsx)
 grade.import.columnFor = Column for

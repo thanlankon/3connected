@@ -52,10 +52,12 @@ define.component('component.common.GradeGrid', function (component, require, Uti
         type: 'number',
 
         validation: function (cell, value) {
+          console.log(arguments);
+
           if (value != null && (value < 0 || value > 10)) {
             return {
               result: false,
-              message: "Quantity should be in the 0-10 interval"
+              message: Lang.get('grade.validate.range')
             };
           }
 
@@ -121,13 +123,13 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           gradeStatus: gradeStatus
         }
 
-        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade
+        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade.toFixed(2)
         text = '<span class="statistic">' + text + '</span>';
 
         return defaultCellRenderer(defaultHtml, text);
       })
     }, {
-      text: Lang.get('grade.averageGrade'),
+      text: Lang.get('grade.status'),
       filterType: 'textbox',
       editable: false,
       dataField: 'gradeStatus',
@@ -266,7 +268,6 @@ define.component('component.common.GradeGrid', function (component, require, Uti
     });
 
     this.element.jqxGrid('removesort');
-
   };
 
   component.refreshData = function (gradeData) {
