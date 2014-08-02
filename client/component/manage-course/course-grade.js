@@ -23,6 +23,10 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
   // the form type is FORM
   form.formType = form.FormType.FORM;
 
+  form.exportConfig = {
+    gridGrade: require('export.CourseGrade')
+  }
+
   form.initForm = function () {
     var GradeGridComponent = require('component.common.GradeGrid');
 

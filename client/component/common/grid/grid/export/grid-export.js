@@ -11,6 +11,7 @@ define('component.export.grid.GridExport', function (module, require) {
     var trimmer = jQuery('<div />');
 
     var originalGridColumns = grid.gridColumns;
+    var gridDataMap = grid.gridDataMap;
 
     grid = grid.element;
 
@@ -34,9 +35,12 @@ define('component.export.grid.GridExport', function (module, require) {
 
       var renderer = columnConfig && columnConfig.originalRenderer ? columnConfig.originalRenderer : undefined;
 
+      var headerText = column.text;
+      headerText = trimmer.html(headerText).text();
+
       gridData.fields.push({
         name: column.datafield,
-        text: column.text,
+        text: headerText,
         renderer: renderer
       });
     }
@@ -69,6 +73,8 @@ define('component.export.grid.GridExport', function (module, require) {
         // for column has custom renderer
         else if (renderer) {
           fieldValue = renderer(row, fieldName, fieldValue);
+        } else if (gridDataMap[i] && gridDataMap[i][fieldName]) {
+          fieldValue = gridDataMap[i][fieldName];
         }
 
         if (fieldValue === null || fieldValue === undefined) {
@@ -114,8 +120,10 @@ define('component.export.grid.GridExport', function (module, require) {
     var header = [];
     var headerFields = [];
 
+    var defaultConfig = exportConfig.columns._default;
+
     for (var i = 0, len = gridData.fields.length; i < len; i++) {
-      var columnConfig = exportConfig.columns[gridData.fields[i].name];
+      var columnConfig = exportConfig.columns[gridData.fields[i].name] || defaultConfig;
 
       if (!columnConfig || columnConfig.skip) continue;
 
@@ -138,7 +146,7 @@ define('component.export.grid.GridExport', function (module, require) {
       var row = [];
 
       for (j = 0; j < headerLen; j++) {
-        var columnConfig = exportConfig.columns[headerFields[j]];
+        var columnConfig = exportConfig.columns[headerFields[j]] || defaultConfig;
 
         if (!columnConfig || columnConfig.skip) continue;
 
@@ -154,7 +162,7 @@ define('component.export.grid.GridExport', function (module, require) {
 
     var exportColumns = [];
     for (i = 0; i < headerLen; i++) {
-      var columnConfig = exportConfig.columns[headerFields[i]];
+      var columnConfig = exportConfig.columns[headerFields[i]] || defaultConfig;
 
       if (!columnConfig || columnConfig.skip) continue;
 

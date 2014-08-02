@@ -2,6 +2,8 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
   component.gradeCalculation = {};
 
+  component.gridDataMap = {};
+
   // grid columns
   component.getGridColumns = function () {
 
@@ -123,7 +125,11 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           gradeStatus: gradeStatus
         }
 
-        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade.toFixed(2)
+        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade.toFixed(2);
+
+        this.gridDataMap[rowIndex] = this.gridDataMap[rowIndex] || {};
+        this.gridDataMap[rowIndex][columnField] = text;
+
         text = '<span class="statistic">' + text + '</span>';
 
         return defaultCellRenderer(defaultHtml, text);
@@ -139,27 +145,30 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
         var gradeCalculation = this.gradeCalculation[rowIndex];
 
-        var text;
+        var text, plainText;
 
         if (gradeCalculation) {
           switch (gradeCalculation.gradeStatus) {
           case GradeStatus.PASS:
-            text = Lang.get('grade.status.pass');
-            text = '<span class="grade-status grade-status-pass">' + text + '</span>';
+            plainText = Lang.get('grade.status.pass');
+            text = '<span class="grade-status grade-status-pass">' + plainText + '</span>';
 
             break;
           case GradeStatus.FAIL:
-            text = Lang.get('grade.status.fail');
-            text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+            plainText = Lang.get('grade.status.fail');
+            text = '<span class="grade-status grade-status-fail">' + plainText + '</span>';
 
             break;
           case GradeStatus.UNFINISHED:
-            text = Lang.get('grade.status.unfinished');
-            text = '<span class="grade-status grade-status-unfinished">' + text + '</span>';
+            plainText = Lang.get('grade.status.unfinished');
+            text = '<span class="grade-status grade-status-unfinished">' + plainText + '</span>';
 
             break;
           }
         }
+
+        this.gridDataMap[rowIndex] = this.gridDataMap[rowIndex] || {};
+        this.gridDataMap[rowIndex][columnField] = plainText;
 
         return defaultCellRenderer(defaultHtml, text);
       })
@@ -276,6 +285,9 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
     var source = this.generateSource(gradeData);
     var columns = this.getGridColumns();
+
+    this.gridDataMap = {};
+    this.gradeCalculation = {};
 
     this.element.jqxGrid({
       source: source,
