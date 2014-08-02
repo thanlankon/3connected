@@ -11,6 +11,10 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
     }
   };
 
+  form.exportConfig = {
+    gridClassStudents: require('export.Student')
+  }
+
   form.gridConfig = function () {
 
     // grid students
