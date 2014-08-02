@@ -21,10 +21,11 @@
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-student" action="parent"}}">{{lang "parent"}}</a>
       </li>
-
+      {{#auth.isEducator}}
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-student" action="grade-statistic"}}">{{lang "student.gradeStatistic"}}</a>
       </li>
+      {{/auth.isEducator}}
 
       <li class="icon export right" data-component-role="export-button">
         <span>{{lang "export"}}</span>
