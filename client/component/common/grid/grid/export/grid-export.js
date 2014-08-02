@@ -73,7 +73,7 @@ define('component.export.grid.GridExport', function (module, require) {
         // for column has custom renderer
         else if (renderer) {
           fieldValue = renderer(row, fieldName, fieldValue);
-        } else if (gridDataMap[i] && gridDataMap[i][fieldName]) {
+        } else if (gridDataMap && gridDataMap[i] && gridDataMap[i][fieldName]) {
           fieldValue = gridDataMap[i][fieldName];
         }
 
