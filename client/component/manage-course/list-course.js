@@ -13,6 +13,8 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
 
   form.formType = form.FormType.Form.LIST;
 
+  form.exportConfig = require('export.Course');
+
   // grid config
   form.gridConfig = function () {
 
