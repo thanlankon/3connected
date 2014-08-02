@@ -134,13 +134,13 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
             var courseAttendance = serviceResponse.getData();
 
-            var percentAbsents = courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents / courseAttendance.statistics.totalSlots * 100;
+            var percentAbsents = courseAttendance.statistics.studentAttendances[form.authentication.userInformationId].totalAbsents / courseAttendance.statistics.totalSlots * 100;
             percentAbsents = percentAbsents.toFixed(2);
             this.data.attr({
               courseAttendance: {
                 percentAbsents: percentAbsents,
-                totalAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents,
-                totalPresents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents,
+                totalAbsents: courseAttendance.statistics.studentAttendances[form.authentication.userInformationId].totalAbsents,
+                totalPresents: courseAttendance.statistics.studentAttendances[form.authentication.userInformationId].totalPresents,
 
               }
             });
