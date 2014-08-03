@@ -72,6 +72,17 @@ define('validator.rule.GradeCategory', function (module, require) {
     rules: [
       {
         rule: 'positiveInteger'
+      }, {
+        rule: 'min',
+        ruleData: {
+          min: 0
+        }
+      },
+      {
+        rule: 'max',
+        ruleData: {
+          max: 10
+        }
       }
      ]
   };
@@ -88,6 +99,17 @@ define('validator.rule.GradeCategory', function (module, require) {
       },
       {
         rule: 'positiveInteger'
+      }, {
+        rule: 'min',
+        ruleData: {
+          min: 0
+        }
+      },
+      {
+        rule: 'max',
+        ruleData: {
+          max: 100
+        }
       }
      ]
   };
