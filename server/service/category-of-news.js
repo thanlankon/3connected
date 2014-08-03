@@ -19,7 +19,7 @@ define.service('service.CategoryOfNews', function (service, require, ServiceUtil
     },
 
     findAll: {
-      buildFindOptions: function (findOptions) {
+      buildFindOptions: function (findOptions, query) {
         findOptions.include = [{
           model: NewsModel,
           as: 'news',
@@ -28,6 +28,10 @@ define.service('service.CategoryOfNews', function (service, require, ServiceUtil
             as: 'author',
           }]
         }];
+
+        if (query.noContent !== undefined) {
+          findOptions.include[0].attributes = ['newsId', 'title', 'authorId', 'createdTime'];
+        }
       }
     },
   };
