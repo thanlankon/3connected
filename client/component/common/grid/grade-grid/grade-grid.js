@@ -25,12 +25,14 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       dataField: 'firstName',
       //      columnGroup: 'student',
 
+        width: '100px',
       filterType: 'textbox',
       editable: false,
     }, {
       text: Lang.get('grade.student.lastName'),
       dataField: 'lastName',
       //      columnGroup: 'student',
+        width: '200px',
 
       filterType: 'textbox',
       editable: false,
@@ -139,6 +141,8 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       filterType: 'textbox',
       editable: false,
       dataField: 'gradeStatus',
+        width: '100px',
+
 
       cellsRenderer: this.proxy(function (rowIndex, columnField, value, defaultHtml, columnProperties) {
         var GradeStatus = require('enum.GradeStatus');
