@@ -6,6 +6,18 @@
   position: relative;
   overflow: hidden;
 }
+.cpanel > .loading {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0) center center no-repeat;
+  background-image: url("/resource/resource/img/common/loading_2.gif");
+  background-size: 50px 50px;
+}
 .cpanel .footer {
   position: absolute;
   left: 0px;

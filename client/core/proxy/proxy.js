@@ -48,6 +48,8 @@ define('core.proxy.Proxy', function (module, require) {
   ProxyMethod.prototype.doRequest = function (requestData, callback) {
     console.log('do request', requestData);
 
+    jQuery('.cpanel > .loading').fadeIn(100);
+
     var ajax = jQuery.ajax({
       type: this.httpMethod,
       url: this.url,
@@ -56,6 +58,8 @@ define('core.proxy.Proxy', function (module, require) {
 
     if (callback) {
       ajax.done(function (responseData) {
+        jQuery('.cpanel > .loading').fadeOut(100);
+
         var serviceResponse = new ServiceResponse(responseData);
 
         ServiceResponseUtil.handleServiceResponse(serviceResponse);
@@ -73,6 +77,8 @@ define('core.proxy.Proxy', function (module, require) {
   // global ajax error handler
   jQuery(document).ajaxError(function (error) {
     console.log(error);
+
+    jQuery('.cpanel > .loading').fadeOut(100);
 
     var MsgBox = require('component.common.MsgBox');
     var Lang = require('core.lang.Lang');
