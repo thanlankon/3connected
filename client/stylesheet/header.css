@@ -26,17 +26,19 @@
   display: inline-block;
 }
 .cpanel .header .left-section .app-logo {
-  background: center center no-repeat;
-  background-image: url("/resource/resource/img/logo/logo.png");
-  width: 40px;
+  background: left center no-repeat;
+  background-image: url("/resource/resource/img/logo/logo-with-name-light.png");
+  width: 130px;
   height: 40px;
-  margin-left: 5px;
+  background-size: 131px 35px;
+  margin-left: 10px;
   float: left;
 }
 .cpanel .header .left-section .app-name {
   color: #eee;
   text-shadow: 1px 1px 1px #2b579a;
   font-size: 17px;
+  display: none;
   margin-left: 10px;
   margin-top: 10px;
   height: 20px;

@@ -90,9 +90,9 @@
 .login-form .form-content .app-logo {
   position: absolute;
   width: 250px;
-  height: 50px;
+  height: 70px;
   left: 0;
-  top: 10px;
+  top: -10px;
   background: left center no-repeat;
   background-image: url("/resource/resource/img/logo/logo-with-name.png");
 }
@@ -128,7 +128,7 @@
 }
 .login-form .form-content .checkbox {
   float: left;
-  margin-top: 30px;
+  margin-top: 35px;
   position: relative;
 }
 .login-form .form-content .checkbox .text {
