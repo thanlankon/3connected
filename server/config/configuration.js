@@ -15,7 +15,7 @@ define('config.Configuration', function (module, require) {
       PORT: 3306,
       NAME: '3connected',
       USERNAME: 'root',
-      PASSWORD: ''
+      PASSWORD: 'root'
     }
   }
 
