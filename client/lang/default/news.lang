@@ -11,7 +11,7 @@ news.author = Author
 # components
 
 news.view = View
-news.create = Create
+news.create = Create news
 news.edit = Edit
 news.delete = Delete
 

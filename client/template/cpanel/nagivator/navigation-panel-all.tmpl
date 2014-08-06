@@ -1,0 +1,174 @@
+<template id="cpanel.navigation-panel-all">
+
+  <div id="navigation-panel" class="navigation-panel">
+     <div id='navigation-tab'>
+        <ul class="tab-items">
+            <li>
+              <span class="icon"></span> Home
+            </li>
+            <li>
+              <span class="icon"></span> System
+            </li>
+        </ul>
+
+        <div class="tab-panel tab-home">
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="manage-course"}}">
+              <div class="button-icon icon-course">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.course'}}
+              </div>
+            </a>
+          </div>
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="manage-student"}}">
+              <div class="button-icon icon-student">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.student'}}
+              </div>
+            </a>
+          </div>
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="manage-class"}}">
+              <div class="button-icon icon-class">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.class'}}
+              </div>
+            </a>
+          </div>
+
+          <div class="button-group">
+            <a class="button button-small" href="{{url module="manage-course" action="create"}}">
+              <span class="button-icon icon-create-course">
+              </span>
+              <span class="button-text">
+                {{lang 'course.create'}}
+              </span>
+            </a>
+            <a class="button button-small" href="{{url module="manage-class" action="create"}}">
+              <span class="button-icon icon-create-class">
+              </span>
+              <span class="button-text">
+                {{lang 'class.create'}}
+              </span>
+            </a>
+            <a class="button button-small" href="{{url module="manage-student" action="create"}}">
+              <span class="button-icon icon-create-student">
+              </span>
+              <span class="button-text">
+                {{lang 'student.create'}}
+              </span>
+            </a>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="news"}}">
+              <div class="button-icon icon-news">
+              </div>
+              <div class="button-text">
+                {{lang 'news'}}
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="tab-panel tab-system">
+
+          <div class="button-group">
+            <div class="button button-large">
+              <div class="button-icon icon-major">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.major'}}
+              </div>
+            </div>
+          </div>
+          <div class="button-group">
+            <div class="button button-large">
+              <div class="button-icon icon-batch">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.batch'}}
+              </div>
+            </div>
+          </div>
+          <div class="button-group">
+            <div class="button button-large">
+              <div class="button-icon icon-term">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.term'}}
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <a class="button button-small">
+              <span class="button-icon icon-create-major">
+              </span>
+              <span class="button-text">
+                {{lang 'major.create'}}
+              </span>
+            </a>
+            <a class="button button-small">
+              <span class="button-icon icon-create-batch">
+              </span>
+              <span class="button-text">
+                {{lang 'batch.create'}}
+              </span>
+            </a>
+            <a class="button button-small">
+              <span class="button-icon icon-create-term">
+              </span>
+              <span class="button-text">
+                {{lang 'term.create'}}
+              </span>
+            </a>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <div class="button button-large">
+              <div class="button-icon icon-subject">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.subject'}}
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <div class="button button-large">
+              <div class="button-icon icon-attendance-history">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.history.attendance'}}
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <div class="button button-large">
+              <div class="button-icon icon-grade-history">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.history.grade'}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+     </div>
+  </div>
+
+</template>

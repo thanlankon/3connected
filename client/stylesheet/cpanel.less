@@ -1,16 +1,16 @@
 .cpanel {
-  > .loading {
+  > .loading, .jqx-grid-load {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
 
-    z-index: 10000;
+    z-index: 99999;
     background: rgba(255, 255, 255, 0) center center no-repeat;
     background-image: url("@{url-img}/common/loading_2.gif");
-    background-size: 50px 50px;
+    //background-size: 50px 50px;
   }
 
   width: 100%;

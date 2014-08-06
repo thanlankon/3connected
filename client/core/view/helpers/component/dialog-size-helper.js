@@ -10,15 +10,15 @@ define('core.view.helpers.DialogSizeHelper', function (module, require) {
     var width = options.hash.width;
     var height = options.hash.height;
 
-    return function (element) {
-      element = jQuery(element);
+    var html = [
+      '<div class="dialog-size" style="display: none" data-width="',
+      width,
+      '" data-height="',
+      height,
+      '"></div>"'
+    ].join('');
 
-      element.addClass('dialog-size').data({
-        width: width,
-        height: height
-      });
-    };
-
+    return View.safeString(html);
   }
 
 });

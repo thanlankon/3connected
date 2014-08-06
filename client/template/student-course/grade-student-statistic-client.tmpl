@@ -1,7 +1,10 @@
 <template id="form.manage-student.grade-student-statistic-client">
 
+  {{form.title lang='title.studentCourse.gradeStatistics'}}
+
   <div class="toolbar">
     <ul>
+      {{#auth.isEducator}}
       <li class="icon back">
         <a href="{{url module="manage-student"}}"></a>
       </li>
@@ -19,6 +22,7 @@
 
       <li class="divider">
       </li>
+      {{/auth.isEducator}}
 
       <li class="text">
         <span>{{lang 'grade.accumulationGrade'}}: <b>{{accumulationGrade}}</b></span>

@@ -30,6 +30,6 @@ student.edit = Edit student
 student.delete = Delete students
 
 student.detail = Student information
-student.gradeStatistic = Grade statistic
+student.gradeStatistic = Grade statistics
 grade.totalCreditCurrentLearn = Total credit current learn
 student.gradStatistic = View grade statistic

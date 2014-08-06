@@ -1,7 +1,7 @@
 #button
 
 grade.view = View
-summary.grade-statistic-student = Grade statistic
+summary.grade-statistic-student = Grade statistics
 
 grade.importGradeForCourse = Import grade for course
 

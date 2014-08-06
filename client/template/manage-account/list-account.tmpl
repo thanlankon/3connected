@@ -8,10 +8,12 @@ Created date    : 2014/16/06
 
 <template id="form.manage-account.list-account">
 
+  {{form.title lang='title.manageAccount.listAccount'}}
+
   <div class="toolbar">
     <ul>
-      <li class="icon back">
-      </li>
+      <!--<li class="icon back">
+      </li>-->
 
       <li class="icon edit" data-component-role="edit-button" data-depends-entity="focused">
         <a href="{{url module="manage-account" action="edit"}}">{{lang "account.edit"}}</a>

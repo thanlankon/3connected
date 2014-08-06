@@ -1,0 +1,81 @@
+<template id="cpanel.navigation-panel.parent">
+
+  <div id="navigation-panel" class="navigation-panel">
+     <div id='navigation-tab'>
+        <ul class="tab-items">
+          <li>
+            <span class="icon"></span> Home
+          </li>
+        </ul>
+
+        <div class="tab-panel tab-home">
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="notification"}}">
+              <div class="button-icon icon-notification">
+              </div>
+              <div class="button-text">
+                {{lang 'notification'}}
+              </div>
+            </a>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="news"}}">
+              <div class="button-icon icon-news">
+              </div>
+              <div class="button-text">
+                {{lang 'news'}}
+              </div>
+            </a>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="student-course"}}">
+              <div class="button-icon icon-course">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.student-course'}}
+              </div>
+            </a>
+          </div>
+
+          <div class="button-group">
+            <a class="button button-small" href="{{url module="summary-grade"}}">
+              <span class="button-icon icon-grade-summary">
+              </span>
+              <span class="button-text">
+                {{lang 'summary.grade'}}
+              </span>
+            </a>
+            <a class="button button-small" href="{{url module="grade-statistic"}}">
+              <span class="button-icon icon-grade-statistic">
+              </span>
+              <span class="button-text">
+                {{lang 'summary.grade-statistic-student'}}
+              </span>
+            </a>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="profile" action="change-password"}}">
+              <div class="button-icon icon-password">
+              </div>
+              <div class="button-text">
+                {{lang 'profile.changePassword'}}
+              </div>
+            </a>
+           </div>
+
+        </div>
+
+     </div>
+  </div>
+
+</template>

@@ -255,7 +255,10 @@ define.component('component.common.Grid', function (component, require, Util, La
       // other
       showEmptyRow: false,
       // toolbar
-      showStatusbar: false
+      showStatusbar: false,
+      // loading
+      showdefaultloadelement: false,
+      autoshowloadelement: false
     };
 
     if (options.grid.pageable !== false) {

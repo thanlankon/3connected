@@ -4,12 +4,14 @@ Component       : List department
 Creator         : UayLu
 Created date    : 2014/16/06
 -->
-  <template id="form.manage-department.list-department">
+<template id="form.manage-department.list-department">
+
+  {{form.title lang='title.manageDepartment.listDepartment'}}
 
   <div class="toolbar">
     <ul>
-      <li class="icon back">
-      </li>
+      <!--<li class="icon back">
+      </li>-->
 
       <li class="icon create" data-component-role="create-button">
         <a href="{{url module="manage-department" action="create"}}">{{lang "department.create"}}</a>

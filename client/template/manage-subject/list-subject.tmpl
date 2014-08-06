@@ -7,11 +7,12 @@ Created date    : 2014/16/06
 
 <template id="form.manage-subject.list-subject">
 
+  {{form.title lang='title.manageSubject.listSubject'}}
+
   <div class="toolbar">
     <ul>
-      <li class="icon back">
-        <a href="{{url module="manage-subject"}}"></a>
-      </li>
+      <!--<li class="icon back">
+      </li>-->
 
       <li class="icon create" data-component-role="create-button">
         <a href="{{url module="manage-subject" action="create"}}">{{lang "subject.create"}}</a>

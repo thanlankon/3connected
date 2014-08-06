@@ -1,0 +1,49 @@
+title.manageAccount.listAccount = Accounts
+
+title.manageBatch.listBatch = Batches
+
+title.manageClass.listClass = Classes
+title.manageClass.classStudent = Students of class
+
+title.manageCourse.listCourse = Courses
+title.manageCourse.courseGrade = Grades of course
+title.manageCourse.courseAttendance = Attendances of course
+title.manageCourse.courseAttendanceStatistics = Attendance statistics of course 
+title.manageCourse.courseSchedule = Schedule of course
+title.manageCourse.courseStudent = Students of course
+
+title.manageDepartment.listDepartment = Departments
+
+title.manageGradeCategory.listGradeCategory = Grade categories
+
+title.history.attendance = Attendance history
+title.history.grade = Grade history
+
+title.manageMajor.listMajor = Majors
+
+title.manageNews.newsDetail = News viewer
+title.manageNews.newsEditor = News editor
+title.manageNews.newsExplorer = News explorer
+title.manageNewsCategory.listNewsCategory = News categories
+
+title.manageParent.listParent = Parents of student
+
+title.manageStaff.listStaff = Staffs
+
+title.manageStudent.listStudent = Students
+title.manageStudent.gradeStatistics = Grade statistics of student
+
+title.manageSubject.listSubject = Subjects
+title.manageSubjectVersion.listSubjectVersion = Subject versions
+
+title.manageTerm.listTerm = Terms
+
+title.notification.notificationExplorer = Notification explorer
+
+title.studentCourse.courseAttendance = Attendances of course
+title.studentCourse.courseGrade = Grades of course
+title.studentCourse.gradeStatistics = Grade statistics
+
+title.studentCourse.listCourse = Courses
+
+title.studentCourse.summaryGrade = Grade summaries

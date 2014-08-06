@@ -1,4 +1,4 @@
-define.component('component.Form', function (component, require, Util, Lang) {
+define.component('component.Form', function (component, require, Util, Lang, jQuery) {
 
   var jQuery = require('lib.jQuery');
   var Route = require('core.route.Route');
@@ -8,6 +8,10 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
   component.showForm = function (data) {
     this.element.show();
+
+    if (this.formTitle) {
+      jQuery('#location').html(this.formTitle);
+    }
 
     if (this.refreshData) {
       this.refreshData(data)
@@ -45,6 +49,12 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
     // update grid columns chooser
     this.updateGridColumnsChooser();
+
+    var titleElement = this.element.find('.form-title');
+    var titleLangId = titleElement.data('lang');
+    if (titleLangId) {
+      this.formTitle = Lang.get(titleLangId);
+    }
 
     this.on();
   };

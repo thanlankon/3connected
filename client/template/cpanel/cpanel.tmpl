@@ -2,7 +2,35 @@
 
   <div id="cpanel" class="cpanel">
 
-    <div class="loading"></div>
+    <div class="loading jqx-grid-load"></div>
+
+    {{#auth.isAdministrator}}
+      {{partial id="cpanel.navigation-panel.administrator"}}
+    {{/auth.isAdministrator}}
+
+    {{#auth.isEducator}}
+      {{partial id="cpanel.navigation-panel.educator"}}
+    {{/auth.isEducator}}
+
+    {{#auth.isExaminator}}
+      {{partial id="cpanel.navigation-panel.examinator"}}
+    {{/auth.isExaminator}}
+
+    {{#auth.isNewsManager}}
+      {{partial id="cpanel.navigation-panel.news-manager"}}
+    {{/auth.isNewsManager}}
+
+    {{#auth.isStudent}}
+      {{partial id="cpanel.navigation-panel.student"}}
+    {{/auth.isStudent}}
+
+    {{#auth.isParent}}
+      {{partial id="cpanel.navigation-panel.parent"}}
+    {{/auth.isParent}}
+
+    {{#auth.isTeacher}}
+      {{partial id="cpanel.navigation-panel.teacher"}}
+    {{/auth.isTeacher}}
 
     <div class="header">
 
@@ -12,6 +40,7 @@
 
         <div class="expander" id="expander">
           <ul class="navigator" id="navigator">
+
             {{#auth.isAdministrator}}
               {{partial id="cpanel.workspace-list.administrator"}}
             {{/auth.isAdministrator}}
@@ -39,7 +68,6 @@
             {{#auth.isTeacher}}
               {{partial id="cpanel.workspace-list.teacher"}}
             {{/auth.isTeacher}}
-
 
           </ul>
         </div>

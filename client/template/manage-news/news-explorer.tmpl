@@ -1,9 +1,11 @@
 <template id="form.manage-news.news-explorer">
 
+  {{form.title lang='title.manageNews.newsExplorer'}}
+
   <div class="toolbar">
     <ul>
-      <li class="icon back">
-      </li>
+      <!--<li class="icon back">
+      </li>-->
 
       <li class="icon view" data-component-role="view-button" data-depends-entity="focused">
         <a href="{{url module="news" action="detail"}}">{{lang "news.view"}}</a>

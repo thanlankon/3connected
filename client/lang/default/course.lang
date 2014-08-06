@@ -24,10 +24,10 @@ course.resultSubject = Result
 
 # button
 
-course.create = Create Course
-course.view = View Course details
+course.create = Create course
+course.view = View course details
 course.edit = Edit Course
-course.delete = Delete Courses
+course.delete = Delete courses
 
 course.schedule = Schedule
 course.attendance = Attendance

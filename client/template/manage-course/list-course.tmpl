@@ -5,12 +5,14 @@ Creator         : VyBD
 Modifier        :ThanhVM
 Created date    : 2014/16/06
 -->
-  <template id="form.manage-course.list-course">
+<template id="form.manage-course.list-course">
+
+  {{form.title lang='title.manageCourse.listCourse'}}
 
   <div class="toolbar">
     <ul>
-      <li class="icon back">
-      </li>
+      <!--<li class="icon back">
+      </li>-->
 
       {{#auth.isEducator}}
       <li class="icon create" data-component-role="create-button">
@@ -23,17 +25,17 @@ Created date    : 2014/16/06
       <li class="icon delete" data-component-role="delete-button" data-depends-entity="selected">
         <a href="#">{{lang "course.delete"}}</a>
       </li>
-      {{/#auth.isEducator}}
 
       <li class="divider"></li>
 
-      {{#auth.isEducator}}
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="attendance"}}">{{lang "course.attendance"}}</a>
       </li>
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="attendance-statistic"}}">{{lang "course.attendanceStatistic"}}</a>
       </li>
+
+      <li class="divider"></li>
       {{/#auth.isEducator}}
 
       {{#auth.isTeacher}}
@@ -43,6 +45,8 @@ Created date    : 2014/16/06
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="attendance-statistic"}}">{{lang "course.attendanceStatistic"}}</a>
       </li>
+
+      <li class="divider"></li>
       {{/#auth.isTeacher}}
 
       <li class="icon list" data-depends-entity="focused">
@@ -61,6 +65,8 @@ Created date    : 2014/16/06
       {{/#auth.isEducator}}
 
       {{#auth.isTeacher}}
+      <li class="divider"></li>
+
       <li class="icon list" data-depends-entity="focused">
         <a href="{{url module="manage-course" action="schedule"}}">{{lang "course.schedule"}}</a>
       </li>

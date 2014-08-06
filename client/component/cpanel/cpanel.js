@@ -29,12 +29,6 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       ProfileProxy.getSimpleProfile({}, this.proxy(getSimpleProfileDone));
     }
 
-    this.data.attr({
-      user: {
-        username: 'TrongND'
-      }
-    });
-
     function getSimpleProfileDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
@@ -59,6 +53,8 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
+    initNavigationBar();
+
     this.element.find('#expander').click(toggleNavigator);
     this.element.find('#expander #navigator li').click(function () {
       var elm = jQuery(this);
@@ -74,9 +70,40 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     });
 
     function toggleNavigator() {
-      var elm = jQuery('#expander');
-      elm.find('#navigator').slideToggle(100);
-      elm.toggleClass('active');
+//      var elm = jQuery('#expander');
+//      elm.find('#navigator').slideToggle(100);
+//      elm.toggleClass('active');
+//
+//      return;
+
+      var $form = jQuery('#forms');
+      var $panel = jQuery('#navigation-panel');
+
+      var top = 150;
+      if ($panel.is(':visible')) {
+        top = -top;
+      }
+
+      $panel.slideToggle(100, function() {
+        $form.css('top', ($form.position().top + top) + 'px');
+
+        jQuery(window).trigger('resize');
+      });
+    }
+
+    function initNavigationBar() {
+      var $panel = jQuery('#navigation-panel');
+
+      var $tab = $panel.find('#navigation-tab');
+
+      $tab.jqxTabs({
+        animationType: 'fade',
+        position: 'bottom'
+      });
+
+      setTimeout(function () {
+        jQuery('#expander').click();
+      }, 100);
     }
 
     Route.ready();
@@ -117,7 +144,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 
         if (isMatched) {
           this.static.switchForm(formUrlMap.formId);
-          this.static.updateNavigator();
+          //this.static.updateNavigator();
 
           return;
         }
