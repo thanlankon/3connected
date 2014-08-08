@@ -1,0 +1,40 @@
+<template id="cpanel.navigation-panel.teacher">
+
+  <div id="navigation-panel" class="navigation-panel">
+     <div id='navigation-tab'>
+        <ul class="tab-items">
+          <li>
+            <span class="icon"></span> Home
+          </li>
+        </ul>
+
+        <div class="tab-panel tab-home">
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="manage-course"}}">
+              <div class="button-icon icon-course">
+              </div>
+              <div class="button-text">
+                {{lang 'manage.course'}}
+              </div>
+            </a>
+          </div>
+
+          <div class="button-group divider"></div>
+
+          <div class="button-group">
+            <a class="button button-large" href="{{url module="profile" action="change-password"}}">
+              <div class="button-icon icon-password">
+              </div>
+              <div class="button-text">
+                {{lang 'profile.changePassword'}}
+              </div>
+            </a>
+           </div>
+
+        </div>
+
+     </div>
+  </div>
+
+</template>
