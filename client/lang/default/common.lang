@@ -24,6 +24,8 @@ displayName = {{firstName}} {{lastName}}
 all = All
 unknown = Unknown
 
+more = More
+
 # gender
 
 gender.all = {{.all}}

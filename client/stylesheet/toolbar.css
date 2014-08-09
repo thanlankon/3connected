@@ -88,6 +88,50 @@
 .form .toolbar li.button i {
   font-size: 12px;
 }
+.form .toolbar li.more {
+  position: relative;
+}
+.form .toolbar li.more span {
+  padding-left: 5px !important;
+  padding-right: 25px;
+  background: right center no-repeat;
+  background-image: url("/resource/resource/img/common/more.png");
+}
+.form .toolbar li.more .drop-down {
+  display: none;
+  position: absolute;
+  right: 0px;
+  top: 30px;
+  min-width: 150px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px 1px #eee;
+  background: #fff;
+  z-index: 9999;
+}
+.form .toolbar li.more .drop-down li,
+.form .toolbar li.more .drop-down li span,
+.form .toolbar li.more .drop-down li a {
+  box-sizing: border-box;
+  width: 100%;
+}
+.form .toolbar li.more .drop-down li {
+  background-position: 10px center;
+}
+.form .toolbar li.more .drop-down li span,
+.form .toolbar li.more .drop-down li a {
+  padding-left: 35px;
+}
+.form .toolbar li.more .drop-down li.divider {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  height: 1px;
+  background: #888;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-bottom: 5px;
+}
 .form .toolbar li.divider {
   margin-top: 5px;
   height: 20px;
@@ -120,7 +164,10 @@
 }
 .form .toolbar li.icon:active,
 .form .toolbar li.button span:active,
-.form .toolbar li.button a:active {
+.form .toolbar li.button a:active,
+.form .toolbar li.icon.active,
+.form .toolbar li.button span.active,
+.form .toolbar li.button a.active {
   background-color: #ddd !important;
 }
 .form .toolbar li.icon.disabled a,

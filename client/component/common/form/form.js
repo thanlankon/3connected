@@ -124,6 +124,16 @@ define.component('component.Form', function (component, require, Util, Lang, jQu
     GridExport.exportToExcel(this[grid], this.exportConfig[grid] || this.exportConfig);
   }
 
+  component.events['[data-component-role=more-button] click'] = function (element, event) {
+    element.toggleClass('active');
+
+    if (element.hasClass('active')) {
+      element.find('.drop-down').fadeIn(100);
+    } else {
+      element.find('.drop-down').fadeOut(100);
+    }
+  }
+
   component.initGrid = function () {
 
     var GridComponent = require('component.common.Grid');
