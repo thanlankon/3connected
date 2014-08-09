@@ -87,6 +87,7 @@ entity.create.success = {{entityName}} <b>{{displayAttribute}}</b> is created su
 
 entity.destroy.incomplete = Error! Deletion is not completed
 entity.destroy.success = The {{entityName!string!plural+lowerAll}} is deleted successfully
+error.destroy.referenced = The {{entityName!string!plural+lowerAll}} has been used and cannot be deleted
 
 entity.destroy.confirm = Delete {{totalItems}} choosen items?
 

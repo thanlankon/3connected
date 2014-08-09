@@ -267,10 +267,32 @@ define('core.service.ServiceUtil', function (module, require) {
     };
 
     Model.destroy(idAttribute, entityIds, function (error, affectedRows) {
+      var message;
+
       if (error) {
-        var message = 'error.destroy.unknown';
+        var isReferencedError = false;
+
+        if (Util.Object.isArray(error)) {
+          for (var i = 0, len = error.length; i < len; i++) {
+            if (error[i].code === 'ER_ROW_IS_REFERENCED_') {
+              isReferencedError = true;
+              break;
+            }
+          }
+        } else if (error.code === 'ER_ROW_IS_REFERENCED_') {
+          isReferencedError = true;
+        }
+
+        if (isReferencedError) {
+          message = {
+            messageId: 'error.destroy.referenced',
+            messageData: destroyConfig.messageData
+          }
+        } else {
+          message = 'error.destroy.unknown';
+        }
       } else {
-        var message = {
+        message = {
           messageId: destroyMessage.success
         };
 
