@@ -70,11 +70,11 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     });
 
     function toggleNavigator() {
-//      var elm = jQuery('#expander');
-//      elm.find('#navigator').slideToggle(100);
-//      elm.toggleClass('active');
-//
-//      return;
+      //      var elm = jQuery('#expander');
+      //      elm.find('#navigator').slideToggle(100);
+      //      elm.toggleClass('active');
+      //
+      //      return;
 
       var $form = jQuery('#forms');
       var $panel = jQuery('#navigation-panel');
@@ -84,7 +84,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
         top = -top;
       }
 
-      $panel.slideToggle(100, function() {
+      $panel.slideToggle(100, function () {
         $form.css('top', ($form.position().top + top) + 'px');
 
         jQuery(window).trigger('resize');
@@ -159,6 +159,10 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     if (Role.isStudentOrParent(component.authentication.accountRole)) {
       Route.attr({
         module: 'notification'
+      });
+    } else if (Role.isTeacher(component.authentication.accountRole)) {
+      Route.attr({
+        module: 'manage-course'
       });
     } else {
       Route.attr({

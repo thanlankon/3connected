@@ -28,6 +28,29 @@ define.service('service.GradeCategory', function (service, require, ServiceUtil,
       getSubjectVersionGradeCaterogy: {
         url: '/getSubjectVersionGradeCaterogy',
         httpMethod: 'GET'
+      },
+      findAll: {
+        authorize: function (req, authentication, Role, commit) {
+          var authorized = Role.isEducator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          var authorized = Role.isTeacher(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          var authorized = Role.isExaminator(authentication.accountRole);
+          if (authorized) {
+            commit(authorized);
+            return;
+          }
+
+          commit(false);
+        }
       }
     }
   };
