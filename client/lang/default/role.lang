@@ -2,7 +2,7 @@ role.all = {{.all}}
 
 role.administrator = Administrator
 role.educator = Educator
-role.examinator = Examinator
+role.examinator = Examiner
 role.newsManager = News Manager
 role.student = Student
 role.parent = Parent
