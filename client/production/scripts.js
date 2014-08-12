@@ -7,7 +7,9 @@ Dependency = {
     Numeral: numeral,
 
     ExcelBuilder: ExcelBuilder,
-    FileSaver: saveAs
+    FileSaver: saveAs,
+    Xls: XLS,
+    Xlsx: XLSX
   },
 
   modules: {},
@@ -104,6 +106,14 @@ define('lib.FileSaver', function (module, require, libs) {
   module.exports = {
     saveAs: libs.FileSaver
   };
+});
+
+define('lib.Xls', function (module, require, libs) {
+  module.exports = libs.Xls;
+});
+
+define('lib.Xlsx', function (module, require, libs) {
+  module.exports = libs.Xlsx;
 });
 
 
@@ -1050,6 +1060,8 @@ define('core.proxy.Proxy', function (module, require) {
 
     if (callback) {
       ajax.done(function (responseData) {
+        jQuery('.cpanel > .loading').fadeOut(100);
+
         var serviceResponse = new ServiceResponse(responseData);
 
         ServiceResponseUtil.handleServiceResponse(serviceResponse);
@@ -1063,6 +1075,16 @@ define('core.proxy.Proxy', function (module, require) {
     }
 
   };
+
+  jQuery(document).ajaxStart(function () {
+    var $loader = jQuery('.cpanel > .loading');
+    if (!$loader.is(':visible')) $loader.fadeIn(100);
+  });
+
+  // global ajax error handler
+  jQuery(document).ajaxStop(function () {
+    jQuery('.cpanel > .loading').fadeOut(100);
+  });
 
   // global ajax error handler
   jQuery(document).ajaxError(function (error) {
@@ -1351,6 +1373,9 @@ define('core.util.ConvertUtil', function (module, require) {
       case Role.NEWS_MANAGER:
         gender = Lang.get('role.newsManager');
         break;
+      case Role.TEACHER:
+        gender = Lang.get('role.teacher');
+        break;
       case Role.STUDENT:
         gender = Lang.get('role.student');
         break;
@@ -1377,6 +1402,9 @@ define('core.util.ConvertUtil', function (module, require) {
         break;
       case Lang.get('role.newsManager'):
         role = Role.NEWS_MANAGER;
+        break;
+      case Lang.get('role.teacher'):
+        role = Role.TEACHER;
         break;
       case Lang.get('role.student'):
         role = Role.STUDENT;
@@ -1670,6 +1698,40 @@ define('core.validator.MaxLength', function (module, require) {
 
 
 
+define('core.validator.Max', function (module, require) {
+
+  module.exports = function (attribute, value, ruleData, rules, data) {
+
+    // skip checking for null or undefined
+    if (value === '' || value === null || value === undefined) return true;
+
+    value = +value;
+
+    return !isNaN(value) && value <= ruleData.max;
+
+  };
+
+});
+
+
+
+define('core.validator.Min', function (module, require) {
+
+  module.exports = function (attribute, value, ruleData, rules, data) {
+
+    // skip checking for null or undefined
+    if (value === '' || value === null || value === undefined) return true;
+
+    value = +value;
+
+    return !isNaN(value) && value >= ruleData.min;
+
+  };
+
+});
+
+
+
 define('core.validator.PositiveInteger', function (module, require) {
 
   var Util = require('core.util.Util');
@@ -1677,7 +1739,7 @@ define('core.validator.PositiveInteger', function (module, require) {
   module.exports = function (attribute, value, rule, rules, data) {
 
     // skip checking for null or undefined
-    if (value === null || value === undefined) return true;
+    if (value === '' || value === null || value === undefined) return true;
 
     return Util.Object.isInteger(value) && value > 0;
 
@@ -1773,6 +1835,14 @@ define('core.validator.Validator', function (module, require) {
       // equal
       else if (rule.rule == 'equal') {
         validator = 'core.validator.Equal';
+      }
+      // min
+      else if (rule.rule == 'min') {
+        validator = 'core.validator.Min';
+      }
+      // max
+      else if (rule.rule == 'max') {
+        validator = 'core.validator.Max';
       }
 
       validator = require(validator);
@@ -1954,14 +2024,39 @@ define('core.view.helpers.DialogSizeHelper', function (module, require) {
     var width = options.hash.width;
     var height = options.hash.height;
 
-    return function (element) {
-      element = jQuery(element);
+    var html = [
+      '<div class="dialog-size" style="display: none" data-width="',
+      width,
+      '" data-height="',
+      height,
+      '"></div>"'
+    ].join('');
 
-      element.addClass('dialog-size').data({
-        width: width,
-        height: height
-      });
-    };
+    return View.safeString(html);
+  }
+
+});
+
+
+
+define('core.view.helpers.FormTitleHelper', function (module, require) {
+
+  var View = require('core.view.View');
+  var jQuery = require('lib.jQuery');
+
+  View.registerHelper('form.title', formTitleHelper);
+
+  function formTitleHelper(options) {
+
+    var lang = options.hash.lang;
+
+    var html = [
+      '<div class="form-title" style="display: none" data-lang="',
+      lang,
+      '"></div>"'
+    ].join('');
+
+    return View.safeString(html);
 
   }
 
@@ -2976,6 +3071,8 @@ define.proxy('proxy.Grade', function (proxy, require) {
   proxy.statisticGradeStudent = 'GET api/grade/statisticGradeStudent';
 
   proxy.statisticGradeStudentClient = 'GET api/grade/statisticGradeStudentClient';
+
+  proxy.importGrade = 'POST api/grade/importGrade';
 
   // grade entity map
   proxy.EntityMap = [
@@ -5216,7 +5313,7 @@ define.component('component.Dialog', function (component, require, Util, Lang) {
 
 
 
-define.component('component.Form', function (component, require, Util, Lang) {
+define.component('component.Form', function (component, require, Util, Lang, jQuery) {
 
   var jQuery = require('lib.jQuery');
   var Route = require('core.route.Route');
@@ -5226,6 +5323,10 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
   component.showForm = function (data) {
     this.element.show();
+
+    if (this.formTitle) {
+      jQuery('#location').html(this.formTitle);
+    }
 
     if (this.refreshData) {
       this.refreshData(data)
@@ -5263,6 +5364,12 @@ define.component('component.Form', function (component, require, Util, Lang) {
 
     // update grid columns chooser
     this.updateGridColumnsChooser();
+
+    var titleElement = this.element.find('.form-title');
+    var titleLangId = titleElement.data('lang');
+    if (titleLangId) {
+      this.formTitle = Lang.get(titleLangId);
+    }
 
     this.on();
   };
@@ -5330,6 +5437,16 @@ define.component('component.Form', function (component, require, Util, Lang) {
     var GridExport = require('component.export.grid.GridExport');
 
     GridExport.exportToExcel(this[grid], this.exportConfig[grid] || this.exportConfig);
+  }
+
+  component.events['[data-component-role=more-button] click'] = function (element, event) {
+    element.toggleClass('active');
+
+    if (element.hasClass('active')) {
+      element.find('.drop-down').fadeIn(100);
+    } else {
+      element.find('.drop-down').fadeOut(100);
+    }
   }
 
   component.initGrid = function () {
@@ -6068,6 +6185,8 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
   component.gradeCalculation = {};
 
+  component.gridDataMap = {};
+
   // grid columns
   component.getGridColumns = function () {
 
@@ -6089,12 +6208,14 @@ define.component('component.common.GradeGrid', function (component, require, Uti
       dataField: 'firstName',
       //      columnGroup: 'student',
 
+        width: '100px',
       filterType: 'textbox',
       editable: false,
     }, {
       text: Lang.get('grade.student.lastName'),
       dataField: 'lastName',
       //      columnGroup: 'student',
+        width: '200px',
 
       filterType: 'textbox',
       editable: false,
@@ -6118,10 +6239,12 @@ define.component('component.common.GradeGrid', function (component, require, Uti
         type: 'number',
 
         validation: function (cell, value) {
+          console.log(arguments);
+
           if (value != null && (value < 0 || value > 10)) {
             return {
               result: false,
-              message: "Quantity should be in the 0-10 interval"
+              message: Lang.get('grade.validate.range')
             };
           }
 
@@ -6187,43 +6310,52 @@ define.component('component.common.GradeGrid', function (component, require, Uti
           gradeStatus: gradeStatus
         }
 
-        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade
+        var text = (averageGrade !== 0 && !averageGrade) ? '' : averageGrade.toFixed(2);
+
+        this.gridDataMap[rowIndex] = this.gridDataMap[rowIndex] || {};
+        this.gridDataMap[rowIndex][columnField] = text;
+
         text = '<span class="statistic">' + text + '</span>';
 
         return defaultCellRenderer(defaultHtml, text);
       })
     }, {
-      text: Lang.get('grade.averageGrade'),
+      text: Lang.get('grade.status'),
       filterType: 'textbox',
       editable: false,
       dataField: 'gradeStatus',
+        width: '100px',
+
 
       cellsRenderer: this.proxy(function (rowIndex, columnField, value, defaultHtml, columnProperties) {
         var GradeStatus = require('enum.GradeStatus');
 
         var gradeCalculation = this.gradeCalculation[rowIndex];
 
-        var text;
+        var text, plainText;
 
         if (gradeCalculation) {
           switch (gradeCalculation.gradeStatus) {
           case GradeStatus.PASS:
-            text = Lang.get('grade.status.pass');
-            text = '<span class="grade-status grade-status-pass">' + text + '</span>';
+            plainText = Lang.get('grade.status.pass');
+            text = '<span class="grade-status grade-status-pass">' + plainText + '</span>';
 
             break;
           case GradeStatus.FAIL:
-            text = Lang.get('grade.status.fail');
-            text = '<span class="grade-status grade-status-fail">' + text + '</span>';
+            plainText = Lang.get('grade.status.fail');
+            text = '<span class="grade-status grade-status-fail">' + plainText + '</span>';
 
             break;
           case GradeStatus.UNFINISHED:
-            text = Lang.get('grade.status.unfinished');
-            text = '<span class="grade-status grade-status-unfinished">' + text + '</span>';
+            plainText = Lang.get('grade.status.unfinished');
+            text = '<span class="grade-status grade-status-unfinished">' + plainText + '</span>';
 
             break;
           }
         }
+
+        this.gridDataMap[rowIndex] = this.gridDataMap[rowIndex] || {};
+        this.gridDataMap[rowIndex][columnField] = plainText;
 
         return defaultCellRenderer(defaultHtml, text);
       })
@@ -6332,7 +6464,6 @@ define.component('component.common.GradeGrid', function (component, require, Uti
     });
 
     this.element.jqxGrid('removesort');
-
   };
 
   component.refreshData = function (gradeData) {
@@ -6341,6 +6472,9 @@ define.component('component.common.GradeGrid', function (component, require, Uti
 
     var source = this.generateSource(gradeData);
     var columns = this.getGridColumns();
+
+    this.gridDataMap = {};
+    this.gradeCalculation = {};
 
     this.element.jqxGrid({
       source: source,
@@ -6511,6 +6645,7 @@ define('component.export.grid.GridExport', function (module, require) {
     var trimmer = jQuery('<div />');
 
     var originalGridColumns = grid.gridColumns;
+    var gridDataMap = grid.gridDataMap;
 
     grid = grid.element;
 
@@ -6534,9 +6669,12 @@ define('component.export.grid.GridExport', function (module, require) {
 
       var renderer = columnConfig && columnConfig.originalRenderer ? columnConfig.originalRenderer : undefined;
 
+      var headerText = column.text;
+      headerText = trimmer.html(headerText).text();
+
       gridData.fields.push({
         name: column.datafield,
-        text: column.text,
+        text: headerText,
         renderer: renderer
       });
     }
@@ -6569,6 +6707,8 @@ define('component.export.grid.GridExport', function (module, require) {
         // for column has custom renderer
         else if (renderer) {
           fieldValue = renderer(row, fieldName, fieldValue);
+        } else if (gridDataMap && gridDataMap[i] && gridDataMap[i][fieldName]) {
+          fieldValue = gridDataMap[i][fieldName];
         }
 
         if (fieldValue === null || fieldValue === undefined) {
@@ -6614,8 +6754,10 @@ define('component.export.grid.GridExport', function (module, require) {
     var header = [];
     var headerFields = [];
 
+    var defaultConfig = exportConfig.columns._default;
+
     for (var i = 0, len = gridData.fields.length; i < len; i++) {
-      var columnConfig = exportConfig.columns[gridData.fields[i].name];
+      var columnConfig = exportConfig.columns[gridData.fields[i].name] || defaultConfig;
 
       if (!columnConfig || columnConfig.skip) continue;
 
@@ -6638,7 +6780,7 @@ define('component.export.grid.GridExport', function (module, require) {
       var row = [];
 
       for (j = 0; j < headerLen; j++) {
-        var columnConfig = exportConfig.columns[headerFields[j]];
+        var columnConfig = exportConfig.columns[headerFields[j]] || defaultConfig;
 
         if (!columnConfig || columnConfig.skip) continue;
 
@@ -6654,7 +6796,7 @@ define('component.export.grid.GridExport', function (module, require) {
 
     var exportColumns = [];
     for (i = 0; i < headerLen; i++) {
-      var columnConfig = exportConfig.columns[headerFields[i]];
+      var columnConfig = exportConfig.columns[headerFields[i]] || defaultConfig;
 
       if (!columnConfig || columnConfig.skip) continue;
 
@@ -7004,6 +7146,7 @@ define.component('component.common.Grid', function (component, require, Util, La
             Lang.get('role.educator'),
             Lang.get('role.examinator'),
             Lang.get('role.newsManager'),
+            Lang.get('role.teacher'),
             Lang.get('role.student'),
             Lang.get('role.parent'),
           ];
@@ -7108,7 +7251,10 @@ define.component('component.common.Grid', function (component, require, Util, La
       // other
       showEmptyRow: false,
       // toolbar
-      showStatusbar: false
+      showStatusbar: false,
+      // loading
+      showdefaultloadelement: false,
+      autoshowloadelement: false
     };
 
     if (options.grid.pageable !== false) {
@@ -7870,8 +8016,9 @@ define.component('component.common.Input', function (component, require, Util, L
     var componentAttributes = options.componentAttributes;
 
     var isPasswordInput = componentAttributes.passwordInput;
+    var upperCase = componentAttributes.upperCase;
 
-    componentAttributes = Util.Object.omit(componentAttributes, ['passwordInput']);
+    componentAttributes = Util.Object.omit(componentAttributes, ['passwordInput', 'upperCase']);
 
     var input = jQuery('<input />')
       .attr('data-attribute', dataAttribute)
@@ -7912,12 +8059,22 @@ define.component('component.common.Input', function (component, require, Util, L
       data: false
     };
 
+    if (upperCase) {
+      input.css('text-transform', 'uppercase');
+    }
+
     // tracking changes of input
     input.on('change', function () {
       if (trackingChange.data) return;
 
+      var val = input.val();
+
+      if (upperCase) {
+        val = val.toUpperCase();
+      }
+
       trackingChange.input = true;
-      componentData.attr(dataAttribute, input.val().trim());
+      componentData.attr(dataAttribute, val.trim());
       trackingChange.input = false;
     });
 
@@ -7969,12 +8126,6 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       ProfileProxy.getSimpleProfile({}, this.proxy(getSimpleProfileDone));
     }
 
-    this.data.attr({
-      user: {
-        username: 'TrongND'
-      }
-    });
-
     function getSimpleProfileDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
@@ -7999,6 +8150,8 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
+    initNavigationBar();
+
     this.element.find('#expander').click(toggleNavigator);
     this.element.find('#expander #navigator li').click(function () {
       var elm = jQuery(this);
@@ -8014,9 +8167,40 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     });
 
     function toggleNavigator() {
-      var elm = jQuery('#expander');
-      elm.find('#navigator').slideToggle(100);
-      elm.toggleClass('active');
+      //      var elm = jQuery('#expander');
+      //      elm.find('#navigator').slideToggle(100);
+      //      elm.toggleClass('active');
+      //
+      //      return;
+
+      var $form = jQuery('#forms');
+      var $panel = jQuery('#navigation-panel');
+
+      var top = 150;
+      if ($panel.is(':visible')) {
+        top = -top;
+      }
+
+      $panel.slideToggle(100, function () {
+        $form.css('top', ($form.position().top + top) + 'px');
+
+        jQuery(window).trigger('resize');
+      });
+    }
+
+    function initNavigationBar() {
+      var $panel = jQuery('#navigation-panel');
+
+      var $tab = $panel.find('#navigation-tab');
+
+      $tab.jqxTabs({
+        animationType: 'fade',
+        position: 'bottom'
+      });
+
+      setTimeout(function () {
+        jQuery('#expander').click();
+      }, 100);
     }
 
     Route.ready();
@@ -8057,7 +8241,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 
         if (isMatched) {
           this.static.switchForm(formUrlMap.formId);
-          this.static.updateNavigator();
+          //this.static.updateNavigator();
 
           return;
         }
@@ -8072,6 +8256,10 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     if (Role.isStudentOrParent(component.authentication.accountRole)) {
       Route.attr({
         module: 'notification'
+      });
+    } else if (Role.isTeacher(component.authentication.accountRole)) {
+      Route.attr({
+        module: 'manage-course'
       });
     } else {
       Route.attr({
@@ -8478,6 +8666,10 @@ define.form('component.form.manage-class.ClassStudent', function (form, require,
       action: 'class-student'
     }
   };
+
+  form.exportConfig = {
+    gridClassStudents: require('export.Student')
+  }
 
   form.gridConfig = function () {
 
@@ -9285,6 +9477,10 @@ define.form('component.form.manage-course.CourseGrade', function (form, require,
 
   // the form type is FORM
   form.formType = form.FormType.FORM;
+
+  form.exportConfig = {
+    gridGrade: require('export.CourseGrade')
+  }
 
   form.initForm = function () {
     var GradeGridComponent = require('component.common.GradeGrid');
@@ -10104,12 +10300,15 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
 
   form.tmpl = 'dialog.manage-course.import-grade';
 
-  form.formType = form.FormType.Dialog.EDIT;
+  form.formType = form.FormType.Dialog.VIEW;
 
   form.ServiceProxy = require('proxy.Course');
 
   form.reloadData = function (params) {
+    var courseId = this.data.attr('courseId');
     var subjectVersionId = this.data.attr('subjectVersionId');
+
+    this.courseId = courseId;
 
     var filters = [{
       field: 'subjectVersionId',
@@ -10137,25 +10336,215 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
         var gradeCategory = {
           gradeCategoryId: item.gradeCategoryId,
           gradeCategoryCode: item.gradeCategoryCode,
-          gradeCategoryName: item.gradeCategoryName
+          gradeCategoryName: item.gradeCategoryName,
+
+          bindToAttribute: 'gradeCategories.' + i + '.bindToColumn'
         }
 
         gradeCategories.push(gradeCategory);
       }
 
-      this.data({
+      this.data.attr({
         gradeCategories: gradeCategories
       });
     }
   };
 
-  form.initDialog = function () {}
+  form.initDialog = function () {
+    this.inputImportFile = this.element.find('#input-import-file');
+
+    this.inputImportFile.change(this.proxy(this.updateFileImport));
+
+    this.element.find('#button-browse-import-file').click(this.proxy(function () {
+      this.inputImportFile.click();
+    }));
+  }
+
+  form.updateFileImport = function (event) {
+    var files = event.target.files;
+    var importFile = files.item(0);
+
+    if (!importFile) return;
+
+    var Xlsx = require('lib.Xlsx');
+    var MsgBox = require('component.common.MsgBox');
+
+    this.data.attr('importFileName', importFile.name);
+
+    var reader = new FileReader();
+
+    reader.onload = this.proxy(function (event) {
+      var fileData = event.target.result;
+
+      try {
+        var workbook = Xlsx.read(fileData, {
+          type: 'binary'
+        });
+
+        this.Workbook = workbook;
+      } catch (exception) {
+        this.Workbook = null;
+
+        MsgBox.alert({
+          text: Lang.get('grade.import.importFileInvalid'),
+          icon: 'warning'
+        });
+      }
+
+    });
+
+    reader.readAsBinaryString(importFile);
+  }
 
   form.submitDialogData = function () {
-    console.log(this.data.attr());
+    if (!this.courseId) return;
+
+    var Xlsx = require('lib.Xlsx');
+    var MsgBox = require('component.common.MsgBox');
+
+    var workbook = this.Workbook;
+
+    if (!workbook) {
+      MsgBox.alert({
+        text: Lang.get('grade.import.importFileRequired'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var studentColumn = this.data.attr('studentColumn');
+
+    if (!studentColumn) {
+      MsgBox.alert({
+        text: Lang.get('grade.import.studentColumnRequired'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var textStartRow = this.data.attr('startRow');
+    textStartRow = (textStartRow || '').trim();
+
+    var startRow = ~~textStartRow;
+    if (textStartRow !== '' && (startRow != textStartRow || startRow < 1)) {
+      MsgBox.alert({
+        text: Lang.get('grade.import.startRowInvalid'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var gradeCategories = this.data.attr('gradeCategories');
+
+    var columnMap = {};
+
+    for (var i = 0, len = gradeCategories.length; i < len; i++) {
+      var gradeCategory = gradeCategories[i];
+
+      if (!gradeCategory.bindToColumn) continue;
+
+      columnMap[gradeCategory.bindToColumn] = {
+        gradeCategoryId: gradeCategory.gradeCategoryId,
+        gradeCategoryCode: gradeCategory.gradeCategoryCode,
+      };
+    }
+
+    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+    var ref = sheet['!ref'];
+
+    if (!ref) {
+      MsgBox.alert({
+        text: Lang.get('grade.import.noDataFound'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var columnStart = ref.charCodeAt(0);
+    var columnEnd = ref.charCodeAt(3);
+    var rowStart = Math.max(ref.charAt(1), startRow);
+    var rowEnd = +ref.charAt(4);
+
+    var gradeMaps = {};
+
+    for (var i = rowStart; i <= rowEnd; i++) {
+      var studentCell = sheet[studentColumn + i];
+
+      if (!studentCell) continue;
+
+      var studentCode = studentCell.v;
+      studentCode = (studentCode || '').trim();
+
+      if (studentCode == '') continue;
+
+      gradeMaps[i] = {
+        studentCode: studentCode,
+        grades: []
+      }
+
+      for (var j = columnStart; j <= columnEnd; j++) {
+        var columnChar = String.fromCharCode(j);
+
+        if (columnChar === studentColumn || !columnMap[columnChar]) continue;
+
+        var cellChar = columnChar + i;
+        var value = sheet[cellChar];
+
+        if (!value) continue;
+
+        value = parseFloat(value.v);
+
+        if (isNaN(value) || value < 0 || value > 10) {
+          MsgBox.alert({
+            text: Lang.get('grade.import.invalidValueAt', {
+              cell: cellChar
+            }),
+            icon: 'warning'
+          });
+
+          return;
+        }
+
+        var grade = {
+          gradeCategoryId: columnMap[columnChar].gradeCategoryId,
+          gradeCategoryCode: columnMap[columnChar].gradeCategoryCode,
+          value: value
+        }
+
+        gradeMaps[i].grades.push(grade);
+      }
+    }
+
+    var grades = {};
+
+    Util.Collection.each(gradeMaps, function (gradeMap) {
+      grades[gradeMap.studentCode] = gradeMap.grades;
+    });
+
+    var gradeData = {
+      courseId: this.courseId,
+      grades: grades
+    };
+
+    var GradeProxy = require('proxy.Grade');
+
+    GradeProxy.importGrade(gradeData, this.proxy(importGradeDone));
+
+    function importGradeDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var importGradeData = serviceResponse.getData();
+      console.log('Import done', importGradeData);
+    }
+
   };
 
 });
+
 
 
 define.form('component.form.manage-course.ListCourse', function (form, require, Util, Lang) {
@@ -10172,6 +10561,8 @@ define.form('component.form.manage-course.ListCourse', function (form, require, 
   form.tmpl = 'form.manage-course.list-course';
 
   form.formType = form.FormType.Form.LIST;
+
+  form.exportConfig = require('export.Course');
 
   // grid config
   form.gridConfig = function () {
@@ -13877,13 +14268,13 @@ define.form('component.form.view-attendance.ListAttendance', function (form, req
 
             var courseAttendance = serviceResponse.getData();
 
-            var percentAbsents = courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents / courseAttendance.statistics.totalSlots * 100;
+            var percentAbsents = courseAttendance.statistics.studentAttendances[form.authentication.userInformationId].totalAbsents / courseAttendance.statistics.totalSlots * 100;
             percentAbsents = percentAbsents.toFixed(2);
             this.data.attr({
               courseAttendance: {
                 percentAbsents: percentAbsents,
-                totalAbsents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalAbsents,
-                totalPresents: courseAttendance.statistics.studentAttendances[courseAttendance.students[0].studentId].totalPresents,
+                totalAbsents: courseAttendance.statistics.studentAttendances[form.authentication.userInformationId].totalAbsents,
+                totalPresents: courseAttendance.statistics.studentAttendances[form.authentication.userInformationId].totalPresents,
 
               }
             });
@@ -15100,6 +15491,17 @@ define('validator.rule.GradeCategory', function (module, require) {
     rules: [
       {
         rule: 'positiveInteger'
+      }, {
+        rule: 'min',
+        ruleData: {
+          min: 0
+        }
+      },
+      {
+        rule: 'max',
+        ruleData: {
+          max: 10
+        }
       }
      ]
   };
@@ -15116,6 +15518,17 @@ define('validator.rule.GradeCategory', function (module, require) {
       },
       {
         rule: 'positiveInteger'
+      }, {
+        rule: 'min',
+        ruleData: {
+          min: 0
+        }
+      },
+      {
+        rule: 'max',
+        ruleData: {
+          max: 100
+        }
       }
      ]
   };
@@ -16199,6 +16612,84 @@ define('export.Class', function (module, require) {
       },
       majorName: {
         width: 50
+      }
+
+    }
+
+  };
+
+});
+
+
+
+define('export.CourseGrade', function (module, require) {
+
+  module.exports = {
+
+    fileName: 'Course Grade',
+    sheetName: 'Course Grade',
+
+    columns: {
+      _default: {
+        width: 30
+      },
+
+      studentCode: {
+        width: 20
+      },
+      firstName: {
+        width: 20
+      },
+      lastName: {
+        width: 30
+      },
+      averageGrade: {
+        width: 20
+      },
+      gradeStatus: {
+        width: 15
+      }
+
+    }
+
+  };
+
+});
+
+
+
+define('export.Course', function (module, require) {
+
+  module.exports = {
+
+    fileName: 'Course',
+    sheetName: 'Course',
+
+    columns: {
+
+      courseId: {
+        width: 10
+      },
+      courseName: {
+        width: 30
+      },
+      className: {
+        width: 30
+      },
+      staffCode: {
+        width: 20
+      },
+      termName: {
+        width: 30
+      },
+      majorName: {
+        width: 30
+      },
+      subjectName: {
+        width: 30
+      },
+      description: {
+        width: 30
       }
 
     }
