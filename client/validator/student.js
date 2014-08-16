@@ -88,10 +88,10 @@ define('validator.rule.Student', function (module, require) {
   var ruleGender = {
     // validate for gender
     attribute: 'gender',
-    attributeName: 'student.classId',
+    attributeName: 'student.gender',
     rules: [
       {
-        // classId is required
+        // gender is required
         rule: 'required'
       },
       {
@@ -106,7 +106,8 @@ define('validator.rule.Student', function (module, require) {
   var ruleCreateStudent = [
     ruleStudentCode,
     ruleFirstName,
-    ruleLastName
+    ruleLastName,
+    ruleGender
   ];
 
   var ruleUpdateStudent = [

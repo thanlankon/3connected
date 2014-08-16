@@ -34,8 +34,34 @@ define('validator.rule.Class', function (module, require) {
     ]
   };
 
+  var ruleBatchId = {
+    // validate for className
+    attribute: 'batchId',
+    attributeName: 'class.batchId',
+    rules: [
+      {
+        // className is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleMajorId = {
+    // validate for className
+    attribute: 'majorId',
+    attributeName: 'class.majorId',
+    rules: [
+      {
+        // className is required
+        rule: 'required'
+      }
+    ]
+  };
+
   var ruleCreateClass = [
-    ruleClassName
+    ruleClassName,
+    ruleBatchId,
+    ruleMajorId
   ];
 
   var ruleUpdateClass = [

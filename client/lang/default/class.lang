@@ -9,6 +9,9 @@ class.batchName = {{.batch.batchName}}
 class.majorId = {{.major}}
 class.majorName = {{.major.majorName}}
 
+class.termId = Term
+class.majorId = Major
+
 # button
 
 class.create = Create class
