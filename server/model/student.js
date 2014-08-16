@@ -130,6 +130,49 @@ define.model('model.Student', function (model, ModelUtil, require) {
 
   };
 
+  model.destroy = function (idAttribute, entityIds, callback) {
+
+    Entity.transaction(function (transaction) {
+
+      var queryChainer = Entity.queryChainer();
+
+      entityIds.forEach(function (id) {
+        queryChainer.add(Student.destroy({
+          studentId: id
+        }, {
+          transaction: transaction
+        }));
+        queryChainer.add(Account.destroy({
+          userInformationId: id,
+          role: Role.STUDENT
+        }, {
+          transaction: transaction
+        }));
+        queryChainer.add(Account.destroy({
+          userInformationId: id,
+          role: Role.PARENT
+        }, {
+          transaction: transaction
+        }));
+      });
+
+      queryChainer
+        .run()
+        .success(function () {
+          transaction.commit();
+
+          callback(null, entityIds.length);
+        })
+        .error(function (error) {
+          transaction.rollback();
+
+          callback(error);
+        });
+
+    });
+
+  };
+
 
   model.importStudent = function (students, callback) {
 

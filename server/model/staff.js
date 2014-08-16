@@ -6,6 +6,7 @@ define.model('model.Staff', function (model, ModelUtil, require) {
   var Util = require('core.util.Util');
   var ConvertUtil = require('core.util.ConvertUtil');
   var AccountConfig = require('config.Account');
+  var Role = require('enum.Role');
   var AuthenticationUtil = require('core.auth.AuthenticationUtil');
 
   model.Entity = Staff;
@@ -82,6 +83,42 @@ define.model('model.Staff', function (model, ModelUtil, require) {
           callback(error);
         });
     }
+
+  };
+
+  model.destroy = function (idAttribute, entityIds, callback) {
+
+    Entity.transaction(function (transaction) {
+
+      var queryChainer = Entity.queryChainer();
+
+      entityIds.forEach(function (id) {
+        queryChainer.add(Staff.destroy({
+          staffId: id
+        }, {
+          transaction: transaction
+        }));
+        queryChainer.add(Account.destroy([
+          '(userInformationId = ?) AND ((role <> ?) AND (role <> ?))', id, Role.STUDENT, Role.PARENT
+        ], {
+          transaction: transaction
+        }));
+      });
+
+      queryChainer
+        .run()
+        .success(function () {
+          transaction.commit();
+
+          callback(null, entityIds.length);
+        })
+        .error(function (error) {
+          transaction.rollback();
+
+          callback(error);
+        });
+
+    });
 
   };
 
