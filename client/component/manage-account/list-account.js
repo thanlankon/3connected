@@ -39,7 +39,7 @@ define.form('component.form.manage-account.ListAccount', function (form, require
       cellsAlign: 'right',
       filterType: 'textbox',
 
-      width: 150,
+      width: 100,
     }, {
       text: Lang.get('account.username'),
       dataField: 'username',
@@ -58,7 +58,8 @@ define.form('component.form.manage-account.ListAccount', function (form, require
     }];
 
     var gridConfig = {
-      columns: gridColumns
+      columns: gridColumns,
+      singleSelection: true
     };
 
     return gridConfig;

@@ -20,8 +20,6 @@ student.totalPresent = Total present
 student.totalSlots = Total slots
 student.percentAbsent = Percent absent
 
-
-
 # controls
 
 student.create = Create student
@@ -33,3 +31,19 @@ student.detail = Student information
 student.gradeStatistic = Grade statistics
 grade.totalCreditCurrentLearn = Total credit current learn
 student.gradStatistic = View grade statistic
+
+# import
+
+student.importStudent = Import students
+student.import.file = Import file
+student.import.columnFor = Column for
+student.import.startRow  = Start from row
+
+student.import.studentCode.required = Column for Student code is required
+student.import.firstName.required = Column for First name is required
+student.import.lastName.required = Column for Last name is required
+student.import.gender.required = Column for Gender is required
+student.import.dateOfBirth.required = Column for Date of birth is required
+
+student.import.error.unknown = Error during importing student
+student.import.success = The students has been imported successfully

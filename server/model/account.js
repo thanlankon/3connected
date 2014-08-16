@@ -5,6 +5,18 @@ define.model('model.Account', function (model, ModelUtil, require) {
 
   model.Entity = Account;
 
+  model.methodConfig = {
+    findAll: {
+      buildWhereClause: function (findOptions, options, helpers) {
+        if (findOptions.where) {
+          findOptions.where[0] += ' AND (accountId > 1)';
+        } else {
+          findOptions.where = ['accountId > 1'];
+        }
+      }
+    }
+  };
+
   model.resetPassword = function (accountId, password, callback) {
     // encrypt password
     password = AuthenticationUtil.encryptPassword(password);

@@ -12,6 +12,8 @@ define.proxy('proxy.Student', function (proxy, require) {
 
   proxy.destroy = 'POST api/student/destroy';
 
+  proxy.importStudent = 'POST api/student/import';
+
   // student entity map
   proxy.EntityMap = [
     {
