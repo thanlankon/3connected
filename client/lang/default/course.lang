@@ -14,6 +14,11 @@ batch = Batch
 
 course.courseId = Course Id
 course.courseName = Course name
+course.lectureId = Staff
+course.majorId = Major
+course.termId = Term
+course.subjectId = Subject
+course.subjectVersionId = Subject version
 course.numberOfCredits = Number of credits
 course.manageStudent = Manage student
 course.subjectVersion = Subject version

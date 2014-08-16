@@ -40,15 +40,88 @@ define('validator.rule.Course', function (module, require) {
     attributeName: 'course.numberOfCredits',
     rules: [
       {
-        // courseName is required
+        rule: 'required'
+      },
+      {
         rule: 'positiveInteger'
+      }, {
+        rule: 'min',
+        ruleData: {
+          min: 1
+        }
+      }
+    ]
+  };
+
+
+  var ruleLectureId = {
+    // validate for courseName
+    attribute: 'lectureId',
+    attributeName: 'course.lectureId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleMajorId = {
+    // validate for courseName
+    attribute: 'majorId',
+    attributeName: 'course.majorId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleTermId = {
+    // validate for courseName
+    attribute: 'termId',
+    attributeName: 'course.termId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleSubject = {
+    // validate for courseName
+    attribute: 'subjectId',
+    attributeName: 'course.subjectId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleSubjectVersionId = {
+    // validate for courseName
+    attribute: 'subjectVersionId',
+    attributeName: 'course.subjectVersionId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
       }
     ]
   };
 
   var ruleCreateCourse = [
     ruleCourseName,
-    ruleNumberOfCreadits
+    ruleNumberOfCreadits,
+    ruleLectureId,
+    ruleMajorId,
+    ruleTermId,
+    ruleSubject,
+    ruleSubjectVersionId
   ];
 
   var ruleUpdateCourse = [

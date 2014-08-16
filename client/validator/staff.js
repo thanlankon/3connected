@@ -87,10 +87,37 @@ define('validator.rule.Staff', function (module, require) {
      ]
   };
 
+  var ruleStaffRole = {
+    // validate for departmentId
+    attribute: 'staffRole',
+    attributeName: 'staff.staffRole',
+    rules: [
+      {
+        // departmentId is required
+        rule: 'required'
+      }
+     ]
+  };
+
+  var ruleGender = {
+    // validate for departmentId
+    attribute: 'gender',
+    attributeName: 'staff.gender',
+    rules: [
+      {
+        // departmentId is required
+        rule: 'required'
+      }
+     ]
+  };
+
   var ruleCreateStaff = [
     ruleStaffCode,
+    ruleStaffRole,
     ruleFirstName,
-    ruleLastName
+    ruleLastName,
+    ruleDepartmentId,
+    ruleGender
   ];
 
   var ruleUpdateStaff = [
