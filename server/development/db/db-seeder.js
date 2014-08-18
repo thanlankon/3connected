@@ -113,6 +113,11 @@ define('db.seed.DbSeeder', function (module, require) {
           departmentId: 4,
           departmentName: 'Examination Department'
           }])
+      .add(
+        Department, 'create', [{
+          departmentId: 5,
+          departmentName: 'Teaching Department'
+          }])
   }
 
   function seedClass(queryChainer) {
@@ -171,65 +176,65 @@ define('db.seed.DbSeeder', function (module, require) {
     var Staff = require('model.entity.Staff');
     var Moment = require('lib.Moment');
     var ConvertUtil = require('core.util.ConvertUtil');
-
-    for (var i = 1; i <= 1; i++) {
-      queryChainer
-        .add(
-          Staff, 'create', [{
-            staffCode: 'staff1' + i,
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            departmentId: 1,
-            gender: 1,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
+    queryChainer
+      .add(
+        Staff, 'create', [{
+          staffCode: 'thytt',
+          firstName: 'Thy',
+          lastName: 'Trương Thị',
+          staffRole: 4,
+          departmentId: 2,
+          gender: 1,
+          dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 3, 16)),
+          address: 'Đà Nẵng',
+          email: 'thytt@fpt.edu.vn'
           }])
-        .add(
-          Staff, 'create', [{
-            staffCode: 'staff2' + i,
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            departmentId: 1,
-            gender: 2,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
+      .add(
+        Staff, 'create', [{
+          staffCode: 'anhnn4',
+          firstName: 'Anh',
+          lastName: 'Nguyễn Ngọc ',
+          staffRole: 7,
+          departmentId: 5,
+          gender: 2,
+          dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1981, 3, 16)),
+          address: 'Đà Nẵng',
+          email: 'anhnn4@fpt.edu.vn'
           }])
-        .add(
-          Staff, 'create', [{
-            staffCode: 'staff3' + i,
-            firstName: 'Firstname ' + i,
-            lastName: 'LastName ' + i,
-            departmentId: 1,
-            gender: 0,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1992, 3, 16)),
-            address: 'Address ' + i,
-            email: 'Email.' + i + '@local.host'
+      .add(
+        Staff, 'create', [{
+          staffCode: 'haitt',
+          firstName: 'Hải',
+          lastName: 'Tô Thanh ',
+          staffRole: 7,
+          departmentId: 5,
+          gender: 2,
+          dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 5, 11)),
+          address: 'Đà Nẵng',
+          email: 'haitt@fpt.edu.vn'
           }])
-        .add(
-          Staff, 'create', [{
-            staffCode: 'MaiLTT',
-            firstName: 'Mai',
-            lastName: 'Lê Thị Trúc',
-            departmentId: 3,
-            gender: 1,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
-            address: 'Quảng Nam',
-            email: 'mailtt@fpt.edu.vn'
+      .add(
+        Staff, 'create', [{
+          staffCode: 'mailtt',
+          firstName: 'Mai',
+          lastName: 'Lê Thị Trúc',
+          departmentId: 3,
+          gender: 1,
+          dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
+          address: 'Quảng Nam',
+          email: 'mailtt@fpt.edu.vn'
           }])
-        .add(
-          Staff, 'create', [{
-            staffCode: 'HoangTV',
-            firstName: 'Hoàng',
-            lastName: 'Trần Văn',
-            departmentId: 2,
-            gender: 1,
-            dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
-            address: 'Quảng Nam',
-            email: 'mailtt@fpt.edu.vn'
+      .add(
+        Staff, 'create', [{
+          staffCode: 'hoangtv',
+          firstName: 'Hoàng',
+          lastName: 'Trần Văn',
+          departmentId: 2,
+          gender: 1,
+          dateOfBirth: ConvertUtil.DateTime.formatDate(new Date(1982, 9, 27)),
+          address: 'Quảng Nam',
+          email: 'mailtt@fpt.edu.vn'
           }])
-    }
   }
 
   function seedSubject(queryChainer) {
@@ -537,10 +542,19 @@ define('db.seed.DbSeeder', function (module, require) {
       }])
       .add(
         Account, 'create', [{
-          username: 'trongnd',
-          password: AuthenticationUtil.encryptPassword('123@abcD!@#'),
+          username: 'SE90050',
+          password: AuthenticationUtil.encryptPassword('abc123'),
           role: 5,
-          userInformationId: 1,
+          userInformationId: 3,
+          isActive: true,
+          expiredDate: '01/01/2016'
+        }])
+      .add(
+        Account, 'create', [{
+          username: 'SE90075',
+          password: AuthenticationUtil.encryptPassword('abc123'),
+          role: 5,
+          userInformationId: 2,
           isActive: true,
           expiredDate: '01/01/2016'
         }])
@@ -566,7 +580,24 @@ define('db.seed.DbSeeder', function (module, require) {
         Account, 'create', [{
           userInformationId: 1,
           role: 5,
-          username: 'thanhvm',
+          username: 'SE90059',
+          password: AuthenticationUtil.encryptPassword('abc123'),
+          isActive: true,
+          expiredDate: '01/01/2016'
+      }])
+      .add(
+        Account, 'create', [{
+          userInformationId: 3,
+          role: 7,
+          username: 'haitt',
+          password: AuthenticationUtil.encryptPassword('abc123'),
+          isActive: true,
+          expiredDate: '01/01/2016'
+      }]).add(
+        Account, 'create', [{
+          userInformationId: 2,
+          role: 7,
+          username: 'anhnn4',
           password: AuthenticationUtil.encryptPassword('abc123'),
           isActive: true,
           expiredDate: '01/01/2016'

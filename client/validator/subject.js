@@ -30,13 +30,6 @@ define('validator.rule.Subject', function (module, require) {
       {
         // subjectName is required
         rule: 'required'
-      },
-      {
-        // subjectName maximum length is 50
-        rule: 'maxLength',
-        ruleData: {
-          maxLength: 6
-        }
       }
     ]
   };
