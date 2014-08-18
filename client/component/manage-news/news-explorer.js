@@ -51,11 +51,14 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
     this.element.find('#splitter-horizontal').jqxSplitter({
       orientation: 'horizontal',
       splitBarSize: 3,
+      showSplitBar: false,
       width: '100%',
       height: '100%',
       panels: [{
         size: '80%',
         collapsible: false
+      }, {
+        collapsed : true
       }]
     });
 
@@ -173,7 +176,7 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
       this.gridNews.setFilterConditions('newsCategoryId', categoryId);
     }
 
-    this.refreshNews();
+    //this.refreshNews();
   };
 
   form.refreshTreeCategories = function (categories) {
