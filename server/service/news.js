@@ -42,7 +42,7 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
           attributes: ['name', 'extension', 'size']
         }];
 
-        findOptions.attributes = ['newsId', 'title', 'content', 'createdTime'];
+        findOptions.attributes = ['newsId', 'title', 'content', 'createdTime', 'authorId'];
       }
     },
 

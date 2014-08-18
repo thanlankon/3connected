@@ -22,32 +22,17 @@
       <li class="divider">
       </li>
 
-      {{#auth.isStaff}}
+      {{#isNewsEditable}}
       <li class="icon edit">
         <a href="#" id="button-edit-news">{{lang "news.edit"}}</a>
       </li>
-      {{/#auth.isStaff}}
-
-      {{#auth.isAdministrator}}
-      <li class="icon edit">
-        <a href="#" id="button-edit-news">{{lang "news.edit"}}</a>
-      </li>
-      {{/#auth.isAdministrator}}
-
-      {{#auth.isStaff}}
       <li class="icon delete">
         <a href="#" id="button-delete-news">{{lang "news.delete"}}</a>
       </li>
-      {{/#auth.isStaff}}
-
-      {{#auth.isAdministrator}}
-      <li class="icon delete">
-        <a href="#" id="button-delete-news">{{lang "news.delete"}}</a>
-      </li>
-      {{/#auth.isAdministrator}}
 
       <li class="divider">
       </li>
+      {{/#isNewsEditable}}
 
       {{#auth.isStaff}}
       <li class="icon notify right">

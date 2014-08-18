@@ -58,7 +58,7 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
         size: '80%',
         collapsible: false
       }, {
-        collapsed : true
+        collapsed: true
       }]
     });
 
@@ -104,6 +104,8 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
   };
 
   form.refreshNews = function (newsId, row) {
+    return;
+
     if (!newsId) {
       this.panelNewsContent.jqxPanel('clearContent');
       return;
@@ -176,7 +178,7 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
       this.gridNews.setFilterConditions('newsCategoryId', categoryId);
     }
 
-    //this.refreshNews();
+    this.refreshNews();
   };
 
   form.refreshTreeCategories = function (categories) {

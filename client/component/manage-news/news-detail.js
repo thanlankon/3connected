@@ -95,6 +95,14 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
 
       this.data.attr(newsData);
 
+      var Role = require('enum.Role');
+      var isNewsEditable = Role.isStaff(this.authentication.accountRole);
+      isNewsEditable = (isNewsEditable && this.authentication.userInformationId == newsData.authorId);
+
+      this.data.attr({
+        isNewsEditable: isNewsEditable
+      });
+
       this.on();
     }
   };
