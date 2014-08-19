@@ -86,7 +86,6 @@ define.model('model.Course', function (model, ModelUtil, require) {
     }
 
     function createCourseStudent(courseStudents, createdCourse, transaction) {
-      console.log(courseStudents);
 
       CourseStudent.bulkCreate(courseStudents, {
         transaction: transaction
@@ -138,7 +137,6 @@ define.model('model.Course', function (model, ModelUtil, require) {
             transaction.commit();
             callback(null, updatedEntity, false);
           } else {
-            console.log('find');
             destroyOldCourseStudent(updatedEntity, transaction)
           }
         });
@@ -151,9 +149,9 @@ define.model('model.Course', function (model, ModelUtil, require) {
         courseId: updatedEntity.courseId
       }).success(function () {
         findClassStudent(updatedEntity, transaction);
-//        console.log('delete ok');
-//        transaction.commit();
-//        callback(null, updatedEntity, false);
+        //        console.log('delete ok');
+        //        transaction.commit();
+        //        callback(null, updatedEntity, false);
       })
         .error(function (error) {
           transaction.rollback();
@@ -192,7 +190,6 @@ define.model('model.Course', function (model, ModelUtil, require) {
     }
 
     function createCourseStudent(courseStudents, updatedEntity, transaction) {
-      console.log(courseStudents);
 
       CourseStudent.bulkCreate(courseStudents, {
         transaction: transaction
