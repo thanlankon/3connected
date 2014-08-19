@@ -41,8 +41,8 @@ define.proxy = function (id, definer) {
 
       var proxyMethod = new ProxyMethod(url, httpMethod);
 
-      Proxy[key] = function (data, callback) {
-        proxyMethod.doRequest(data, callback);
+      Proxy[key] = function (data, callback, opts) {
+        proxyMethod.doRequest(data, callback, opts);
       };
 
       Proxy[key].url = proxyMethod.url;

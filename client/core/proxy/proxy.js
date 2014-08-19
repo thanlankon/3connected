@@ -45,12 +45,21 @@ define('core.proxy.Proxy', function (module, require) {
     this.httpMethod = httpMethod;
   }
 
-  ProxyMethod.prototype.doRequest = function (requestData, callback) {
-    console.log('do request', requestData);
+  ProxyMethod.prototype.doRequest = function (requestData, callback, opts) {
+    var rootUrl = '';
+
+    if (opts && opts.server) {
+      var Server = require('constant.Server');
+      rootUrl = Server[opts.server];
+    }
+
+    var url = rootUrl + '/' + this.url;
+
+    console.log('request:', url, '|', requestData);
 
     var ajax = jQuery.ajax({
       type: this.httpMethod,
-      url: this.url,
+      url: url,
       data: requestData
     });
 

@@ -21,8 +21,6 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       autoUpdate: true,
       scrollBarSize: 12
     });
-
-    this.element.find('#button-delete-news').click(this.proxy(this.deleteNews));
   };
 
   form.refreshData = function (params) {
@@ -37,7 +35,11 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     });
 
     // update edit button url
-    this.element.find('#button-edit-news').attr('href', editFormUrl);
+    // this.element.find('#button-edit-news').attr('href', editFormUrl);
+
+    this.data.attr({
+      editUrl: editFormUrl
+    });
 
     this.refreshNews(newsId);
   };
@@ -55,13 +57,17 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
 
       NewsProxy.destroy({
         newsId: newsId
-      }, this.proxy(destroyNewsDone));
+      }, this.proxy(destroyNewsDone), {
+        server: this.serverId
+      });
     }));
 
     function destroyNewsDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
       var Route = require('core.route.Route');
+      Route.removeAttr('action');
+      Route.removeAttr('id');
       Route.attr({
         module: 'news'
       });
@@ -79,10 +85,6 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     NewsProxy.findOne({
       newsId: newsId
     }, this.proxy(findOneDone));
-
-    NewsProxy.getContent({
-      newsId: newsId
-    }, this.proxy(getContentDone));
 
     function findOneDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
@@ -106,6 +108,14 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
         isNewsEditable: isNewsEditable
       });
 
+      NewsProxy.getContent({
+        newsId: newsData.newsId
+      }, this.proxy(getContentDone), {
+        server: newsData.serverId
+      });
+
+      this.serverId = newsData.serverId;
+
       this.on();
     }
 
@@ -118,6 +128,12 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     }
   };
 
+  form.events['#button-delete-news click'] = function (element, event) {
+    event.preventDefault();
+
+    this.deleteNews();
+  }
+
   form.events['#button-download-attachment click'] = function (element, event) {
     if (!this.attachmentId) return;
 
@@ -127,7 +143,8 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     //      attachmentId: this.attachmentId
     //    }, function () {});
 
-    window.location.href = '/api/attachment/download?attachmentId=' + this.attachmentId;
+    var Server = require('constant.Server');
+    window.location.href = Server[this.serverId] + '/api/attachment/download?attachmentId=' + this.attachmentId;
   };
 
   form.events['.attachment click'] = function (element, event) {

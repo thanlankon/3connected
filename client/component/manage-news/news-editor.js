@@ -76,17 +76,33 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
         this.attachmentData[attachmentUid] = null;
       }
 
-      this.editor.val(newsData.content);
-
       this.data.attr({
         title: newsData.title,
-        content: newsData.content,
         categoryIds: categoryIds
       });
 
       this.refreshAttachmentList();
 
+      NewsProxy.getContent({
+        newsId: newsData.newsId
+      }, this.proxy(getContentDone), {
+        server: newsData.serverId
+      });
+
+      this.serverId = newsData.serverId;
+
       this.on();
+    }
+
+    function getContentDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var content = serviceResponse.getData();
+
+      this.editor.val(content);
+      this.data.attr({
+        content: content
+      });
     }
   };
 
@@ -104,6 +120,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       });
 
       this.loadNews(params.id);
+
+      this.isEditNews = true;
     } else {
       // clear form for create
       this.editor.val('');
@@ -124,6 +142,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       this.attachmentData = {};
 
       this.refreshAttachmentList();
+
+      this.isEditNews = false;
     }
   };
 
@@ -151,7 +171,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       selectedIndex: 0,
       valueMember: 'attachmentUid',
       width: '100%',
-      height: '100px',
+      height: '200px',
       itemHeight: 47,
 
       renderer: this.proxy(function (index, label, value) {
@@ -193,7 +213,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     this.editor.ckeditor(this.proxy(this.resizeFormComponents));
 
     // resize components when window resized
-    jQuery(window).resize(this.proxy(this.resizeFormComponents));
+    //jQuery(window).resize(this.proxy(this.resizeFormComponents));
 
     // handle for add - remove attachments
     this.element.find('#button-add-attachments').click(this.proxy(this.addAttachments));
@@ -216,7 +236,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
   form.resizeFormComponents = function () {
     this.resizeEditor();
-    this.resizeAttachmentListBox();
+    //this.resizeAttachmentListBox();
   };
 
   form.resizeEditor = function () {
@@ -316,7 +336,14 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     var data = Util.Object.pick(this.data.attr(), ['title', 'content', 'categoryIds', 'attachments']);
 
     var NewsProxy = require('proxy.News');
-    NewsProxy.create(data, this.proxy(createNewsDone));
+
+    if (this.isEditNews) {
+      NewsProxy.update(data, this.proxy(updateNewsDone), {
+        server: this.serverId
+      });
+    } else {
+      NewsProxy.create(data, this.proxy(createNewsDone));
+    }
 
     function createNewsDone(serviceResonse) {
       if (serviceResonse.hasError()) return;
@@ -331,6 +358,12 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
         action: 'detail',
         id: newsId
       });
+    }
+
+    function updateNewsDone(serviceResonse) {
+      if (serviceResonse.hasError()) return;
+
+      console.log('update done');
     }
   };
 
