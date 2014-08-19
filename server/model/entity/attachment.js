@@ -6,6 +6,11 @@ define.entity('model.entity.NewsAttachment', function (entity, DataType, require
     primaryKey: true
   };
 
+  entity.serverId = {
+    type: DataType.STRING(200),
+    allowNull: false
+  };
+
   entity.newsId = {
     type: DataType.INTEGER,
     allowNull: false,
@@ -30,10 +35,10 @@ define.entity('model.entity.NewsAttachment', function (entity, DataType, require
     allowNull: false
   };
 
-//  entity.data = {
-//    type: DataType.BLOB,
-//    allowNull: false
-//  };
+  //  entity.data = {
+  //    type: DataType.BLOB,
+  //    allowNull: false
+  //  };
 
   entity.config = {
     table: 'NewsAttachment'

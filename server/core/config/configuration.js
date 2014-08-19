@@ -73,6 +73,8 @@ define('core.config.Configuration', function (module, require) {
 
     configuration.File.LOCATION = path.normalize(configuration.File.LOCATION);
 
+    configuration.ServerId = Config.ServerId;
+
     return configuration;
   }
 

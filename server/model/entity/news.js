@@ -6,6 +6,11 @@ define.entity('model.entity.News', function (entity, DataType, require) {
     primaryKey: true
   };
 
+  entity.serverId = {
+    type: DataType.STRING(200),
+    allowNull: false
+  };
+
   entity.title = {
     type: DataType.STRING(200),
     allowNull: false

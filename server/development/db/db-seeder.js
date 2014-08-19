@@ -26,7 +26,7 @@ define('db.seed.DbSeeder', function (module, require) {
     seedGrade(queryChainer);
 
     seedNewsCategory(queryChainer);
-    seedNews(queryChainer);
+    //seedNews(queryChainer);
 
     seedAccount(queryChainer);
 

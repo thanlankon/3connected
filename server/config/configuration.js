@@ -9,6 +9,10 @@ define('config.Configuration', function (module, require) {
 
   Configuration['SyncDbKey'] = 'splink';
 
+  // this server identification is using for
+  // determite location of attachments and news content
+  Configuration['ServerId'] = 'srv01';
+
   Configuration.Environments['LocalHost'] = {
     Database: {
       HOST: 'localhost',

@@ -8,6 +8,12 @@ define.model('model.News', function (model, ModelUtil, require) {
   var ConvertUtil = require('core.util.ConvertUtil');
   var Configuration = require('core.config.Configuration').getConfiguration();
 
+  var path = require('lib.Path');
+  var fs = require('lib.FileSystem');
+
+  var serverId = Configuration.ServerId;
+  var fileDirectory = Configuration.File.LOCATION;
+
   model.Entity = News;
 
   model.create = function (authorId, newsData, callback) {
@@ -15,7 +21,8 @@ define.model('model.News', function (model, ModelUtil, require) {
     var news = {
       title: newsData.title,
       //content: newsData.content,
-      authorId: authorId
+      authorId: authorId,
+      serverId: serverId
     };
 
     var attachments = newsData.attachments || [];
@@ -27,10 +34,6 @@ define.model('model.News', function (model, ModelUtil, require) {
         transaction: transaction
       })
         .success(function (createdNews) {
-          var fileDirectory = Configuration.File.LOCATION;
-          var path = require('lib.Path');
-          var fs = require('lib.FileSystem');
-
           var file = path.join(fileDirectory, 'news', '' + createdNews.newsId);
 
           fs.writeFileSync(file, newsData.content);
@@ -51,6 +54,7 @@ define.model('model.News', function (model, ModelUtil, require) {
 
       attachments.forEach(function (attachment) {
         attachment.newsId = news.newsId;
+        attachment.serverId = news.serverId;
 
         attachment = Util.Object.omit(attachment, ['data']);
 
@@ -73,10 +77,6 @@ define.model('model.News', function (model, ModelUtil, require) {
       queryChainer
         .run()
         .success(function (results) {
-          var fileDirectory = Configuration.File.LOCATION;
-          var path = require('lib.Path');
-          var fs = require('lib.FileSystem');
-
           for (var i = 0, len = attachments.length; i < len; i++) {
             var blob = ConvertUtil.Blob.fromBase64(attachments[i].data);
 
