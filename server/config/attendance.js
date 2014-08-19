@@ -4,7 +4,7 @@ define('config.Attendance', function (module, require) {
     SLOT_DURATION: 90,
     LOCK_BEFORE_STARTING: false,
     LOCK_AFTER_STARTING: false,
-    LOCK_AFTER_ENDING: false,
+    LOCK_AFTER_ENDING: 0,
 
     Slots: {
       SLOT1: {
