@@ -11,15 +11,15 @@ define.entity('model.entity.News', function (entity, DataType, require) {
     allowNull: false
   };
 
-  entity.content = {
-    type: DataType.TEXT,
-    allowNull: false,
-  };
+//  entity.content = {
+//    type: DataType.TEXT,
+//    allowNull: false,
+//  };
 
-  entity.content = {
-    type: DataType.TEXT,
-    allowNull: false,
-  };
+//  entity.content = {
+//    type: DataType.TEXT,
+//    allowNull: false,
+//  };
 
   entity.createdTime = {
     type: DataType.DATE,

@@ -30,10 +30,10 @@ define.entity('model.entity.NewsAttachment', function (entity, DataType, require
     allowNull: false
   };
 
-  entity.data = {
-    type: DataType.BLOB,
-    allowNull: false
-  };
+//  entity.data = {
+//    type: DataType.BLOB,
+//    allowNull: false
+//  };
 
   entity.config = {
     table: 'NewsAttachment'

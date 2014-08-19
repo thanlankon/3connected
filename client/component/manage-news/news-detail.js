@@ -80,6 +80,10 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       newsId: newsId
     }, this.proxy(findOneDone));
 
+    NewsProxy.getContent({
+      newsId: newsId
+    }, this.proxy(getContentDone));
+
     function findOneDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
@@ -91,7 +95,6 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       }
 
       this.panelNewsContent.jqxPanel('clearContent');
-      this.panelNewsContent.jqxPanel('append', newsData.content);
 
       this.data.attr(newsData);
 
@@ -104,6 +107,14 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       });
 
       this.on();
+    }
+
+    function getContentDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var content = serviceResponse.getData();
+
+      this.panelNewsContent.jqxPanel('append', content);
     }
   };
 

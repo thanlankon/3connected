@@ -7,6 +7,12 @@
 
 define.service('service.Attachment', function (service, require, ServiceUtil, Util) {
 
+  var Configuration = require('core.config.Configuration').getConfiguration();
+  var path = require('lib.Path');
+  var fs = require('lib.FileSystem');
+
+  var attachmentDirectory = path.join(Configuration.File.LOCATION, 'attachments');
+
   service.map = {
     url: '/attachment',
 
@@ -29,7 +35,10 @@ define.service('service.Attachment', function (service, require, ServiceUtil, Ut
       if (error) {
         message = 'news.attachment.download.error.unknown';
       } else {
-        if (isNotFound === true) {
+        var filePath = path.join(attachmentDirectory, attachmentId);
+        var exists = fs.existsSync(filePath);
+
+        if (isNotFound === true || !exists) {
           error = {
             code: 'ENTITY.NOT_FOUND'
           };
@@ -42,9 +51,10 @@ define.service('service.Attachment', function (service, require, ServiceUtil, Ut
         ServiceUtil.sendServiceResponse(res, error, message, attachment);
       } else {
         // send file
-        res.attachment(attachment.name + '.' + attachment.extension);
+        var fileName = attachment.name + '.' + attachment.extension;
+        //res.attachment(fileName);
 
-        res.send(attachment.data);
+        res.download(filePath, fileName);
       }
     });
 

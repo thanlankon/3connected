@@ -16,6 +16,8 @@ define.main = function (definer) {
 
 define('lib.FileSystem', function (module, require, libs) {
   module.exports = libs.FileSystem;
+
+  libs.FileSystem.makeDirSync = libs.MakeDir.sync;
 });
 
 define('lib.Path', function (module, require, libs) {

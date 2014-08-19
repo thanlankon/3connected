@@ -1,9 +1,12 @@
 define.model('model.News', function (model, ModelUtil, require) {
 
+  var Util = require('core.util.Util');
   var Entity = require('core.model.Entity');
   var News = require('model.entity.News');
   var NewsAttachment = require('model.entity.NewsAttachment');
   var CategoryOfNews = require('model.entity.CategoryOfNews');
+  var ConvertUtil = require('core.util.ConvertUtil');
+  var Configuration = require('core.config.Configuration').getConfiguration();
 
   model.Entity = News;
 
@@ -11,7 +14,7 @@ define.model('model.News', function (model, ModelUtil, require) {
 
     var news = {
       title: newsData.title,
-      content: newsData.content,
+      //content: newsData.content,
       authorId: authorId
     };
 
@@ -24,6 +27,14 @@ define.model('model.News', function (model, ModelUtil, require) {
         transaction: transaction
       })
         .success(function (createdNews) {
+          var fileDirectory = Configuration.File.LOCATION;
+          var path = require('lib.Path');
+          var fs = require('lib.FileSystem');
+
+          var file = path.join(fileDirectory, 'news', '' + createdNews.newsId);
+
+          fs.writeFileSync(file, newsData.content);
+
           createNewsData(createdNews, transaction);
         })
         .error(function (error) {
@@ -40,6 +51,8 @@ define.model('model.News', function (model, ModelUtil, require) {
 
       attachments.forEach(function (attachment) {
         attachment.newsId = news.newsId;
+
+        attachment = Util.Object.omit(attachment, ['data']);
 
         queryChainer.add(NewsAttachment.create(attachment, {
           transaction: transaction
@@ -60,6 +73,18 @@ define.model('model.News', function (model, ModelUtil, require) {
       queryChainer
         .run()
         .success(function (results) {
+          var fileDirectory = Configuration.File.LOCATION;
+          var path = require('lib.Path');
+          var fs = require('lib.FileSystem');
+
+          for (var i = 0, len = attachments.length; i < len; i++) {
+            var blob = ConvertUtil.Blob.fromBase64(attachments[i].data);
+
+            var file = path.join(fileDirectory, 'attachments', '' + results[i].attachmentId);
+
+            fs.writeFileSync(file, blob);
+          }
+
           transaction.commit();
 
           callback(null, news);

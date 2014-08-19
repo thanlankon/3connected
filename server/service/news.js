@@ -4,6 +4,12 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
   service.map = {
     url: '/news',
+    methods: {
+      newsContent: {
+        url: '/content',
+        httpMethod: 'GET'
+      }
+    }
   };
 
   service.Model = NewsModel;
@@ -103,6 +109,39 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
       ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message);
     });
+
+  };
+
+  service.newsContent = function (req, res) {
+
+    var Configuration = require('core.config.Configuration').getConfiguration();
+    var path = require('lib.Path');
+    var fs = require('lib.FileSystem');
+
+    var newsDirectory = path.join(Configuration.File.LOCATION, 'news');
+
+    var newsId = req.query.newsId;
+
+    var filePath = path.join(newsDirectory, newsId);
+    var exists = fs.existsSync(filePath);
+
+    var error = null,
+      message = null,
+      data = null;
+
+    if (!exists) {
+      error = {
+        code: 'ENTITY.NOT_FOUND'
+      };
+
+      message = 'news.content.error.notFound';
+    } else {
+      data = fs.readFileSync(filePath, {
+        encoding: 'utf8'
+      });
+    }
+
+    ServiceUtil.sendServiceResponse(res, error, message, data);
 
   };
 

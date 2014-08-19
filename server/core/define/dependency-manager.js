@@ -3,6 +3,7 @@ Dependency = {
     // core libs
     FileSystem: require('fs'),
     Path: require('path'),
+    MakeDir: require('mkdirp'),
     Crypto: require('crypto'),
 
     // vendor libs

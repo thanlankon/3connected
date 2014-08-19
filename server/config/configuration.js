@@ -16,6 +16,9 @@ define('config.Configuration', function (module, require) {
       NAME: '3connected',
       USERNAME: 'root',
       PASSWORD: 'root'
+    },
+    File: {
+      LOCATION: __dirname + '/../../data'
     }
   }
 

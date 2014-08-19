@@ -11,7 +11,7 @@ define('app.App', function (module, require) {
   resource.getResource();
 
   app.use(bodyParser({
-    limit: 1024 * 1024 * 10,
+    limit: 1024 * 1024 * 100,
   }));
 
   app.use(cookieParser());

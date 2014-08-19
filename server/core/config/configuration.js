@@ -71,6 +71,8 @@ define('core.config.Configuration', function (module, require) {
     configuration.ENABLE_DEVELOPMENT = !!Config.Development;
     configuration.ROOT_DIRECTORY = rootDirectory;
 
+    configuration.File.LOCATION = path.normalize(configuration.File.LOCATION);
+
     return configuration;
   }
 
