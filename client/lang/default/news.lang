@@ -26,6 +26,10 @@ news.allCatetories = All categories
 news.create.error.unknown = Error during creating news
 news.create.success = The news is created successfully
 
+news.update.error.unknown = Error during updating news
+news.update.error.notFound = News not found
+news.update.success = The news is updated successfully
+
 news.content.error.notFound = The news content is not found
 
 news.attachment.download.error.unknown = Error during downloading the attachment

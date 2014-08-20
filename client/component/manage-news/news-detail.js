@@ -98,6 +98,8 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
 
       this.panelNewsContent.jqxPanel('clearContent');
 
+      this.data.removeAttr('categories');
+      this.data.removeAttr('attachments');
       this.data.attr(newsData);
 
       var Role = require('enum.Role');

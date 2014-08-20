@@ -113,6 +113,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       return;
     };
 
+    console.log('params', params);
+
     if (params.action == 'edit') {
       // load news for edit
       this.data.attr({
@@ -230,7 +232,11 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     this.isFormInitialized = true;
 
     if (this.newsId) {
-      this.loadNews(this.newsId);
+      this.refreshData({
+        module: 'news',
+        action: 'edit',
+        id: this.newsId
+      });
     }
   };
 
@@ -338,6 +344,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     var NewsProxy = require('proxy.News');
 
     if (this.isEditNews) {
+      data.newsId = this.newsId;
+
       NewsProxy.update(data, this.proxy(updateNewsDone), {
         server: this.serverId
       });

@@ -54,8 +54,6 @@ define.model('model.News', function (model, ModelUtil, require) {
 
       attachments.forEach(function (attachment) {
         attachment.newsId = news.newsId;
-        attachment.serverId = news.serverId;
-
         attachment = Util.Object.omit(attachment, ['data']);
 
         queryChainer.add(NewsAttachment.create(attachment, {
@@ -95,6 +93,92 @@ define.model('model.News', function (model, ModelUtil, require) {
           callback(error);
         });
 
+    }
+
+  };
+
+  model.update = function (authorId, newsData, callback) {
+
+    var newsId = newsData.newsId;
+
+    Entity.transaction(function (transaction) {
+      News.find({
+        newsId: newsId,
+        serverId: serverId,
+        authorId: authorId
+      }, {
+        transaction: transaction
+      })
+        .success(function (foundNews) {
+          if (!foundNews) {
+            callback(null, true);
+            return;
+          }
+
+          foundNews.updateAttributes({
+            title: newsData.title
+          }, {
+            transaction: transaction
+          })
+            .success(function () {
+              updateNewsData(transaction);
+            })
+            .error(function (error) {
+              transaction.rollback();
+              callback(error);
+            });
+        })
+        .error(function (error) {
+          transaction.rollback();
+          callback(error);
+        });
+    });
+
+    function updateNewsData(transaction) {
+      var categoryIds = newsData.categoryIds || [];
+
+      CategoryOfNews.destroy({
+        newsId: newsId
+      }, {
+        transaction: transaction
+      })
+        .success(function () {
+          var queryChainer = Entity.queryChainer();
+
+          categoryIds.forEach(function (categoryId) {
+            var categoryOfNews = {
+              newsId: newsId,
+              newsCategoryId: categoryId
+            }
+
+            queryChainer.add(CategoryOfNews.create(categoryOfNews, {
+              transaction: transaction
+            }));
+          });
+
+          queryChainer
+            .run()
+            .success(function () {
+              transaction.commit();
+
+              updateNewsContent();
+
+              callback(null, false, null);
+            })
+            .error(function (error) {
+              transaction.rollback();
+              callback(error);
+            });
+        })
+        .error(function (error) {
+          transaction.rollback();
+          callback(error);
+        });
+    }
+
+    function updateNewsContent() {
+      var file = path.join(fileDirectory, 'news', '' + newsId);
+      fs.writeFileSync(file, newsData.content);
     }
 
   };

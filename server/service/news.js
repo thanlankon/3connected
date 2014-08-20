@@ -89,6 +89,40 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
   };
 
+  service.update = function (req, res) {
+
+    var authorId = req.authentication.userInformationId;
+
+    var newsData = Util.Object.pick(req.body, ['newsId', 'title', 'content', 'categoryIds', 'attachments']);
+
+    var serviceResponse = {
+      message: null,
+      error: null,
+      data: null
+    };
+
+    NewsModel.update(authorId, newsData, function (error, notFound, updatedNews) {
+      if (error) {
+        serviceResponse.message = 'news.update.error.unknown';
+
+        serviceResponse.error = error;
+      } else if (notFound) {
+        serviceResponse.error = {
+          code: 'ENTITY.NOT_FOUND'
+        };
+
+        serviceResponse.message = 'news.update.error.notFound';
+      } else {
+        serviceResponse.message = 'news.update.success';
+
+        serviceResponse.data = updatedNews;
+      }
+
+      ServiceUtil.sendServiceResponse(res, serviceResponse.error, serviceResponse.message, serviceResponse.data);
+    });
+
+  };
+
   service.destroy = function (req, res) {
 
     var newsId = req.body.newsId;
