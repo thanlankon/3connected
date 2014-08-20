@@ -67,6 +67,10 @@ define('core.validator.Validator', function (module, require) {
       else if (rule.rule == 'max') {
         validator = 'core.validator.Max';
       }
+      // in
+      else if (rule.rule == 'in') {
+        validator = 'core.validator.In';
+      }
 
       validator = require(validator);
 
