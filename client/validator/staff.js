@@ -111,18 +111,43 @@ define('validator.rule.Staff', function (module, require) {
      ]
   };
 
+  var rulePhoneNumber = {
+    // validate for departmentId
+    attribute: 'phoneNumber',
+    attributeName: 'staff.phoneNumber',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      },
+      {
+        // lastName max length is 100
+        rule: 'maxLength',
+        ruleData: {
+          maxLength: 11
+        }
+      }
+     ]
+  };
+
   var ruleCreateStaff = [
     ruleStaffCode,
     ruleStaffRole,
     ruleFirstName,
     ruleLastName,
     ruleDepartmentId,
-    ruleGender
+    ruleGender,
+    rulePhoneNumber
   ];
 
   var ruleUpdateStaff = [
     ruleStaffId,
-  ].concat(ruleCreateStaff);
+    ruleStaffCode,
+    ruleFirstName,
+    ruleLastName,
+    ruleDepartmentId,
+    ruleGender,
+    rulePhoneNumber
+  ];
 
   var ruleStaff = {
     create: ruleCreateStaff,

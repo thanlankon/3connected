@@ -34,6 +34,9 @@ define('export.Student', function (module, require) {
       dateOfBirth: {
         width: 20
       },
+      phoneNumber: {
+        width: 30
+      },
       address: {
         width: 50
       },

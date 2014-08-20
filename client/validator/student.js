@@ -86,18 +86,29 @@ define('validator.rule.Student', function (module, require) {
   };
 
   var ruleGender = {
-    // validate for gender
+    // validate for departmentId
     attribute: 'gender',
-    attributeName: 'student.gender',
+    attributeName: 'staff.gender',
     rules: [
       {
-        // gender is required
+        // departmentId is required
         rule: 'required'
-      },
+      }
+     ]
+  };
+
+  var rulePhoneNumber = {
+    // validate for departmentId
+    attribute: 'phoneNumber',
+    attributeName: 'staff.phoneNumber',
+    rules: [
       {
-        rule: 'in',
+        rule: 'positiveInteger'
+      }, {
+        // lastName max length is 100
+        rule: 'maxLength',
         ruleData: {
-          items: [Gender.UNKNOWN, Gender.MALE, Gender.FEMALE]
+          maxLength: 11
         }
       }
      ]
@@ -107,7 +118,8 @@ define('validator.rule.Student', function (module, require) {
     ruleStudentCode,
     ruleFirstName,
     ruleLastName,
-    ruleGender
+    ruleGender,
+    rulePhoneNumber
   ];
 
   var ruleUpdateStudent = [

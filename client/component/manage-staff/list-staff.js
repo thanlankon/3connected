@@ -57,6 +57,12 @@ define.form('component.form.manage-staff.ListStaff', function (form, require, Ut
         width: '130px'
       },
       {
+        text: Lang.get('staff.phoneNumber'),
+        dataField: 'phoneNumber',
+
+        width: '100px',
+      },
+      {
         text: Lang.get('staff.address'),
         dataField: 'address',
 

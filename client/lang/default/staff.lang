@@ -13,6 +13,7 @@ staff.dateOfBirth = {{.dateOfBirth}}
 staff.address = {{.address}}
 staff.email = {{.email}}
 staff.teacherCode = Teacher code
+staff.phoneNumber = Phone number
 # button
 
 staff.create = Create staff

@@ -28,6 +28,9 @@ define('export.Staff', function (module, require) {
       dateOfBirth: {
         width: 20
       },
+      phoneNumber: {
+        width: 30
+      },
       address: {
         width: 50
       },

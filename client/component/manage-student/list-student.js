@@ -71,6 +71,12 @@ define.form('component.form.manage-student.ListStudent', function (form, require
         width: '130px'
       },
       {
+        text: Lang.get('student.phoneNumber'),
+        dataField: 'phoneNumber',
+
+        width: '130px'
+      },
+      {
         text: Lang.get('student.address'),
         dataField: 'address',
 
