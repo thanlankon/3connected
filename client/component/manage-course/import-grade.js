@@ -174,10 +174,14 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
       return;
     }
 
-    var columnStart = ref.charCodeAt(0);
-    var columnEnd = ref.charCodeAt(3);
-    var rowStart = Math.max(ref.charAt(1), startRow);
-    var rowEnd = +ref.charAt(4);
+    var regex = /^([A-Z]+)([0-9]+):([A-Z]+)([0-9]+)$/;
+
+    ref = regex.exec(ref);
+
+    var columnStart = ref[1].charCodeAt(0);
+    var columnEnd = ref[3].charCodeAt(0);
+    var rowStart = Math.max(ref[2], startRow);
+    var rowEnd = +ref[4];
 
     var gradeMaps = {};
 

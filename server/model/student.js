@@ -200,18 +200,18 @@ define.model('model.Student', function (model, ModelUtil, require) {
           Util.Collection.each(foundStudents, function (student, index) {
             var studentData = students[index];
 
-            if (student) {
-              importQueryChainer.add(student.updateAttributes(studentData, {
+            if (student || isCreate[studentData.studentCode]) {
+              importQueryChainer.add(Student.update(studentData, {
+                studentCode: studentData.studentCode
+              }, {
                 transaction: transaction
               }));
-
-              isCreate[index] = false;
             } else {
               importQueryChainer.add(Student.create(studentData, {
                 transaction: transaction
               }));
 
-              isCreate[index] = true;
+              isCreate[studentData.studentCode] = true;
             }
           });
 
@@ -222,7 +222,7 @@ define.model('model.Student', function (model, ModelUtil, require) {
               var accountQueryChainer = Entity.queryChainer();
 
               Util.Collection.each(importedStudents, function (student, index) {
-                if (!isCreate[index]) return;
+                if (!isCreate[student.studentCode]) return;
 
                 var username = student.studentCode;
                 var defaultPassword = AuthenticationUtil.encryptPassword(AccountConfig.DEFAULT_PASSWORD);
@@ -253,8 +253,6 @@ define.model('model.Student', function (model, ModelUtil, require) {
 
                 accountQueryChainer.add(Account.create(studentAccount));
                 accountQueryChainer.add(Account.create(parentAccount));
-
-                console.log(studentAccount);
               });
 
               accountQueryChainer
