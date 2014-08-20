@@ -20,6 +20,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
   form.attachmentInfo = {};
   form.attachmentData = {};
+  form.deletedAttachments = [];
 
   form.initData = function () {
 
@@ -59,6 +60,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
       this.attachmentInfo = {};
       this.attachmentData = {};
+      this.deletedAttachments = [];
 
       for (var i = 0, len = newsData.attachments.length; i < len; i++) {
         var attachment = newsData.attachments[i];
@@ -66,6 +68,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
         var attachmentUid = this.attachmentUid();
 
         var fileInfo = {
+          attachmentId: attachment.attachmentId,
           name: attachment.name,
           size: attachment.size,
           extension: attachment.extension,
@@ -142,6 +145,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
       this.attachmentInfo = {};
       this.attachmentData = {};
+      this.deletedAttachments = [];
 
       this.refreshAttachmentList();
 
@@ -304,6 +308,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     var attachments = [];
 
     Util.Collection.each(attachmentInfo, function (fileInfo, attachmentUid) {
+      if (fileInfo.isCreated) return;
+
       var attachment = {
         name: fileInfo.name,
         size: fileInfo.size,
@@ -345,6 +351,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
     if (this.isEditNews) {
       data.newsId = this.newsId;
+      data.deletedAttachments = this.deletedAttachments;
 
       NewsProxy.update(data, this.proxy(updateNewsDone), {
         server: this.serverId
@@ -371,7 +378,16 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     function updateNewsDone(serviceResonse) {
       if (serviceResonse.hasError()) return;
 
-      console.log('update done');
+      var newsData = serviceResonse.getData();
+      var newsId = this.newsId;
+
+      var Route = require('core.route.Route');
+
+      Route.attr({
+        module: 'news',
+        action: 'detail',
+        id: newsId
+      });
     }
   };
 
@@ -396,6 +412,12 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     if (!selectedItem) return;
 
     var attachmentUid = selectedItem.value;
+
+    var info = this.attachmentInfo[attachmentUid];
+
+    if (info.isCreated) {
+      this.deletedAttachments.push(info.attachmentId);
+    }
 
     this.attachmentInfo = Util.Object.omit(this.attachmentInfo, [attachmentUid]);
     this.attachmentData = Util.Object.omit(this.attachmentData, [attachmentUid]);

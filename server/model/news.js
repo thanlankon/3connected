@@ -135,15 +135,37 @@ define.model('model.News', function (model, ModelUtil, require) {
     });
 
     function updateNewsData(transaction) {
+      var attachments = newsData.attachments || [];
       var categoryIds = newsData.categoryIds || [];
+      var deletedAttachments = newsData.deletedAttachments || [];
 
-      CategoryOfNews.destroy({
-        newsId: newsId
-      }, {
-        transaction: transaction
-      })
+      var destroyQueryChainer = Entity.queryChainer();
+
+      destroyQueryChainer
+        .add(CategoryOfNews.destroy({
+          newsId: newsId
+        }, {
+          transaction: transaction
+        }))
+        .add(NewsAttachment.destroy({
+          attachmentId: deletedAttachments
+        }, {
+          transaction: transaction
+        }));
+
+      destroyQueryChainer
+        .run()
         .success(function () {
           var queryChainer = Entity.queryChainer();
+
+          attachments.forEach(function (attachment) {
+            attachment.newsId = newsId;
+            attachment = Util.Object.omit(attachment, ['data']);
+
+            queryChainer.add(NewsAttachment.create(attachment, {
+              transaction: transaction
+            }));
+          });
 
           categoryIds.forEach(function (categoryId) {
             var categoryOfNews = {
@@ -158,10 +180,26 @@ define.model('model.News', function (model, ModelUtil, require) {
 
           queryChainer
             .run()
-            .success(function () {
-              transaction.commit();
+            .success(function (results) {
+              for (var i = 0, len = attachments.length; i < len; i++) {
+                var blob = ConvertUtil.Blob.fromBase64(attachments[i].data);
+
+                var file = path.join(fileDirectory, 'attachments', '' + results[i].attachmentId);
+
+                fs.writeFileSync(file, blob);
+              }
+
+              for (var i = 0, len = deletedAttachments.length; i < len; i++) {
+                var file = path.join(fileDirectory, 'attachments', '' + deletedAttachments[i]);
+
+                if (fs.existsSync(file)) {
+                  fs.unlinkSync(file);
+                }
+              }
 
               updateNewsContent();
+
+              transaction.commit();
 
               callback(null, false, null);
             })
