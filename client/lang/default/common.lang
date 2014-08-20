@@ -112,3 +112,4 @@ validate.maxLength = {{attributeName}} is allowed maximum {{maxLength}} characte
 validate.equal = {{attributeName}} is not correct
 validate.min = {{attributeName}} is allowed minimun {{min}}
 validate.max = {{attributeName}} is allowed maximum {{max}}
+validate.in = {{attributeName}} is invalid
