@@ -93,7 +93,9 @@ define.service('service.News', function (service, require, ServiceUtil, Util) {
 
     var authorId = req.authentication.userInformationId;
 
-    var newsData = Util.Object.pick(req.body, ['newsId', 'title', 'content', 'categoryIds', 'attachments']);
+    var newsData = Util.Object.pick(req.body, [
+      'newsId', 'title', 'content', 'categoryIds', 'attachments', 'deletedAttachments'
+    ]);
 
     var serviceResponse = {
       message: null,
