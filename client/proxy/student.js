@@ -65,6 +65,9 @@ define.proxy('proxy.Student', function (proxy, require) {
       name: 'majorName',
       type: 'string',
       map: 'class.major.majorName'
+    }, {
+      name: 'phoneNumber',
+      type: 'number'
     }
 
   ];

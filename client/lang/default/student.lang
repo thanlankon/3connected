@@ -19,6 +19,7 @@ student.totalAbsent = Total absent
 student.totalPresent = Total present
 student.totalSlots = Total slots
 student.percentAbsent = Percent absent
+student.phoneNumber = Phone Number
 
 # controls
 

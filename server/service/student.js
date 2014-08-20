@@ -141,7 +141,8 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
         'dateOfBirth',
         'address',
         'email',
-        'classId'
+        'classId',
+        'phoneNumber'
       ],
       checkDuplicatedAttributes: ['studentCode']
     },
@@ -155,7 +156,8 @@ define.service('service.Student', function (service, require, ServiceUtil, Util)
         'dateOfBirth',
         'address',
         'email',
-        'classId'
+        'classId',
+        'phoneNumber'
       ],
       checkExistanceAttributes: ['studentId'],
       checkDuplicatedAttributes: ['studentCode']

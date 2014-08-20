@@ -73,7 +73,8 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
         'dateOfBirth',
         'address',
         'email',
-        'departmentId'
+        'departmentId',
+        'phoneNumber'
       ],
       checkDuplicatedAttributes: ['staffCode']
     },
@@ -87,7 +88,8 @@ define.service('service.Staff', function (service, require, ServiceUtil, Util) {
         'dateOfBirth',
         'address',
         'email',
-        'departmentId'
+        'departmentId',
+        'phoneNumber'
       ],
       checkExistanceAttributes: ['staffId'],
       checkDuplicatedAttributes: ['staffCode']

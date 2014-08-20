@@ -54,6 +54,9 @@ define.proxy('proxy.Staff', function (proxy, require) {
       name: 'departmentName',
       type: 'string',
       map: 'department.departmentName'
+    }, {
+      name: 'phoneNumber',
+      type: 'number'
     }
 
   ];

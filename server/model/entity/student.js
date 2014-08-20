@@ -50,6 +50,11 @@ define.entity('model.entity.Student', function (entity, DataType, require) {
     allowNull: true
   };
 
+  entity.phoneNumber = {
+    type: DataType.INTEGER,
+    allowNull: true
+  };
+
   entity.config = {
     table: 'Student'
   };
