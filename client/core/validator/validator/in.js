@@ -7,7 +7,10 @@ define('core.validator.In', function (module, require) {
 
     var items = ruleData.items || [];
 
-    return (items.indexOf(value) !== -1);
+    var isValid = (items.indexOf(value) !== -1);
+    isValid = isValid || (!isNaN(+value) && (items.indexOf(+value) !== -1));
+
+    return isValid;
 
   };
 
