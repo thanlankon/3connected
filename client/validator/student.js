@@ -86,13 +86,19 @@ define('validator.rule.Student', function (module, require) {
   };
 
   var ruleGender = {
-    // validate for departmentId
+    // validate for gender
     attribute: 'gender',
-    attributeName: 'staff.gender',
+    attributeName: 'parent.gender',
     rules: [
       {
-        // departmentId is required
+        // classId is required
         rule: 'required'
+      },
+      {
+        rule: 'in',
+        ruleData: {
+          items: [Gender.UNKNOWN, Gender.MALE, Gender.FEMALE]
+        }
       }
      ]
   };
