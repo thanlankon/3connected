@@ -164,6 +164,10 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       Route.attr({
         module: 'manage-course'
       });
+    } else if (Role.isAdministrator(component.authentication.accountRole)) {
+      Route.attr({
+        module: 'manage-account'
+      });
     } else {
       Route.attr({
         module: 'news'
