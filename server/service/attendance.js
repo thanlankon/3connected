@@ -70,7 +70,9 @@ define.service('service.Attendance', function (service, require, ServiceUtil, Ut
       userId = req.authentication.userInformationId;
     }
 
-    AttendanceModel.getCourseAttendance(courseId, scheduleId, userId, function (error, courseAttendance, isNotFound) {
+    var isEducator = Role.isEducator(req.authentication.accountRole);
+
+    AttendanceModel.getCourseAttendance(courseId, scheduleId, userId, isEducator, function (error, courseAttendance, isNotFound) {
       if (error) {
         serviceResponse.message = 'course.getCourseAttendance.error.unknown';
         serviceResponse.error = error;

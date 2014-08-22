@@ -1051,20 +1051,35 @@ define('core.proxy.Proxy', function (module, require) {
 
   ProxyMethod.prototype.doRequest = function (requestData, callback, opts) {
     var rootUrl = '';
+    var serverHeader = '';
 
     if (opts && opts.server) {
       var Server = require('constant.Server');
-      rootUrl = Server[opts.server];
+
+      if (Server.enableProxy) {
+        serverHeader = opts.server;
+      } else {
+        rootUrl = Server[opts.server];
+      }
     }
 
     var url = rootUrl + '/' + this.url;
 
     console.log('request:', url, '|', requestData);
 
+    var headers = {};
+
+    if (serverHeader) {
+      headers['X-Server-Id'] = serverHeader;
+    }
+
+    console.log(headers);
+
     var ajax = jQuery.ajax({
       type: this.httpMethod,
       url: url,
-      data: requestData
+      data: requestData,
+      headers: headers
     });
 
     if (callback) {
@@ -8193,21 +8208,21 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
-    this.element.on('visible', this.proxy(initNavigationBar));
+    setTimeout(initNavigationBar, 500);
 
     this.element.find('#expander').click(toggleNavigator);
-    this.element.find('#expander #navigator li').click(function () {
-      var elm = jQuery(this);
-      elm.parent().parent().parent().find('#location').text(elm.text());
-    });
+    //    this.element.find('#expander #navigator li').click(function () {
+    //      var elm = jQuery(this);
+    //      elm.parent().parent().parent().find('#location').text(elm.text());
+    //    });
 
-    jQuery(document).mousedown(function (event) {
-      var elm = jQuery(event.target);
-
-      if (elm.closest('#expander').size() == 0 && jQuery('#expander').hasClass('active')) {
-        toggleNavigator();
-      }
-    });
+    //    jQuery(document).mousedown(function (event) {
+    //      var elm = jQuery(event.target);
+    //
+    //      if (elm.closest('#expander').size() == 0 && jQuery('#expander').hasClass('active')) {
+    //        toggleNavigator();
+    //      }
+    //    });
 
     function toggleNavigator() {
       //      var elm = jQuery('#expander');
@@ -8394,6 +8409,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
   };
 
   component.events['#button-logout click'] = function (element, event) {
+    event.preventDefault();
     MsgBox.confirm(Lang.get('authentication.logout.confirm'), this.proxy(this.logout));
   };
 
@@ -17785,7 +17801,7 @@ define('enum.Role', function (module, require) {
 define('constant.Server', function (module, require) {
 
   var Server = {
-    'srv01': 'http://3connected.edu'
+    enableProxy: true
   };
 
   module.exports = Server;

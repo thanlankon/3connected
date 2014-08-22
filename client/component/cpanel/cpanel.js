@@ -53,13 +53,13 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
-    initNavigationBar();
+    setTimeout(initNavigationBar, 500);
 
     this.element.find('#expander').click(toggleNavigator);
-    this.element.find('#expander #navigator li').click(function () {
-      var elm = jQuery(this);
-      elm.parent().parent().parent().find('#location').text(elm.text());
-    });
+    //    this.element.find('#expander #navigator li').click(function () {
+    //      var elm = jQuery(this);
+    //      elm.parent().parent().parent().find('#location').text(elm.text());
+    //    });
 
     //    jQuery(document).mousedown(function (event) {
     //      var elm = jQuery(event.target);
@@ -254,6 +254,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
   };
 
   component.events['#button-logout click'] = function (element, event) {
+    event.preventDefault();
     MsgBox.confirm(Lang.get('authentication.logout.confirm'), this.proxy(this.logout));
   };
 

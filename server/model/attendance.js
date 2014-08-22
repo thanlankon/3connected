@@ -12,7 +12,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
 
   model.Entity = Attendance;
 
-  model.getCourseAttendance = function (courseId, scheduleId, userId, callback) {
+  model.getCourseAttendance = function (courseId, scheduleId, userId, isEducator, callback) {
 
     var queryChainer = Entity.queryChainer();
 
@@ -61,7 +61,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
           return;
         }
 
-        if (userId != 0 && schedule.course.lectureId != userId) {
+        if (!isEducator && (userId != 0 && schedule.course.lectureId != userId)) {
           callback(null, null, true);
 
           return;
@@ -129,7 +129,7 @@ define.model('model.Attendance', function (model, ModelUtil, require) {
           }
         }
 
-        var isLocked = checkIfAttendanceIsLocked(schedule.date, schedule.slot);
+        var isLocked = !isEducator && checkIfAttendanceIsLocked(schedule.date, schedule.slot);
 
         var courseAttendanceData = {
           students: students,
