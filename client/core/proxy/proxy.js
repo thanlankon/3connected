@@ -47,20 +47,33 @@ define('core.proxy.Proxy', function (module, require) {
 
   ProxyMethod.prototype.doRequest = function (requestData, callback, opts) {
     var rootUrl = '';
+    var serverHeader = '';
 
     if (opts && opts.server) {
       var Server = require('constant.Server');
-      rootUrl = Server[opts.server];
+
+      if (Server.enableProxy) {
+        serverHeader = opts.server;
+      } else {
+        rootUrl = Server[opts.server];
+      }
     }
 
     var url = rootUrl + '/' + this.url;
 
     console.log('request:', url, '|', requestData);
 
+    var headers = {};
+
+    if (serverHeader) {
+      headers['X-Server-Id'] = serverHeader;
+    }
+
     var ajax = jQuery.ajax({
       type: this.httpMethod,
       url: url,
-      data: requestData
+      data: requestData,
+      headers: headers
     });
 
     if (callback) {
