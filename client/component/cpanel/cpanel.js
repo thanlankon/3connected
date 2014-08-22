@@ -53,7 +53,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
-    this.element.on('visible', this.proxy(initNavigationBar));
+    initNavigationBar();
 
     this.element.find('#expander').click(toggleNavigator);
     this.element.find('#expander #navigator li').click(function () {
@@ -61,13 +61,13 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       elm.parent().parent().parent().find('#location').text(elm.text());
     });
 
-    jQuery(document).mousedown(function (event) {
-      var elm = jQuery(event.target);
-
-      if (elm.closest('#expander').size() == 0 && jQuery('#expander').hasClass('active')) {
-        toggleNavigator();
-      }
-    });
+    //    jQuery(document).mousedown(function (event) {
+    //      var elm = jQuery(event.target);
+    //
+    //      if (elm.closest('#expander').size() == 0 && jQuery('#expander').hasClass('active')) {
+    //        toggleNavigator();
+    //      }
+    //    });
 
     function toggleNavigator() {
       //      var elm = jQuery('#expander');

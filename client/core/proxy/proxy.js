@@ -69,6 +69,8 @@ define('core.proxy.Proxy', function (module, require) {
       headers['X-Server-Id'] = serverHeader;
     }
 
+    console.log(headers);
+
     var ajax = jQuery.ajax({
       type: this.httpMethod,
       url: url,
