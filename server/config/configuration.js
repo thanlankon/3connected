@@ -14,6 +14,10 @@ define('config.Configuration', function (module, require) {
   Configuration['ServerId'] = 'srv01';
 
   Configuration.Environments['LocalHost'] = {
+    Web: {
+      PORT: 4430,
+      SSL: true
+    },
     Database: {
       HOST: 'localhost',
       PORT: 3306,

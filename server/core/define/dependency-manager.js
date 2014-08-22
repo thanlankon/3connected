@@ -1,6 +1,8 @@
 Dependency = {
   libs: {
     // core libs
+    Http: require('http'),
+    Https: require('https'),
     FileSystem: require('fs'),
     Path: require('path'),
     MakeDir: require('mkdirp'),

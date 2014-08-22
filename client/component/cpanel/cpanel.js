@@ -53,7 +53,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
-    initNavigationBar();
+    this.element.on('visible', this.proxy(initNavigationBar));
 
     this.element.find('#expander').click(toggleNavigator);
     this.element.find('#expander #navigator li').click(function () {

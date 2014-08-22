@@ -14,6 +14,14 @@ define.main = function (definer) {
 
 // core libs
 
+define('lib.Http', function (module, require, libs) {
+  module.exports = libs.Http;
+});
+
+define('lib.Https', function (module, require, libs) {
+  module.exports = libs.Https;
+});
+
 define('lib.FileSystem', function (module, require, libs) {
   module.exports = libs.FileSystem;
 

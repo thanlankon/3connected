@@ -355,8 +355,8 @@ define.proxy = function (id, definer) {
 
       var proxyMethod = new ProxyMethod(url, httpMethod);
 
-      Proxy[key] = function (data, callback) {
-        proxyMethod.doRequest(data, callback);
+      Proxy[key] = function (data, callback, opts) {
+        proxyMethod.doRequest(data, callback, opts);
       };
 
       Proxy[key].url = proxyMethod.url;
@@ -1049,12 +1049,21 @@ define('core.proxy.Proxy', function (module, require) {
     this.httpMethod = httpMethod;
   }
 
-  ProxyMethod.prototype.doRequest = function (requestData, callback) {
-    console.log('do request', requestData);
+  ProxyMethod.prototype.doRequest = function (requestData, callback, opts) {
+    var rootUrl = '';
+
+    if (opts && opts.server) {
+      var Server = require('constant.Server');
+      rootUrl = Server[opts.server];
+    }
+
+    var url = rootUrl + '/' + this.url;
+
+    console.log('request:', url, '|', requestData);
 
     var ajax = jQuery.ajax({
       type: this.httpMethod,
-      url: this.url,
+      url: url,
       data: requestData
     });
 
@@ -1664,6 +1673,26 @@ define('core.validator.Equal', function (module, require) {
 
 
 
+define('core.validator.In', function (module, require) {
+
+  module.exports = function (attribute, value, ruleData, rules, data) {
+
+    // skip checking for null or undefined
+    if (value === '' || value === null || value === undefined) return true;
+
+    var items = ruleData.items || [];
+
+    var isValid = (items.indexOf(value) !== -1);
+    isValid = isValid || (!isNaN(+value) && (items.indexOf(+value) !== -1));
+
+    return isValid;
+
+  };
+
+});
+
+
+
 define('core.validator.Integer', function (module, require) {
 
   var Util = require('core.util.Util');
@@ -1843,6 +1872,10 @@ define('core.validator.Validator', function (module, require) {
       // max
       else if (rule.rule == 'max') {
         validator = 'core.validator.Max';
+      }
+      // in
+      else if (rule.rule == 'in') {
+        validator = 'core.validator.In';
       }
 
       validator = require(validator);
@@ -3201,6 +3234,8 @@ define.proxy('proxy.News', function (proxy, require) {
 
   proxy.destroy = 'POST api/news/destroy';
 
+  proxy.getContent = 'GET api/news/content';
+
   proxy.downloadAttachment = 'GET api/attachment/download';
 
   // news entity map
@@ -3426,6 +3461,9 @@ define.proxy('proxy.Staff', function (proxy, require) {
       name: 'departmentName',
       type: 'string',
       map: 'department.departmentName'
+    }, {
+      name: 'phoneNumber',
+      type: 'number'
     }
 
   ];
@@ -3482,6 +3520,8 @@ define.proxy('proxy.Student', function (proxy, require) {
 
   proxy.destroy = 'POST api/student/destroy';
 
+  proxy.importStudent = 'POST api/student/import';
+
   // student entity map
   proxy.EntityMap = [
     {
@@ -3533,6 +3573,9 @@ define.proxy('proxy.Student', function (proxy, require) {
       name: 'majorName',
       type: 'string',
       map: 'class.major.majorName'
+    }, {
+      name: 'phoneNumber',
+      type: 'number'
     }
 
   ];
@@ -8150,7 +8193,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
     this.static.formContainer = this.element.find('#forms');
     this.static.bindRoute();
 
-    initNavigationBar();
+    this.element.on('visible', this.proxy(initNavigationBar));
 
     this.element.find('#expander').click(toggleNavigator);
     this.element.find('#expander #navigator li').click(function () {
@@ -8261,6 +8304,10 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
       Route.attr({
         module: 'manage-course'
       });
+    } else if (Role.isAdministrator(component.authentication.accountRole)) {
+      Route.attr({
+        module: 'manage-account'
+      });
     } else {
       Route.attr({
         module: 'news'
@@ -8351,7 +8398,6 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
   };
 
 });
-
 
 
 define.component('component.Login', function (component, require, Util, Lang, jQuery) {
@@ -8473,7 +8519,7 @@ define.form('component.form.manage-account.ListAccount', function (form, require
       cellsAlign: 'right',
       filterType: 'textbox',
 
-      width: 150,
+      width: 100,
     }, {
       text: Lang.get('account.username'),
       dataField: 'username',
@@ -8492,7 +8538,8 @@ define.form('component.form.manage-account.ListAccount', function (form, require
     }];
 
     var gridConfig = {
-      columns: gridColumns
+      columns: gridColumns,
+      singleSelection: true
     };
 
     return gridConfig;
@@ -10464,10 +10511,14 @@ define.form('component.dialog.manage-course.ImportGrade', function (form, requir
       return;
     }
 
-    var columnStart = ref.charCodeAt(0);
-    var columnEnd = ref.charCodeAt(3);
-    var rowStart = Math.max(ref.charAt(1), startRow);
-    var rowEnd = +ref.charAt(4);
+    var regex = /^([A-Z]+)([0-9]+):([A-Z]+)([0-9]+)$/;
+
+    ref = regex.exec(ref);
+
+    var columnStart = ref[1].charCodeAt(0);
+    var columnEnd = ref[3].charCodeAt(0);
+    var rowStart = Math.max(ref[2], startRow);
+    var rowEnd = +ref[4];
 
     var gradeMaps = {};
 
@@ -11269,8 +11320,6 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       autoUpdate: true,
       scrollBarSize: 12
     });
-
-    this.element.find('#button-delete-news').click(this.proxy(this.deleteNews));
   };
 
   form.refreshData = function (params) {
@@ -11285,7 +11334,11 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     });
 
     // update edit button url
-    this.element.find('#button-edit-news').attr('href', editFormUrl);
+    // this.element.find('#button-edit-news').attr('href', editFormUrl);
+
+    this.data.attr({
+      editUrl: editFormUrl
+    });
 
     this.refreshNews(newsId);
   };
@@ -11303,13 +11356,17 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
 
       NewsProxy.destroy({
         newsId: newsId
-      }, this.proxy(destroyNewsDone));
+      }, this.proxy(destroyNewsDone), {
+        server: this.serverId
+      });
     }));
 
     function destroyNewsDone(serviceResponse) {
       if (serviceResponse.hasError()) return;
 
       var Route = require('core.route.Route');
+      Route.removeAttr('action');
+      Route.removeAttr('id');
       Route.attr({
         module: 'news'
       });
@@ -11339,13 +11396,44 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
       }
 
       this.panelNewsContent.jqxPanel('clearContent');
-      this.panelNewsContent.jqxPanel('append', newsData.content);
 
+      this.data.removeAttr('categories');
+      this.data.removeAttr('attachments');
       this.data.attr(newsData);
+
+      var Role = require('enum.Role');
+      var isNewsEditable = Role.isStaff(this.authentication.accountRole);
+      isNewsEditable = (isNewsEditable && this.authentication.userInformationId == newsData.authorId);
+
+      this.data.attr({
+        isNewsEditable: isNewsEditable
+      });
+
+      NewsProxy.getContent({
+        newsId: newsData.newsId
+      }, this.proxy(getContentDone), {
+        server: newsData.serverId
+      });
+
+      this.serverId = newsData.serverId;
 
       this.on();
     }
+
+    function getContentDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var content = serviceResponse.getData();
+
+      this.panelNewsContent.jqxPanel('append', content);
+    }
   };
+
+  form.events['#button-delete-news click'] = function (element, event) {
+    event.preventDefault();
+
+    this.deleteNews();
+  }
 
   form.events['#button-download-attachment click'] = function (element, event) {
     if (!this.attachmentId) return;
@@ -11356,7 +11444,8 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     //      attachmentId: this.attachmentId
     //    }, function () {});
 
-    window.location.href = '/api/attachment/download?attachmentId=' + this.attachmentId;
+    var Server = require('constant.Server');
+    window.location.href = Server[this.serverId] + '/api/attachment/download?attachmentId=' + this.attachmentId;
   };
 
   form.events['.attachment click'] = function (element, event) {
@@ -11396,6 +11485,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
   form.attachmentInfo = {};
   form.attachmentData = {};
+  form.deletedAttachments = [];
 
   form.initData = function () {
 
@@ -11435,6 +11525,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
       this.attachmentInfo = {};
       this.attachmentData = {};
+      this.deletedAttachments = [];
 
       for (var i = 0, len = newsData.attachments.length; i < len; i++) {
         var attachment = newsData.attachments[i];
@@ -11442,6 +11533,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
         var attachmentUid = this.attachmentUid();
 
         var fileInfo = {
+          attachmentId: attachment.attachmentId,
           name: attachment.name,
           size: attachment.size,
           extension: attachment.extension,
@@ -11452,17 +11544,33 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
         this.attachmentData[attachmentUid] = null;
       }
 
-      this.editor.val(newsData.content);
-
       this.data.attr({
         title: newsData.title,
-        content: newsData.content,
         categoryIds: categoryIds
       });
 
       this.refreshAttachmentList();
 
+      NewsProxy.getContent({
+        newsId: newsData.newsId
+      }, this.proxy(getContentDone), {
+        server: newsData.serverId
+      });
+
+      this.serverId = newsData.serverId;
+
       this.on();
+    }
+
+    function getContentDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var content = serviceResponse.getData();
+
+      this.editor.val(content);
+      this.data.attr({
+        content: content
+      });
     }
   };
 
@@ -11473,6 +11581,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       return;
     };
 
+    console.log('params', params);
+
     if (params.action == 'edit') {
       // load news for edit
       this.data.attr({
@@ -11480,6 +11590,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       });
 
       this.loadNews(params.id);
+
+      this.isEditNews = true;
     } else {
       // clear form for create
       this.editor.val('');
@@ -11498,8 +11610,11 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
 
       this.attachmentInfo = {};
       this.attachmentData = {};
+      this.deletedAttachments = [];
 
       this.refreshAttachmentList();
+
+      this.isEditNews = false;
     }
   };
 
@@ -11527,7 +11642,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
       selectedIndex: 0,
       valueMember: 'attachmentUid',
       width: '100%',
-      height: '100px',
+      height: '200px',
       itemHeight: 47,
 
       renderer: this.proxy(function (index, label, value) {
@@ -11569,7 +11684,7 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     this.editor.ckeditor(this.proxy(this.resizeFormComponents));
 
     // resize components when window resized
-    jQuery(window).resize(this.proxy(this.resizeFormComponents));
+    //jQuery(window).resize(this.proxy(this.resizeFormComponents));
 
     // handle for add - remove attachments
     this.element.find('#button-add-attachments').click(this.proxy(this.addAttachments));
@@ -11586,13 +11701,17 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     this.isFormInitialized = true;
 
     if (this.newsId) {
-      this.loadNews(this.newsId);
+      this.refreshData({
+        module: 'news',
+        action: 'edit',
+        id: this.newsId
+      });
     }
   };
 
   form.resizeFormComponents = function () {
     this.resizeEditor();
-    this.resizeAttachmentListBox();
+    //this.resizeAttachmentListBox();
   };
 
   form.resizeEditor = function () {
@@ -11654,6 +11773,8 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     var attachments = [];
 
     Util.Collection.each(attachmentInfo, function (fileInfo, attachmentUid) {
+      if (fileInfo.isCreated) return;
+
       var attachment = {
         name: fileInfo.name,
         size: fileInfo.size,
@@ -11692,13 +11813,38 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     var data = Util.Object.pick(this.data.attr(), ['title', 'content', 'categoryIds', 'attachments']);
 
     var NewsProxy = require('proxy.News');
-    NewsProxy.create(data, this.proxy(createNewsDone));
+
+    if (this.isEditNews) {
+      data.newsId = this.newsId;
+      data.deletedAttachments = this.deletedAttachments;
+
+      NewsProxy.update(data, this.proxy(updateNewsDone), {
+        server: this.serverId
+      });
+    } else {
+      NewsProxy.create(data, this.proxy(createNewsDone));
+    }
 
     function createNewsDone(serviceResonse) {
       if (serviceResonse.hasError()) return;
 
       var newsData = serviceResonse.getData();
       var newsId = newsData.newsId;
+
+      var Route = require('core.route.Route');
+
+      Route.attr({
+        module: 'news',
+        action: 'detail',
+        id: newsId
+      });
+    }
+
+    function updateNewsDone(serviceResonse) {
+      if (serviceResonse.hasError()) return;
+
+      var newsData = serviceResonse.getData();
+      var newsId = this.newsId;
 
       var Route = require('core.route.Route');
 
@@ -11731,6 +11877,12 @@ define.form('component.form.manage-news.Editor', function (form, require, Util, 
     if (!selectedItem) return;
 
     var attachmentUid = selectedItem.value;
+
+    var info = this.attachmentInfo[attachmentUid];
+
+    if (info.isCreated) {
+      this.deletedAttachments.push(info.attachmentId);
+    }
 
     this.attachmentInfo = Util.Object.omit(this.attachmentInfo, [attachmentUid]);
     this.attachmentData = Util.Object.omit(this.attachmentData, [attachmentUid]);
@@ -11833,11 +11985,14 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
     this.element.find('#splitter-horizontal').jqxSplitter({
       orientation: 'horizontal',
       splitBarSize: 3,
+      showSplitBar: false,
       width: '100%',
       height: '100%',
       panels: [{
         size: '80%',
         collapsible: false
+      }, {
+        collapsed: true
       }]
     });
 
@@ -11883,6 +12038,8 @@ define.form('component.form.manage-news.NewsExplorer', function (form, require, 
   };
 
   form.refreshNews = function (newsId, row) {
+    return;
+
     if (!newsId) {
       this.panelNewsContent.jqxPanel('clearContent');
       return;
@@ -12506,6 +12663,12 @@ define.form('component.form.manage-staff.ListStaff', function (form, require, Ut
         width: '130px'
       },
       {
+        text: Lang.get('staff.phoneNumber'),
+        dataField: 'phoneNumber',
+
+        width: '100px',
+      },
+      {
         text: Lang.get('staff.address'),
         dataField: 'address',
 
@@ -12837,6 +13000,275 @@ define.form('component.form.manage-student.grade-student-statistic', function (f
 
 
 
+define.form('component.dialog.manage-student.ImportStudent', function (form, require, Util, Lang, jQuery) {
+
+  form.urlMap = {
+    url: ':module/:action',
+    data: {
+      module: 'manage-student',
+      action: 'import-student'
+    }
+  };
+
+  form.tmpl = 'dialog.manage-student.import-student';
+
+  form.formType = form.FormType.DIALOG;
+
+  form.initData = function () {
+
+    var columns = [{
+      name: 'studentCode',
+      text: Lang.get('student.studentCode')
+    }, {
+      name: 'firstName',
+      text: Lang.get('student.firstName')
+    }, {
+      name: 'lastName',
+      text: Lang.get('student.lastName')
+    }, {
+      name: 'gender',
+      text: Lang.get('student.gender')
+    }, {
+      name: 'dateOfBirth',
+      text: Lang.get('student.dateOfBirth')
+    }, {
+      name: 'address',
+      text: Lang.get('student.address')
+    }, {
+      name: 'email',
+      text: Lang.get('student.email')
+    }];
+
+    this.data.attr({
+      columns: columns
+    });
+
+  }
+
+  form.initDialog = function () {
+    this.inputImportFile = this.element.find('#input-import-file');
+
+    this.inputImportFile.change(this.proxy(this.updateFileImport));
+
+    this.element.find('#button-browse-import-file').click(this.proxy(function () {
+      this.inputImportFile.click();
+    }));
+  }
+
+  form.updateFileImport = function (event) {
+    var files = event.target.files;
+    var importFile = files.item(0);
+
+    if (!importFile) return;
+
+    var Xlsx = require('lib.Xlsx');
+    var MsgBox = require('component.common.MsgBox');
+
+    this.data.attr('importFileName', importFile.name);
+
+    var reader = new FileReader();
+
+    reader.onload = this.proxy(function (event) {
+      var fileData = event.target.result;
+
+      try {
+        var workbook = Xlsx.read(fileData, {
+          type: 'binary'
+        });
+
+        this.Workbook = workbook;
+      } catch (exception) {
+        this.Workbook = null;
+
+        MsgBox.alert({
+          text: Lang.get('grade.import.importFileInvalid'),
+          icon: 'warning'
+        });
+      }
+
+    });
+
+    reader.readAsBinaryString(importFile);
+  }
+
+  form.submitDialogData = function () {
+    var MsgBox = require('component.common.MsgBox');
+    var Gender = require('enum.Gender');
+
+    var columns = this.data.columns.attr();
+
+    var columnBind = {};
+
+    for (var i = 0, len = columns.length; i < len; i++) {
+      columnBind[columns[i].name] = (columns[i].bindToColumn || '').trim();
+    }
+
+    if (!columnBind.studentCode) {
+      MsgBox.alert({
+        text: Lang.get('student.import.studentCode.required'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    if (!columnBind.firstName) {
+      MsgBox.alert({
+        text: Lang.get('student.import.firstName.required'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    if (!columnBind.lastName) {
+      MsgBox.alert({
+        text: Lang.get('student.import.lastName.required'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    if (!columnBind.gender) {
+      MsgBox.alert({
+        text: Lang.get('student.import.gender.required'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    if (!columnBind.dateOfBirth) {
+      MsgBox.alert({
+        text: Lang.get('student.import.dateOfBirth.required'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var workbook = this.Workbook;
+
+    var textStartRow = this.data.attr('startRow');
+    textStartRow = (textStartRow || '').trim();
+
+    var startRow = ~~textStartRow;
+    if (textStartRow !== '' && (startRow != textStartRow || startRow < 1)) {
+      MsgBox.alert({
+        text: Lang.get('grade.import.startRowInvalid'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+    var ref = sheet['!ref'];
+
+    if (!ref) {
+      MsgBox.alert({
+        text: Lang.get('grade.import.noDataFound'),
+        icon: 'warning'
+      });
+
+      return;
+    }
+
+    var regex = /^([A-Z]+)([0-9]+):([A-Z]+)([0-9]+)$/;
+
+    ref = regex.exec(ref);
+
+    var columnStart = ref[1].charCodeAt(0);
+    var columnEnd = ref[3].charCodeAt(0);
+    var rowStart = Math.max(ref[2], startRow);
+    var rowEnd = +ref[4];
+
+    var columnMap = {};
+    columnMap[columnBind.studentCode] = 'studentCode';
+    columnMap[columnBind.firstName] = 'firstName';
+    columnMap[columnBind.lastName] = 'lastName';
+    columnMap[columnBind.gender] = 'gender';
+    columnMap[columnBind.dateOfBirth] = 'dateOfBirth';
+
+    if (columnBind.address) {
+      columnMap[columnBind.address] = 'address';
+    }
+    if (columnBind.email) {
+      columnMap[columnBind.email] = 'email';
+    }
+
+    var studentColumn = columnBind.studentCode;
+
+    var studentMaps = {};
+
+    for (var i = rowStart; i <= rowEnd; i++) {
+      var studentCell = sheet[studentColumn + i];
+
+      if (!studentCell) continue;
+
+      var studentCode = studentCell.v;
+      studentCode = (studentCode || '').trim();
+
+      if (studentCode == '') continue;
+
+      studentMaps[i] = {
+        studentCode: studentCode
+      }
+
+      for (var j = columnStart; j <= columnEnd; j++) {
+        var columnChar = String.fromCharCode(j);
+
+        if (columnChar === studentColumn || !columnMap[columnChar]) continue;
+
+        var cellChar = columnChar + i;
+        var value = sheet[cellChar];
+
+        if (!value) continue;
+
+        if (columnMap[columnChar] === 'gender') {
+          value = (value.v || '').trim();
+
+          if (value.toUpperCase() === 'MALE') {
+            value = Gender.MALE;
+          } else if (value.toUpperCase() === 'FEMALE') {
+            value = Gender.FEMALE;
+          } else {
+            value = Gender.UNKNOWN;
+          }
+        } else {
+          value = value.v;
+        }
+
+        studentMaps[i][columnMap[columnChar]] = value;
+      }
+    }
+
+    var students = [];
+
+    Util.Collection.each(studentMaps, function (student) {
+      students.push(student);
+    });
+
+    var StudentProxy = require('proxy.Student');
+
+    StudentProxy.importStudent({
+      students: students
+    }, this.proxy(importStudentDone));
+
+    function importStudentDone(serviceResponse) {
+      if (serviceResponse.hasError()) return;
+
+      var importStudentData = serviceResponse.getData();
+      console.log('Import done', importStudentData);
+    }
+
+  };
+
+});
+
+
+
 define.form('component.form.manage-student.ListStudent', function (form, require, Util, Lang) {
 
   form.urlMap = {
@@ -12906,6 +13338,12 @@ define.form('component.form.manage-student.ListStudent', function (form, require
       {
         text: Lang.get('student.dateOfBirth'),
         dataField: 'dateOfBirth',
+
+        width: '130px'
+      },
+      {
+        text: Lang.get('student.phoneNumber'),
+        dataField: 'phoneNumber',
 
         width: '130px'
       },
@@ -15275,8 +15713,34 @@ define('validator.rule.Class', function (module, require) {
     ]
   };
 
+  var ruleBatchId = {
+    // validate for className
+    attribute: 'batchId',
+    attributeName: 'class.batchId',
+    rules: [
+      {
+        // className is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleMajorId = {
+    // validate for className
+    attribute: 'majorId',
+    attributeName: 'class.majorId',
+    rules: [
+      {
+        // className is required
+        rule: 'required'
+      }
+    ]
+  };
+
   var ruleCreateClass = [
-    ruleClassName
+    ruleClassName,
+    ruleBatchId,
+    ruleMajorId
   ];
 
   var ruleUpdateClass = [
@@ -15336,15 +15800,88 @@ define('validator.rule.Course', function (module, require) {
     attributeName: 'course.numberOfCredits',
     rules: [
       {
-        // courseName is required
+        rule: 'required'
+      },
+      {
         rule: 'positiveInteger'
+      }, {
+        rule: 'min',
+        ruleData: {
+          min: 1
+        }
+      }
+    ]
+  };
+
+
+  var ruleLectureId = {
+    // validate for courseName
+    attribute: 'lectureId',
+    attributeName: 'course.lectureId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleMajorId = {
+    // validate for courseName
+    attribute: 'majorId',
+    attributeName: 'course.majorId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleTermId = {
+    // validate for courseName
+    attribute: 'termId',
+    attributeName: 'course.termId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleSubject = {
+    // validate for courseName
+    attribute: 'subjectId',
+    attributeName: 'course.subjectId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
+      }
+    ]
+  };
+
+  var ruleSubjectVersionId = {
+    // validate for courseName
+    attribute: 'subjectVersionId',
+    attributeName: 'course.subjectVersionId',
+    rules: [
+      {
+        // courseName is required
+        rule: 'required'
       }
     ]
   };
 
   var ruleCreateCourse = [
     ruleCourseName,
-    ruleNumberOfCreadits
+    ruleNumberOfCreadits,
+    ruleLectureId,
+    ruleMajorId,
+    ruleTermId,
+    ruleSubject,
+    ruleSubjectVersionId
   ];
 
   var ruleUpdateCourse = [
@@ -16083,15 +16620,67 @@ define('validator.rule.Staff', function (module, require) {
      ]
   };
 
+  var ruleStaffRole = {
+    // validate for departmentId
+    attribute: 'staffRole',
+    attributeName: 'staff.staffRole',
+    rules: [
+      {
+        // departmentId is required
+        rule: 'required'
+      }
+     ]
+  };
+
+  var ruleGender = {
+    // validate for departmentId
+    attribute: 'gender',
+    attributeName: 'staff.gender',
+    rules: [
+      {
+        // departmentId is required
+        rule: 'required'
+      }
+     ]
+  };
+
+  var rulePhoneNumber = {
+    // validate for departmentId
+    attribute: 'phoneNumber',
+    attributeName: 'staff.phoneNumber',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      },
+      {
+        // lastName max length is 100
+        rule: 'maxLength',
+        ruleData: {
+          maxLength: 11
+        }
+      }
+     ]
+  };
+
   var ruleCreateStaff = [
     ruleStaffCode,
+    ruleStaffRole,
     ruleFirstName,
-    ruleLastName
+    ruleLastName,
+    ruleDepartmentId,
+    ruleGender,
+    rulePhoneNumber
   ];
 
   var ruleUpdateStaff = [
     ruleStaffId,
-  ].concat(ruleCreateStaff);
+    ruleStaffCode,
+    ruleFirstName,
+    ruleLastName,
+    ruleDepartmentId,
+    ruleGender,
+    rulePhoneNumber
+  ];
 
   var ruleStaff = {
     create: ruleCreateStaff,
@@ -16194,7 +16783,7 @@ define('validator.rule.Student', function (module, require) {
   var ruleGender = {
     // validate for gender
     attribute: 'gender',
-    attributeName: 'student.classId',
+    attributeName: 'parent.gender',
     rules: [
       {
         // classId is required
@@ -16209,10 +16798,29 @@ define('validator.rule.Student', function (module, require) {
      ]
   };
 
+  var rulePhoneNumber = {
+    // validate for departmentId
+    attribute: 'phoneNumber',
+    attributeName: 'staff.phoneNumber',
+    rules: [
+      {
+        rule: 'positiveInteger'
+      }, {
+        // lastName max length is 100
+        rule: 'maxLength',
+        ruleData: {
+          maxLength: 11
+        }
+      }
+     ]
+  };
+
   var ruleCreateStudent = [
     ruleStudentCode,
     ruleFirstName,
-    ruleLastName
+    ruleLastName,
+    ruleGender,
+    rulePhoneNumber
   ];
 
   var ruleUpdateStudent = [
@@ -16328,13 +16936,6 @@ define('validator.rule.Subject', function (module, require) {
       {
         // subjectName is required
         rule: 'required'
-      },
-      {
-        // subjectName maximum length is 50
-        rule: 'maxLength',
-        ruleData: {
-          maxLength: 6
-        }
       }
     ]
   };
@@ -16843,6 +17444,9 @@ define('export.Staff', function (module, require) {
       dateOfBirth: {
         width: 20
       },
+      phoneNumber: {
+        width: 30
+      },
       address: {
         width: 50
       },
@@ -16920,6 +17524,9 @@ define('export.Student', function (module, require) {
       },
       dateOfBirth: {
         width: 20
+      },
+      phoneNumber: {
+        width: 30
       },
       address: {
         width: 50
@@ -17170,6 +17777,18 @@ define('enum.Role', function (module, require) {
   };
 
   module.exports = Role;
+
+});
+
+
+
+define('constant.Server', function (module, require) {
+
+  var Server = {
+    'srv01': 'http://3connected.edu'
+  };
+
+  module.exports = Server;
 
 });
 
