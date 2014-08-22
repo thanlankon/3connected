@@ -16,6 +16,12 @@ define('app.App', function (module, require) {
 
   app.use(cookieParser());
 
+  // log middleware
+  app.use(function (req, res, next) {
+    console.log('%s %s', req.method, req.url);
+    next();
+  });
+
   // router for client's app page
   var appRouter = require('router.App');
   // router for client resource
