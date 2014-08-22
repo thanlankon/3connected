@@ -8416,6 +8416,7 @@ define.component('component.Cpanel', function (component, require, Util, Lang, j
 });
 
 
+
 define.component('component.Login', function (component, require, Util, Lang, jQuery) {
 
   component.tmpl = 'login';
@@ -11461,7 +11462,11 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
     //    }, function () {});
 
     var Server = require('constant.Server');
-    window.location.href = Server[this.serverId] + '/api/attachment/download?attachmentId=' + this.attachmentId;
+    if (Server.enableProxy) {
+      window.location.href = '/api/attachment/download?attachmentId=' + this.attachmentId + '&serverId=' + this.serverId;
+    } else {
+      window.location.href = Server[this.serverId] + '/api/attachment/download?attachmentId=' + this.attachmentId;
+    }
   };
 
   form.events['.attachment click'] = function (element, event) {
@@ -11476,7 +11481,6 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
   };
 
 });
-
 
 
 define.form('component.form.manage-news.Editor', function (form, require, Util, Lang) {
