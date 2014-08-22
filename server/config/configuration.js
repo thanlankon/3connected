@@ -5,7 +5,7 @@ define('config.Configuration', function (module, require) {
   };
 
   Configuration['Environment'] = 'LocalHost';
-  Configuration['Development'] = true;
+  Configuration['Development'] = false;
 
   Configuration['SyncDbKey'] = 'splink';
 
@@ -16,8 +16,8 @@ define('config.Configuration', function (module, require) {
   Configuration.Environments['LocalHost'] = {
     Web: {
       HOST: '0.0.0.0',
-      PORT: 8088,
-      SECURE_PORT: 4433,
+      PORT: 80,
+      SECURE_PORT: 443,
       SSL: true
     },
     Database: {
