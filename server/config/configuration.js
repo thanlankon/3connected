@@ -16,7 +16,8 @@ define('config.Configuration', function (module, require) {
   Configuration.Environments['LocalHost'] = {
     Web: {
       HOST: '0.0.0.0',
-      PORT: 443,
+      PORT: 80,
+      SECURE_PORT: 443,
       SSL: true
     },
     Database: {

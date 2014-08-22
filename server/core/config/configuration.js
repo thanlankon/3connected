@@ -61,6 +61,7 @@ define('core.config.Configuration', function (module, require) {
 
     // default
     configuration.Web.PORT = configuration.Web.PORT || 80;
+    configuration.Web.SECURE_PORT = configuration.Web.SECURE_PORT || 443;
 
     configuration.Database.HOST = configuration.Database.HOST || '127.0.0.1';
     configuration.Database.PORT = configuration.Database.PORT || 3306;

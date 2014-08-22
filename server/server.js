@@ -31,16 +31,20 @@ define.main(function (require) {
 
     var host = Configuration.Web.HOST;
     var port = Configuration.Web.PORT;
+    var sport = Configuration.Web.SECURE_PORT;
 
     var enableSsl = true;
 
+    http.createServer(app).listen(port, host);
+
     if (Configuration.Web.SSL) {
-      https.createServer(options, app).listen(port, host);
-    } else {
-      http.createServer(app).listen(port, host);
+      https.createServer(options, app).listen(sport, host);
     }
 
     console.log('App started at ' + (host || '') + ':' + port);
+    if (enableSsl) {
+      console.log('App started at ' + (host || '') + ':' + sport);
+    }
 
   });
 
