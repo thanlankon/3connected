@@ -11483,6 +11483,7 @@ define.form('component.form.manage-news.NewsDetail', function (form, require, Ut
 });
 
 
+
 define.form('component.form.manage-news.Editor', function (form, require, Util, Lang) {
 
   form.urlMap = [{
@@ -17805,13 +17806,13 @@ define('enum.Role', function (module, require) {
 define('constant.Server', function (module, require) {
 
   var Server = {
-    enableProxy: true
+    //enableProxy: true,
+    'srv01': 'https://splink.com'
   };
 
   module.exports = Server;
 
 });
-
 
 
 define('enum.StatisticType', function (module, require) {

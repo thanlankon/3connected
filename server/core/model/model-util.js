@@ -228,7 +228,7 @@ define('core.model.ModelUtil', function (module, require) {
           filter.value = convertToSearchDateTime(filter.value);
         }
 
-        if (filter.findExact || ['gender'].indexOf(filter.field) != -1) {
+        if (filter.findExact || ['gender'].indexOf(filter.field) != -1 || filter.field.toLowerCase().indexOf('id') !== -1) {
           // find exact
           whereSql.push(columnName + ' = ?');
           whereData.push(filter.value);
