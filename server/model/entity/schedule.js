@@ -30,6 +30,7 @@ define.entity('model.entity.Schedule', function (entity, DataType, require) {
   entity.courseId = {
     type: DataType.INTEGER,
     allowNull: false,
+    unique: 'scheduleSlot',
 
     // reference to Course
     references: 'Course',
