@@ -17,6 +17,7 @@ var DependencyConfig = {
       'core/util/**',
       'core/auth/**',
       'core/notification/**',
+      'core/log/**',
       'core/define/definer/*',
 
       'config/**',

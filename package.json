@@ -18,7 +18,8 @@
     "node-gcm": "0.9.12",
     "sequelize": "1.7.5",
     "uid-safe": "1.0.1",
-    "underscore": "1.6.0"
+    "underscore": "1.6.0",
+    "winston": "0.7.3"
   },
   "scripts": {
     "start": "node ./server/server.js"

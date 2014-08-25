@@ -6,7 +6,7 @@ Loader.loadDependencies();
 define.main(function (require) {
 
   var Configuration = require('core.config.Configuration').getConfiguration();
-
+  var Logger = require('core.log.Logger');
   // create file directories
 
   var http = require('lib.Http');
@@ -18,6 +18,7 @@ define.main(function (require) {
 
   fs.makeDirSync(path.join(fileDiectory, 'news'));
   fs.makeDirSync(path.join(fileDiectory, 'attachments'));
+  fs.makeDirSync(path.join(fileDiectory, 'log'));
 
   var app = require('app.App');
   var dbDeploy = require('db.Deploy');
@@ -41,9 +42,9 @@ define.main(function (require) {
       https.createServer(options, app).listen(sport, host);
     }
 
-    console.log('App started at ' + (host || '') + ':' + port);
+    Logger.info('App started at ' + (host || '') + ':' + port);
     if (enableSsl) {
-      console.log('App started at ' + (host || '') + ':' + sport);
+      Logger.info('App started at ' + (host || '') + ':' + sport);
     }
 
   });

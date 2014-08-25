@@ -21,7 +21,9 @@ Dependency = {
 
     UidSafe: require('uid-safe'),
 
-    NodeGcm: require('node-gcm')
+    NodeGcm: require('node-gcm'),
+
+    Winston: require('winston')
   },
 
   modules: {},

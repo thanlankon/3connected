@@ -77,3 +77,7 @@ define('lib.UidSafe', function (module, require, libs) {
 define('lib.NodeGcm', function (module, require, libs) {
   module.exports = libs.NodeGcm;
 });
+
+define('lib.Winston', function (module, require, libs) {
+  module.exports = libs.Winston;
+});

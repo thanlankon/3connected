@@ -6,6 +6,8 @@ define('app.App', function (module, require) {
   var bodyParser = require('lib.BodyParser');
   var cookieParser = require('lib.CookieParser');
 
+  var Logger = require('core.log.Logger');
+
   // init resource
   var resource = require('resource.loader.Resource');
   resource.getResource();
@@ -22,6 +24,7 @@ define('app.App', function (module, require) {
     next();
   });
 
+
   // router for client's app page
   var appRouter = require('router.App');
   // router for client resource
@@ -32,6 +35,12 @@ define('app.App', function (module, require) {
   app.use('/resource', resourceRouter);
   app.use('/', appRouter);
   app.use('/api', apiRouter);
+
+  // error logger
+  app.use(function (err, req, res, next) {
+    Logger.error(err);
+    next();
+  });
 
   module.exports = app;
 

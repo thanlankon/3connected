@@ -3,6 +3,7 @@ define('db.Deploy', function (module, require) {
   var Entity = require('core.model.Entity');
   var Util = require('core.util.Util');
   var Configuration = require('core.config.Configuration').getConfiguration();
+  var Logger = require('core.log.Logger');
 
   module.exports = deployDb;
 
@@ -17,7 +18,7 @@ define('db.Deploy', function (module, require) {
       return;
     }
 
-    console.log('Deploying Db ...');
+    Logger.info('Deploying Db ...');
 
     deploySchema(function () {
       deployData(callback);
@@ -37,12 +38,12 @@ define('db.Deploy', function (module, require) {
     queryChainer
       .runSerially()
       .success(function () {
-        console.log('Db is deployed successfully');
+        Logger.info('Db is deployed successfully');
 
         callback();
       })
       .error(function (error) {
-        console.log('Error during seeding Db:', error);
+        Logger.error('Error during seeding Db:', error);
 
         process.exit(1);
       });;
@@ -87,7 +88,7 @@ define('db.Deploy', function (module, require) {
         callback();
       })
       .catch(function (error) {
-        console.log('Error during deploying Db:', error);
+        Logger.error('Error during deploying Db:', error);
 
         process.exit(1);
       });

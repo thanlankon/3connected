@@ -61,6 +61,9 @@ define('core.service.ServiceUtil', function (module, require) {
       if (!message) {
         responeData._service.message = 'error.service.unknown';
       }
+
+      var Logger = require('core.log.Logger');
+      Logger.error(error);
     }
 
     if (message) {
