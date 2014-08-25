@@ -17815,6 +17815,7 @@ define('constant.Server', function (module, require) {
 });
 
 
+
 define('enum.StatisticType', function (module, require) {
 
   var StatisticType = {
