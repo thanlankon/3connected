@@ -15,7 +15,7 @@ define.entity('model.entity.NewsCategory', function (entity, DataType, require) 
   entity.parentCategoryId = {
     type: DataType.INTEGER,
     allowNull: true,
-    unique: 'newsCategory'
+    unique: 'newsCategory',
 
     // reference to news category
     references: 'NewsCategory',
