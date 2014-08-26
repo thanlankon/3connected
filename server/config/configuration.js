@@ -21,14 +21,14 @@ define('config.Configuration', function (module, require) {
       SSL: true
     },
     Database: {
-      HOST: 'localhost',
+      HOST: '192.168.100.1',
       PORT: 3306,
       NAME: '3connected',
       USERNAME: 'root',
       PASSWORD: 'root'
     },
     File: {
-      LOCATION: __dirname + '/../../data'
+      LOCATION: __dirname + '/../../../data'
     }
   }
 
