@@ -49,13 +49,13 @@ define.service('service.NewsCategory', function (service, require, ServiceUtil, 
 
     create: {
       attributes: ['newsCategoryName', 'parentCategoryId'],
-      checkDuplicatedAttributes: ['newsCategoryName']
+      checkDuplicatedAttributes: ['newsCategoryName', 'parentCategoryId']
     },
 
     update: {
       attributes: ['newsCategoryName'],
       checkExistanceAttributes: ['newsCategoryId'],
-      checkDuplicatedAttributes: ['newsCategoryName']
+      checkDuplicatedAttributes: ['newsCategoryName', 'parentCategoryId']
     }
   };
 
